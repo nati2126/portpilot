@@ -483,8 +483,10 @@ class CMakeScanner:
                               f"header {', '.join(missing)} absent on QNX")
             return None
         hdrs = args[hdr_i].split(";") if hdr_i is not None and hdr_i < len(args) else []
-        # Known header-layout case (works without an SDP index): AF_INET6
-        if sym == "AF_INET6" and hdrs and "sys/socket.h" not in hdrs:
+        # Known header-layout case (works without an SDP index): AF_INET6 looked up via
+        # <netinet/in.h> only (ground truth F-004). Other headers (e.g. BSD netinet6/in6.h)
+        # are different feature probes and are left alone.
+        if sym == "AF_INET6" and "netinet/in.h" in hdrs and "sys/socket.h" not in hdrs:
             return mk("cmake-check-header-layout", f"AF_INET6 in {';'.join(hdrs)}",
                       "QNX defines AF_INET6 in <sys/socket.h> only")
         if self.sdp is None:

@@ -498,6 +498,18 @@ link = "-lregex"
 sources = ["gt-F001", "sdp"]
 
 [[rule]]
+id = "link-sdp-library"
+title = "function lives in a separate SDP library"
+category = "Linking"
+linux = "function in libc (or already linked)"
+qnx = "the SDP library that exports it (portpilot sdp-index)"
+strategy = "Link the library the SDP index names for the undefined symbol."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # matched from 'undefined reference' errors, not by the source scanner
+sources = ["sdp"]
+
+[[rule]]
 id = "link-libc-only"
 title = "no libpthread / librt / libdl"
 category = "Linking"
