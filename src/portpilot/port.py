@@ -49,9 +49,18 @@ _VERSION_TAG = re.compile(r"^[A-Za-z_.-]*\d+(?:[._]\d+)+$")
 
 def latest_release_tag(url: str) -> str:
     """The highest version-like tag that is not a pre-release, or "" (then the default
-    branch is used). The official QNX ports also build a release tag, not master."""
-    r = subprocess.run(["git", "ls-remote", "--tags", "--refs", url], capture_output=True,
-                       text=True, timeout=120, check=False)
+    branch is used). The official QNX ports also build a release tag, not master.
+    A network failure is an error, not "no tags": that would silently port master."""
+    from .build import BuildError
+    for attempt in range(3):
+        try:
+            r = subprocess.run(["git", "ls-remote", "--tags", "--refs", url],
+                               capture_output=True, text=True, timeout=180, check=False)
+            break
+        except subprocess.TimeoutExpired:
+            if attempt == 2:
+                raise BuildError(f"listing the tags of {url} timed out 3 times; retry, or "
+                                 "pass --ref TAG (or --ref HEAD)") from None
     best: tuple[tuple[int, ...], str] = ((), "")
     for ln in r.stdout.splitlines():
         tag = ln.rpartition("refs/tags/")[2]
