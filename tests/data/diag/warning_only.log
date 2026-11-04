@@ -1,0 +1,4 @@
+warning_only.c: In function 'f':
+warning_only.c:1:19: warning: unused variable 'unused' [-Wunused-variable]
+    1 | int f(void) { int unused; return 0; }
+      |                   ^~~~~~

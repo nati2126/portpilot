@@ -1,0 +1,2 @@
+/opt/qnx800/host/linux/x86_64/usr/bin/x86_64-pc-nto-qnx8.0.0-ld: /tmp/fileTpXwq6_qcc_79740/undef_socket_cxx.o: in function `n::open_sock(std::__2::basic_string<char, std::__2::char_traits<char>, std::__2::allocator<char> > const&)':
+undef_socket_cxx.cpp:(.text+0x1c): undefined reference to `socket'

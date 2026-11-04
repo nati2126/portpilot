@@ -1,0 +1,2 @@
+/opt/qnx800/host/linux/x86_64/usr/bin/x86_64-pc-nto-qnx8.0.0-ld: /tmp/filewUMReX_qcc_79748/undef_project_sym.o: in function `main':
+undef_project_sym.c:(.text+0xa): undefined reference to `helper'

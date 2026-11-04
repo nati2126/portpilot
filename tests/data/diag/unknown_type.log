@@ -1,0 +1,10 @@
+unknown_type.c: In function 'f':
+unknown_type.c:3:15: error: unknown type name 'cpu_set_t'
+    3 | int f(void) { cpu_set_t s; CPU_ZERO(&s); return sched_setaffinity(0, sizeof s, &s); }
+      |               ^~~~~~~~~
+unknown_type.c:3:28: warning: implicit declaration of function 'CPU_ZERO' [-Wimplicit-function-declaration]
+    3 | int f(void) { cpu_set_t s; CPU_ZERO(&s); return sched_setaffinity(0, sizeof s, &s); }
+      |                            ^~~~~~~~
+unknown_type.c:3:49: warning: implicit declaration of function 'sched_setaffinity' [-Wimplicit-function-declaration]
+    3 | int f(void) { cpu_set_t s; CPU_ZERO(&s); return sched_setaffinity(0, sizeof s, &s); }
+      |                                                 ^~~~~~~~~~~~~~~~~

@@ -1,0 +1,5 @@
+implicit_decl_werror.c: In function 'f':
+implicit_decl_werror.c:2:22: error: implicit declaration of function 'epoll_create1' [-Werror=implicit-function-declaration]
+    2 | int f(void) { return epoll_create1(0); }
+      |                      ^~~~~~~~~~~~~
+cc1: some warnings being treated as errors

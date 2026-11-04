@@ -1,0 +1,3 @@
+/opt/qnx800/host/linux/x86_64/usr/bin/x86_64-pc-nto-qnx8.0.0-ld: /tmp/filedhgu0Z_qcc_79732/undef_regcomp.o: in function `main':
+undef_regcomp.c:(.text+0x2f): undefined reference to `regcomp'
+/opt/qnx800/host/linux/x86_64/usr/bin/x86_64-pc-nto-qnx8.0.0-ld: undef_regcomp.c:(.text+0x3e): undefined reference to `regfree'

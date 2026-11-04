@@ -1,0 +1,4 @@
+missing_sys_errno.c:1:10: fatal error: sys/errno.h: No such file or directory
+    1 | #include <sys/errno.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.

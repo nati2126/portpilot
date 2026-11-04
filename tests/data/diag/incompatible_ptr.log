@@ -1,0 +1,4 @@
+incompatible_ptr.c: In function 'f':
+incompatible_ptr.c:2:30: warning: initialization of 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2 | int f(char *buf) { char *e = strerror_r(1, buf, 10); return e != 0; }
+      |                              ^~~~~~~~~~

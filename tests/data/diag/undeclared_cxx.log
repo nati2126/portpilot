@@ -1,0 +1,8 @@
+undeclared_cxx.cpp: In function 'int f()':
+undeclared_cxx.cpp:3:18: error: 'SO_PEERCRED' was not declared in this scope; did you mean 'SO_PEERLABEL'?
+    3 | int f() { return SO_PEERCRED + ::gettid() + std::foo; }
+      |                  ^~~~~~~~~~~
+      |                  SO_PEERLABEL
+undeclared_cxx.cpp:3:50: error: 'foo' is not a member of 'std'
+    3 | int f() { return SO_PEERCRED + ::gettid() + std::foo; }
+      |                                                  ^~~

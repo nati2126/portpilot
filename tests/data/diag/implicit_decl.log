@@ -1,0 +1,4 @@
+implicit_decl.c: In function 'f':
+implicit_decl.c:2:22: warning: implicit declaration of function 'epoll_create1' [-Wimplicit-function-declaration]
+    2 | int f(void) { return epoll_create1(0) + gettid(); }
+      |                      ^~~~~~~~~~~~~

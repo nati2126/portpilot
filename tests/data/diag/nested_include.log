@@ -1,0 +1,5 @@
+In file included from nested_include.c:1:
+inc/a.h:1:10: fatal error: sys/timerfd.h: No such file or directory
+    1 | #include <sys/timerfd.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.

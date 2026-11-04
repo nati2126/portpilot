@@ -1,0 +1,8 @@
+no_member.c: In function 'f':
+no_member.c:2:35: error: 'struct dirent' has no member named 'd_type'
+    2 | int f(struct dirent *d) { return d->d_type == DT_DIR; }
+      |                                   ^~
+no_member.c:2:47: error: 'DT_DIR' undeclared (first use in this function)
+    2 | int f(struct dirent *d) { return d->d_type == DT_DIR; }
+      |                                               ^~~~~~
+no_member.c:2:47: note: each undeclared identifier is reported only once for each function it appears in

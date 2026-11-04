@@ -1,0 +1,32 @@
+-- The C compiler identification is QCC 12.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /opt/qnx800/host/linux/x86_64/usr/bin/qcc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Configuring done (2.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /work/cm/b1
+make: Entering directory '/work/cm/b1'
+/usr/bin/cmake -S/work/cm/proj -B/work/cm/b1 --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/cmake -E cmake_progress_start /work/cm/b1/CMakeFiles /work/cm/b1//CMakeFiles/progress.marks
+make  -f CMakeFiles/Makefile2 all
+make[1]: Entering directory '/work/cm/b1'
+make  -f CMakeFiles/demo.dir/build.make CMakeFiles/demo.dir/depend
+make[2]: Entering directory '/work/cm/b1'
+cd /work/cm/b1 && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /work/cm/proj /work/cm/proj /work/cm/b1 /work/cm/b1 /work/cm/b1/CMakeFiles/demo.dir/DependInfo.cmake "--color="
+make[2]: Leaving directory '/work/cm/b1'
+make  -f CMakeFiles/demo.dir/build.make CMakeFiles/demo.dir/build
+make[2]: Entering directory '/work/cm/b1'
+[ 25%] Building C object CMakeFiles/demo.dir/demo.c.o
+/opt/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -Ddemo_EXPORTS  -fPIC -Wp,-MD,CMakeFiles/demo.dir/demo.c.o.d -Wp,-MT,CMakeFiles/demo.dir/demo.c.o -Wp,-MF,CMakeFiles/demo.dir/demo.c.o.d -o CMakeFiles/demo.dir/demo.c.o -c /work/cm/proj/demo.c
+[ 50%] Linking C shared library libdemo.so
+/usr/bin/cmake -E cmake_link_script CMakeFiles/demo.dir/link.txt --verbose=1
+/opt/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -fPIC -shared -Wl,-soname,libdemo.so -o libdemo.so CMakeFiles/demo.dir/demo.c.o  -lpthread 
+/opt/qnx800/host/linux/x86_64/usr/bin/x86_64-pc-nto-qnx8.0.0-ld: cannot find -lpthread: No such file or directory
+make[2]: *** [CMakeFiles/demo.dir/build.make:97: libdemo.so] Error 1
+make[2]: Leaving directory '/work/cm/b1'
+make[1]: *** [CMakeFiles/Makefile2:85: CMakeFiles/demo.dir/all] Error 2
+make[1]: Leaving directory '/work/cm/b1'
+make: *** [Makefile:91: all] Error 2
+make: Leaving directory '/work/cm/b1'

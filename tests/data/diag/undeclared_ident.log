@@ -1,0 +1,10 @@
+undeclared_ident.c: In function 'f':
+undeclared_ident.c:2:22: error: 'SO_PEERCRED' undeclared (first use in this function); did you mean 'SO_PEERLABEL'?
+    2 | int f(void) { return SO_PEERCRED + MSG_MORE; }
+      |                      ^~~~~~~~~~~
+      |                      SO_PEERLABEL
+undeclared_ident.c:2:22: note: each undeclared identifier is reported only once for each function it appears in
+undeclared_ident.c:2:36: error: 'MSG_MORE' undeclared (first use in this function); did you mean 'MSG_EOR'?
+    2 | int f(void) { return SO_PEERCRED + MSG_MORE; }
+      |                                    ^~~~~~~~
+      |                                    MSG_EOR
