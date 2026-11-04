@@ -102,6 +102,22 @@ No build error: features are just switched off. In nng this disabled IPv6, `sock
 - **Fix:** drop those libraries on QNX; use `Threads::Threads` and `${CMAKE_DL_LIBS}`.
 - **PortPilot:** rules `link-libc-only` and `cmake-check-lib-in-libc`.
 
+<a id="f-012"></a>
+## F-012: Linux-only identifiers that stop the compile
+
+Captured with qcc 12.2 (real output in `tests/data/diag/`).
+
+- **`MSG_MORE`** is undeclared ("did you mean 'MSG_EOR'?"). It is a send-corking hint, so
+  `#define MSG_MORE 0` under `#ifndef` keeps the behavior correct. The same applies to
+  `O_NOATIME` and `MAP_POPULATE`. `MSG_NOSIGNAL` does exist on QNX.
+- **`struct dirent` has no `d_type`**, and there is no `DT_DIR`. Use `lstat()` and `S_ISDIR()`.
+- **`SO_PEERCRED`** is undeclared ("did you mean 'SO_PEERLABEL'?"). See F-010.
+- **`<sys/syscall.h>`** does not exist. `gettid()` is declared in `<sys/process.h>`.
+- **`cpu_set_t`** is unknown. Affinity uses QNX runmasks (`ThreadCtl(_NTO_TCTL_RUNMASK, ...)`),
+  which is a redesign.
+- **PortPilot:** `optional-flag` (auto-fix) and `dirent-d-type` (AI-assisted, with this
+  strategy given to the model).
+
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)
 

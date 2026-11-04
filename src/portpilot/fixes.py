@@ -137,7 +137,7 @@ def _header_layout_fix(root: Path, f: Finding) -> Fix | None:
 
 
 # ---- from build diagnostics ------------------------------------------------------------
-def _rel_in_root(root: Path, file: str) -> str | None:
+def rel_in_root(root: Path, file: str) -> str | None:
     if not file:
         return None
     p = Path(file)
@@ -187,12 +187,27 @@ def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
     return out
 
 
+def _optional_flag_fix(root: Path, rel: str, flag: str) -> Fix | None:
+    """`#define FLAG 0` under #ifndef, right after the file's last #include."""
+    lines = _read_lines(root / rel)
+    inc = [i for i, ln in enumerate(lines) if re.match(r"\s*#\s*include\b", ln)]
+    if not inc:
+        return None
+    i = inc[-1]
+    old = lines[i].rstrip("\r\n")
+    new = (f"{old}\n#ifndef {flag}\n#define {flag} 0 /* not on QNX; only an optimization "
+           "hint */\n#endif")
+    return Fix("optional-flag", "source", f"define {flag} as 0 when missing",
+               f"QNX has no {flag}; it is only a hint, so 0 keeps the behavior correct",
+               path=rel, line=i + 1, old=old, new=new)
+
+
 def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpIndex | None,
                      root: Path) -> tuple[list[Fix], list[Unfixed]]:
     fixes: dict[tuple[str, ...], Fix] = {}
     unfixed: list[Unfixed] = []
     h2r = kb.header_to_rule()
-    i2r = {**kb.function_to_rule(), **kb.identifier_to_rule()}
+    i2r = kb.name_to_rule()
 
     def add(f: Fix) -> None:
         fixes.setdefault(f.key(), f)
@@ -203,7 +218,7 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
         if d.kind == "missing-header":
             rule = h2r.get(d.symbol)
             new = rule.header_map.get(d.symbol) if rule else None
-            rel = _rel_in_root(root, d.file)
+            rel = rel_in_root(root, d.file)
             if rule and new and rel:
                 fx = _include_fix(root, rel, d.line, d.symbol, new, rule.id)
                 if fx:
@@ -226,6 +241,11 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
                 unfixed.append(Unfixed(d, i2r[sym].id if sym in i2r else "",
                                        f"{sym} is {where}: a project symbol or a missing "
                                        "feature"))
+        elif (d.kind == "undeclared" and "optional-flag" in kb.rules
+              and d.symbol in kb.rule("optional-flag").identifiers
+              and (rel := rel_in_root(root, d.file))
+              and (ofx := _optional_flag_fix(root, rel, d.symbol))):
+            add(ofx)
         elif d.kind == "missing-library" and d.symbol in LIBC_ONLY:
             found = _libc_only_fixes(root, d.symbol)
             for fx in found:

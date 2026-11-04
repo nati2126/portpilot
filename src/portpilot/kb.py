@@ -72,6 +72,15 @@ class KnowledgeBase:
     def identifier_to_rule(self) -> dict[str, Rule]:
         return {i: r for r in self.scan_rules() for i in r.identifiers}
 
+    def name_to_rule(self) -> dict[str, Rule]:
+        """Every header, function and identifier of every rule (scan-, build- and test-time),
+        for explaining a build error."""
+        out: dict[str, Rule] = {}
+        for r in self.rules.values():
+            for n in (*r.headers, *r.header_map, *r.functions, *r.identifiers):
+                out.setdefault(n, r)
+        return out
+
 
 def _tuple(d: dict[str, Any], key: str) -> tuple[str, ...]:
     return tuple(d.get(key, ()))

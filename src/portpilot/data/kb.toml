@@ -57,6 +57,9 @@ url = "docs/ground-truth.md#f-009"
 [sources.gt-F010]
 title = "Ground truth F-010: socketpair() sockets have no peer credentials"
 url = "docs/ground-truth.md#f-010"
+[sources.gt-F012]
+title = "Ground truth F-012: compile errors from Linux-only identifiers (qcc 12.2 corpus)"
+url = "docs/ground-truth.md#f-012"
 [sources.gt-F011]
 title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
 url = "docs/ground-truth.md#f-011"
@@ -496,6 +499,34 @@ severity = "fix"
 functions = ["regcomp", "regexec", "regfree", "regerror"]
 link = "-lregex"
 sources = ["gt-F001", "sdp"]
+
+[[rule]]
+id = "optional-flag"
+title = "Linux-only optimization flag"
+category = "C library"
+linux = "MSG_MORE (send corking), O_NOATIME, MAP_POPULATE"
+qnx = "not defined; the flags are hints, so 0 keeps the behavior correct"
+strategy = "Define the flag to 0 under #ifndef: the call still works, only the hint is lost."
+fix = "rule"
+severity = "fix"
+identifiers = ["MSG_MORE", "O_NOATIME", "MAP_POPULATE"]
+quiet = true
+trigger = "build"   # applied when the compiler reports the flag undeclared
+sources = ["gt-F012", "sdp"]
+
+[[rule]]
+id = "dirent-d-type"
+title = "struct dirent has no d_type"
+category = "C library"
+linux = "readdir() entry type in d_type (DT_DIR, DT_REG, ...)"
+qnx = "struct dirent has no d_type: call lstat() on <dir>/<d_name> and use S_ISDIR()/S_ISREG()"
+strategy = "Get the file type with lstat() (or fstatat(dirfd(d), name, ..., AT_SYMLINK_NOFOLLOW)) and S_ISDIR()/S_ISREG()/S_ISLNK(), keeping the result the same."
+fix = "assisted"
+severity = "fix"
+identifiers = ["d_type", "DT_DIR", "DT_REG", "DT_LNK", "DT_UNKNOWN"]
+quiet = true
+trigger = "build"
+sources = ["gt-F012", "sdp"]
 
 [[rule]]
 id = "link-sdp-library"
