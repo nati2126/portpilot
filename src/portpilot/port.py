@@ -80,15 +80,17 @@ def fetch(src: str, work: Path, ref: str | None = None) -> tuple[Path, str, str]
     if "://" in src or src.startswith("git@"):
         dest = work / "upstream"
         tag = latest_release_tag(src) if ref is None else ("" if ref == "HEAD" else ref)
-        if not dest.exists():
+        for _ in range(3 if not dest.exists() else 0):  # a busy network resets connections
             r = subprocess.run(["git", "clone", "-q", "--depth", "1", "--recurse-submodules",
                                 "--shallow-submodules", *(["-b", tag] if tag else []), src,
                                 str(dest)], capture_output=True, text=True, check=False)
-            if r.returncode != 0:
-                shutil.rmtree(dest, ignore_errors=True)  # a partial clone would be reused
-                from .build import BuildError
-                raise BuildError(f"cannot clone {src}{f' at {tag}' if tag else ''}: "
-                                 f"{r.stderr.strip()[-300:]}")
+            if r.returncode == 0:
+                break
+            shutil.rmtree(dest, ignore_errors=True)  # a partial clone would be reused
+        if not dest.exists():
+            from .build import BuildError
+            raise BuildError(f"cannot clone {src}{f' at {tag}' if tag else ''} (3 tries): "
+                             f"{r.stderr.strip()[-300:]}")
         return dest, src, tag or _git(["rev-parse", "--short", "HEAD"], dest)
     p = Path(src).resolve()
     url = commit = ""
