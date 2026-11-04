@@ -264,7 +264,7 @@ def main(argv: list[str] | None = None) -> int:
                     "release tag, as the official ports pin; HEAD = the default branch)")
     pt.add_argument("--arch", default="x86_64", choices=["x86_64", "aarch64"])
     pt.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
-    pt.add_argument("--max-attempts", type=int, default=6, help="build attempts (default 6)")
+    pt.add_argument("--max-attempts", type=int, default=10, help="build attempts (default 10)")
     pt.add_argument("--no-build", action="store_true", help="only scan and generate the port")
     pt.add_argument("--no-tests", action="store_true", help="build without the tests")
     pt.add_argument("--sdp-index")

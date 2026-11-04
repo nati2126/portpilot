@@ -212,7 +212,7 @@ def _changes_table(applied: list[fx.Fix]) -> list[tuple[str, str, str]]:
 
 
 def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_64",
-             jobs: int = 8, max_attempts: int = 6, sdp: SdpIndex | None = None,
+             jobs: int = 8, max_attempts: int = 10, sdp: SdpIndex | None = None,
              kb: KnowledgeBase | None = None, do_build: bool = True, testing: bool = True,
              env: dict[str, str] | None = None, ai: Any = None,
              build_files: Path | None = None, ref: str | None = None,
