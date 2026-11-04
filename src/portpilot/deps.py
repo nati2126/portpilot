@@ -85,6 +85,13 @@ def port_source(port_dir: Path) -> tuple[str, str] | None:
     return None
 
 
+def _changed_tracked(repo: Path) -> set[str]:
+    """Tracked files that are deleted or modified in a git checkout (empty if not one)."""
+    r = subprocess.run(["git", "-C", str(repo), "ls-files", "-d", "-m"], capture_output=True,
+                       text=True, check=False)
+    return set(r.stdout.split("\n")) - {""} if r.returncode == 0 else set()
+
+
 def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
                 build_files: Path | None, arch: str = "x86_64", jobs: int = 8,
                 timeout: float = 3600) -> tuple[str, str]:
@@ -111,14 +118,25 @@ def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
     if cpu is None:
         return port, f"{port} has no {arch} build folder"
     log.parent.mkdir(parents=True, exist_ok=True)
+    before = _changed_tracked(build_files)
     with open(log, "w") as fh:
         try:
+            # QNX_PROJECT_ROOT always explicit: some ports' hooks default to ../../.. (the
+            # build-files root) and clean it with `rm -f */Makefile ...` (cunit)
             rc = subprocess.run(
                 ["make", "-C", str(pdir / cpu), "install", f"JLEVEL={jobs}",
-                 f"INSTALL_ROOT_nto={stage}", "USE_INSTALL_ROOT=true"],
+                 f"QNX_PROJECT_ROOT={src}", f"INSTALL_ROOT_nto={stage}",
+                 "USE_INSTALL_ROOT=true"],
                 stdout=fh, stderr=subprocess.STDOUT, env=env, timeout=timeout).returncode
         except subprocess.TimeoutExpired:
             return port, f"building {port} took over {timeout:.0f}s; see {log}"
+        finally:
+            touched = _changed_tracked(build_files) - before
+            if touched:  # never leave the user's build-files checkout damaged
+                subprocess.run(["git", "-C", str(build_files), "checkout", "--", *touched],
+                               capture_output=True, check=False)
+                fh.write(f"\nportpilot: the {port} build changed {len(touched)} tracked "
+                         "build-files file(s); restored them from git\n")
     if rc != 0:
         return port, f"building the official {port} port failed (rc={rc}); see {log}"
     return port, ""

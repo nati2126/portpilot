@@ -216,4 +216,42 @@ def test_latest_release_tag(tmp_path: Path) -> None:
     for t in ("v1.9.0", "v1.10.0", "v1.11.0-rc1", "nightly", "v2.0-beta"):
         git("tag", t)
     assert latest_release_tag(str(repo)) == "v1.10.0"
+    git("tag", "1.10.2")  # zlib-ng: its own 2.x tags next to zlib's v1.2.11
+    assert latest_release_tag(str(repo)) == "1.10.2"
     assert latest_release_tag(str(tmp_path / "missing")) == ""
+
+
+def test_dependency_port_cannot_damage_build_files(tmp_path: Path) -> None:
+    """The official cunit port's hook defaults its source to ../../.. (the build-files root)
+    and runs `rm -f */Makefile ...` there. PortPilot passes QNX_PROJECT_ROOT and restores
+    any tracked build-files file a dependency build changes anyway."""
+    import os
+    import shutil
+    import subprocess
+
+    import pytest
+
+    from portpilot.deps import ensure_port
+    if not shutil.which("make") or not shutil.which("git"):
+        pytest.skip("needs make and git")
+    bf = tmp_path / "build-files"
+    cpu = bf / "ports" / "evil" / "nto-x86_64-o"
+    cpu.mkdir(parents=True)
+    (bf / "ports" / "evil" / "README.md").write_text(
+        "git clone https://github.com/x/evil.git\n")
+    (bf / "ports" / "other").mkdir()
+    (bf / "ports" / "other" / "Makefile").write_text("all:\n")
+    (cpu / "Makefile").write_text(
+        "R := $(if $(QNX_PROJECT_ROOT),$(QNX_PROJECT_ROOT),../../..)\n"
+        "install:\n\t@echo root=$(R)\n\trm -f ../../other/Makefile\n")
+    (tmp_path / "evil").mkdir()  # the port's source, already cloned next to build-files
+    for a in (["init", "-q"], ["add", "-A"], ["-c", "user.name=t", "-c", "user.email=t@t",
+                                               "commit", "-q", "-m", "x"]):
+        subprocess.run(["git", *a], cwd=bf, check=True, capture_output=True)
+    log = tmp_path / "dep.log"
+    port, why = ensure_port("evil", tmp_path / "stage", dict(os.environ), log, bf)
+    assert (port, why) == ("evil", "")
+    text = log.read_text()
+    assert f"root={tmp_path / 'evil'}" in text
+    assert "restored them from git" in text
+    assert (bf / "ports" / "other" / "Makefile").exists()

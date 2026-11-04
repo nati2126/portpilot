@@ -50,14 +50,15 @@ _VERSION_TAG = re.compile(r"^[A-Za-z_.-]*\d+(?:[._]\d+)+$")
 def latest_release_tag(url: str) -> str:
     """The highest version-like tag that is not a pre-release, or "" (then the default
     branch is used). The official QNX ports also build a release tag, not master."""
-    r = subprocess.run(["git", "-c", "versionsort.suffix=-", "ls-remote", "--tags", "--refs",
-                        "--sort=-v:refname", url], capture_output=True, text=True, timeout=120,
-                       check=False)
+    r = subprocess.run(["git", "ls-remote", "--tags", "--refs", url], capture_output=True,
+                       text=True, timeout=120, check=False)
+    best: tuple[tuple[int, ...], str] = ((), "")
     for ln in r.stdout.splitlines():
         tag = ln.rpartition("refs/tags/")[2]
         if _VERSION_TAG.match(tag) and not _PRERELEASE.search(tag):
-            return tag
-    return ""
+            # compare the numbers only: zlib-ng has both 2.2.2 and zlib's old v1.2.11
+            best = max(best, (tuple(int(n) for n in re.findall(r"\d+", tag)), tag))
+    return best[1]
 
 
 def fetch(src: str, work: Path, ref: str | None = None) -> tuple[Path, str, str]:
@@ -302,8 +303,10 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
             # a test framework QNX has no port of: build the library without its tests
             pkg = test_only[0].symbol
             testing = False
-            run.tests_skipped = (f"tests not built: they need {pkg}, which has no official "
-                                 "QNX port")
+            from .deps import official_port
+            why = (f"its official QNX port did not build (logs/dep-{pkg}.log)"
+                   if official_port(pkg, bf) else "which has no official QNX port")
+            run.tests_skipped = f"tests not built: they need {pkg}, {why}"
             say(f"      {run.tests_skipped}; building the library only")
             new.append(fx.Fix("tests-need-framework", "dep", f"build without tests ({pkg})",
                               run.tests_skipped))
