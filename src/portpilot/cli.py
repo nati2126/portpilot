@@ -18,6 +18,16 @@ from .sdp_index import SdpIndex, build_index, default_index_path, load_default
 from .target import Target, TargetError, default_key, vm_start, vm_stop
 
 
+def _cmd_report(a: argparse.Namespace) -> int:
+    from .report import write_report
+    out = Path(a.output_dir).expanduser().resolve()
+    if not (out / "run.json").exists():
+        print(f"error: no run.json in {out} (run `portpilot port` first)", file=sys.stderr)
+        return 2
+    print(f"wrote {write_report(out)}")
+    return 0
+
+
 def _cmd_atlas_scan(a: argparse.Namespace) -> int:
     import json
 
@@ -298,6 +308,10 @@ def main(argv: list[str] | None = None) -> int:
     i.add_argument("--arch", default="x86_64")
     i.add_argument("-o", "--output")
     i.set_defaults(func=_cmd_sdp_index)
+
+    rp = sub.add_parser("report", help="write report.html for a port output directory")
+    rp.add_argument("output_dir")
+    rp.set_defaults(func=_cmd_report)
 
     at = sub.add_parser("atlas", help="scan many libraries and rank what blocks them on QNX")
     asub = at.add_subparsers(dest="atlas_cmd", required=True)

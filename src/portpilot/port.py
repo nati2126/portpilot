@@ -24,6 +24,7 @@ from . import fixes as fx
 from . import kb as kb_mod
 from .build import BuildResult, build_dir, clean, run_make, sdp_env
 from .kb import KnowledgeBase
+from .matrix import to_json as matrix_json
 from .qnxtests import generate as gen_tests
 from .scaffold import PortSpec, Setting, initial_spec, render, render_readme, write
 from .scan import scan_project
@@ -152,6 +153,7 @@ def record_tests(out: Path, tr: Any, arch: str = "x86_64") -> dict[str, Any]:
     readme = render_readme(spec, results={"Result": result},
                            changes=changes_from_run(run))
     (Path(run["port_dir"]) / "README.md").write_text(readme, encoding="utf-8")
+    _report(out)
     return run
 
 
@@ -217,6 +219,8 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
                                                          else ""))
     run.scan_summary = {"files": scan.files_scanned, "findings": len(scan.findings),
                         "sdp_index": scan.sdp_index_used}
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "matrix.json").write_text(matrix_json(scan, kb), encoding="utf-8")
     for fd in scan.findings:
         r = kb.rule(fd.rule_id)
         if r.severity == "warn" and fd.guard == "none" and fd.area == "lib":
@@ -388,8 +392,9 @@ def _ai_round(ai: Any, unfixed: list[fx.Unfixed], last: BuildResult, kb: Knowled
                      and k_[0] not in ("undefined-reference", "missing-library",
                                        "duplicate-symbol", "link-error")}
             if b.ok or (gone and not added):
-                entry.update(result="accepted", reason="build ok" if b.ok else
-                             f"error gone, {len(before) - len(after)} fewer errors")
+                entry.update(result="accepted", reason="the build succeeds" if b.ok else
+                             "rebuild: the error is gone and the edited file has no new "
+                             "compile errors")
                 say(f"      AI fix accepted ({ai.model}): {rel}: {d.message[:60]}")
                 accepted.append(fx.Fix("ai", "source", f"AI edit for: {d.message[:70]}",
                                        f"verified by rebuild ({ai.model})", path=rel,
@@ -431,7 +436,17 @@ def _finish(run: PortRun, spec: PortSpec, srcw: Path, port_dir: Path, applied: l
     run.elapsed_s = round(time.perf_counter() - t0, 1)
     (out / "run.json").write_text(run.to_json(), encoding="utf-8")
     save_spec(spec, out / "spec.json")
+    _report(out)
     return run
+
+
+def _report(out: Path) -> None:
+    """Refresh report.html; a report problem must never fail a port."""
+    from .report import write_report
+    try:
+        write_report(out)
+    except Exception as e:  # noqa: BLE001
+        say_flush(f"      (report.html not written: {type(e).__name__}: {e})")
 
 
 # ---- test on the target, fix what a rule explains, rebuild, test again ----------------------
