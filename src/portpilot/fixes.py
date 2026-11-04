@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .cpp_text import guard_frames
 from .diagnostics import Diagnostic
 from .facts import declaring_headers
 from .kb import KnowledgeBase
@@ -210,12 +211,23 @@ def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
 
 
 def _after_includes(root: Path, rel: str, block: str, rule_id: str, title: str,
-                    reason: str) -> Fix | None:
-    """Insert `block` right after the file's last #include (one-line edit of that line)."""
+                    reason: str, sym: str = "") -> Fix | None:
+    """Insert `block` right after an #include (one-line edit of that line): the last one
+    before the first use of `sym` that is active wherever that use is (not the one inside
+    `#if defined(SHA1_TEST)` at the end of the file)."""
     lines = _read_lines(root / rel)
     if block in "".join(lines):
         return None  # already there
     inc = [i for i, ln in enumerate(lines) if re.match(r"\s*#\s*include\b", ln)]
+    if sym:
+        use = next((i for i, ln in enumerate(lines)
+                    if re.search(rf"\b{re.escape(sym)}\b", ln)
+                    and not re.match(r"\s*(?:#|//|/?\*)", ln)), None)
+        if use is not None:
+            frames = guard_frames("".join(lines).replace("\r", ""))
+            at_use = frames[use] if use < len(frames) else ()
+            inc = [i for i in inc if i < use and i < len(frames)
+                   and at_use[:len(frames[i])] == frames[i]]
     if not inc:
         return None
     i = inc[-1]
@@ -229,7 +241,7 @@ def _optional_flag_fix(root: Path, rel: str, flag: str) -> Fix | None:
     return _after_includes(
         root, rel, f"#ifndef {flag}\n#define {flag} 0 /* not on QNX; only an optimization "
         "hint */\n#endif", "optional-flag", f"define {flag} as 0 when missing",
-        f"QNX has no {flag}; it is only a hint, so 0 keeps the behavior correct")
+        f"QNX has no {flag}; it is only a hint, so 0 keeps the behavior correct", flag)
 
 
 # Same approach as glibc's own macros: a gcc statement expression, so the copy is on the
@@ -264,7 +276,7 @@ def _qnx_header_fix(root: Path, rel: str, sym: str, include_dir: Path | None) ->
     gate = f" (declared when {' && '.join(conds)})" if conds else ""
     return _after_includes(root, rel, f"#if defined(__QNX__)\n#include <{hdr}>\n#endif",
                            "qnx-header", f"include <{hdr}> for {sym} on QNX",
-                           f"QNX declares {sym} in <{hdr}>{gate}")
+                           f"QNX declares {sym} in <{hdr}>{gate}", sym)
 
 
 _SRC_EXT = (".c", ".cc", ".cpp", ".cxx")
@@ -334,7 +346,7 @@ def _dumpmachine_fixes(root: Path) -> list[Fix]:
 def _alloca_dup_fix(root: Path, rel: str, sym: str) -> Fix | None:
     return _after_includes(root, rel, ALLOCA_DUP_SHIM, "gnu-alloca-dup",
                            f"define {sym} for QNX (stack copy, as in glibc)",
-                           f"QNX libc has no {sym}; strdup() instead would leak")
+                           f"QNX libc has no {sym}; strdup() instead would leak", sym)
 
 
 def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpIndex | None,

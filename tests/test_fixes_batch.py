@@ -255,3 +255,32 @@ def test_dependency_port_cannot_damage_build_files(tmp_path: Path) -> None:
     assert f"root={tmp_path / 'evil'}" in text
     assert "restored them from git" in text
     assert (bf / "ports" / "other" / "Makefile").exists()
+
+
+def test_header_goes_after_an_include_that_is_active_at_the_use(
+        kb: KnowledgeBase, tmp_path: Path) -> None:
+    """paho.mqtt.c SHA1.c: the file's last #include is inside `#if defined(SHA1_TEST)`."""
+    inc = _inc(tmp_path, {"net/netbyte.h": "#define be32toh(__x) __NET_BE32((__x))\n"})
+    (tmp_path / "SHA1.c").write_text(
+        "#include \"SHA1.h\"\n#if defined(__linux__)\n#include <endian.h>\n#endif\n"
+        "unsigned f(unsigned x) { return be32toh(x); }\n"
+        "#if defined(SHA1_TEST)\n#include <stdio.h>\n#endif\n")
+    fixes, _ = fx.from_diagnostics(
+        parse("/usr/bin/ld: a.so: undefined reference to `be32toh'\n").errors, kb, None,
+        tmp_path, {"be32toh": None}, inc)  # type: ignore[dict-item]
+    assert len(fixes) == 1 and fx.apply(fixes[0], PortSpec("x"), tmp_path)
+    assert (tmp_path / "SHA1.c").read_text().startswith(
+        "#include \"SHA1.h\"\n#if defined(__QNX__)\n#include <net/netbyte.h>\n#endif\n")
+
+
+def test_bundled_test_framework_build_failure() -> None:
+    """civetweb downloads Check for its tests (ExternalProject); that copy fails on QNX."""
+    from portpilot.port import _bundled_test_framework
+    log = ("CMake Error at /b/third_party/src/check-unit-test-framework-stamp/"
+           "check-unit-test-framework-build-Release.cmake:49 (message):\n"
+           "  Command failed: 2\n\n")
+    d = parse(log).errors[0]
+    assert _bundled_test_framework(d) == "check-unit-test-framework"
+    other = parse("CMake Error at /b/src/zlib-stamp/zlib-build-Release.cmake:49 (message):\n"
+                  "  Command failed: 2\n\n").errors[0]
+    assert _bundled_test_framework(other) == ""

@@ -299,14 +299,20 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
         built_pkgs = {f.path for _, f in built_deps}  # the CMake package names
         test_only = [d for d in errs if d.kind == "missing-package"
                      and d.symbol.lower() in TEST_FRAMEWORKS and d.symbol not in built_pkgs]
-        if test_only and testing:
-            # a test framework QNX has no port of: build the library without its tests
-            pkg = test_only[0].symbol
+        bundled = [b for d in errs if (b := _bundled_test_framework(d))]
+        if (test_only or bundled) and testing:
+            # a test framework QNX cannot provide: build the library without its tests
             testing = False
-            from .deps import official_port
-            why = (f"its official QNX port did not build (logs/dep-{pkg}.log)"
-                   if official_port(pkg, bf) else "which has no official QNX port")
-            run.tests_skipped = f"tests not built: they need {pkg}, {why}"
+            if test_only:
+                pkg = test_only[0].symbol
+                from .deps import official_port
+                why = (f"its official QNX port did not build (logs/dep-{pkg}.log)"
+                       if official_port(pkg, bf) else "which has no official QNX port")
+                run.tests_skipped = f"tests not built: they need {pkg}, {why}"
+            else:
+                pkg = bundled[0]
+                run.tests_skipped = (f"tests not built: the {pkg} the project downloads for "
+                                     "its tests does not build for QNX")
             say(f"      {run.tests_skipped}; building the library only")
             new.append(fx.Fix("tests-need-framework", "dep", f"build without tests ({pkg})",
                               run.tests_skipped))
@@ -353,8 +359,24 @@ TEST_FRAMEWORKS = {"catch2", "gtest", "googletest", "gmock", "cmocka", "check", 
                    "boost_unit_test_framework"}
 
 
+_STAMP = re.compile(r"/(?P<name>[\w.+-]+)-stamp/")
+
+
+def _bundled_test_framework(d: Any) -> str:
+    """The name of a test framework the project builds itself (CMake ExternalProject) whose
+    build failed, e.g. civetweb's check-unit-test-framework. Else ""."""
+    m = _STAMP.search(d.file) if d.kind == "cmake-error" else None
+    if not m:
+        return ""
+    name = m.group("name")
+    words = set(re.split(r"[-_.]", name.lower()))
+    return name if words & TEST_FRAMEWORKS or "test" in words else ""
+
+
 def _dep_handled(d: Any, built_pkgs: set[str], *, tests_off: bool) -> bool:
     """A missing package that is now built, or a test framework while tests are off."""
+    if tests_off and _bundled_test_framework(d):
+        return True
     return d.kind == "missing-package" and (
         d.symbol in built_pkgs or (tests_off and d.symbol.lower() in TEST_FRAMEWORKS))
 
