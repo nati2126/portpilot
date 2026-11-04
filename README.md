@@ -2,8 +2,21 @@
 
 Port Linux C/C++ libraries to QNX 8.0.
 
-> Status: early. `portpilot scan` works. Patching, the build loop and on-target testing
-> come next.
+> Status: early but working end to end: scan, generate the port, build with qcc, fix,
+> test on a QNX 8.0 target. The local-AI fix loop comes next.
+
+```sh
+portpilot port path/to/lib -o out/ --vm ~/qnx-work/vm-x86_64
+```
+
+That one command:
+
+1. **Scans** the source and predicts how CMake will configure it on QNX.
+2. **Applies known fixes** before building (each one cites a rule).
+3. **Generates the port** in the [qnx-ports/build-files](https://github.com/qnx-ports/build-files)
+   layout: `Makefile`, `common.mk`, toolchain, `qnxtests.sh`, `patches/qnx.patch`, `README.md`.
+4. **Builds** it with your SDP. Errors are parsed; ones a rule explains are fixed and rebuilt.
+5. **Runs the library's own tests** on the QNX target, fixes what a rule explains, and retests.
 
 ## What `portpilot scan` tells you
 
@@ -31,13 +44,16 @@ python3 -m venv ~/venvs/portpilot
 source ~/qnx800/qnxsdp-env.sh
 
 portpilot sdp-index                    # once: index your SDP (stays on your machine)
-portpilot scan path/to/lib -o out/     # writes out/matrix.md and out/matrix.json
+portpilot port path/to/lib -o out/     # scan + port + build; add --vm DIR or --ip IP to test
+portpilot test out/ --ip <target-ip>   # (re)run the tests on a QNX target
 ```
 
-Useful options:
-- `-D VAR=VALUE`: a CMake value the port passes, e.g. `-DCMAKE_REQUIRED_LIBRARIES=socket`.
-- `--no-sdp`: scan without an SDP (less exact).
-- `portpilot detect PATH`: print the build system.
+Other commands:
+- `portpilot scan PATH -o out/`: only the dependency matrix (`matrix.md`, `matrix.json`).
+  `-D VAR=VALUE` sets a CMake value the port passes.
+- `portpilot diagnose build.log`: parse a QNX build log and list the rule fixes.
+- `portpilot qnxtests BUILD_DIR`: write a target test runner from a CMake build tree.
+- `--no-sdp`: work without an SDP index (less exact).
 
 ## Where the QNX facts come from
 

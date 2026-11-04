@@ -1,4 +1,4 @@
-"""Command-line interface: `portpilot scan`, `portpilot sdp-index`, `portpilot detect`."""
+"""Command-line interface: port, scan, diagnose, qnxtests, sdp-index, detect."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ from .detect import detect
 from .matrix import to_json, to_markdown
 from .scan import scan_project
 from .sdp_index import SdpIndex, build_index, default_index_path, load_default
+from .target import Target, TargetError, default_key, vm_start, vm_stop
 
 
 def _cmd_scan(a: argparse.Namespace) -> int:
@@ -60,6 +61,130 @@ def _cmd_sdp_index(a: argparse.Namespace) -> int:
     return 0
 
 
+def _load_sdp(a: argparse.Namespace) -> SdpIndex | None:
+    if getattr(a, "sdp_index", None):
+        return SdpIndex.load(Path(a.sdp_index))
+    if getattr(a, "no_sdp", False):
+        return None
+    return load_default(a.arch)
+
+
+def _cmd_port(a: argparse.Namespace) -> int:
+    from .build import BuildError
+    from .port import run_port
+
+    sdp = _load_sdp(a)
+    if sdp is None and not a.no_sdp:
+        print("warning: no SDP index; run `portpilot sdp-index` for exact results",
+              file=sys.stderr)
+    try:
+        run = run_port(a.source, Path(a.output), name=a.name, arch=a.arch, jobs=a.jobs,
+                       max_attempts=a.max_attempts, sdp=sdp, do_build=not a.no_build,
+                       testing=not a.no_tests)
+    except BuildError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    status = "BUILT" if run.ok else f"NOT BUILT ({run.stopped})"
+    print(f"[4/4] {run.name}: {status} in {run.elapsed_s:.0f}s, "
+          f"{len(run.attempts)} build attempt(s), {len(run.tests)} tests for the target")
+    print(f"      port folder: {run.port_dir}")
+    if run.patch_stat:
+        print(f"      source patch: {run.patch_stat}")
+    if run.ok and run.tests and (a.ip or a.vm):
+        a.output_dir = a.output
+        return _cmd_test(a)
+    return 0 if run.ok or a.no_build else 1
+
+
+def _target_from_args(a: argparse.Namespace, env: dict[str, str]) -> Target:
+    key = a.key or default_key()
+    kh = a.known_hosts or ""
+    if a.ip:
+        return Target(a.ip, user=a.user, key=key, known_hosts=kh)
+    return vm_start(Path(a.vm).expanduser(), env, key=key, known_hosts=kh)
+
+
+def _cmd_test(a: argparse.Namespace) -> int:
+    import json
+
+    from .build import BuildError, sdp_env
+    from .deps import find_build_files
+    from .port import test_and_fix
+
+    out = Path(a.output_dir).resolve()
+    run = json.loads((out / "run.json").read_text(encoding="utf-8"))
+    if not a.ip and not a.vm:
+        print("error: give --ip of a QNX target or --vm <mkqnximage dir>", file=sys.stderr)
+        return 2
+    try:
+        env = sdp_env()
+        t = _target_from_args(a, env)
+        print(f"[5/5] test {run['name']} on QNX target {t.host}")
+        tr = test_and_fix(out, t, env=env, jobs=getattr(a, "jobs", 8), arch=a.arch,
+                          timeout_scale=a.timeout_scale,
+                          build_files=find_build_files(a.build_files),
+                          max_rounds=0 if a.no_fix else 2)
+    except (BuildError, TargetError) as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    finally:
+        if a.vm and a.stop_vm:
+            vm_stop(Path(a.vm).expanduser(), sdp_env())
+    for r in tr.results:
+        if r.status != "PASS":
+            print(f"  {r.status:7} {r.name} rc={r.rc} {r.seconds}s")
+    print(f"{run['name']}: {tr.passed}/{tr.total} pass on QNX ({tr.host}), "
+          f"{tr.timeouts} timeouts, {tr.seconds:.0f}s" + ("" if tr.finished else
+                                                          " [runner did not finish]"))
+    return 0 if tr.ok else 1
+
+
+def _add_target_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--ip", help="QNX target address (ssh)")
+    p.add_argument("--vm", help="mkqnximage VM directory: boot it if needed and use it")
+    p.add_argument("--user", default="root")
+    p.add_argument("--key", help="ssh identity (default ~/.ssh/qnx_vm_ed25519 if present)")
+    p.add_argument("--known-hosts", help="ssh known_hosts file")
+    p.add_argument("--timeout-scale", type=float, default=3,
+                   help="multiply CTest timeouts (QEMU is slower; default 3)")
+    p.add_argument("--stop-vm", action="store_true", help="stop the VM afterwards")
+    p.add_argument("--build-files", help="build-files checkout, for dependency ports "
+                   "(default $PORTPILOT_BUILD_FILES or ~/qnx-work/build-files)")
+    p.add_argument("--no-fix", action="store_true", help="only run the tests once")
+
+
+def _cmd_diagnose(a: argparse.Namespace) -> int:
+    from . import fixes as fx
+    from .diagnostics import parse
+
+    text = Path(a.log).read_text(encoding="utf-8", errors="replace")
+    log = parse(text)
+    errs = log.errors if not a.warnings else log.diagnostics
+    print(f"{len(log.errors)} errors, {len(log.warnings)} warnings; stopped at: {log.phase}")
+    sdp = _load_sdp(a)
+    found, unfixed = fx.from_diagnostics(errs, kb_mod.load(), sdp,
+                                         Path(a.source) if a.source else Path.cwd())
+    for d in errs:
+        print(f"  {d.severity:7} {d.kind:20} {d.location() or '-':40} {d.message}")
+    for f in found:
+        print(f"  fix ({f.rule_id}): {f.title}" + (f" [{f.path}:{f.line}]" if f.path else ""))
+    for u in unfixed:
+        print(f"  no rule: {u.diagnostic.symbol or u.diagnostic.kind}: {u.hint}")
+    return 0
+
+
+def _cmd_qnxtests(a: argparse.Namespace) -> int:
+    from .qnxtests import generate
+
+    text, tests = generate(Path(a.build_dir).resolve(), a.name)
+    if a.output:
+        Path(a.output).write_text(text, encoding="utf-8")
+        print(f"{len(tests)} tests -> {a.output}")
+    else:
+        sys.stdout.write(text)
+    return 0
+
+
 def _cmd_detect(a: argparse.Namespace) -> int:
     bs = detect(Path(a.path))
     print(f"{bs.primary}  (markers: {bs.found or 'none'})"
@@ -71,6 +196,41 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="portpilot", description="Port Linux C/C++ libraries to QNX.")
     p.add_argument("--version", action="version", version=f"portpilot {__version__}")
     sub = p.add_subparsers(dest="cmd", required=True)
+
+    pt = sub.add_parser("port", help="scan, generate the port, build it and fix what breaks")
+    pt.add_argument("source", help="local source tree or git URL")
+    pt.add_argument("-o", "--output", required=True, help="output directory")
+    pt.add_argument("--name", help="port name (default: the source directory name)")
+    pt.add_argument("--arch", default="x86_64", choices=["x86_64", "aarch64"])
+    pt.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
+    pt.add_argument("--max-attempts", type=int, default=6, help="build attempts (default 6)")
+    pt.add_argument("--no-build", action="store_true", help="only scan and generate the port")
+    pt.add_argument("--no-tests", action="store_true", help="build without the tests")
+    pt.add_argument("--sdp-index")
+    pt.add_argument("--no-sdp", action="store_true")
+    _add_target_args(pt)
+    pt.set_defaults(func=_cmd_port)
+
+    ts = sub.add_parser("test", help="run a built port's tests on a QNX target")
+    ts.add_argument("output_dir", help="the -o directory of `portpilot port`")
+    ts.add_argument("--arch", default="x86_64")
+    _add_target_args(ts)
+    ts.set_defaults(func=_cmd_test)
+
+    dg = sub.add_parser("diagnose", help="parse a QNX build log and suggest rule fixes")
+    dg.add_argument("log")
+    dg.add_argument("--source", help="source tree the log was built from (for source fixes)")
+    dg.add_argument("--warnings", action="store_true", help="also list warnings")
+    dg.add_argument("--arch", default="x86_64")
+    dg.add_argument("--sdp-index")
+    dg.add_argument("--no-sdp", action="store_true")
+    dg.set_defaults(func=_cmd_diagnose)
+
+    qt = sub.add_parser("qnxtests", help="generate qnxtests.sh from a CMake build tree")
+    qt.add_argument("build_dir")
+    qt.add_argument("--name", default="tests")
+    qt.add_argument("-o", "--output")
+    qt.set_defaults(func=_cmd_qnxtests)
 
     s = sub.add_parser("scan", help="analyze a source tree and print the dependency matrix")
     s.add_argument("path")
