@@ -1,0 +1,566 @@
+# PortPilot knowledge base: Linux features that need attention when porting to QNX 8.0.
+#
+# Every rule cites at least one source:
+#   qnx-*  the official QNX porting guide
+#   gt-*   PortPilot ground truth (real ports + probes run on QNX 8.0, see docs/ground-truth.md)
+#   sdp    the QNX SDP 8.0 inventory (`portpilot sdp-index`); availability is re-checked against
+#          YOUR SDP whenever an index is present.
+#
+# fix:      rule      PortPilot applies a known, safe transformation
+#           assisted  small, local change; AI-assisted, kept only if the build/tests pass
+#           manual    needs a redesign; PortPilot links the guidance
+#           none      informational
+# severity: blocker   will not compile/link/run on QNX as-is
+#           fix       will not build as-is, but the fix is mechanical
+#           warn      builds, but behaves differently on QNX
+#           info      worth knowing
+
+[sources.qnx-syscall]
+title = "QNX porting guide: system call replacement matrix"
+url = "https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/porting_Sys_call_replacement.html"
+[sources.qnx-depmap]
+title = "QNX porting guide: dependency mapping"
+url = "https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/porting_Dependency_mapping.html"
+[sources.qnx-deep]
+title = "QNX porting guide: deep component analysis"
+url = "https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/porting_Deep_analysis.html"
+[sources.qnx-shim]
+title = "QNX porting guide: creating shim files for Linux system calls"
+url = "https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/sysarch_Create_shim.html"
+[sources.sdp]
+title = "QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)"
+url = "docs/ground-truth.md#sdp-inventory"
+[sources.gt-F001]
+title = "Ground truth F-001: POSIX regex is in libregex"
+url = "docs/ground-truth.md#f-001"
+[sources.gt-F002]
+title = "Ground truth F-002: float formatting differs from glibc (use muslflt)"
+url = "docs/ground-truth.md#f-002"
+[sources.gt-F003]
+title = "Ground truth F-003: non-standard sys/ headers are absent"
+url = "docs/ground-truth.md#f-003"
+[sources.gt-F004]
+title = "Ground truth F-004: CMake feature checks give false negatives on QNX"
+url = "docs/ground-truth.md#f-004"
+[sources.gt-F005]
+title = "Ground truth F-005: pipes do not report POLLHUP when the writer closes"
+url = "docs/ground-truth.md#f-005"
+[sources.gt-F006]
+title = "Ground truth F-006: getaddrinfo returns EAI_ADDRFAMILY for malformed hosts"
+url = "docs/ground-truth.md#f-006"
+[sources.gt-F008]
+title = "Ground truth F-008: connect() to a stale UNIX socket gives ENOENT"
+url = "docs/ground-truth.md#f-008"
+[sources.gt-F009]
+title = "Ground truth F-009: /dev/urandom reads cost ~25 us each"
+url = "docs/ground-truth.md#f-009"
+[sources.gt-F010]
+title = "Ground truth F-010: socketpair() sockets have no peer credentials"
+url = "docs/ground-truth.md#f-010"
+[sources.gt-F011]
+title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
+url = "docs/ground-truth.md#f-011"
+
+# ---------------------------------------------------------------- event handling
+[[rule]]
+id = "epoll"
+title = "epoll"
+category = "Event handling"
+linux = "epoll (sys/epoll.h)"
+qnx = "poll() / select(), or ionotify() + pulses"
+strategy = "Use the project's poll()/select() backend if it has one; otherwise redesign the event loop (state tracking needed)."
+fix = "manual"
+severity = "blocker"
+headers = ["sys/epoll.h"]
+functions = ["epoll_create", "epoll_create1", "epoll_ctl", "epoll_wait", "epoll_pwait"]
+sources = ["qnx-depmap", "qnx-syscall", "qnx-deep", "sdp"]
+
+[[rule]]
+id = "eventfd"
+title = "eventfd"
+category = "Event handling"
+linux = "eventfd (sys/eventfd.h)"
+qnx = "self-pipe, or an eventfd shim"
+strategy = "Replace with a pipe pair (write to signal, read to clear) or a shim library."
+fix = "manual"
+severity = "blocker"
+headers = ["sys/eventfd.h"]
+functions = ["eventfd", "eventfd_read", "eventfd_write"]
+sources = ["qnx-shim", "sdp"]
+
+[[rule]]
+id = "timerfd"
+title = "timerfd"
+category = "Event handling"
+linux = "timerfd (sys/timerfd.h)"
+qnx = "timer_create() / TimerCreate() + SIGEV_PULSE"
+strategy = "QNX delivers timer expiry as a pulse/signal, not a readable fd: restructure the timer handling or use a shim."
+fix = "manual"
+severity = "blocker"
+headers = ["sys/timerfd.h"]
+functions = ["timerfd_create", "timerfd_settime", "timerfd_gettime"]
+sources = ["qnx-syscall", "qnx-shim", "sdp"]
+
+[[rule]]
+id = "signalfd"
+title = "signalfd"
+category = "Event handling"
+linux = "signalfd (sys/signalfd.h)"
+qnx = "self-pipe written from a signal handler, or a sigwaitinfo() thread"
+strategy = "Replace the signalfd with a self-pipe or a dedicated signal thread."
+fix = "manual"
+severity = "blocker"
+headers = ["sys/signalfd.h"]
+functions = ["signalfd"]
+sources = ["qnx-shim", "sdp"]
+
+[[rule]]
+id = "inotify"
+title = "inotify"
+category = "Event handling"
+linux = "inotify (sys/inotify.h, in libc)"
+qnx = "inotify in libfsnotify (-lfsnotify), or devctl() + resource manager"
+strategy = "Link -lfsnotify. The porting guide suggests devctl() + a resource manager; SDP 8.0 also ships an inotify API in libfsnotify (runtime behaviour not yet verified by PortPilot)."
+fix = "rule"
+severity = "warn"
+headers = []
+functions = ["inotify_init", "inotify_init1", "inotify_add_watch", "inotify_rm_watch"]
+link = "-lfsnotify"
+sources = ["qnx-syscall", "sdp"]
+
+[[rule]]
+id = "pollhup-pipe"
+title = "POLLHUP as an end-of-stream signal"
+category = "Event handling"
+linux = "pipe reader sees POLLHUP when the writer closes"
+qnx = "pipe reader sees only POLLIN (read() returns 0)"
+strategy = "If a loop waits for POLLHUP on a pipe to stop, also stop on an explicit flag or on read() == 0."
+fix = "assisted"
+severity = "warn"
+identifiers = ["POLLHUP"]
+sources = ["gt-F005"]
+
+# ---------------------------------------------------------------- processes and threads
+[[rule]]
+id = "fork"
+title = "fork()"
+category = "Processes"
+linux = "fork()"
+qnx = "posix_spawn() / spawn() (fork() exists)"
+strategy = "fork() works, but the porting guide prefers spawn(): the QNX fork does not copy the address space the same way. Review fork+exec pairs."
+fix = "manual"
+severity = "info"
+functions = ["fork"]
+sources = ["qnx-syscall", "qnx-deep"]
+
+[[rule]]
+id = "vfork"
+title = "vfork()"
+category = "Processes"
+linux = "vfork()"
+qnx = "posix_spawn() or fork()"
+strategy = "vfork() is absent; use posix_spawn() (preferred) or fork()."
+fix = "assisted"
+severity = "fix"
+functions = ["vfork"]
+sources = ["qnx-deep", "sdp"]
+
+[[rule]]
+id = "linux-namespaces"
+title = "clone / namespaces / capabilities"
+category = "Processes"
+linux = "clone(), unshare(), setns(), capget(), personality()"
+qnx = "no equivalent"
+strategy = "Linux-kernel-specific; disable the feature or redesign."
+fix = "manual"
+severity = "blocker"
+headers = ["sys/personality.h", "sys/capability.h"]
+functions = ["clone", "unshare", "setns", "capget", "capset", "personality"]
+sources = ["sdp"]
+
+[[rule]]
+id = "prctl"
+title = "prctl()"
+category = "Processes"
+linux = "prctl() (sys/prctl.h)"
+qnx = "pthread_setname_np() for PR_SET_NAME; ThreadCtl() for others"
+strategy = "Most uses are PR_SET_NAME: replace with pthread_setname_np(). Others need review."
+fix = "assisted"
+severity = "fix"
+headers = ["sys/prctl.h"]
+functions = ["prctl"]
+sources = ["sdp"]
+
+[[rule]]
+id = "syscall"
+title = "raw syscall()"
+category = "Processes"
+linux = "syscall(SYS_xxx) (sys/syscall.h)"
+qnx = "the libc function (e.g. gettid() is in libc)"
+strategy = "Replace raw Linux syscall numbers with the corresponding libc call."
+fix = "assisted"
+severity = "fix"
+headers = ["sys/syscall.h"]
+functions = ["syscall"]
+sources = ["sdp"]
+
+[[rule]]
+id = "cpu-affinity"
+title = "CPU affinity"
+category = "Threading"
+linux = "sched_setaffinity(), pthread_setaffinity_np(), cpu_set_t"
+qnx = "ThreadCtl(_NTO_TCTL_RUNMASK_GET_AND_SET)"
+strategy = "Rewrite affinity code with QNX runmasks, or make it optional."
+fix = "manual"
+severity = "blocker"
+functions = ["sched_setaffinity", "sched_getaffinity", "pthread_setaffinity_np", "pthread_getaffinity_np"]
+identifiers = ["cpu_set_t", "CPU_SET", "CPU_ZERO"]
+sources = ["qnx-depmap", "sdp"]
+
+[[rule]]
+id = "pthread-np-join"
+title = "non-portable pthread join"
+category = "Threading"
+linux = "pthread_timedjoin_np(), pthread_tryjoin_np()"
+qnx = "pthread_join() + a condition variable"
+strategy = "Absent on QNX; emulate with a done-flag + condvar."
+fix = "assisted"
+severity = "fix"
+functions = ["pthread_timedjoin_np", "pthread_tryjoin_np"]
+sources = ["sdp"]
+
+# ---------------------------------------------------------------- memory and files
+[[rule]]
+id = "linux-memory"
+title = "Linux memory APIs"
+category = "Memory"
+linux = "mremap(), madvise(), memfd_create(), fallocate()"
+qnx = "malloc+copy / posix_madvise() / shm_open(SHM_ANON) / posix_fallocate()"
+strategy = "Use the POSIX variant listed in the hint for each function."
+fix = "assisted"
+severity = "fix"
+functions = ["mremap", "madvise", "memfd_create", "fallocate"]
+hints = { mremap = "allocate + copy (no mremap)", madvise = "posix_madvise() with POSIX_MADV_* flags", memfd_create = "shm_open(SHM_ANON, ...)", fallocate = "posix_fallocate()" }
+sources = ["sdp"]
+
+[[rule]]
+id = "statfs"
+title = "statfs()"
+category = "Filesystem"
+linux = "statfs()/fstatfs() (sys/vfs.h, sys/statfs.h)"
+qnx = "statvfs()/fstatvfs() (sys/statvfs.h)"
+strategy = "Switch to the POSIX statvfs() family (field names differ slightly: f_bsize/f_frsize)."
+fix = "assisted"
+severity = "fix"
+headers = ["sys/vfs.h", "sys/statfs.h"]
+functions = ["statfs", "fstatfs"]
+sources = ["sdp"]
+
+[[rule]]
+id = "zero-copy"
+title = "zero-copy I/O"
+category = "Filesystem"
+linux = "sendfile(), splice(), tee(), vmsplice(), copy_file_range()"
+qnx = "read()/write() loop"
+strategy = "Absent on QNX: fall back to a buffered read/write loop."
+fix = "assisted"
+severity = "fix"
+headers = ["sys/sendfile.h"]
+functions = ["sendfile", "splice", "tee", "vmsplice", "copy_file_range"]
+sources = ["sdp"]
+
+[[rule]]
+id = "linux-fd-apis"
+title = "Linux fd helpers"
+category = "Filesystem"
+linux = "dup3(), getdents(), closefrom(), close_range(), readahead(), ioprio_set()"
+qnx = "dup2()+fcntl(FD_CLOEXEC) / readdir() / close() loop / drop"
+strategy = "Use the POSIX equivalent from the hint, or drop advisory calls (readahead, ioprio_set)."
+fix = "assisted"
+severity = "fix"
+functions = ["dup3", "getdents", "closefrom", "close_range", "readahead", "ioprio_set"]
+hints = { dup3 = "dup2() then fcntl(FD_CLOEXEC)", getdents = "opendir()/readdir()", closefrom = "loop close() up to sysconf(_SC_OPEN_MAX)", close_range = "loop close()", readahead = "remove (advisory)", ioprio_set = "remove (advisory)" }
+sources = ["sdp"]
+
+[[rule]]
+id = "proc-fs"
+title = "Linux /proc files"
+category = "Filesystem"
+linux = "/proc/self/maps, /proc/cpuinfo, /proc/meminfo, ..."
+qnx = "/proc exists but has a different layout (/proc/<pid>/as, devctl)"
+strategy = "Replace /proc parsing with sysconf()/QNX APIs, or disable the feature."
+fix = "manual"
+severity = "warn"
+strings = ["/proc/self/", "/proc/cpuinfo", "/proc/meminfo", "/proc/stat", "/proc/net/", "/proc/sys/"]
+sources = ["sdp"]
+
+# ---------------------------------------------------------------- system info, random
+[[rule]]
+id = "sysinfo"
+title = "system information"
+category = "System info"
+linux = "sysinfo(), get_nprocs(), getloadavg(), getauxval()"
+qnx = "sysconf(_SC_NPROCESSORS_ONLN), SYSPAGE"
+strategy = "Use sysconf() for CPU count; other fields need QNX-specific code or removal."
+fix = "assisted"
+severity = "fix"
+headers = ["sys/sysinfo.h"]
+functions = ["sysinfo", "get_nprocs", "get_nprocs_conf", "getloadavg", "getauxval"]
+sources = ["sdp"]
+
+[[rule]]
+id = "random"
+title = "getrandom / arc4random"
+category = "Security"
+linux = "getrandom() (sys/random.h), getentropy(), arc4random()"
+qnx = "read /dev/urandom (buffered)"
+strategy = "Not in QNX libc: read /dev/urandom, ideally in large blocks (each read is a resource-manager round trip)."
+fix = "assisted"
+severity = "fix"
+headers = ["sys/random.h"]
+functions = ["getrandom", "getentropy", "arc4random", "arc4random_buf", "arc4random_uniform"]
+sources = ["sdp", "gt-F009"]
+
+[[rule]]
+id = "urandom-cost"
+title = "per-call /dev/urandom reads"
+category = "Performance"
+linux = "cheap /dev/urandom reads"
+qnx = "each read() is a message pass to the random resource manager (~25 us)"
+strategy = "Read in blocks and buffer if random numbers are drawn in a hot loop."
+fix = "none"
+severity = "info"
+strings = ["/dev/urandom"]
+sources = ["gt-F009"]
+
+# ---------------------------------------------------------------- C library differences
+[[rule]]
+id = "gnu-extensions"
+title = "GNU libc extensions"
+category = "C library"
+linux = "glibc-only functions"
+qnx = "portable replacements"
+strategy = "Absent in QNX libc: add a small portable fallback for each (see hints)."
+fix = "assisted"
+severity = "fix"
+functions = ["memrchr", "strchrnul", "qsort_r", "explicit_bzero", "open_memstream", "fmemopen", "secure_getenv", "issetugid", "argp_parse", "backtrace_symbols", "backtrace_symbols_fd"]
+identifiers = ["program_invocation_name", "program_invocation_short_name"]
+hints = { memrchr = "reverse loop", strchrnul = "strchr() or end of string", qsort_r = "qsort() with a static/thread-local context", explicit_bzero = "memset() through a volatile pointer", open_memstream = "write to a growing buffer", fmemopen = "tmpfile()/buffer", secure_getenv = "getenv()", issetugid = "getuid() != geteuid()", argp_parse = "getopt_long()", backtrace_symbols = "drop or use QNX libbacktrace (bt_*)", backtrace_symbols_fd = "drop or use QNX libbacktrace (bt_*)", program_invocation_name = "argv[0] / getprogname()" }
+sources = ["qnx-depmap", "sdp"]
+
+[[rule]]
+id = "glibc-headers"
+title = "glibc-only headers"
+category = "C library"
+linux = "features.h, error.h, argp.h, execinfo.h, endian.h, byteswap.h"
+qnx = "not present"
+strategy = "Remove or guard the include; use compiler builtins (__builtin_bswap32, __BYTE_ORDER__) for endian.h/byteswap.h."
+fix = "assisted"
+severity = "fix"
+headers = ["features.h", "error.h", "argp.h", "execinfo.h", "endian.h", "byteswap.h", "sys/endian.h"]
+sources = ["qnx-depmap", "sdp"]
+
+[[rule]]
+id = "linux-uapi-headers"
+title = "Linux kernel headers"
+category = "Kernel"
+linux = "<linux/...>, <asm/...> kernel UAPI headers"
+qnx = "no equivalent"
+strategy = "Kernel-interface code: guard it out for QNX or reimplement with QNX APIs (devctl, resource managers)."
+fix = "manual"
+severity = "blocker"
+header_prefixes = ["linux/", "asm/", "asm-generic/"]
+sources = ["qnx-deep", "sdp"]
+
+[[rule]]
+id = "nonstandard-sys-headers"
+title = "non-standard <sys/...> header"
+category = "C library"
+linux = "sys/errno.h, sys/fcntl.h, sys/signal.h, sys/unistd.h"
+qnx = "the standard header (errno.h, fcntl.h, signal.h, unistd.h)"
+strategy = "Include the standard header instead (portable everywhere)."
+fix = "rule"
+severity = "fix"
+header_map = { "sys/errno.h" = "errno.h", "sys/fcntl.h" = "fcntl.h", "sys/signal.h" = "signal.h", "sys/unistd.h" = "unistd.h" }
+sources = ["gt-F003", "sdp"]
+
+[[rule]]
+id = "float-format"
+title = "float formatting vs glibc"
+category = "C library"
+linux = "glibc printf output for %a and exact float printing"
+qnx = "QNX libc output is valid but differs; link muslflt for glibc-identical output"
+strategy = "If tests compare float formatting with expected strings, link the muslflt port (project_hooks.cmake)."
+fix = "rule"
+severity = "info"
+trigger = "tests"   # matched from test failures (week 4), not by the source scanner
+sources = ["gt-F002"]
+
+[[rule]]
+id = "gnu-source"
+title = "_GNU_SOURCE feature macro"
+category = "C library"
+linux = "_GNU_SOURCE exposes GNU extensions"
+qnx = "_QNX_SOURCE / _POSIX_C_SOURCE / _XOPEN_SOURCE expose QNX APIs"
+strategy = "If a needed declaration is missing on QNX, define _QNX_SOURCE as well."
+fix = "none"
+severity = "info"
+identifiers = ["_GNU_SOURCE"]
+sources = ["qnx-deep"]
+
+[[rule]]
+id = "header-absent"
+title = "system header not in the QNX SDP"
+category = "C library"
+linux = "header provided by glibc / the Linux kernel"
+qnx = "not present in the QNX SDP"
+strategy = "Find the QNX header that provides the same declarations, guard the include, or remove it. (Only reported when an SDP index is available.)"
+fix = "assisted"
+severity = "fix"
+sources = ["sdp"]
+
+[[rule]]
+id = "third-party-dep"
+title = "dependency not in the QNX SDP"
+category = "Third-party libraries"
+linux = "library installed from the Linux distribution"
+qnx = "not in the SDP: needs its own QNX port (check qnx-ports and repo.oss.qnx.com)"
+strategy = "Port the dependency first (or disable the optional feature that needs it)."
+fix = "manual"
+severity = "blocker"
+sources = ["qnx-deep", "sdp"]
+
+# ---------------------------------------------------------------- networking and IPC
+[[rule]]
+id = "so-peercred"
+title = "SO_PEERCRED"
+category = "IPC"
+linux = "getsockopt(SO_PEERCRED) / struct ucred"
+qnx = "getsockopt(LOCAL_PEERCRED) / struct xucred, or getpeereid()"
+strategy = "Use getpeereid() (portable) or LOCAL_PEERCRED. Note: no peer credentials at all on socketpair() sockets."
+fix = "assisted"
+severity = "fix"
+identifiers = ["SO_PEERCRED"]
+sources = ["gt-F010", "sdp"]
+
+[[rule]]
+id = "unix-stale-socket"
+title = "stale UNIX socket detection"
+category = "IPC"
+linux = "connect() to a dead socket file -> ECONNREFUSED"
+qnx = "connect() -> ENOENT, file stays"
+strategy = "Treat ENOENT like ECONNREFUSED when probing for a stale UNIX socket."
+fix = "assisted"
+severity = "warn"
+identifiers = ["ECONNREFUSED"]
+requires_in_file = ["AF_UNIX", "AF_LOCAL", "sockaddr_un"]
+sources = ["gt-F008"]
+
+[[rule]]
+id = "eai-addrfamily"
+title = "getaddrinfo error mapping"
+category = "Networking"
+linux = "EAI_NONAME for malformed numeric hosts"
+qnx = "EAI_ADDRFAMILY"
+strategy = "Handle EAI_ADDRFAMILY wherever EAI_NONAME is mapped to 'invalid address'."
+fix = "assisted"
+severity = "warn"
+identifiers = ["EAI_NONAME"]
+absent_in_file = ["EAI_ADDRFAMILY"]
+sources = ["gt-F006"]
+
+# ---------------------------------------------------------------- linking (library split)
+[[rule]]
+id = "link-socket"
+title = "socket API lives in libsocket"
+category = "Linking"
+linux = "socket API in libc"
+qnx = "libsocket (-lsocket)"
+strategy = "Link -lsocket (CMake: target_link_libraries(... socket) when QNX)."
+fix = "rule"
+severity = "fix"
+functions = ["socket", "socketpair", "bind", "connect", "accept", "accept4", "listen", "getaddrinfo", "freeaddrinfo", "gai_strerror", "getnameinfo", "gethostbyname", "inet_ntop", "inet_pton", "sendmsg", "recvmsg", "sendmmsg", "recvmmsg", "setsockopt", "getsockopt", "getpeername", "getsockname", "getifaddrs", "if_nametoindex", "getpeereid"]
+link = "-lsocket"
+quiet = true
+sources = ["gt-F004", "sdp"]
+
+[[rule]]
+id = "link-regex"
+title = "POSIX regex lives in libregex"
+category = "Linking"
+linux = "regcomp()/regexec() in libc"
+qnx = "libregex (-lregex)"
+strategy = "Link -lregex."
+fix = "rule"
+severity = "fix"
+functions = ["regcomp", "regexec", "regfree", "regerror"]
+link = "-lregex"
+sources = ["gt-F001", "sdp"]
+
+[[rule]]
+id = "link-libc-only"
+title = "no libpthread / librt / libdl"
+category = "Linking"
+linux = "-lpthread, -lrt, -ldl"
+qnx = "all in libc (-lpthread etc. fail: 'cannot find -lpthread')"
+strategy = "Drop pthread/rt/dl from the link line on QNX; use Threads::Threads and ${CMAKE_DL_LIBS}."
+fix = "rule"
+severity = "fix"
+link_libs = ["pthread", "rt", "dl"]
+sources = ["gt-F011", "sdp"]
+
+# ---------------------------------------------------------------- CMake configure checks
+[[rule]]
+id = "cmake-check-needs-libsocket"
+title = "CMake check misses libsocket symbols"
+category = "Build configuration"
+linux = "check_function_exists(sendmsg) finds it in libc"
+qnx = "symbol is in libsocket: the check fails and the feature is silently disabled"
+strategy = "Configure with -DCMAKE_REQUIRED_LIBRARIES=socket (or set it before the checks)."
+fix = "rule"
+severity = "fix"
+sources = ["gt-F004", "sdp"]
+
+[[rule]]
+id = "cmake-check-lib-in-libc"
+title = "CMake library check for pthread/rt/dl"
+category = "Build configuration"
+linux = "check_library_exists(pthread|rt|dl ...) succeeds"
+qnx = "no such library: the check fails although the function is in libc"
+strategy = "Check with check_function_exists() (libc) first, or preset the result on QNX."
+fix = "rule"
+severity = "fix"
+sources = ["gt-F004", "gt-F011"]
+
+[[rule]]
+id = "cmake-check-header-layout"
+title = "CMake symbol check in the wrong header"
+category = "Build configuration"
+linux = "AF_INET6 visible via <netinet/in.h>"
+qnx = "AF_INET6 is defined in <sys/socket.h> only"
+strategy = "Check the symbol in \"sys/socket.h;netinet/in.h\"."
+fix = "rule"
+severity = "fix"
+sources = ["gt-F004"]
+
+[[rule]]
+id = "cmake-check-absent"
+title = "CMake check for a feature QNX lacks"
+category = "Build configuration"
+linux = "feature detected"
+qnx = "correctly not detected; the project's fallback is used"
+strategy = "No action if the project has a fallback; verify the fallback is tested."
+fix = "none"
+severity = "info"
+sources = ["sdp"]
+
+[[rule]]
+id = "cmake-linux-branch"
+title = "Linux-only CMake branch"
+category = "Build configuration"
+linux = "if(LINUX) / CMAKE_SYSTEM_NAME STREQUAL \"Linux\""
+qnx = "QNX takes the else-branch"
+strategy = "Check that the else-branch is right for QNX (POSIX features may be skipped)."
+fix = "assisted"
+severity = "warn"
+sources = ["qnx-deep"]
