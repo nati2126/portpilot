@@ -299,7 +299,7 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
         built_pkgs = {f.path for _, f in built_deps}  # the CMake package names
         test_only = [d for d in errs if d.kind == "missing-package"
                      and d.symbol.lower() in TEST_FRAMEWORKS and d.symbol not in built_pkgs]
-        bundled = [b for d in errs if (b := _bundled_test_framework(d))]
+        bundled = [d for d in errs if _bundled_test_framework(d)]
         if (test_only or bundled) and testing:
             # a test framework QNX cannot provide: build the library without its tests
             testing = False
@@ -310,9 +310,13 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
                        if official_port(pkg, bf) else "which has no official QNX port")
                 run.tests_skipped = f"tests not built: they need {pkg}, {why}"
             else:
-                pkg = bundled[0]
-                run.tests_skipped = (f"tests not built: the {pkg} the project downloads for "
-                                     "its tests does not build for QNX")
+                d0 = bundled[0]
+                pkg = _bundled_test_framework(d0)
+                run.tests_skipped = (
+                    f"tests not built: they include <{d0.symbol}>, which QNX does not have"
+                    if d0.kind == "missing-header" else
+                    f"tests not built: the {pkg} the project downloads for its tests does "
+                    "not build for QNX")
             say(f"      {run.tests_skipped}; building the library only")
             new.append(fx.Fix("tests-need-framework", "dep", f"build without tests ({pkg})",
                               run.tests_skipped))
@@ -362,9 +366,17 @@ TEST_FRAMEWORKS = {"catch2", "gtest", "googletest", "gmock", "cmocka", "check", 
 _STAMP = re.compile(r"/(?P<name>[\w.+-]+)-stamp/")
 
 
+_TEST_HEADER = re.compile(r"^(?:CUnit|gtest|gmock|catch2|criterion|CppUTest|doctest|"
+                          r"boost/test)/|^(?:catch\.hpp|check\.h|cmocka\.h|unity\.h|"
+                          r"doctest\.h)$")
+
+
 def _bundled_test_framework(d: Any) -> str:
     """The name of a test framework the project builds itself (CMake ExternalProject) whose
-    build failed, e.g. civetweb's check-unit-test-framework. Else ""."""
+    build failed, e.g. civetweb's check-unit-test-framework, or whose header the tests
+    include without CMake looking for it (libcoap: <CUnit/CUnit.h>). Else ""."""
+    if d.kind == "missing-header" and _TEST_HEADER.search(d.symbol):
+        return str(d.symbol).split("/")[0].removesuffix(".h").removesuffix(".hpp")
     m = _STAMP.search(d.file) if d.kind == "cmake-error" else None
     if not m:
         return ""

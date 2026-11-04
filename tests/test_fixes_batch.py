@@ -307,3 +307,14 @@ def test_libc_only_skips_branches_qnx_never_takes(kb: KnowledgeBase, tmp_path: P
     fixes, _ = fx.from_diagnostics(parse("/usr/bin/ld: cannot find -lpthread\n").errors, kb,
                                    None, tmp_path)
     assert [f.line for f in fixes] == [6]
+
+
+def test_test_framework_header_without_find_package() -> None:
+    """libcoap v4.3.5: tests/testdriver.c includes <CUnit/CUnit.h>; CMake never asks."""
+    from portpilot.port import _bundled_test_framework
+    d = parse("/w/tests/testdriver.c:13:10: fatal error: CUnit/CUnit.h: No such file or "
+              "directory\n").errors[0]
+    assert _bundled_test_framework(d) == "CUnit"
+    other = parse("/w/src/a.c:1:10: fatal error: sys/epoll.h: No such file or "
+                  "directory\n").errors[0]
+    assert _bundled_test_framework(other) == ""
