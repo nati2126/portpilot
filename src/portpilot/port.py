@@ -43,14 +43,35 @@ def _git(args: list[str], cwd: Path, check: bool = True) -> str:
     return r.stdout.strip()
 
 
-def fetch(src: str, work: Path) -> tuple[Path, str, str]:
-    """Clone a URL (or use a local tree). Returns (tree, upstream url, short commit)."""
+_PRERELEASE = re.compile(r"(?i)rc|alpha|beta|pre|dev|preview|snapshot|nightly|test")
+_VERSION_TAG = re.compile(r"^[A-Za-z_.-]*\d+(?:[._]\d+)+$")
+
+
+def latest_release_tag(url: str) -> str:
+    """The highest version-like tag that is not a pre-release, or "" (then the default
+    branch is used). The official QNX ports also build a release tag, not master."""
+    r = subprocess.run(["git", "-c", "versionsort.suffix=-", "ls-remote", "--tags", "--refs",
+                        "--sort=-v:refname", url], capture_output=True, text=True, timeout=120,
+                       check=False)
+    for ln in r.stdout.splitlines():
+        tag = ln.rpartition("refs/tags/")[2]
+        if _VERSION_TAG.match(tag) and not _PRERELEASE.search(tag):
+            return tag
+    return ""
+
+
+def fetch(src: str, work: Path, ref: str | None = None) -> tuple[Path, str, str]:
+    """Clone a URL (or use a local tree). Returns (tree, upstream url, ref): the tag that was
+    cloned, else the short commit. `ref`: None = latest release tag, "HEAD" = default branch.
+    """
     if "://" in src or src.startswith("git@"):
         dest = work / "upstream"
+        tag = latest_release_tag(src) if ref is None else ("" if ref == "HEAD" else ref)
         if not dest.exists():
             subprocess.run(["git", "clone", "-q", "--depth", "1", "--recurse-submodules",
-                            "--shallow-submodules", src, str(dest)], check=True)
-        return dest, src, _git(["rev-parse", "--short", "HEAD"], dest)
+                            "--shallow-submodules", *(["-b", tag] if tag else []), src,
+                            str(dest)], check=True)
+        return dest, src, tag or _git(["rev-parse", "--short", "HEAD"], dest)
     p = Path(src).resolve()
     url = commit = ""
     if (p / ".git").exists():
@@ -193,14 +214,14 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
              jobs: int = 8, max_attempts: int = 6, sdp: SdpIndex | None = None,
              kb: KnowledgeBase | None = None, do_build: bool = True, testing: bool = True,
              env: dict[str, str] | None = None, ai: Any = None,
-             build_files: Path | None = None,
+             build_files: Path | None = None, ref: str | None = None,
              say: Callable[[str], None] = say_flush) -> PortRun:
     t0 = time.perf_counter()
     kb = kb or kb_mod.load()
     out = out.resolve()
     work = out / "work"
     work.mkdir(parents=True, exist_ok=True)
-    tree, upstream, commit = fetch(src, work)
+    tree, upstream, commit = fetch(src, work, ref)
     name = name or (tree.name if tree.name != "upstream" else src.rstrip("/").split("/")[-1])
     name = name.removesuffix(".git")
     srcw = working_copy(tree, work / "src")

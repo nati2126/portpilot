@@ -125,7 +125,7 @@ def _cmd_port(a: argparse.Namespace) -> int:
     try:
         run = run_port(a.source, Path(a.output), name=a.name, arch=a.arch, jobs=a.jobs,
                        max_attempts=a.max_attempts, sdp=sdp, do_build=not a.no_build,
-                       testing=not a.no_tests, ai=provider)
+                       testing=not a.no_tests, ai=provider, ref=a.ref)
     except BuildError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
@@ -260,6 +260,8 @@ def main(argv: list[str] | None = None) -> int:
     pt.add_argument("source", help="local source tree or git URL")
     pt.add_argument("-o", "--output", required=True, help="output directory")
     pt.add_argument("--name", help="port name (default: the source directory name)")
+    pt.add_argument("--ref", help="tag or branch to port from a git URL (default: the latest "
+                    "release tag, as the official ports pin; HEAD = the default branch)")
     pt.add_argument("--arch", default="x86_64", choices=["x86_64", "aarch64"])
     pt.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4)
     pt.add_argument("--max-attempts", type=int, default=6, help="build attempts (default 6)")

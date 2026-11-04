@@ -97,7 +97,8 @@ _CONTEXT = re.compile(r"^\s*\d+ \| (?P<src>.*)$")
 _LD_PREFIX = re.compile(r"^(?:\S*/)?(?:\S+-)?ld(?:\.\w+)?: (?P<rest>.*)$")
 _LD_IN_FUNC = re.compile(rf"^(?P<obj>.+): in function {_Q}(?P<fn>.+){_E}:$")
 _LD_UNDEF = re.compile(rf"^(?P<loc>.+?): (?:\(\.\w[^)]*\): )?"
-                       rf"undefined reference to {_Q}(?P<sym>.+){_E}$")
+                       rf"undefined reference to (?:symbol )?{_Q}(?P<sym>[^@']+)(?:@@?[^']*)?"
+                       rf"{_E}$")
 _LD_UNDEF_LOC = re.compile(r"^(?P<file>[^:]+?)(?::(?P<line>\d+))?(?::\(\.[^)]*\))?$")
 _LD_MULTI = re.compile(rf"^(?P<loc>.+?): multiple definition of {_Q}(?P<sym>.+){_E}")
 _LD_NOLIB = re.compile(r"^cannot find -l(?P<lib>[^\s:]+)")
@@ -109,7 +110,8 @@ _NOT_FOUND_PKG = re.compile(r"Could NOT find (?P<pkg>[\w:+.-]+)|"
                             r"Could not find a package configuration file provided by "
                             r"\"(?P<pkg3>[\w+.-]+)\"")
 _NOISE = re.compile(r"^(?:collect2: error: ld returned|cc: .*\b(?:ld|cc1\w*) error \d+|"
-                    r"cc1\w*: some warnings being treated as errors|compilation terminated\.)")
+                    r"cc1\w*: some warnings being treated as errors|compilation terminated\.|"
+                    r"\S*ld: \S+: error adding symbols: DSO missing from command line)")
 
 
 def _norm_quotes(s: str) -> str:
@@ -131,6 +133,9 @@ def classify_compiler(msg: str) -> tuple[str, str, str]:
     if r := re.search(r"unknown type name '(?P<t>[^']+)'|'(?P<t2>[^']+)' does not name a type",
                       m):
         return "unknown-type", r.group("t") or r.group("t2"), ""
+    if r := re.match(r"expected (?:specifier-qualifier-list|declaration specifiers or "
+                     r"'\.\.\.') before '(?P<t>[A-Za-z_]\w*)'$", m):
+        return "unknown-type", r.group("t"), ""  # a type or type macro that is not defined
     if r := re.search(r"'(?P<s>[^']+)' has no member named '(?P<mem>[^']+)'", m):
         return "no-member", r.group("s"), r.group("mem")
     return "compile-error", "", ""

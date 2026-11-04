@@ -114,3 +114,106 @@ def test_official_port_lookup_and_source(tmp_path: Path) -> None:
     assert port_source(bf / "ports" / "check") == ("https://github.com/libcheck/check",
                                                     "v0.15.2")
     assert port_source(bf / "ports" / "googletest") is None  # no README
+
+
+# ---- from the rerun of the 8 failures (Nov 4) ----------------------------------------------
+def test_ld_undefined_reference_to_versioned_symbol() -> None:
+    """libcoap examples: ld names the symbol with its version and the library it is in."""
+    log = ("/q/x86_64-pc-nto-qnx8.0.0-ld: CMakeFiles/tiny.dir/examples/tiny.c.o: undefined "
+           "reference to symbol 'freeaddrinfo@@libsocket.so.4'\n"
+           "/q/x86_64-pc-nto-qnx8.0.0-ld: /q/target/qnx/x86_64/lib/libsocket.so.4: error "
+           "adding symbols: DSO missing from command line\n")
+    errs = parse(log).errors
+    assert [(d.kind, d.symbol) for d in errs] == [("undefined-reference", "freeaddrinfo")]
+
+
+def test_expected_before_an_undefined_type_macro() -> None:
+    """open62541: LIST_ENTRY(x) pointers; with no <sys/queue.h>."""
+    log = ("/w/eventloop_posix.h:233:5: error: expected specifier-qualifier-list before "
+           "'LIST_ENTRY'\n/w/a.c:9:1: error: expected ';' before '(' token\n")
+    d = parse(log).errors
+    assert (d[0].kind, d[0].symbol) == ("unknown-type", "LIST_ENTRY")
+    assert d[1].kind == "compile-error"
+
+
+def test_internal_header_is_reported_as_its_public_header(tmp_path: Path) -> None:
+    """sockaddr_in6 is in <netinet6/in6.h>, which QNX's <netinet/in.h> includes only when
+    __EXT_POSIX1_200112; devs/ copies of public headers are not candidates."""
+    from portpilot.facts import declaring_headers
+    inc = _inc(tmp_path, {
+        "netinet6/in6.h": '#ifndef __KAME_NETINET_IN_H_INCLUDED_\n#error "do not include '
+                          'netinet6/in6.h directly, include netinet/in.h.  see RFC2553"\n'
+                          "#endif\nstruct sockaddr_in6 {\n  int x;\n};\n",
+        "netinet/in.h": "#ifndef __QNXNTO__\n#include <netinet6/in6.h>\n#else\n"
+                        "#if defined(__EXT_POSIX1_200112)\n#include <netinet6/in6.h>\n"
+                        "#endif\n#endif\n",
+        "sys/queue.h": "#define\tLIST_ENTRY(type) struct { type *le_next; }\n",
+        "devs/sys/queue.h": "#define\tLIST_ENTRY(type) struct { type *le_next; }\n"})
+    (hdr, conds, _), = declaring_headers("sockaddr_in6", inc)
+    assert hdr == "netinet/in.h"
+    assert conds == ["defined(__QNXNTO__)", "defined(__EXT_POSIX1_200112)"]  # in the #else
+    assert [h for h, _, _ in declaring_headers("LIST_ENTRY", inc)] == ["sys/queue.h"]
+
+
+def test_strict_mode_when_the_public_header_is_already_included(
+        kb: KnowledgeBase, tmp_path: Path) -> None:
+    inc = _inc(tmp_path, {
+        "netinet6/in6.h": '#error "do not include netinet6/in6.h directly, include '
+                          'netinet/in.h."\nstruct sockaddr_in6 {\n  int x;\n};\n',
+        "netinet/in.h": "#if defined(__EXT_POSIX1_200112)\n#include <netinet6/in6.h>\n"
+                        "#endif\n"})
+    (tmp_path / "a.h").write_text("#include <netinet/in.h>\nsockaddr_in6 s;\n")
+    log = f"{tmp_path}/a.h:2:1: error: 'sockaddr_in6' does not name a type\n"
+    fixes, unfixed = fx.from_diagnostics(parse(log).errors, kb, None, tmp_path, None, inc)
+    assert unfixed == [] and [f.rule_id for f in fixes] == ["strict-mode-hides-posix"]
+
+
+def test_no_cxx_header_for_a_c_file(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """open62541: 'pointers' (a LIST_* macro argument) once matched <CL/opencl.hpp>."""
+    inc = _inc(tmp_path, {"CL/opencl.hpp": "  pointers,\n"})
+    (tmp_path / "t.c").write_text("#include <stdio.h>\nint f(void) { return pointers; }\n")
+    log = f"{tmp_path}/t.c:2:22: error: 'pointers' undeclared (first use in this function)\n"
+    fixes, unfixed = fx.from_diagnostics(parse(log).errors, kb, None, tmp_path, None, inc)
+    assert fixes == [] and len(unfixed) == 1
+
+
+def test_qnx_header_in_every_caller_then_qnx_source(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """paho.mqtt.c: be32toh is called in SHA1.c and WebSocket.c; <net/netbyte.h> declares
+    it only under __EXT_BSD."""
+    inc = _inc(tmp_path, {"net/netbyte.h": "#ifdef __EXT_BSD\n"
+                          "#define be32toh(__x) __NET_BE32((__x))\n#endif\n"})
+    src = tmp_path / "src"
+    src.mkdir()
+    for f in ("SHA1.c", "WebSocket.c"):
+        (src / f).write_text("#include <string.h>\nunsigned f(unsigned x) "
+                             "{ return be32toh(x); }\n")
+    log = (f"{src}/SHA1.c:2:35: warning: implicit declaration of function 'be32toh' "
+           "[-Wimplicit-function-declaration]\n"
+           "/usr/bin/ld: libpaho.so: undefined reference to `be32toh'\n")
+    parsed = parse(log)
+    implicit = {w.symbol: w for w in parsed.warnings if w.kind == "implicit-decl"}
+    fixes, _ = fx.from_diagnostics(parsed.errors, kb, None, tmp_path, implicit, inc)
+    assert sorted(f.path for f in fixes) == ["src/SHA1.c", "src/WebSocket.c"]
+    for f in fixes:
+        assert fx.apply(f, PortSpec("x"), tmp_path)
+    # still undefined on the next attempt: the build hides __EXT_BSD
+    again, _ = fx.from_diagnostics(parsed.errors, kb, None, tmp_path, implicit, inc)
+    assert [f.rule_id for f in again] == ["strict-mode-hides-posix"]
+
+
+def test_latest_release_tag(tmp_path: Path) -> None:
+    import subprocess
+
+    from portpilot.port import latest_release_tag
+    repo = tmp_path / "r"
+    repo.mkdir()
+
+    def git(*a: str) -> None:
+        subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@t", *a], cwd=repo,
+                       check=True, capture_output=True)
+    git("init", "-q")
+    git("commit", "-q", "--allow-empty", "-m", "x")
+    for t in ("v1.9.0", "v1.10.0", "v1.11.0-rc1", "nightly", "v2.0-beta"):
+        git("tag", t)
+    assert latest_release_tag(str(repo)) == "v1.10.0"
+    assert latest_release_tag(str(tmp_path / "missing")) == ""

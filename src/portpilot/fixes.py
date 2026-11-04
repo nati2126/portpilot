@@ -251,15 +251,36 @@ def _qnx_header_fix(root: Path, rel: str, sym: str, include_dir: Path | None) ->
     include that header on QNX. Only for a single unambiguous public header."""
     if include_dir is None or not re.fullmatch(r"\w+", sym):
         return None
-    hits =[h for h in declaring_headers(sym, include_dir, limit=4)
-            if not h[0].startswith(("_", "c++/", "bits/"))]
+    c_file = rel.endswith(".c")
+    hits = [h for h in declaring_headers(sym, include_dir, limit=4)
+            if not h[0].startswith(("_", "c++/", "bits/"))
+            and (h[0].endswith(".h") or not c_file)]  # no C++ header for a C file
     if len({h[0] for h in hits}) != 1:
         return None
     hdr, conds, _ = hits[0]
+    text = "".join(_read_lines(root / rel))
+    if re.search(rf"^\s*#\s*include\s*[<\"]{re.escape(hdr)}[>\"]", text, re.M):
+        return None  # included already: something else hides it (see _qnx_source_fix)
     gate = f" (declared when {' && '.join(conds)})" if conds else ""
     return _after_includes(root, rel, f"#if defined(__QNX__)\n#include <{hdr}>\n#endif",
                            "qnx-header", f"include <{hdr}> for {sym} on QNX",
                            f"QNX declares {sym} in <{hdr}>{gate}")
+
+
+_SRC_EXT = (".c", ".cc", ".cpp", ".cxx")
+
+
+def _callers(root: Path, sym: str, limit: int = 20) -> list[str]:
+    """Source files (relative) that call `sym`."""
+    pat = re.compile(rf"\b{re.escape(sym)}\s*\(")
+    out = []
+    for p in sorted(root.rglob("*")):
+        if (p.suffix in _SRC_EXT and p.is_file() and ".git" not in p.parts
+                and pat.search(p.read_text(encoding="utf-8", errors="replace"))):
+            out.append(p.relative_to(root).as_posix())
+            if len(out) >= limit:
+                break
+    return out
 
 
 def _qnx_source_fix(sym: str, include_dir: Path | None, kb: KnowledgeBase) -> Fix | None:
@@ -277,6 +298,18 @@ def _qnx_source_fix(sym: str, include_dir: Path | None, kb: KnowledgeBase) -> Fi
                                "a strict -std= mode hides POSIX declarations in QNX headers",
                                rid, _src(kb, rid)), field="cflags")
     return None
+
+
+def _header_or_source(root: Path, sym: str, include_dir: Path | None,
+                      kb: KnowledgeBase) -> list[Fix]:
+    """A function that failed to link after an implicit declaration: include its QNX header
+    in every file that calls it; once all do, the remaining cause is a strict mode."""
+    hfxs = [h for rel in _callers(root, sym)
+            if (h := _qnx_header_fix(root, rel, sym, include_dir))]
+    if hfxs:
+        return hfxs
+    qfx = _qnx_source_fix(sym, include_dir, kb)
+    return [qfx] if qfx else []
 
 
 _DUMPMACHINE = re.compile(r"\$\{CMAKE_(?:C|CXX)_COMPILER\}(\s+-dumpmachine)")
@@ -342,9 +375,9 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
             add(afx)
         elif (d.kind == "undefined-reference" and d.symbol in implicit
               and not (sdp and sdp.has_symbol(d.symbol))
-              and (rel := rel_in_root(root, implicit[d.symbol].file))
-              and (hfx := _qnx_header_fix(root, rel, d.symbol, include_dir))):
-            add(hfx)  # e.g. be32toh: a macro in <net/netbyte.h>, never included on QNX
+              and (hfxs := _header_or_source(root, d.symbol, include_dir, kb))):
+            for f in hfxs:  # e.g. be32toh: a macro in <net/netbyte.h>, never included
+                add(f)
         elif d.kind == "undefined-reference":
             sym = d.symbol
             flag =sdp.link_flag_for(sym) if sdp and re.fullmatch(r"\w+", sym) else None
@@ -365,13 +398,13 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
               and (ofx := _optional_flag_fix(root, rel, d.symbol))):
             add(ofx)
         elif (d.kind in ("undeclared", "unknown-type")
-              and (qfx := _qnx_source_fix(d.symbol.removeprefix("::"), include_dir, kb))):
-            add(qfx)
-        elif (d.kind in ("undeclared", "unknown-type")
               and (rel := rel_in_root(root, d.file))
               and (hfx := _qnx_header_fix(root, rel, d.symbol.removeprefix("::"),
                                           include_dir))):
             add(hfx)
+        elif (d.kind in ("undeclared", "unknown-type")
+              and (qfx := _qnx_source_fix(d.symbol.removeprefix("::"), include_dir, kb))):
+            add(qfx)  # the header is included, but a strict -std= mode hides it
         elif d.kind == "cmake-error" and (dms := _dumpmachine_fixes(root)):
             for f in dms:
                 add(f)

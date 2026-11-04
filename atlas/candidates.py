@@ -15,6 +15,7 @@ import json
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -50,7 +51,9 @@ def search(lang: str, min_stars: int, pages: int, cache: Path) -> list[dict[str,
             if len(items) < 100:
                 break
             continue
-        q = f"language:{lang}+stars:>={min_stars}+archived:false+fork:false"
+        # '+' in a query string means a space: C++ must be sent as C%2B%2B
+        q = (f"language:{urllib.parse.quote(lang, safe='')}+stars:>={min_stars}"
+             "+archived:false+fork:false")
         url = (f"https://api.github.com/search/repositories?q={q}&sort=stars&order=desc"
                f"&per_page=100&page={page}")
         for attempt in range(8):

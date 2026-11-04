@@ -18,7 +18,7 @@ from .kb import KnowledgeBase
 from .sdp_index import SdpIndex
 
 MAX_HITS = 3
-_INCLUDE_GUARD = re.compile(r"!?\s*defined\s*\(?\w+_H_?(?:INCLUDED)?_?\)?")
+_INCLUDE_GUARD = re.compile(r"!?\s*defined\s*\(?\w+_H(?:_\w*)?\)?")
 
 
 @lru_cache(maxsize=2)
@@ -40,12 +40,54 @@ def _decl_patterns(sym: str) -> re.Pattern[str]:
     s = re.escape(sym)
     return re.compile(rf"#\s*define\s+{s}\b|\btypedef\b[^;{{]*\b{s}\s*;|"
                       rf"\b(?:struct|union|enum)\s+{s}\s*\{{|\b{s}\s*\([^;{{]*\)\s*;|"
-                      rf"\b{s}\s*[=,]\s*[^;]*$", re.M)
+                      rf"^\s*{s}\s*(?:=[^;]*)?,?\s*(?:/[*/].*)?$", re.M)  # enum constant
+
+
+_REDIRECT = re.compile(r'#\s*error\s+"?do not include \S+ directly,?\s+include\s+'
+                       r'<?(?P<h>[\w/+-]+\.h(?:pp)?)\b')
+
+
+def _negate(c: str) -> str:
+    c = c.strip()
+    if re.fullmatch(r"!\s*defined\s*\(?\s*\w+\s*\)?", c):
+        return c.lstrip("!").strip()
+    if re.fullmatch(r"defined\s*\(?\s*\w+\s*\)?|\w+", c):
+        return f"!{c}"
+    return f"!({c})"
+
+
+def _conds_at(text: str, ln: int) -> list[str]:
+    frames = guard_frames(text)
+    return [_negate(f.cond) if f.negated else f.cond
+            for f in (frames[ln] if ln < len(frames) else ())
+            if not _INCLUDE_GUARD.fullmatch(f.cond.strip())]
+
+
+def _public(rel: str, text: str, include_dir: str) -> tuple[str, list[str]]:
+    """A header that says '#error do not include X directly, include Y' is reached via Y:
+    (Y, the conditions under which Y includes it). Else (rel, [])."""
+    m = _REDIRECT.search(text)
+    if not m:
+        return rel, []
+    pub = m.group("h")
+    texts = dict(_headers(include_dir))
+    ptext = texts.get(pub)
+    if ptext is None:
+        return rel, []
+    incs = list(re.finditer(rf"^\s*#\s*include\s*<{re.escape(rel)}>", ptext, re.M))
+    if not incs:
+        return pub, []
+    # the last #include of it: QNX headers keep the non-QNX branch first
+    return pub, _conds_at(ptext, ptext.count("\n", 0, incs[-1].start()))
 
 
 def declaring_headers(sym: str, include_dir: Path,
                       limit: int = MAX_HITS) -> list[tuple[str, list[str], str]]:
-    """(header, gating #if conditions, declaration line) for each SDP header declaring sym."""
+    """(header, gating #if conditions, declaration line) for each SDP header declaring sym.
+
+    An internal header is reported as the public one that includes it, with that include's
+    conditions added. A copy under a subdirectory (devs/sys/queue.h) of a header that is
+    also found (sys/queue.h) is dropped."""
     hits: list[tuple[str, list[str], str]] = []
     pat = _decl_patterns(sym)
     for rel, text in _headers(str(include_dir)):
@@ -56,13 +98,13 @@ def declaring_headers(sym: str, include_dir: Path,
             continue
         ln = text.count("\n", 0, m.start())
         line = text.splitlines()[ln].strip()[:120]
-        frames = guard_frames(text)
-        conds = [f.cond for f in (frames[ln] if ln < len(frames) else ())
-                 if not _INCLUDE_GUARD.fullmatch(f.cond.strip())]
-        hits.append((rel, conds, line))
-        if len(hits) >= limit:
+        pub, pconds = _public(rel, text, str(include_dir))
+        hits.append((pub, pconds + _conds_at(text, ln), line))
+        if len(hits) >= limit + 2:
             break
-    return hits
+    names = {h[0] for h in hits}
+    hits = [h for h in hits if not any(h[0] != o and h[0].endswith("/" + o) for o in names)]
+    return hits[:limit]
 
 
 def where_declared(sym: str, include_dir: Path) -> list[str]:
