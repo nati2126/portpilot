@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import time
 from pathlib import Path
 
 import pytest
@@ -87,6 +88,31 @@ def test_runner_executes(tmp_path: Path) -> None:
     assert summary == (2, 2, 1, 4)
     assert r.returncode != 0
     assert (tmp_path / "logs" / "t.ok.out").exists()
+
+
+@pytest.mark.skipif(shutil.which("sh") is None or shutil.which("pgrep") is None,
+                    reason="needs a POSIX shell and pgrep")
+def test_runner_leaves_no_watchdog_behind(tmp_path: Path) -> None:
+    """A leftover watchdog kept the QNX ssh session open for the whole timeout (180 s for a
+    0 s test, Nov 4). The watchdog must be gone shortly after the test ends."""
+    ok = tmp_path / "ok"
+    ok.write_text("#!/bin/sh\nexit 0\n")
+    ok.chmod(0o755)
+    (tmp_path / "qnxtests.sh").write_text(render([CTest("t.ok", str(ok), [], timeout=97)],
+                                                 "demo"))
+    # own session: whatever the runner leaves behind keeps that session id
+    p = subprocess.Popen(["sh", str(tmp_path / "qnxtests.sh")], stdout=subprocess.DEVNULL,
+                         stderr=subprocess.DEVNULL, start_new_session=True)
+    p.wait(timeout=30)
+
+    def left() -> str:
+        return subprocess.run(["pgrep", "-a", "-s", str(p.pid)], capture_output=True,
+                              text=True).stdout.strip()
+    for _ in range(30):  # the watchdog polls once a second
+        if not left():
+            break
+        time.sleep(0.2)
+    assert not left(), f"left behind: {left()}"
 
 
 @pytest.mark.skipif(shutil.which("sh") is None, reason="needs a POSIX shell")
