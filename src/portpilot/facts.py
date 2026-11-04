@@ -43,8 +43,10 @@ def _decl_patterns(sym: str) -> re.Pattern[str]:
                       rf"\b{s}\s*[=,]\s*[^;]*$", re.M)
 
 
-def where_declared(sym: str, include_dir: Path) -> list[str]:
-    hits: list[str] = []
+def declaring_headers(sym: str, include_dir: Path,
+                      limit: int = MAX_HITS) -> list[tuple[str, list[str], str]]:
+    """(header, gating #if conditions, declaration line) for each SDP header declaring sym."""
+    hits: list[tuple[str, list[str], str]] = []
     pat = _decl_patterns(sym)
     for rel, text in _headers(str(include_dir)):
         if sym not in text:
@@ -57,11 +59,18 @@ def where_declared(sym: str, include_dir: Path) -> list[str]:
         frames = guard_frames(text)
         conds = [f.cond for f in (frames[ln] if ln < len(frames) else ())
                  if not _INCLUDE_GUARD.fullmatch(f.cond.strip())]
-        gate = f" (only when: {' && '.join(conds)})" if conds else ""
-        hits.append(f"`{sym}` is declared in <{rel}>{gate}: `{line}`")
-        if len(hits) >= MAX_HITS:
+        hits.append((rel, conds, line))
+        if len(hits) >= limit:
             break
     return hits
+
+
+def where_declared(sym: str, include_dir: Path) -> list[str]:
+    out = []
+    for rel, conds, line in declaring_headers(sym, include_dir):
+        gate = f" (only when: {' && '.join(conds)})" if conds else ""
+        out.append(f"`{sym}` is declared in <{rel}>{gate}: `{line}`")
+    return out
 
 
 def struct_members(tag: str, include_dir: Path, limit: int = 25) -> str:

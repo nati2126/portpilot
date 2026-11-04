@@ -124,6 +124,20 @@ Captured with qcc 12.2 (real output in `tests/data/diag/`).
 - **PortPilot:** `optional-flag` and `gnu-alloca-dup` (auto-fix), and `dirent-d-type`
   (AI-assisted, with this strategy given to the model).
 
+<a id="f-013"></a>
+## F-013: strict `-std=` modes hide POSIX declarations
+
+- **Symptom:** spdlog (`CMAKE_CXX_EXTENSIONS OFF`, so `-std=c++17`) fails with `'::fstat' has
+  not been declared`, `'::getpid' has not been declared` and so on, although it includes
+  `<sys/stat.h>` and `<unistd.h>`.
+- **Fact:** QNX headers declare POSIX functions behind `__EXT_*` macros, and strict modes leave
+  them off. glibc declares them anyway. Probe with q++ 12.2 (`stat` + `getpid` + `isatty`):
+  `-std=gnu++17` OK, `-std=c++17` fails, `-std=c++17 -D_QNX_SOURCE` OK,
+  `-std=c++17 -D_POSIX_C_SOURCE=200809L` OK.
+- **Convention:** 82 of 132 official ports define `_QNX_SOURCE` in common.mk.
+- **PortPilot:** rule `strict-mode-hides-posix`. It adds `-D_QNX_SOURCE` when an undeclared name
+  is one the SDP declares behind an `__EXT_*` gate.
+
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)
 

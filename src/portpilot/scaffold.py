@@ -47,6 +47,13 @@ class PortSpec:
     cflags: list[Setting] = field(default_factory=list)
     muslflt: bool = False
     has_patch: bool = False
+    deps: list[str] = field(default_factory=list)  # official QNX ports this one needs
+
+    def add_cflag(self, s: Setting) -> bool:
+        if any(x.value == s.value for x in self.cflags):
+            return False
+        self.cflags.append(s)
+        return True
 
     def add_ldflag(self, s: Setting) -> bool:
         if any(x.value == s.value for x in self.ldflags):

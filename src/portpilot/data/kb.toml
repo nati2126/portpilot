@@ -27,6 +27,9 @@ url = "https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/p
 [sources.qnx-shim]
 title = "QNX porting guide: creating shim files for Linux system calls"
 url = "https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/sysarch_Create_shim.html"
+[sources.qnx-ports]
+title = "qnx-ports/build-files: official QNX ports"
+url = "https://github.com/qnx-ports/build-files"
 [sources.sdp]
 title = "QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)"
 url = "docs/ground-truth.md#sdp-inventory"
@@ -60,6 +63,9 @@ url = "docs/ground-truth.md#f-010"
 [sources.gt-F012]
 title = "Ground truth F-012: compile errors from Linux-only identifiers (qcc 12.2 corpus)"
 url = "docs/ground-truth.md#f-012"
+[sources.gt-F013]
+title = "Ground truth F-013: strict C/C++ modes hide POSIX declarations on QNX"
+url = "docs/ground-truth.md#f-013"
 [sources.gt-F011]
 title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
 url = "docs/ground-truth.md#f-011"
@@ -541,6 +547,54 @@ functions = ["strdupa", "strndupa"]
 quiet = true
 trigger = "build"   # implicit-declaration warning + undefined reference at link time
 sources = ["gt-F012", "sdp"]
+
+[[rule]]
+id = "strict-mode-hides-posix"
+title = "strict -std= mode hides POSIX in QNX headers"
+category = "Build configuration"
+linux = "glibc declares stat(), getpid(), ... even with -std=c++17 / -std=c99"
+qnx = "QNX headers gate POSIX behind __EXT_* macros; strict modes leave them off"
+strategy = "Define _QNX_SOURCE (or _POSIX_C_SOURCE=200809L) for the build, as 82 of 132 official ports do."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # 'X was not declared' for a name QNX declares behind __EXT_*
+sources = ["gt-F013", "qnx-ports"]
+
+[[rule]]
+id = "qcc-dumpmachine"
+title = "qcc does not answer -dumpmachine"
+category = "Build configuration"
+linux = "execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpmachine) prints the triplet"
+qnx = "qcc exits 1; the gcc driver it wraps prints x86_64-pc-nto-qnx8.0.0"
+strategy = "Run the probe with $QNX_HOST/usr/bin/nto<cpu>-gcc instead of qcc."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # CMake configure error + a -dumpmachine probe in the project's CMake
+sources = ["sdp"]
+
+[[rule]]
+id = "qnx-header"
+title = "declaration in a QNX header the code never includes"
+category = "C library"
+linux = "declared by a header included only on Linux/BSD/macOS (e.g. <endian.h>)"
+qnx = "the QNX header the SDP declares it in (found by searching your SDP's headers)"
+strategy = "Include that header under #if defined(__QNX__), next to the other platforms' includes."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # implicit declaration + undefined reference, or 'undeclared'
+sources = ["sdp"]
+
+[[rule]]
+id = "dep-official-port"
+title = "dependency not built for QNX"
+category = "Build configuration"
+linux = "find_package(X) finds the distro's package"
+qnx = "the official qnx-ports port of X, built into the staging area"
+strategy = "Build the official port of the missing package (as its README says) into the stage, then configure again."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # CMake 'Could not find a package configuration file provided by X'
+sources = ["qnx-ports", "qnx-depmap"]
 
 [[rule]]
 id = "link-sdp-library"

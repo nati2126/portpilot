@@ -14,8 +14,10 @@ import re
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from .diagnostics import Diagnostic
+from .facts import declaring_headers
 from .kb import KnowledgeBase
 from .models import Finding
 from .scaffold import PortSpec, Setting
@@ -159,9 +161,29 @@ def _link_rule_for(kb: KnowledgeBase, flag: str) -> str:
     return "link-sdp-library"
 
 
+def _lib_token(lib: str) -> re.Pattern[str]:
+    """A bare `lib` / `-llib` link item (not part of a word, variable or generator expr)."""
+    return re.compile(rf"(?<![\w${{:<>-])(-l)?{re.escape(lib)}(?![\w}}:>])")
+
+
+def _is_link_list(c: Any) -> bool:
+    """target_link_libraries(...), or set()/list(APPEND) of a project link-list variable
+    such as LIBS or LIBS_SYSTEM (not CMake's own CMAKE_REQUIRED_LIBRARIES etc.)."""
+    if c.name in _LINK_CMDS:
+        return True
+    if c.name == "set" and c.args:
+        var = c.args[0]
+    elif c.name == "list" and len(c.args) > 1 and c.args[0].upper() == "APPEND":
+        var = c.args[1]
+    else:
+        return False
+    return "LIB" in var.upper() and not var.upper().startswith("CMAKE_")
+
+
 def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
-    """Wrap a bare pthread/rt/dl in target_link_libraries() so it is not used on QNX."""
+    """Wrap a bare pthread/rt/dl in link lists so it is not used on QNX."""
     out = []
+    tok_re = _lib_token(lib)
     for f in iter_cmake_files(root):
         text = f.read_text(encoding="utf-8", errors="replace")
         if lib not in text:
@@ -169,11 +191,11 @@ def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
         lines = text.splitlines()
         rel = f.relative_to(root).as_posix()
         for c in parse_commands(text):
-            if c.name not in _LINK_CMDS or not any(a in (lib, f"-l{lib}") for a in c.args):
+            if not _is_link_list(c) or not any(a in (lib, f"-l{lib}") for a in c.args):
                 continue
             # the token may sit on a continuation line: search the command's lines
             for ln in range(c.line, min(len(lines), c.line + 30) + 1):
-                m = re.search(rf"(?<![\w${{:<>-])(-l)?{lib}(?![\w}}:>])", lines[ln - 1])
+                m = tok_re.search(lines[ln - 1])
                 if m:
                     tok = m.group(0)
                     out.append(Fix("link-libc-only", "source",
@@ -191,6 +213,8 @@ def _after_includes(root: Path, rel: str, block: str, rule_id: str, title: str,
                     reason: str) -> Fix | None:
     """Insert `block` right after the file's last #include (one-line edit of that line)."""
     lines = _read_lines(root / rel)
+    if block in "".join(lines):
+        return None  # already there
     inc = [i for i, ln in enumerate(lines) if re.match(r"\s*#\s*include\b", ln)]
     if not inc:
         return None
@@ -222,6 +246,58 @@ ALLOCA_DUP_SHIM = """\
 #endif"""
 
 
+def _qnx_header_fix(root: Path, rel: str, sym: str, include_dir: Path | None) -> Fix | None:
+    """`sym` is used without a declaration, but the QNX SDP declares it in one header:
+    include that header on QNX. Only for a single unambiguous public header."""
+    if include_dir is None or not re.fullmatch(r"\w+", sym):
+        return None
+    hits =[h for h in declaring_headers(sym, include_dir, limit=4)
+            if not h[0].startswith(("_", "c++/", "bits/"))]
+    if len({h[0] for h in hits}) != 1:
+        return None
+    hdr, conds, _ = hits[0]
+    gate = f" (declared when {' && '.join(conds)})" if conds else ""
+    return _after_includes(root, rel, f"#if defined(__QNX__)\n#include <{hdr}>\n#endif",
+                           "qnx-header", f"include <{hdr}> for {sym} on QNX",
+                           f"QNX declares {sym} in <{hdr}>{gate}")
+
+
+def _qnx_source_fix(sym: str, include_dir: Path | None, kb: KnowledgeBase) -> Fix | None:
+    """`sym` is undeclared, but QNX declares it behind an __EXT_* gate: the build uses a
+    strict mode (-std=c++17, -std=c99, ...) in which QNX headers hide POSIX. Define
+    _QNX_SOURCE, as most official QNX ports do (F-013)."""
+    if include_dir is None or not re.fullmatch(r"\w+", sym):
+        return None
+    for hdr, conds, _ in declaring_headers(sym, include_dir, limit=3):
+        if any("__EXT_" in c for c in conds):
+            rid = "strict-mode-hides-posix"
+            return Fix(rid, "port", "define _QNX_SOURCE",
+                       f"{sym} is declared in <{hdr}> only when {' && '.join(conds)}",
+                       Setting("-D_QNX_SOURCE",
+                               "a strict -std= mode hides POSIX declarations in QNX headers",
+                               rid, _src(kb, rid)), field="cflags")
+    return None
+
+
+_DUMPMACHINE = re.compile(r"\$\{CMAKE_(?:C|CXX)_COMPILER\}(\s+-dumpmachine)")
+QNX_GCC = "$ENV{QNX_HOST}/usr/bin/nto${CMAKE_SYSTEM_PROCESSOR}-gcc"
+
+
+def _dumpmachine_fixes(root: Path) -> list[Fix]:
+    """qcc does not answer -dumpmachine (rc=1, no output); the gcc driver it wraps does
+    (x86_64-pc-nto-qnx8.0.0). Point such probes at that driver."""
+    out = []
+    for f in iter_cmake_files(root):
+        rel = f.relative_to(root).as_posix()
+        for i, ln in enumerate(_read_lines(f), 1):
+            if m := _DUMPMACHINE.search(ln):
+                out.append(Fix("qcc-dumpmachine", "source", "ask the gcc driver for the target "
+                               "triplet", "qcc does not support -dumpmachine",
+                               path=rel, line=i, old=m.group(0),
+                               new=QNX_GCC + m.group(1)))
+    return out
+
+
 def _alloca_dup_fix(root: Path, rel: str, sym: str) -> Fix | None:
     return _after_includes(root, rel, ALLOCA_DUP_SHIM, "gnu-alloca-dup",
                            f"define {sym} for QNX (stack copy, as in glibc)",
@@ -230,9 +306,11 @@ def _alloca_dup_fix(root: Path, rel: str, sym: str) -> Fix | None:
 
 def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpIndex | None,
                      root: Path, implicit: dict[str, Diagnostic] | None = None,
+                     include_dir: Path | None = None,
                      ) -> tuple[list[Fix], list[Unfixed]]:
     """`implicit`: implicit-declaration warnings by function name (the call sites of
-    functions that then fail to link), accumulated over build attempts."""
+    functions that then fail to link), accumulated over build attempts.
+    `include_dir`: the SDP's usr/include, to find where QNX declares a missing name."""
     fixes: dict[tuple[str, ...], Fix] = {}
     unfixed: list[Unfixed] = []
     h2r = kb.header_to_rule()
@@ -262,6 +340,11 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
               and (rel := rel_in_root(root, implicit[d.symbol].file))
               and (afx := _alloca_dup_fix(root, rel, d.symbol))):
             add(afx)
+        elif (d.kind == "undefined-reference" and d.symbol in implicit
+              and not (sdp and sdp.has_symbol(d.symbol))
+              and (rel := rel_in_root(root, implicit[d.symbol].file))
+              and (hfx := _qnx_header_fix(root, rel, d.symbol, include_dir))):
+            add(hfx)  # e.g. be32toh: a macro in <net/netbyte.h>, never included on QNX
         elif d.kind == "undefined-reference":
             sym = d.symbol
             flag =sdp.link_flag_for(sym) if sdp and re.fullmatch(r"\w+", sym) else None
@@ -281,6 +364,17 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
               and (rel := rel_in_root(root, d.file))
               and (ofx := _optional_flag_fix(root, rel, d.symbol))):
             add(ofx)
+        elif (d.kind in ("undeclared", "unknown-type")
+              and (qfx := _qnx_source_fix(d.symbol.removeprefix("::"), include_dir, kb))):
+            add(qfx)
+        elif (d.kind in ("undeclared", "unknown-type")
+              and (rel := rel_in_root(root, d.file))
+              and (hfx := _qnx_header_fix(root, rel, d.symbol.removeprefix("::"),
+                                          include_dir))):
+            add(hfx)
+        elif d.kind == "cmake-error" and (dms := _dumpmachine_fixes(root)):
+            for f in dms:
+                add(f)
         elif d.kind == "missing-library" and d.symbol in LIBC_ONLY:
             found = _libc_only_fixes(root, d.symbol)
             for fx in found:
@@ -301,7 +395,14 @@ def apply_source(root: Path, fix: Fix) -> bool:
     lines = _read_lines(p)
     if not 0 < fix.line <= len(lines) or fix.old not in lines[fix.line - 1]:
         return False
-    lines[fix.line - 1] = lines[fix.line - 1].replace(fix.old, fix.new, 1)
+    if fix.rule_id == "link-libc-only":  # replace the bare token only, never inside a word
+        lib = fix.old.removeprefix("-l")
+        new_line, n = _lib_token(lib).subn(fix.new, lines[fix.line - 1], count=1)
+        if n == 0:
+            return False  # only wrapped occurrences left: already applied
+        lines[fix.line - 1] = new_line
+    else:
+        lines[fix.line - 1] = lines[fix.line - 1].replace(fix.old, fix.new, 1)
     with open(p, "w", encoding="utf-8", errors="surrogateescape", newline="") as fh:
         fh.write("".join(lines))
     return True
@@ -314,6 +415,8 @@ def apply_port(spec: PortSpec, fix: Fix) -> bool:
         return spec.add_ldflag(fix.setting)
     if fix.field == "cmake_args":
         return spec.add_cmake_arg(fix.setting)
+    if fix.field == "cflags":
+        return spec.add_cflag(fix.setting)
     return False
 
 

@@ -13,7 +13,8 @@ from typing import Any
 # kind values, most specific first in the docs:
 #   missing-header       fatal error: <h>: No such file or directory
 #   implicit-decl        implicit declaration of function 'f'
-#   undeclared           'X' undeclared / was not declared in this scope / is not a member of
+#   undeclared           'X' undeclared / was not declared in this scope / has not been
+#                        declared / is not a member of
 #   unknown-type         unknown type name 'T' / 'T' does not name a type
 #   no-member            'struct s' has no member named 'm'
 #   compile-error        any other compiler error
@@ -122,7 +123,8 @@ def classify_compiler(msg: str) -> tuple[str, str, str]:
         return "missing-header", r.group("h").strip(), ""
     if r := re.search(r"implicit declaration of function '(?P<f>[^']+)'", m):
         return "implicit-decl", r.group("f"), ""
-    if r := re.search(r"'(?P<x>[^']+)' (?:undeclared|was not declared in this scope)", m):
+    if r := re.search(r"'(?P<x>[^']+)' (?:undeclared|was not declared in this scope|"
+                      r"has not been declared)", m):
         return "undeclared", r.group("x"), ""
     if r := re.search(r"'(?P<x>[^']+)' is not a member of '(?P<ns>[^']+)'", m):
         return "undeclared", f"{r.group('ns')}::{r.group('x')}", ""

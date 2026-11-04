@@ -23,6 +23,7 @@ from typing import Any
 from . import fixes as fx
 from . import kb as kb_mod
 from .build import BuildResult, build_dir, clean, run_make, sdp_env
+from .deps import find_build_files
 from .kb import KnowledgeBase
 from .matrix import to_json as matrix_json
 from .qnxtests import generate as gen_tests
@@ -106,6 +107,7 @@ class PortRun:
     ai: list[dict[str, Any]] = field(default_factory=list)  # every AI attempt, kept or not
     # behavior differences the scan found in library code (they show up as test failures)
     scan_warnings: list[dict[str, Any]] = field(default_factory=list)
+    tests_skipped: str = ""  # why the library's tests were not built, if they were not
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), indent=2)
@@ -191,6 +193,7 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
              jobs: int = 8, max_attempts: int = 6, sdp: SdpIndex | None = None,
              kb: KnowledgeBase | None = None, do_build: bool = True, testing: bool = True,
              env: dict[str, str] | None = None, ai: Any = None,
+             build_files: Path | None = None,
              say: Callable[[str], None] = say_flush) -> PortRun:
     t0 = time.perf_counter()
     kb = kb or kb_mod.load()
@@ -242,6 +245,11 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
     need_clean = True
     implicit: dict[str, Any] = {}  # implicit-decl warnings seen in any attempt (by symbol)
     cmake_state = [s.value for s in spec.cmake_args]
+    tried_deps: set[str] = set()
+    force_clean = False
+    bf = build_files if build_files is not None else find_build_files()
+    include_dir = (Path(env["QNX_TARGET"]) / "usr" / "include") if env.get("QNX_TARGET") \
+        else None
     for n in range(1, max_attempts + 1):
         say(f"[3/4] build attempt {n}")
         if need_clean:
@@ -259,8 +267,28 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
         implicit.update({w.symbol: w for w in last.parsed.warnings if w.kind == "implicit-decl"})
         say(f"      failed at {last.phase}: {len(errs)} errors"
             + (f", first: {errs[0].location()} {errs[0].message}" if errs else ""))
-        found, unfixed = fx.from_diagnostics(errs, kb, sdp, srcw, implicit)
+        found, unfixed = fx.from_diagnostics(errs, kb, sdp, srcw, implicit, include_dir)
         new = [f for f in found if fx.apply(f, spec, srcw)]
+        built_deps = _build_deps(errs, tried_deps, stage, env, out, bf, arch, jobs, say)
+        if built_deps:
+            spec.deps = sorted({*spec.deps, *(p for p, _ in built_deps)})
+            new += [f for _, f in built_deps]
+            force_clean = True
+        built_pkgs = {f.path for _, f in built_deps}  # the CMake package names
+        test_only = [d for d in errs if d.kind == "missing-package"
+                     and d.symbol.lower() in TEST_FRAMEWORKS and d.symbol not in built_pkgs]
+        if test_only and testing:
+            # a test framework QNX has no port of: build the library without its tests
+            pkg = test_only[0].symbol
+            testing = False
+            run.tests_skipped = (f"tests not built: they need {pkg}, which has no official "
+                                 "QNX port")
+            say(f"      {run.tests_skipped}; building the library only")
+            new.append(fx.Fix("tests-need-framework", "dep", f"build without tests ({pkg})",
+                              run.tests_skipped))
+            force_clean = True
+        unfixed = [u for u in unfixed
+                   if not _dep_handled(u.diagnostic, built_pkgs, tests_off=not testing)]
         for f in new:
             say(f"      fix ({f.rule_id}): {f.title}" + (f"  [{f.path}:{f.line}]" if f.path
                                                          else ""))
@@ -287,12 +315,50 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
             break
         write(port_dir, render(spec))
         state = [s.value for s in spec.cmake_args]
-        need_clean = state != cmake_state  # CMake caches check results: start over
+        need_clean = state != cmake_state or force_clean  # CMake caches results: start over
         cmake_state = state
+        force_clean = False
     else:
         run.stopped = f"still failing after {max_attempts} attempts"
     return _finish(run, spec, srcw, port_dir, applied, last, out, t0, testing=testing,
                    env=env, jobs=jobs, arch=arch)
+
+
+TEST_FRAMEWORKS = {"catch2", "gtest", "googletest", "gmock", "cmocka", "check", "doctest",
+                   "unity", "cppunit", "cunit", "criterion", "cpputest",
+                   "boost_unit_test_framework"}
+
+
+def _dep_handled(d: Any, built_pkgs: set[str], *, tests_off: bool) -> bool:
+    """A missing package that is now built, or a test framework while tests are off."""
+    return d.kind == "missing-package" and (
+        d.symbol in built_pkgs or (tests_off and d.symbol.lower() in TEST_FRAMEWORKS))
+
+
+def _build_deps(errs: list[Any], tried: set[str], stage: Path, env: dict[str, str],
+                out: Path, bf: Path | None, arch: str, jobs: int,
+                say: Callable[[str], None]) -> list[tuple[str, fx.Fix]]:
+    """Build the official QNX port of each package CMake could not find (once each).
+    Returns (port name, fix) for each port built."""
+    from .deps import ensure_port
+    built: list[tuple[str, fx.Fix]] = []
+    for d in errs:
+        pkg = d.symbol
+        if d.kind != "missing-package" or not pkg or pkg in tried:
+            continue
+        tried.add(pkg)
+        say(f"      dependency {pkg}: building the official QNX port")
+        port, why = ensure_port(pkg, stage, env, out / "logs" / f"dep-{pkg}.log", bf,
+                                arch=arch, jobs=jobs)
+        if why:
+            say(f"      dependency {pkg}: {why}")
+            continue
+        say(f"      fix (dep-official-port): built {port} from qnx-ports into the stage")
+        built.append((port, fx.Fix("dep-official-port", "dep",
+                                   f"build dependency {port} from qnx-ports into the stage",
+                                   f"CMake needs {pkg}; QNX has an official port of it",
+                                   path=pkg)))
+    return built
 
 
 def _rel(root: Path, file: str) -> str:

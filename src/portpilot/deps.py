@@ -1,10 +1,21 @@
-"""Dependency ports from qnx-ports/build-files that a fix may need (today: muslflt)."""
+"""Dependency ports from qnx-ports/build-files: muslflt, and any package an official port
+provides (e.g. Catch2 for a library's tests).
+
+An official port is built exactly as its README says: its source is cloned next to
+build-files (the workspace layout every port's common.mk expects), then
+`make -C build-files/ports/<Name>/nto-<cpu>-o install` installs it into PortPilot's stage,
+where the library's own CMake configure finds it.
+"""
 
 from __future__ import annotations
 
 import os
+import re
 import subprocess
 from pathlib import Path
+
+_CLONE = re.compile(r"git clone\s+(?:(?:-b|--branch)\s+(?P<branch>\S+)\s+)?"
+                    r"(?P<url>https://\S+?)(?:\.git)?(?=\s|$)")
 
 MUSLFLT_URL = "https://github.com/qnx-ports/muslflt.git"
 # muslflt's port predates the CMake layout: it uses nto-<cpu> folders
@@ -50,3 +61,64 @@ def ensure_muslflt(stage: Path, env: dict[str, str], work: Path, log: Path,
     if rc != 0 or not muslflt_available(stage, env, arch):
         return f"building muslflt failed (rc={rc}); see {log}"
     return ""
+
+
+def official_port(package: str, build_files: Path | None) -> str | None:
+    """The build-files port directory name for a CMake package name, if QNX has one."""
+    if build_files is None or not package:
+        return None
+    want = package.lower().replace("_", "-")
+    for d in sorted((build_files / "ports").iterdir()):
+        if d.is_dir() and d.name.lower().replace("_", "-") == want:
+            return d.name
+    return None
+
+
+def port_source(port_dir: Path) -> tuple[str, str] | None:
+    """(clone URL, branch or "") of a port's source, from its README's workspace setup."""
+    readme = port_dir / "README.md"
+    if not readme.is_file():
+        return None
+    for m in _CLONE.finditer(readme.read_text(encoding="utf-8", errors="replace")):
+        if not m.group("url").rstrip("/").endswith("build-files"):
+            return m.group("url"), m.group("branch") or ""
+    return None
+
+
+def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
+                build_files: Path | None, arch: str = "x86_64", jobs: int = 8,
+                timeout: float = 3600) -> tuple[str, str]:
+    """Build the official port that provides `package` into the stage.
+
+    Returns (port name, "") on success, else (port name or "", reason)."""
+    port = official_port(package, build_files)
+    if port is None or build_files is None:
+        return "", (f"no official QNX port provides {package}"
+                    + ("" if build_files else " (pass --build-files to look)"))
+    pdir = build_files / "ports" / port
+    srcinfo = port_source(pdir)
+    if srcinfo is None:
+        return port, f"cannot tell where {port}'s source lives (no git clone in its README)"
+    url, branch = srcinfo
+    src = build_files.parent / port  # where the port's common.mk looks for it
+    if not src.is_dir():
+        cmd = ["git", "clone", "-q", "--depth", "1", *(["-b", branch] if branch else []),
+               f"{url}.git", str(src)]
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
+        if r.returncode != 0:
+            return port, f"cannot clone {url}: {r.stderr.strip()[:200]}"
+    cpu = next((c for c in (f"nto-{arch}-o", f"nto-{arch}") if (pdir / c).is_dir()), None)
+    if cpu is None:
+        return port, f"{port} has no {arch} build folder"
+    log.parent.mkdir(parents=True, exist_ok=True)
+    with open(log, "w") as fh:
+        try:
+            rc = subprocess.run(
+                ["make", "-C", str(pdir / cpu), "install", f"JLEVEL={jobs}",
+                 f"INSTALL_ROOT_nto={stage}", "USE_INSTALL_ROOT=true"],
+                stdout=fh, stderr=subprocess.STDOUT, env=env, timeout=timeout).returncode
+        except subprocess.TimeoutExpired:
+            return port, f"building {port} took over {timeout:.0f}s; see {log}"
+    if rc != 0:
+        return port, f"building the official {port} port failed (rc={rc}); see {log}"
+    return port, ""

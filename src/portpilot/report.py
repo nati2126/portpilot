@@ -85,8 +85,10 @@ def _changes(run: dict[str, Any], kb: KnowledgeBase) -> list[tuple[str, str, str
     for f in fixes:
         if f.get("rule") == "ai":
             continue  # listed from the AI log with its verification
-        where = (f"<code>{_e(f['path'])}:{_e(f['line'])}</code>" if f.get("kind") == "source"
-                 else f"<code>{_e(f.get('setting', ''))}</code> in common.mk")
+        kind = f.get("kind")
+        where = (f"<code>{_e(f['path'])}:{_e(f['line'])}</code>" if kind == "source" else
+                 "" if kind == "dep" else
+                 f"<code>{_e(f.get('setting', ''))}</code> in common.mk")
         key = (f.get("rule", ""), where)
         if key in seen:
             continue
@@ -158,6 +160,8 @@ def render_html(out: Path, kb: KnowledgeBase | None = None) -> str:
         verdict, vcls = f"Ported · {tt['passed']}/{tt['total']} tests pass on QNX", "ok"
     elif run.get("ok") and tt:
         verdict, vcls = f"Built · {tt['passed']}/{tt['total']} tests pass on QNX", "warn"
+    elif run.get("ok") and run.get("tests_skipped"):
+        verdict, vcls = "Built for QNX · library only, tests not built", "warn"
     elif run.get("ok"):
         verdict, vcls = "Built for QNX · not tested on a target yet", "warn"
     else:
@@ -207,6 +211,9 @@ def render_html(out: Path, kb: KnowledgeBase | None = None) -> str:
         h.append("</table></div>")
     else:
         h.append('<p class="mute">No changes were needed.</p>')
+
+    if run.get("tests_skipped"):
+        h.append(f"<p class='pill warn'>{_e(run['tests_skipped'])}</p>")
 
     if run.get("scan_warnings"):
         h.append("<h2>Needs a person's review</h2><div class=scroll><table>"
