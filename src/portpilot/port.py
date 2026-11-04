@@ -56,11 +56,14 @@ def latest_release_tag(url: str) -> str:
         try:
             r = subprocess.run(["git", "ls-remote", "--tags", "--refs", url],
                                capture_output=True, text=True, timeout=180, check=False)
-            break
+            if r.returncode == 0:
+                break
+            why = r.stderr.strip()[:200]
         except subprocess.TimeoutExpired:
-            if attempt == 2:
-                raise BuildError(f"listing the tags of {url} timed out 3 times; retry, or "
-                                 "pass --ref TAG (or --ref HEAD)") from None
+            why = "timed out"
+        if attempt == 2:
+            raise BuildError(f"cannot list the tags of {url} ({why}); retry, or pass "
+                             "--ref TAG (or --ref HEAD)")
     best: tuple[tuple[int, ...], str] = ((), "")
     for ln in r.stdout.splitlines():
         tag = ln.rpartition("refs/tags/")[2]
@@ -78,9 +81,14 @@ def fetch(src: str, work: Path, ref: str | None = None) -> tuple[Path, str, str]
         dest = work / "upstream"
         tag = latest_release_tag(src) if ref is None else ("" if ref == "HEAD" else ref)
         if not dest.exists():
-            subprocess.run(["git", "clone", "-q", "--depth", "1", "--recurse-submodules",
-                            "--shallow-submodules", *(["-b", tag] if tag else []), src,
-                            str(dest)], check=True)
+            r = subprocess.run(["git", "clone", "-q", "--depth", "1", "--recurse-submodules",
+                                "--shallow-submodules", *(["-b", tag] if tag else []), src,
+                                str(dest)], capture_output=True, text=True, check=False)
+            if r.returncode != 0:
+                shutil.rmtree(dest, ignore_errors=True)  # a partial clone would be reused
+                from .build import BuildError
+                raise BuildError(f"cannot clone {src}{f' at {tag}' if tag else ''}: "
+                                 f"{r.stderr.strip()[-300:]}")
         return dest, src, tag or _git(["rev-parse", "--short", "HEAD"], dest)
     p = Path(src).resolve()
     url = commit = ""

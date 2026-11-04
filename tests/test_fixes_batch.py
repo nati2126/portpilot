@@ -218,7 +218,11 @@ def test_latest_release_tag(tmp_path: Path) -> None:
     assert latest_release_tag(str(repo)) == "v1.10.0"
     git("tag", "1.10.2")  # zlib-ng: its own 2.x tags next to zlib's v1.2.11
     assert latest_release_tag(str(repo)) == "1.10.2"
-    assert latest_release_tag(str(tmp_path / "missing")) == ""
+    import pytest
+
+    from portpilot.build import BuildError
+    with pytest.raises(BuildError):  # never "no tags" (= silently port master)
+        latest_release_tag(str(tmp_path / "missing"))
 
 
 def test_dependency_port_cannot_damage_build_files(tmp_path: Path) -> None:
