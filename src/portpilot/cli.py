@@ -6,9 +6,11 @@ import argparse
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 from . import __version__
 from . import kb as kb_mod
+from .ai import DEFAULT_MODEL, DEFAULT_URL
 from .detect import detect
 from .matrix import to_json, to_markdown
 from .scan import scan_project
@@ -77,10 +79,20 @@ def _cmd_port(a: argparse.Namespace) -> int:
     if sdp is None and not a.no_sdp:
         print("warning: no SDP index; run `portpilot sdp-index` for exact results",
               file=sys.stderr)
+    provider = None
+    if a.ai:
+        from .ai import Provider
+
+        provider = Provider(a.ai_url, a.ai_model)
+        why = provider.available()
+        if why:
+            print(f"error: --ai: {why}", file=sys.stderr)
+            return 2
+        print(f"AI: {a.ai_model} at {a.ai_url} (local; edits kept only if the build verifies)")
     try:
         run = run_port(a.source, Path(a.output), name=a.name, arch=a.arch, jobs=a.jobs,
                        max_attempts=a.max_attempts, sdp=sdp, do_build=not a.no_build,
-                       testing=not a.no_tests)
+                       testing=not a.no_tests, ai=provider)
     except BuildError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
@@ -104,6 +116,14 @@ def _target_from_args(a: argparse.Namespace, env: dict[str, str]) -> Target:
     return vm_start(Path(a.vm).expanduser(), env, key=key, known_hosts=kh)
 
 
+def _provider(a: argparse.Namespace) -> Any:
+    if not getattr(a, "ai", False):
+        return None
+    from .ai import Provider
+
+    return Provider(a.ai_url, a.ai_model)
+
+
 def _cmd_test(a: argparse.Namespace) -> int:
     import json
 
@@ -123,7 +143,7 @@ def _cmd_test(a: argparse.Namespace) -> int:
         tr = test_and_fix(out, t, env=env, jobs=getattr(a, "jobs", 8), arch=a.arch,
                           timeout_scale=a.timeout_scale,
                           build_files=find_build_files(a.build_files),
-                          max_rounds=0 if a.no_fix else 2)
+                          max_rounds=0 if a.no_fix else 3, ai=_provider(a))
     except (BuildError, TargetError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
@@ -151,6 +171,11 @@ def _add_target_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--build-files", help="build-files checkout, for dependency ports "
                    "(default $PORTPILOT_BUILD_FILES or ~/qnx-work/build-files)")
     p.add_argument("--no-fix", action="store_true", help="only run the tests once")
+    p.add_argument("--ai", action="store_true",
+                   help="ask a local model about what no rule fixes (kept only if verified)")
+    p.add_argument("--ai-model", default=DEFAULT_MODEL, help=f"default {DEFAULT_MODEL}")
+    p.add_argument("--ai-url", default=DEFAULT_URL,
+                   help=f"OpenAI-compatible endpoint (default {DEFAULT_URL}, Ollama)")
 
 
 def _cmd_diagnose(a: argparse.Namespace) -> int:
