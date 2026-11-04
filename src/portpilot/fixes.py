@@ -181,12 +181,25 @@ def _is_link_list(c: Any) -> bool:
     return "LIB" in var.upper() and not var.upper().startswith("CMAKE_")
 
 
+def _seed_only_env() -> Any:
+    """QNX target facts only (CMAKE_SYSTEM_NAME, UNIX, APPLE, ...). Every project variable
+    is unknown, not undefined: open62541 sets UA_ARCHITECTURE=posix itself, so
+    if("${UA_ARCHITECTURE}" STREQUAL "posix") must not count as false."""
+    from .configure import Env, target_seed
+
+    class SeedOnly(Env):
+        def lookup(self, name: str) -> Any:
+            return self.values.get(name)  # None = unknown
+
+    return SeedOnly(target_seed())
+
+
 def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
     """Wrap a bare pthread/rt/dl in link lists so it is not used on QNX."""
-    from .configure import Env, eval_conds, target_seed
+    from .configure import eval_conds
     out = []
     tok_re = _lib_token(lib)
-    qnx = Env(target_seed())
+    qnx = _seed_only_env()
     for f in iter_cmake_files(root):
         text = f.read_text(encoding="utf-8", errors="replace")
         if lib not in text:

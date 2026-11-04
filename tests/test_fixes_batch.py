@@ -318,3 +318,16 @@ def test_test_framework_header_without_find_package() -> None:
     other = parse("/w/src/a.c:1:10: fatal error: sys/epoll.h: No such file or "
                   "directory\n").errors[0]
     assert _bundled_test_framework(other) == ""
+
+
+def test_libc_only_keeps_branches_that_depend_on_project_variables(
+        kb: KnowledgeBase, tmp_path: Path) -> None:
+    """open62541: if("${UA_ARCHITECTURE}" STREQUAL "posix") - the project sets it."""
+    (tmp_path / "CMakeLists.txt").write_text(
+        'set(UA_ARCHITECTURE "posix")\n'
+        'if("${UA_ARCHITECTURE}" STREQUAL "posix")\n'
+        '  list(APPEND open62541_PUBLIC_LIBRARIES "pthread")\nendif()\n'
+        'if(APPLE)\n  list(APPEND LIBS pthread)\nendif()\n')
+    fixes, _ = fx.from_diagnostics(parse("/usr/bin/ld: cannot find -lpthread\n").errors, kb,
+                                   None, tmp_path)
+    assert [f.line for f in fixes] == [3]
