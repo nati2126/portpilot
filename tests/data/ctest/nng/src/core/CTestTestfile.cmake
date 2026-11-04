@@ -1,0 +1,38 @@
+# CMake generated Testfile for 
+# Source directory: /work/src
+# Build directory: /work/nng/build/src/core
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+add_test(nng.core.aio_test "/work/nng/build/src/core/aio_test" "-t" "-v")
+set_tests_properties(nng.core.aio_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.args_test "/work/nng/build/src/core/args_test" "-t" "-v")
+set_tests_properties(nng.core.args_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.buf_size_test "/work/nng/build/src/core/buf_size_test" "-t" "-v")
+set_tests_properties(nng.core.buf_size_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.errors_test "/work/nng/build/src/core/errors_test" "-t" "-v")
+set_tests_properties(nng.core.errors_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.id_test "/work/nng/build/src/core/id_test" "-t" "-v")
+set_tests_properties(nng.core.id_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.idhash_test "/work/nng/build/src/core/idhash_test" "-t" "-v")
+set_tests_properties(nng.core.idhash_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.init_test "/work/nng/build/src/core/init_test" "-t" "-v")
+set_tests_properties(nng.core.init_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.list_test "/work/nng/build/src/core/list_test" "-t" "-v")
+set_tests_properties(nng.core.list_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.log_test "/work/nng/build/src/core/log_test" "-t" "-v")
+set_tests_properties(nng.core.log_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.message_test "/work/nng/build/src/core/message_test" "-t" "-v")
+set_tests_properties(nng.core.message_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.reconnect_test "/work/nng/build/src/core/reconnect_test" "-t" "-v")
+set_tests_properties(nng.core.reconnect_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.sock_test "/work/nng/build/src/core/sock_test" "-t" "-v")
+set_tests_properties(nng.core.sock_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.sockaddr_test "/work/nng/build/src/core/sockaddr_test" "-t" "-v")
+set_tests_properties(nng.core.sockaddr_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.synch_test "/work/nng/build/src/core/synch_test" "-t" "-v")
+set_tests_properties(nng.core.synch_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.stats_test "/work/nng/build/src/core/stats_test" "-t" "-v")
+set_tests_properties(nng.core.stats_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
+add_test(nng.core.url_test "/work/nng/build/src/core/url_test" "-t" "-v")
+set_tests_properties(nng.core.url_test PROPERTIES  TIMEOUT "180" _BACKTRACE_TRIPLES "/work/src")
