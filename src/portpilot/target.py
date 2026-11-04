@@ -136,6 +136,7 @@ class TestRun:
     output: str = ""  # local file with the runner's output
     logs_dir: str = ""  # local copy of the per-test logs
     finished: bool = True
+    aborted: bool = False  # the runner stopped because every program hung
 
 
 def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
@@ -173,7 +174,8 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
     return TestRun(host=target.host, ok=summary is not None and failed == 0 and passed > 0,
                    passed=passed, failed=failed, timeouts=tmo, total=len(results),
                    seconds=round(secs, 1), results=results, output=str(out),
-                   logs_dir=str(logs), finished=summary is not None)
+                   logs_dir=str(logs), finished=summary is not None,
+                   aborted="QNXTEST-ABORT" in text)
 
 
 def default_key() -> str:

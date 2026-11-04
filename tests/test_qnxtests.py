@@ -89,6 +89,20 @@ def test_runner_executes(tmp_path: Path) -> None:
     assert (tmp_path / "logs" / "t.ok.out").exists()
 
 
+@pytest.mark.skipif(shutil.which("sh") is None, reason="needs a POSIX shell")
+def test_runner_stops_when_every_program_hangs(tmp_path: Path) -> None:
+    hang = tmp_path / "hang"
+    hang.write_text("#!/bin/sh\nsleep 30\n")
+    hang.chmod(0o755)
+    ts = [CTest(f"t.{i}", str(hang), [], timeout=1) for i in range(10)]
+    (tmp_path / "qnxtests.sh").write_text(render(ts, "demo"))
+    r = subprocess.run(["sh", str(tmp_path / "qnxtests.sh")], capture_output=True, text=True,
+                       timeout=60, env={"ABORT_AFTER_TIMEOUTS": "2", "PATH": "/usr/bin:/bin"})
+    results, summary = parse_results(r.stdout)
+    assert [t.status for t in results] == ["TIMEOUT", "TIMEOUT"]
+    assert "QNXTEST-ABORT" in r.stdout and summary == (0, 2, 2, 2)
+
+
 def test_parse_results_from_a_real_run() -> None:
     out = ("QNXTEST nng.core.aio_test PASS rc=0 secs=12\n"
            "QNXTEST nng.sp.x FAIL rc=1 secs=3 (see logs/nng.sp.x.out)\n"
