@@ -519,13 +519,27 @@ id = "dirent-d-type"
 title = "struct dirent has no d_type"
 category = "C library"
 linux = "readdir() entry type in d_type (DT_DIR, DT_REG, ...)"
-qnx = "struct dirent has no d_type: call lstat() on <dir>/<d_name> and use S_ISDIR()/S_ISREG()"
-strategy = "Get the file type with lstat() (or fstatat(dirfd(d), name, ..., AT_SYMLINK_NOFOLLOW)) and S_ISDIR()/S_ISREG()/S_ISLNK(), keeping the result the same."
+qnx = "fstatat(dirfd(<the DIR*>), e->d_name, &st, AT_SYMLINK_NOFOLLOW) and S_ISDIR(st.st_mode) (all in QNX 8.0)"
+strategy = "Replace the d_type test with the same test on the file's stat mode, no path building needed: `struct stat st; if (fstatat(dirfd(d), e->d_name, &st, AT_SYMLINK_NOFOLLOW) == 0 && S_ISDIR(st.st_mode))` (DT_REG -> S_ISREG, DT_LNK -> S_ISLNK). Add #include <sys/stat.h> and <fcntl.h> after the existing includes."
 fix = "assisted"
 severity = "fix"
 identifiers = ["d_type", "DT_DIR", "DT_REG", "DT_LNK", "DT_UNKNOWN"]
 quiet = true
 trigger = "build"
+sources = ["gt-F012", "sdp"]
+
+[[rule]]
+id = "gnu-alloca-dup"
+title = "GNU strdupa / strndupa"
+category = "C library"
+linux = "strdupa(), strndupa(): glibc macros that copy a string onto the stack"
+qnx = "not provided; <alloca.h> is"
+strategy = "Add glibc's own macro definition (gcc statement expression on __builtin_alloca) under #ifndef, so the copy stays on the stack. Replacing it with strdup() leaks."
+fix = "rule"
+severity = "fix"
+functions = ["strdupa", "strndupa"]
+quiet = true
+trigger = "build"   # implicit-declaration warning + undefined reference at link time
 sources = ["gt-F012", "sdp"]
 
 [[rule]]

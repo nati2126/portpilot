@@ -110,13 +110,19 @@ Captured with qcc 12.2 (real output in `tests/data/diag/`).
 - **`MSG_MORE`** is undeclared ("did you mean 'MSG_EOR'?"). It is a send-corking hint, so
   `#define MSG_MORE 0` under `#ifndef` keeps the behavior correct. The same applies to
   `O_NOATIME` and `MAP_POPULATE`. `MSG_NOSIGNAL` does exist on QNX.
-- **`struct dirent` has no `d_type`**, and there is no `DT_DIR`. Use `lstat()` and `S_ISDIR()`.
+- **`struct dirent` has no `d_type`**, and there is no `DT_DIR`. `fstatat()`, `dirfd()` and
+  `AT_SYMLINK_NOFOLLOW` exist, so `fstatat(dirfd(d), e->d_name, &st, AT_SYMLINK_NOFOLLOW)` plus
+  `S_ISDIR()` is a one-line replacement.
+- **`strdupa` / `strndupa`** don't exist (only an implicit-declaration warning, then an
+  undefined reference at link time). `<alloca.h>` exists. The shim works like glibc's
+  macros (a gcc statement expression on `__builtin_alloca`), so the copy stays on the
+  stack. `strdup()` instead would leak, which a 7B model proposed and the tests didn't catch.
 - **`SO_PEERCRED`** is undeclared ("did you mean 'SO_PEERLABEL'?"). See F-010.
 - **`<sys/syscall.h>`** does not exist. `gettid()` is declared in `<sys/process.h>`.
 - **`cpu_set_t`** is unknown. Affinity uses QNX runmasks (`ThreadCtl(_NTO_TCTL_RUNMASK, ...)`),
   which is a redesign.
-- **PortPilot:** `optional-flag` (auto-fix) and `dirent-d-type` (AI-assisted, with this
-  strategy given to the model).
+- **PortPilot:** `optional-flag` and `gnu-alloca-dup` (auto-fix), and `dirent-d-type`
+  (AI-assisted, with this strategy given to the model).
 
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)

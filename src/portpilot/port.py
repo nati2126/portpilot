@@ -255,7 +255,7 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
         implicit.update({w.symbol: w for w in last.parsed.warnings if w.kind == "implicit-decl"})
         say(f"      failed at {last.phase}: {len(errs)} errors"
             + (f", first: {errs[0].location()} {errs[0].message}" if errs else ""))
-        found, unfixed = fx.from_diagnostics(errs, kb, sdp, srcw)
+        found, unfixed = fx.from_diagnostics(errs, kb, sdp, srcw, implicit)
         new = [f for f in found if fx.apply(f, spec, srcw)]
         for f in new:
             say(f"      fix ({f.rule_id}): {f.title}" + (f"  [{f.path}:{f.line}]" if f.path

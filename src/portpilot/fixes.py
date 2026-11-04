@@ -187,27 +187,58 @@ def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
     return out
 
 
-def _optional_flag_fix(root: Path, rel: str, flag: str) -> Fix | None:
-    """`#define FLAG 0` under #ifndef, right after the file's last #include."""
+def _after_includes(root: Path, rel: str, block: str, rule_id: str, title: str,
+                    reason: str) -> Fix | None:
+    """Insert `block` right after the file's last #include (one-line edit of that line)."""
     lines = _read_lines(root / rel)
     inc = [i for i, ln in enumerate(lines) if re.match(r"\s*#\s*include\b", ln)]
     if not inc:
         return None
     i = inc[-1]
     old = lines[i].rstrip("\r\n")
-    new = (f"{old}\n#ifndef {flag}\n#define {flag} 0 /* not on QNX; only an optimization "
-           "hint */\n#endif")
-    return Fix("optional-flag", "source", f"define {flag} as 0 when missing",
-               f"QNX has no {flag}; it is only a hint, so 0 keeps the behavior correct",
-               path=rel, line=i + 1, old=old, new=new)
+    return Fix(rule_id, "source", title, reason, path=rel, line=i + 1, old=old,
+               new=f"{old}\n{block}")
+
+
+def _optional_flag_fix(root: Path, rel: str, flag: str) -> Fix | None:
+    """`#define FLAG 0` under #ifndef."""
+    return _after_includes(
+        root, rel, f"#ifndef {flag}\n#define {flag} 0 /* not on QNX; only an optimization "
+        "hint */\n#endif", "optional-flag", f"define {flag} as 0 when missing",
+        f"QNX has no {flag}; it is only a hint, so 0 keeps the behavior correct")
+
+
+# Same approach as glibc's own macros: a gcc statement expression, so the copy is on the
+# caller's stack (released on return, exactly like strdupa). qcc is gcc 12.
+ALLOCA_DUP_SHIM = """\
+#if defined(__QNX__) && !defined(strdupa)
+#include <string.h>
+#define strdupa(s) (__extension__({ const char *pp_s_ = (s); \\
+    size_t pp_n_ = strlen(pp_s_) + 1; \\
+    (char *)memcpy(__builtin_alloca(pp_n_), pp_s_, pp_n_); }))
+#define strndupa(s, n) (__extension__({ const char *pp_s_ = (s); \\
+    size_t pp_n_ = strnlen(pp_s_, (n)); char *pp_d_ = (char *)__builtin_alloca(pp_n_ + 1); \\
+    pp_d_[pp_n_] = '\\0'; (char *)memcpy(pp_d_, pp_s_, pp_n_); }))
+#endif"""
+
+
+def _alloca_dup_fix(root: Path, rel: str, sym: str) -> Fix | None:
+    return _after_includes(root, rel, ALLOCA_DUP_SHIM, "gnu-alloca-dup",
+                           f"define {sym} for QNX (stack copy, as in glibc)",
+                           f"QNX libc has no {sym}; strdup() instead would leak")
 
 
 def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpIndex | None,
-                     root: Path) -> tuple[list[Fix], list[Unfixed]]:
+                     root: Path, implicit: dict[str, Diagnostic] | None = None,
+                     ) -> tuple[list[Fix], list[Unfixed]]:
+    """`implicit`: implicit-declaration warnings by function name (the call sites of
+    functions that then fail to link), accumulated over build attempts."""
     fixes: dict[tuple[str, ...], Fix] = {}
     unfixed: list[Unfixed] = []
     h2r = kb.header_to_rule()
     i2r = kb.name_to_rule()
+    implicit = implicit or {}
+    shims = set(kb.rule("gnu-alloca-dup").functions) if "gnu-alloca-dup" in kb.rules else set()
 
     def add(f: Fix) -> None:
         fixes.setdefault(f.key(), f)
@@ -227,9 +258,13 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
             hint = (f"{rule.title}: {rule.strategy}" if rule
                     else f"<{d.symbol}> is not in the QNX SDP")
             unfixed.append(Unfixed(d, rule.id if rule else "header-absent", hint))
+        elif (d.kind == "undefined-reference" and d.symbol in shims and d.symbol in implicit
+              and (rel := rel_in_root(root, implicit[d.symbol].file))
+              and (afx := _alloca_dup_fix(root, rel, d.symbol))):
+            add(afx)
         elif d.kind == "undefined-reference":
             sym = d.symbol
-            flag = sdp.link_flag_for(sym) if sdp and re.fullmatch(r"\w+", sym) else None
+            flag =sdp.link_flag_for(sym) if sdp and re.fullmatch(r"\w+", sym) else None
             if flag:
                 rid = _link_rule_for(kb, flag)
                 lib = sdp.libs_for(sym)[0] if sdp else flag
