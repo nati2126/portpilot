@@ -183,8 +183,10 @@ def _is_link_list(c: Any) -> bool:
 
 def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
     """Wrap a bare pthread/rt/dl in link lists so it is not used on QNX."""
+    from .configure import Env, eval_conds, target_seed
     out = []
     tok_re = _lib_token(lib)
+    qnx = Env(target_seed())
     for f in iter_cmake_files(root):
         text = f.read_text(encoding="utf-8", errors="replace")
         if lib not in text:
@@ -194,6 +196,8 @@ def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
         for c in parse_commands(text):
             if not _is_link_list(c) or not any(a in (lib, f"-l{lib}") for a in c.args):
                 continue
+            if eval_conds(c.conds, qnx) is False:
+                continue  # e.g. if(CMAKE_SYSTEM_NAME MATCHES "Linux"): never runs on QNX
             # the token may sit on a continuation line: search the command's lines
             for ln in range(c.line, min(len(lines), c.line + 30) + 1):
                 m = tok_re.search(lines[ln - 1])

@@ -296,3 +296,14 @@ def test_recompile_with_fpic(kb: KnowledgeBase, tmp_path: Path) -> None:
     spec = PortSpec("x")
     assert fx.apply(fixes[0], spec, tmp_path)
     assert [s.value for s in spec.cmake_args][-1] == "-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
+
+
+def test_libc_only_skips_branches_qnx_never_takes(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """paho.mqtt.c: only the generic else() branch is used on QNX, not Linux's or FreeBSD's."""
+    (tmp_path / "CMakeLists.txt").write_text(
+        'if(CMAKE_SYSTEM_NAME MATCHES "Linux")\n  set(LIBS_SYSTEM c dl pthread rt)\n'
+        'elseif(CMAKE_SYSTEM_NAME MATCHES "FreeBSD")\n  set(LIBS_SYSTEM compat pthread)\n'
+        "else()\n  set(LIBS_SYSTEM c pthread)\nendif()\n")
+    fixes, _ = fx.from_diagnostics(parse("/usr/bin/ld: cannot find -lpthread\n").errors, kb,
+                                   None, tmp_path)
+    assert [f.line for f in fixes] == [6]
