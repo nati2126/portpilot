@@ -2,11 +2,11 @@
 
 Port Linux C/C++ libraries to QNX 8.0.
 
-> Status: early but working end to end: scan, generate the port, build with qcc, fix,
-> test on a QNX 8.0 target. The local-AI fix loop comes next.
+> Status: works end to end on real libraries: scan, generate the port, build with qcc,
+> fix, test on a QNX 8.0 target, report.
 
 ```sh
-portpilot port path/to/lib -o out/ --vm ~/qnx-work/vm-x86_64
+portpilot port https://github.com/<owner>/<lib> -o out/ --vm ~/qnx-work/vm-x86_64 [--ai]
 ```
 
 That one command:
@@ -15,8 +15,14 @@ That one command:
 2. **Applies known fixes** before building (each one cites a rule).
 3. **Generates the port** in the [qnx-ports/build-files](https://github.com/qnx-ports/build-files)
    layout: `Makefile`, `common.mk`, toolchain, `qnxtests.sh`, `patches/qnx.patch`, `README.md`.
-4. **Builds** it with your SDP. Errors are parsed; ones a rule explains are fixed and rebuilt.
-5. **Runs the library's own tests** on the QNX target, fixes what a rule explains, and retests.
+4. **Builds** it with your SDP. Errors are parsed. Ones a rule explains are fixed and rebuilt.
+   A missing dependency is built from its official QNX port.
+5. **Optional, `--ai`:** errors no rule covers go to a local model (Ollama). An edit is kept
+   only if the rebuild shows the error gone and no new error in that file. Nothing leaves
+   your machine.
+6. **Runs the library's own tests** on the QNX target, fixes what a rule explains, and retests.
+7. **Writes `out/report.html`:** every change with its reason and source, rejected AI
+   edits, build attempts, test results, and the patch.
 
 ## What `portpilot scan` tells you
 
@@ -51,6 +57,10 @@ portpilot test out/ --ip <target-ip>   # (re)run the tests on a QNX target
 Other commands:
 - `portpilot scan PATH -o out/`: only the dependency matrix (`matrix.md`, `matrix.json`).
   `-D VAR=VALUE` sets a CMake value the port passes.
+- `portpilot report out/`: regenerate `report.html`.
+- `portpilot atlas scan candidates.json -o atlas/`: scan many libraries (from
+  `atlas/candidates.py`) and rank what blocks them on QNX. `portpilot atlas report atlas/`
+  prints the summary.
 - `portpilot diagnose build.log`: parse a QNX build log and list the rule fixes.
 - `portpilot qnxtests BUILD_DIR`: write a target test runner from a CMake build tree.
 - `--no-sdp`: work without an SDP index (less exact).
