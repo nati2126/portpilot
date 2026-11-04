@@ -18,6 +18,29 @@ from .sdp_index import SdpIndex, build_index, default_index_path, load_default
 from .target import Target, TargetError, default_key, vm_start, vm_stop
 
 
+def _cmd_atlas_scan(a: argparse.Namespace) -> int:
+    import json
+
+    from .atlas import run_scan
+    from .atlas import to_markdown as atlas_md
+    out = Path(a.output).expanduser()
+    run_scan(Path(a.candidates), out, limit=a.limit, jobs=a.jobs, arch=a.arch, keep=a.keep,
+             say=lambda s: print(s, flush=True))
+    atlas = json.loads((out / "atlas.json").read_text(encoding="utf-8"))
+    (out / "atlas.md").write_text(atlas_md(atlas), encoding="utf-8")
+    print(f"wrote {out / 'atlas.json'} and {out / 'atlas.md'}")
+    return 0
+
+
+def _cmd_atlas_report(a: argparse.Namespace) -> int:
+    import json
+
+    from .atlas import to_markdown as atlas_md
+    atlas = json.loads((Path(a.dir).expanduser() / "atlas.json").read_text(encoding="utf-8"))
+    print(atlas_md(atlas))
+    return 0
+
+
 def _cmd_scan(a: argparse.Namespace) -> int:
     root = Path(a.path)
     if not root.is_dir():
@@ -136,6 +159,7 @@ def _cmd_test(a: argparse.Namespace) -> int:
     if not a.ip and not a.vm:
         print("error: give --ip of a QNX target or --vm <mkqnximage dir>", file=sys.stderr)
         return 2
+    t: Target | None = None
     try:
         env = sdp_env()
         t = _target_from_args(a, env)
@@ -149,7 +173,7 @@ def _cmd_test(a: argparse.Namespace) -> int:
         return 2
     finally:
         if a.vm and a.stop_vm:
-            vm_stop(Path(a.vm).expanduser(), sdp_env())
+            vm_stop(Path(a.vm).expanduser(), sdp_env(), t)
     for r in tr.results:
         if r.status != "PASS":
             print(f"  {r.status:7} {r.name} rc={r.rc} {r.seconds}s")
@@ -274,6 +298,20 @@ def main(argv: list[str] | None = None) -> int:
     i.add_argument("--arch", default="x86_64")
     i.add_argument("-o", "--output")
     i.set_defaults(func=_cmd_sdp_index)
+
+    at = sub.add_parser("atlas", help="scan many libraries and rank what blocks them on QNX")
+    asub = at.add_subparsers(dest="atlas_cmd", required=True)
+    s2 = asub.add_parser("scan", help="clone and scan the candidates (resumable)")
+    s2.add_argument("candidates", help="candidates.json from atlas/candidates.py")
+    s2.add_argument("-o", "--output", required=True)
+    s2.add_argument("--limit", type=int, default=300)
+    s2.add_argument("-j", "--jobs", type=int, default=6)
+    s2.add_argument("--keep", action="store_true", help="keep the clones")
+    s2.add_argument("--arch", default="x86_64")
+    s2.set_defaults(func=_cmd_atlas_scan)
+    r2 = asub.add_parser("report", help="print the atlas summary (Markdown)")
+    r2.add_argument("dir")
+    r2.set_defaults(func=_cmd_atlas_report)
 
     d = sub.add_parser("detect", help="print the detected build system")
     d.add_argument("path")

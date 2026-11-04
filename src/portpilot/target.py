@@ -114,10 +114,33 @@ def vm_start(vm_dir: Path, env: dict[str, str], key: str = "", known_hosts: str 
             if t.reachable():
                 return t
         time.sleep(3)
-    raise TargetError(f"VM in {vm_dir} did not answer on SSH within {wait_s:.0f}s")
+    raise TargetError(f"VM in {vm_dir} did not answer on SSH within {wait_s:.0f}s"
+                      + boot_problem(vm_dir))
 
 
-def vm_stop(vm_dir: Path, env: dict[str, str]) -> None:
+_BROKEN_DISK = ("No system file system", "Can't mount /system", "Can't mount /data")
+
+
+def boot_problem(vm_dir: Path) -> str:
+    """What the VM's serial log says went wrong at boot, with the fix, or ""."""
+    try:
+        log = (vm_dir / "output" / "qemu.out").read_text(errors="replace")
+    except OSError:
+        return ""
+    if any(s in log for s in _BROKEN_DISK):
+        return (f": QNX could not mount its file systems (see {vm_dir}/output/qemu.out). "
+                "The disk image is damaged, usually because the VM was killed while writing. "
+                f"Rebuild it (same options and SSH keys): cd {vm_dir} && "
+                "mkqnximage --build=all --noprompt")
+    return ""
+
+
+def vm_stop(vm_dir: Path, env: dict[str, str], target: Target | None = None) -> None:
+    """Stop the VM; flush its disks first when it is reachable (killing qemu mid-write can
+    damage the image)."""
+    if target is not None:
+        with contextlib.suppress(subprocess.TimeoutExpired):
+            target.ssh("sync", timeout=20)
     subprocess.run(["mkqnximage", "--stop", "--noprompt"], cwd=vm_dir, env=env,
                    capture_output=True, stdin=subprocess.DEVNULL, timeout=60)
 
