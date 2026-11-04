@@ -331,3 +331,39 @@ def test_libc_only_keeps_branches_that_depend_on_project_variables(
     fixes, _ = fx.from_diagnostics(parse("/usr/bin/ld: cannot find -lpthread\n").errors, kb,
                                    None, tmp_path)
     assert [f.line for f in fixes] == [3]
+
+
+def test_catch2_discovery_on_the_host(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """sockpp: catch_discover_tests runs the QNX unit_tests program on the Linux host."""
+    log = ("CMake Error at /s/stage/x86_64/usr/local/lib/cmake/Catch2/CatchAddTests.cmake:70 "
+           "(message):\n  Error running test executable '/b/tests/unit/unit_tests':\n\n")
+    fixes, unfixed = fx.from_diagnostics(parse(log).errors, kb, None, tmp_path)
+    assert unfixed == [] and [f.rule_id for f in fixes] == ["test-discovery-on-host"]
+    assert fixes[0].setting is not None
+    assert fixes[0].setting.value == "-DCMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST"
+
+
+def test_pre_test_discovery_runs_the_whole_program(tmp_path: Path) -> None:
+    from portpilot.qnxtests import read_ctest
+    b = tmp_path / "build" / "tests" / "unit"
+    b.mkdir(parents=True)
+    inner = b / "unit_tests-b12d07c_include.cmake"
+    inner.write_text("if(EXISTS \"x\")\n  include(\"CatchAddTests.cmake\")\n"
+                     f"  catch_discover_tests_impl(\n      TEST_EXECUTABLE [==[{b}/unit_tests]==]\n"
+                     "  )\nendif()\n")
+    (b / "unit_tests_include.cmake").write_text(f'include("{inner}")')
+    (b / "CTestTestfile.cmake").write_text(
+        f'include("{b}/unit_tests_include.cmake")\n')
+    (t,) = read_ctest(tmp_path / "build")
+    assert t.exe == f"{b}/unit_tests" and t.name == "unit_tests (all cases)"
+
+
+def test_optional_absent_library(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """open62541 tests: list(APPEND LIBS subunit)."""
+    (tmp_path / "CMakeLists.txt").write_text(
+        "set(LIBS ${CHECK_LIBRARIES})\nif(NOT WIN32 AND NOT APPLE)\n"
+        "    list(APPEND LIBS subunit)\nendif()\n")
+    fixes, unfixed = fx.from_diagnostics(parse("/q/ld: cannot find -lsubunit\n").errors, kb,
+                                         None, tmp_path)
+    assert unfixed == [] and [(f.rule_id, f.line) for f in fixes] == [
+        ("link-optional-absent", 3)]

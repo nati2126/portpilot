@@ -26,6 +26,10 @@ from .scan_cmake import iter_cmake_files, parse_commands
 from .sdp_index import SdpIndex
 
 LIBC_ONLY = {"pthread", "rt", "dl"}
+# libraries a project links unconditionally on Unix that QNX's ports do not provide, and
+# that the project works without
+OPTIONAL_ABSENT = {"subunit": "the official QNX check port is built without subunit; Check "
+                              "runs tests without it"}
 _LINK_CMDS = {"target_link_libraries", "link_libraries"}
 
 
@@ -194,7 +198,8 @@ def _seed_only_env() -> Any:
     return SeedOnly(target_seed())
 
 
-def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
+def _libc_only_fixes(root: Path, lib: str, rule_id: str = "link-libc-only",
+                     reason: str = "") -> list[Fix]:
     """Wrap a bare pthread/rt/dl in link lists so it is not used on QNX."""
     from .configure import eval_conds
     out = []
@@ -216,10 +221,9 @@ def _libc_only_fixes(root: Path, lib: str) -> list[Fix]:
                 m = tok_re.search(lines[ln - 1])
                 if m:
                     tok = m.group(0)
-                    out.append(Fix("link-libc-only", "source",
-                                   f"do not link {tok} on QNX",
-                                   f"QNX has no lib{lib}: its functions are in libc "
-                                   f"('cannot find -l{lib}')", path=rel, line=ln, old=tok,
+                    out.append(Fix(rule_id, "source", f"do not link {tok} on QNX",
+                                   reason or f"QNX has no lib{lib}: its functions are in "
+                                   f"libc ('cannot find -l{lib}')", path=rel, line=ln, old=tok,
                                    new=f"$<$<NOT:$<PLATFORM_ID:QNX>>:{tok}>"))
                     break
                 if ")" in lines[ln - 1]:
@@ -341,6 +345,7 @@ def _header_or_source(root: Path, sym: str, include_dir: Path | None,
     return [qfx] if qfx else []
 
 
+_HOST_DISCOVERY = re.compile(r"(Catch|GoogleTest)AddTests\.cmake$")
 _DUMPMACHINE = re.compile(r"\$\{CMAKE_(?:C|CXX)_COMPILER\}(\s+-dumpmachine)")
 QNX_GCC = "$ENV{QNX_HOST}/usr/bin/nto${CMAKE_SYSTEM_PROCESSOR}-gcc"
 
@@ -442,9 +447,22 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
                     Setting("-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
                             "objects linked into a shared library must be PIC", rid,
                             _src(kb, rid)), field="cmake_args"))
+        elif d.kind == "cmake-error" and (fw := _HOST_DISCOVERY.search(d.file)):
+            rid = "test-discovery-on-host"
+            var = f"CMAKE_{'CATCH' if fw.group(1) == 'Catch' else 'GTEST'}" \
+                  "_DISCOVER_TESTS_DISCOVERY_MODE"
+            add(Fix(rid, "port", "discover tests on the target, not on the build host",
+                    f"{fw.group(0)} ran the cross-compiled test program on the host",
+                    Setting(f"-D{var}=PRE_TEST", "test programs only run on the QNX target",
+                            rid, _src(kb, rid)), field="cmake_args"))
         elif d.kind == "cmake-error" and (dms := _dumpmachine_fixes(root)):
             for f in dms:
                 add(f)
+        elif (d.kind == "missing-library" and d.symbol in OPTIONAL_ABSENT
+              and (opt := _libc_only_fixes(root, d.symbol, "link-optional-absent",
+                                           OPTIONAL_ABSENT[d.symbol]))):
+            for fx in opt:
+                add(fx)
         elif d.kind == "missing-library" and d.symbol in LIBC_ONLY:
             found = _libc_only_fixes(root, d.symbol)
             for fx in found:

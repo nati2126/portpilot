@@ -573,6 +573,30 @@ trigger = "build"   # CMake configure error + a -dumpmachine probe in the projec
 sources = ["sdp"]
 
 [[rule]]
+id = "link-optional-absent"
+title = "an optional library the QNX ports do not provide"
+category = "Linking"
+linux = "list(APPEND LIBS subunit) on every Unix but Apple/BSD (open62541 tests)"
+qnx = "the official check port is built without libsubunit: 'cannot find -lsubunit'"
+strategy = "Do not link it on QNX; the project works without it."
+fix = "rule"
+severity = "fix"
+trigger = "build"
+sources = ["qnx-ports"]
+
+[[rule]]
+id = "test-discovery-on-host"
+title = "gtest/Catch2 test discovery runs the QNX test program on the build host"
+category = "Build configuration"
+linux = "catch_discover_tests / gtest_discover_tests run the test program after linking (POST_BUILD)"
+qnx = "a cross-compiled program cannot run on the host: 'Error running test executable'"
+strategy = "Discover at test time: -DCMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST (Catch2) or -DCMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST (GoogleTest), as the official ROS 2 port does."
+fix = "rule"
+severity = "fix"
+trigger = "build"
+sources = ["qnx-ports"]
+
+[[rule]]
 id = "qcc-not-gnucc"
 title = "qcc is not CMAKE_COMPILER_IS_GNUCC: GCC-only flags such as -fPIC are skipped"
 category = "Build configuration"

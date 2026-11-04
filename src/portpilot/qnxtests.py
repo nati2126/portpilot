@@ -44,6 +44,25 @@ def _name(token: str) -> str:
     return m.group(1) if m else token
 
 
+_INCLUDE = re.compile(r'^\s*include\("([^"]+)"\)\s*$', re.M)
+_TEST_EXE = re.compile(r'TEST_EXECUTABLE\s*(?:\[=*\[(?P<b>[^\]]+)\]=*\]|"(?P<q>[^"]+)")')
+
+
+def _discovered_exe(include: Path, depth: int = 0) -> str:
+    """The test program a gtest_discover_tests/catch_discover_tests include file runs."""
+    try:
+        text = include.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return ""
+    if m := _TEST_EXE.search(text):
+        return m.group("b") or m.group("q")
+    for inner in _INCLUDE.finditer(text) if depth < 2 else ():
+        if "${" not in inner.group(1) and (exe := _discovered_exe(Path(inner.group(1)),
+                                                                  depth + 1)):
+            return exe
+    return ""
+
+
 def read_ctest(build_dir: Path) -> list[CTest]:
     """All tests in a configured CMake build tree, in CTestTestfile.cmake order."""
     tests: list[CTest] = []
@@ -61,6 +80,13 @@ def read_ctest(build_dir: Path) -> list[CTest]:
                 t = CTest(_name(m.group(1)), argv[0], argv[1:])
                 tests.append(t)
                 by_name[t.name] = t
+            elif m := _INCLUDE.match(line):
+                # gtest/Catch2 discovery at test time (DISCOVERY_MODE PRE_TEST): the cases
+                # are listed by running the program, so run the whole program as one test
+                exe = _discovered_exe(Path(m.group(1)))
+                if exe and exe not in {t.exe for t in tests}:
+                    t = CTest(os.path.basename(exe) + " (all cases)", exe, [])
+                    tests.append(t)
             elif (m := _PROPS.match(line)) and (t2 := by_name.get(_name(m.group(1)))):
                 props = m.group(2)
                 if to := re.search(r'\bTIMEOUT\s+"(\d+(?:\.\d+)?)"', props):
