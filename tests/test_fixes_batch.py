@@ -284,3 +284,15 @@ def test_bundled_test_framework_build_failure() -> None:
     other = parse("CMake Error at /b/src/zlib-stamp/zlib-build-Release.cmake:49 (message):\n"
                   "  Command failed: 2\n\n").errors[0]
     assert _bundled_test_framework(other) == ""
+
+
+def test_recompile_with_fpic(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """open62541 adds -fPIC inside if(CMAKE_COMPILER_IS_GNUCC ...), false for qcc."""
+    log = ("/q/x86_64-pc-nto-qnx8.0.0-ld: CMakeFiles/o.dir/src/a.c.o: relocation "
+           "R_X86_64_TPOFF32 against `notifyPayload.0' can not be used when making a shared "
+           "object; recompile with -fPIC\n")
+    fixes, unfixed = fx.from_diagnostics(parse(log).errors, kb, None, tmp_path)
+    assert unfixed == [] and [f.rule_id for f in fixes] == ["qcc-not-gnucc"]
+    spec = PortSpec("x")
+    assert fx.apply(fixes[0], spec, tmp_path)
+    assert [s.value for s in spec.cmake_args][-1] == "-DCMAKE_POSITION_INDEPENDENT_CODE=ON"

@@ -417,6 +417,14 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
         elif (d.kind in ("undeclared", "unknown-type")
               and (qfx := _qnx_source_fix(d.symbol.removeprefix("::"), include_dir, kb))):
             add(qfx)  # the header is included, but a strict -std= mode hides it
+        elif d.kind == "link-error" and "recompile with -fPIC" in d.message:
+            rid = "qcc-not-gnucc"
+            add(Fix(rid, "port", "build position-independent code",
+                    "ld: 'recompile with -fPIC'; the project adds -fPIC only for GCC, and CMake "
+                    "identifies qcc as QCC",
+                    Setting("-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+                            "objects linked into a shared library must be PIC", rid,
+                            _src(kb, rid)), field="cmake_args"))
         elif d.kind == "cmake-error" and (dms := _dumpmachine_fixes(root)):
             for f in dms:
                 add(f)

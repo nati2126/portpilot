@@ -573,6 +573,18 @@ trigger = "build"   # CMake configure error + a -dumpmachine probe in the projec
 sources = ["sdp"]
 
 [[rule]]
+id = "qcc-not-gnucc"
+title = "qcc is not CMAKE_COMPILER_IS_GNUCC: GCC-only flags such as -fPIC are skipped"
+category = "Build configuration"
+linux = "if(CMAKE_COMPILER_IS_GNUCC) ... add -fPIC for shared libraries"
+qnx = "CMake identifies qcc as QCC, so the block is skipped; objects linked into a .so are not position independent ('recompile with -fPIC')"
+strategy = "Configure with -DCMAKE_POSITION_INDEPENDENT_CODE=ON, as several official ports do."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # ld: 'recompile with -fPIC'
+sources = ["qnx-ports"]
+
+[[rule]]
 id = "qnx-header"
 title = "declaration in a QNX header the code never includes"
 category = "C library"
