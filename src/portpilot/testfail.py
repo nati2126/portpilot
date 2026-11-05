@@ -6,11 +6,14 @@ Only signatures we have verified on QNX 8.0 are recognised; everything else is l
 
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass
 
 # gtest: 'Expected equality of these values:\n  a\n    Which is: "X"\n  b\n    Which is: "Y"'
 _WHICH = re.compile(r'Which is: "([^"\n]*)"')
+# unquoted numbers: 'Which is: 0.123456789' vs 'Which is: 0.12345678900000001' (yaml-cpp)
+_WHICH_NUM = re.compile(r"Which is: ([-+]?\d+\.\d+(?:[eE][-+]?\d+)?)\s*$", re.M)
 _HEXFLOAT = re.compile(r"^[-+]?0[xX][0-9a-fA-F]+(?:\.[0-9a-fA-F]*)?[pP][-+]?\d+$")
 _LONGDEC = re.compile(r"^[-+]?\d+\.?\d*$")
 
@@ -37,6 +40,18 @@ def _float_format_pair(a: str, b: str) -> bool:
     return False
 
 
+def _round_trip_pair(a: str, b: str) -> bool:
+    """A double written with 17 significant digits and read back as a neighbouring value:
+    QNX libc's printf gets the last digits wrong (F-002), so a write/parse round trip
+    lands 1-2 ULP away."""
+    fa, fb = float(a), float(b)
+    if a == b or fa == fb or not (math.isfinite(fa) and math.isfinite(fb)):
+        return False
+    sig = max(len(re.split(r"[eE]", x.lstrip("+-"))[0].replace(".", "").lstrip("0"))
+              for x in (a, b))
+    return sig >= 17 and abs(fa - fb) <= 2 * math.ulp(max(abs(fa), abs(fb)))
+
+
 def classify(log: str) -> list[FailureClass]:
     out: list[FailureClass] = []
     vals = _WHICH.findall(log)
@@ -46,4 +61,10 @@ def classify(log: str) -> list[FailureClass]:
             other = (b if len(b) < 40 else b[:24] + "...")
             out.append(FailureClass("float-format", f'"{short}" vs "{other}"'))
             break
+    if not out:
+        nums = _WHICH_NUM.findall(log)
+        for a, b in zip(nums[::2], nums[1::2], strict=False):
+            if _round_trip_pair(a, b):
+                out.append(FailureClass("float-format", f"{a} vs {b} after a round trip"))
+                break
     return out

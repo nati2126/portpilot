@@ -43,3 +43,15 @@ def test_long_decimal_expansion_is_float_format() -> None:
 def test_unrelated_failures_are_not_classified() -> None:
     assert classify(OTHER) == []
     assert classify("Segmentation fault\n") == []
+
+
+def test_round_trip_float_from_unquoted_gtest_values() -> None:
+    """yaml-cpp NodeTest.FloatingPrecisionDouble on QNX 8.0."""
+    log = ("node_test.cpp:672: Failure\nExpected equality of these values:\n  x\n"
+           "    Which is: 0.123456789\n  node.as<double>()\n"
+           "    Which is: 0.12345678900000001\n")
+    assert [c.rule_id for c in classify(log)] == ["float-format"]
+    # a real numeric difference, or a short rendering, is not a formatting problem
+    assert classify("    Which is: 1.25\n    Which is: 1.5\n") == []
+    assert classify("    Which is: 0.1\n    Which is: 0.10000000000000002\n") != []
+    assert classify("    Which is: 0.1\n    Which is: 0.1000001\n") == []
