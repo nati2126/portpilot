@@ -57,16 +57,23 @@ def test_cmake_args_match_the_verified_ports() -> None:
         assert "LDFLAGS += -Wl,--build-id=md5" + (" -lregex" if ref == "fmt" else "") in got
 
 
-def test_recipes_are_the_verified_ones_plus_two_robustness_fixes() -> None:
+def test_recipes_are_the_verified_ones_plus_robustness_fixes() -> None:
     want = recipes((DATA / "fmt.common.mk").read_text())
     got = recipes(render_common_mk(fmt_spec()))
+    # added: copy the programs qnxtests.sh runs that CTest only discovers at test time
+    # (gtest/Catch2 PRE_TEST: no add_test line names them; sockpp, Nov 5)
+    added = [g for g in got if "qnxtests.sh | sort -u" in g or g.startswith("\t  while read b")]
+    assert len(added) == 2
+    got = [g for g in got if g not in added]
     assert len(got) == len(want)
     diff = [(w, g) for w, g in zip(want, got, strict=True) if w != g]
     # 1. only copy test programs that are built in the tree (not /usr/bin/python3 etc.)
     # 2. qnxtests.sh is optional (it is generated after the first build)
-    assert len(diff) == 2
+    # 3. shared libraries from any depth: FetchContent builds Catch2 in _deps/ (spdlog, Nov 5)
+    assert len(diff) == 3
     assert 'grep -F "$$(pwd)/"' in diff[0][1]
     assert diff[1][1].startswith("\t@if [ -f $(PROJECT_ROOT)/qnxtests.sh ]")
+    assert "-maxdepth" not in diff[2][1] and "CMakeFiles" in diff[2][1]
 
 
 def test_every_qnx_setting_is_commented_with_its_reason() -> None:

@@ -359,7 +359,7 @@ def test_pre_test_discovery_runs_the_whole_program(tmp_path: Path) -> None:
     (b / "CTestTestfile.cmake").write_text(
         f'include("{b}/unit_tests_include.cmake")\n')
     (t,) = read_ctest(tmp_path / "build")
-    assert t.exe == f"{b}/unit_tests" and t.name == "unit_tests (all cases)"
+    assert t.exe == f"{b}/unit_tests" and t.name == "unit_tests.all-cases"
 
 
 def test_optional_absent_library(kb: KnowledgeBase, tmp_path: Path) -> None:

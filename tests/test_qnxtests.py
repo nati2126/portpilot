@@ -125,7 +125,7 @@ def test_runner_stops_when_every_program_hangs(tmp_path: Path) -> None:
     r = subprocess.run(["sh", str(tmp_path / "qnxtests.sh")], capture_output=True, text=True,
                        timeout=60, env={"ABORT_AFTER_TIMEOUTS": "2", "PATH": "/usr/bin:/bin"})
     results, summary = parse_results(r.stdout)
-    assert [t.status for t in results] == ["TIMEOUT", "TIMEOUT"]
+    assert [t.status for t in results] == ["TIMEOUT", "TIMEOUT"], r.stdout + r.stderr
     assert "QNXTEST-ABORT" in r.stdout and summary == (0, 2, 2, 2)
 
 

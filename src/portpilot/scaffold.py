@@ -255,7 +255,9 @@ ifeq ($(BUILD_TESTING),ON)
 \t@mkdir -p $(TEST_DIR)
 \t@cd build && grep -rh '^add_test' --include=CTestTestfile.cmake . | sed -E 's/^add_test\\([^ ]+ "([^"]+)".*/\\1/' | grep -F "$$(pwd)/" | sort -u | xargs -r -I{{}} cp {{}} $(TEST_DIR)/
 \t@if [ -f $(PROJECT_ROOT)/qnxtests.sh ]; then cp $(PROJECT_ROOT)/qnxtests.sh $(TEST_DIR)/; fi
-\t@find build -maxdepth 2 -name 'lib*.so*' -exec cp -P {{}} $(TEST_DIR)/ \\;
+\t@[ ! -f $(PROJECT_ROOT)/qnxtests.sh ] || sed -nE 's/^(INVERT=1 )?run .+ [0-9]+ \\.\\/([^ ;]+).*/\\2/p' $(PROJECT_ROOT)/qnxtests.sh | sort -u | \\
+\t  while read b; do [ -e "$(TEST_DIR)/$$b" ] || find build -type f -name "$$b" -perm -u+x | head -n1 | xargs -r -I{{}} cp {{}} $(TEST_DIR)/; done
+\t@find build -name 'lib*.so*' -not -path '*/CMakeFiles/*' -exec cp -P {{}} $(TEST_DIR)/ \\;
 \t@echo Tests, qnxtests.sh and shared libraries installed to $(TEST_DIR)
 endif
 \t@echo Done.

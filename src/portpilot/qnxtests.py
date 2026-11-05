@@ -85,7 +85,8 @@ def read_ctest(build_dir: Path) -> list[CTest]:
                 # are listed by running the program, so run the whole program as one test
                 exe = _discovered_exe(Path(m.group(1)))
                 if exe and exe not in {t.exe for t in tests}:
-                    t = CTest(os.path.basename(exe) + " (all cases)", exe, [])
+                    # no spaces in the name: results are parsed as `QNXTEST <name> ...`
+                    t = CTest(os.path.basename(exe) + ".all-cases", exe, [])
                     tests.append(t)
             elif (m := _PROPS.match(line)) and (t2 := by_name.get(_name(m.group(1)))):
                 props = m.group(2)
@@ -121,10 +122,15 @@ _HEAD = [
     '  "$@" > "logs/$n.out" 2>&1 </dev/null & p=$!',
     "  # watchdog: polls each second, so no stray sleep outlives the test (a leftover",
     "  # 'sleep $to' kept the ssh session open for the full timeout)",
+    "  # it leaves a marker when it kills: exit codes and whole-second clocks are not",
+    "  # reliable timeout evidence under load or across shells",
+    "  rm -f \"logs/$n.killed\"",
     "  ( i=0; while [ $i -lt $to ]; do sleep 1; kill -0 $p 2>/dev/null || exit 0;",
-    "    i=$((i+1)); done; kill -9 $p ) >/dev/null 2>&1 </dev/null & w=$!",
-    "  wait $p; rc=$?; kill $w 2>/dev/null; e=$(( $(date +%s) - s ))",
-    "  if [ $rc -eq 137 ] && [ $e -ge $to ]; then tmo=$((tmo+1)); fail=$((fail+1))",
+    "    i=$((i+1)); done; : > \"logs/$n.killed\"; kill -9 $p ) >/dev/null 2>&1 </dev/null & w=$!",
+    "  wait $p; rc=$?; kill $w 2>/dev/null; wait $w 2>/dev/null; e=$(( $(date +%s) - s ))",
+    "  [ $e -ge 0 ] || e=0  # the clock can step back (WSL time sync under load)",
+    "  if [ -e \"logs/$n.killed\" ]; then rm -f \"logs/$n.killed\"",
+    "    tmo=$((tmo+1)); fail=$((fail+1))",
     '    echo "QNXTEST $n TIMEOUT rc=$rc secs=$e limit=$to"',
     "    if [ $pass -eq 0 ] && [ $tmo -ge ${ABORT_AFTER_TIMEOUTS:-3} ]; then  # all hang: stop",
     '      echo "QNXTEST-ABORT the first $tmo tests timed out: the programs probably hang"',
@@ -167,7 +173,7 @@ def generate(build_dir: Path, port: str) -> tuple[str, list[CTest]]:
 
 # ---- results ------------------------------------------------------------------------------
 _RESULT = re.compile(r"^QNXTEST (?P<name>\S+) (?P<status>PASS|FAIL|TIMEOUT) rc=(?P<rc>-?\d+) "
-                     r"secs=(?P<secs>\d+)")
+                     r"secs=(?P<secs>-?\d+)")
 _SUMMARY = re.compile(r"^QNXTEST-SUMMARY pass=(\d+) fail=(\d+) timeout=(\d+) total=(\d+)")
 
 
@@ -217,7 +223,7 @@ def parse_results(text: str) -> tuple[list[TestResult], tuple[int, int, int, int
     for line in text.splitlines():
         if m := _RESULT.match(line.strip()):
             results.append(TestResult(m.group("name"), m.group("status"), int(m.group("rc")),
-                                      int(m.group("secs"))))
+                                      max(0, int(m.group("secs")))))
         elif s := _SUMMARY.match(line.strip()):
             p, f, t, n = (int(x) for x in s.groups())
             summary = (p, f, t, n)

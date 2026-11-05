@@ -62,13 +62,17 @@ def scan_one(cand: dict[str, Any], work: Path, sdp_path: str | None,
     src = work / _slug(cand["repo"])
     t0 = time.monotonic()
     try:
-        if not src.exists():
+        for _ in range(3 if not src.exists() else 0):  # busy networks reset connections
             r = subprocess.run(["git", "clone", "-q", "--depth", "1", "--single-branch",
                                 "--no-tags", f"{cand['url']}.git", str(src)],
                                capture_output=True, text=True, timeout=600,
                                env={"GIT_TERMINAL_PROMPT": "0", "PATH": "/usr/bin:/bin"})
-            if r.returncode != 0:
-                return {**rec, "error": f"clone failed: {r.stderr.strip()[:200]}"}
+            if r.returncode == 0:
+                break
+            shutil.rmtree(src, ignore_errors=True)
+            time.sleep(5)
+        if not src.exists():
+            return {**rec, "error": f"clone failed: {r.stderr.strip()[:200]}"}
         rec["commit"] = subprocess.run(["git", "-C", str(src), "rev-parse", "HEAD"],
                                        capture_output=True, text=True).stdout.strip()
         kb = kb_mod.load()
@@ -93,6 +97,14 @@ def scan_one(cand: dict[str, Any], work: Path, sdp_path: str | None,
     return rec
 
 
+def _done(rec: Path) -> bool:
+    """Scanned before, and not a clone failure (those are retried)."""
+    try:
+        return "error" not in json.loads(rec.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+
+
 def run_scan(candidates: Path, out: Path, *, limit: int = 300, jobs: int = 6,
              arch: str = "x86_64", sdp_path: str | None = None, keep: bool = False,
              say: Any = print) -> list[dict[str, Any]]:
@@ -105,7 +117,7 @@ def run_scan(candidates: Path, out: Path, *, limit: int = 300, jobs: int = 6,
     recs_dir, work = out / "records", out / "src"
     recs_dir.mkdir(parents=True, exist_ok=True)
     work.mkdir(parents=True, exist_ok=True)
-    todo = [c for c in cands if not (recs_dir / f"{_slug(c['repo'])}.json").exists()]
+    todo = [c for c in cands if not _done(recs_dir / f"{_slug(c['repo'])}.json")]
     say(f"atlas: {len(cands)} candidates, {len(cands) - len(todo)} already scanned, "
         f"SDP index: {'yes' if sdp_path else 'no'}")
     with ProcessPoolExecutor(max_workers=jobs) as ex:
