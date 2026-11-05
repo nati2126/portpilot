@@ -175,6 +175,7 @@ class TestRun:
     finished: bool = True
     aborted: bool = False  # the runner stopped because every program hung
     localhost: str = ""  # test arguments' localhost was pointed at this host
+    services: list[str] = field(default_factory=list)  # commands run on the target meanwhile
 
     def cases(self) -> tuple[int, int] | None:
         """(passed, total) test cases: a program's own count where it printed one, else
@@ -203,9 +204,11 @@ def stage_libs(test_dir: Path, have: set[str]) -> list[Path]:
 
 def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
               timeout_scale: float = 3, remote_root: str = "/data",
-              timeout: float = 4 * 3600, localhost: str = "") -> TestRun:
+              timeout: float = 4 * 3600, localhost: str = "",
+              services: list[Service] | None = None) -> TestRun:
     """Copy the test folder to the target and run qnxtests.sh there. With `localhost`,
-    the tests' localhost arguments name that host instead (see point_localhost)."""
+    the tests' localhost arguments name that host instead (see point_localhost). Each
+    service is started on the target before the tests and stopped after them."""
     if not (test_dir / "qnxtests.sh").is_file():
         raise TargetError(f"{test_dir}/qnxtests.sh not found: build with tests first")
     remote = f"{remote_root}/{name}"
@@ -231,10 +234,18 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
         raise TargetError(f"copy to {remote} incomplete (disk full?)\n{df}")
     out = out_dir / "qnxtests.out"
     scale = f"{timeout_scale:g}"
-    t0 = time.perf_counter()
-    with contextlib.suppress(subprocess.TimeoutExpired):
-        target.ssh(f"TIMEOUT_SCALE={scale} sh {remote}/qnxtests.sh", timeout=timeout, out=out)
-    secs = time.perf_counter() - t0
+    started: list[Service] = []
+    try:
+        for svc in services or []:
+            started.append(start_service(target, svc))
+        t0 = time.perf_counter()
+        with contextlib.suppress(subprocess.TimeoutExpired):
+            target.ssh(f"TIMEOUT_SCALE={scale} sh {remote}/qnxtests.sh", timeout=timeout,
+                       out=out)
+        secs = time.perf_counter() - t0
+    finally:
+        for svc in started:
+            stop_service(target, svc, out_dir)
     text = out.read_text(errors="replace") if out.exists() else ""
     results, summary = parse_results(text)
     logs = out_dir / "target-logs"
@@ -252,7 +263,61 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
                    passed=passed, failed=failed, timeouts=tmo, total=len(results),
                    seconds=round(secs, 1), results=results, output=str(out),
                    logs_dir=str(logs), finished=summary is not None,
-                   aborted="QNXTEST-ABORT" in text, localhost=localhost)
+                   aborted="QNXTEST-ABORT" in text, localhost=localhost,
+                   services=[s.command for s in started])
+
+
+# ---- services the tests talk to (an MQTT broker, ...), run on the target ----------------------
+@dataclass
+class Service:
+    local: Path  # folder copied to the target: the program, its lib/, its config
+    command: str  # run from that folder; LD_LIBRARY_PATH has the folder and its lib/
+    pid: int = 0
+
+    @property
+    def name(self) -> str:
+        return self.local.name
+
+
+def parse_service(spec: str) -> Service:
+    """DIR=COMMAND, e.g. ~/stage/mosquitto='sbin/mosquitto -c etc/test.conf'."""
+    d, sep, cmd = spec.partition("=")
+    local = Path(d).expanduser()
+    if not sep or not cmd.strip():
+        raise TargetError(f"--service wants DIR=COMMAND, got {spec!r}")
+    if not local.is_dir():
+        raise TargetError(f"--service: {local} is not a folder")
+    return Service(local.resolve(), cmd.strip())
+
+
+def start_service(target: Target, svc: Service, root: str = "/data/services",
+                  settle: float = 1.0) -> Service:
+    """Copy the service folder to the target, start the command in the background (immune
+    to the ssh session's hangup) and check that it is still running after `settle` s."""
+    remote = f"{root}/{svc.name}"
+    target.ssh(f"rm -rf {remote}; mkdir -p {root}")
+    target.scp_to([svc.local], root + "/")
+    lib = f"{remote}/lib:{remote}"
+    r = target.ssh(f"cd {remote} && LD_LIBRARY_PATH={lib} sh -c \"trap '' HUP; exec "
+                   f"{svc.command}\" > service.log 2>&1 </dev/null & echo $!", timeout=30)
+    try:
+        svc.pid = int(r.stdout.split()[-1])
+    except (ValueError, IndexError) as e:
+        raise TargetError(f"cannot start {svc.command} on {target.host}: "
+                          f"{r.stdout}{r.stderr}") from e
+    time.sleep(settle)
+    if target.ssh(f"kill -0 {svc.pid}").returncode != 0:
+        log = target.ssh(f"tail -20 {remote}/service.log").stdout
+        raise TargetError(f"service `{svc.command}` exited on {target.host}:\n{log}")
+    return svc
+
+
+def stop_service(target: Target, svc: Service, out_dir: Path,
+                 root: str = "/data/services") -> None:
+    """Stop the service and keep its log next to the test logs."""
+    if svc.pid:
+        target.ssh(f"kill {svc.pid}; sleep 1; kill -9 {svc.pid} 2>/dev/null; true")
+    target.scp_from(f"{root}/{svc.name}/service.log", out_dir / f"service-{svc.name}.log")
 
 
 def host_address(target_host: str) -> str:

@@ -204,3 +204,58 @@ def test_host_address_is_the_route_source() -> None:
     from portpilot.target import host_address
 
     assert host_address("127.0.0.1") == "127.0.0.1"
+
+
+class _FakeTarget:
+    """Records ssh/scp calls; answers like a target where the service keeps running."""
+
+    host = "10.0.0.2"
+
+    def __init__(self, alive: bool = True) -> None:
+        self.cmds: list[str] = []
+        self.alive = alive
+
+    def ssh(self, command: str, **_: object) -> subprocess.CompletedProcess[str]:
+        self.cmds.append(command)
+        out, rc = "", 0
+        if command.endswith("echo $!"):
+            out = "4242\n"
+        elif command.startswith("kill -0"):
+            rc = 0 if self.alive else 1
+        elif command.startswith("tail"):
+            out = "Error: Unable to open config file etc/test.conf.\n"
+        return subprocess.CompletedProcess(command, rc, out, "")
+
+    def scp_to(self, files: list[Path], dest: str) -> None:
+        self.cmds.append(f"scp {' '.join(f.name for f in files)} {dest}")
+
+    def scp_from(self, src: str, dest: Path) -> bool:
+        self.cmds.append(f"scp-from {src}")
+        return True
+
+
+def test_service_starts_detached_and_stops(tmp_path: Path) -> None:
+    from portpilot.target import parse_service, start_service, stop_service
+
+    (tmp_path / "mosquitto").mkdir()
+    svc = parse_service(f"{tmp_path / 'mosquitto'}=sbin/mosquitto -c etc/test.conf")
+    assert (svc.name, svc.command) == ("mosquitto", "sbin/mosquitto -c etc/test.conf")
+    t = _FakeTarget()
+    start_service(t, svc, settle=0)  # type: ignore[arg-type]
+    start = next(c for c in t.cmds if c.endswith("echo $!"))
+    assert "cd /data/services/mosquitto && LD_LIBRARY_PATH=/data/services/mosquitto/lib:" in start
+    assert "trap '' HUP; exec sbin/mosquitto -c etc/test.conf" in start  # survives ssh exit
+    assert "</dev/null &" in start and svc.pid == 4242  # ssh does not wait for it
+    stop_service(t, svc, tmp_path)  # type: ignore[arg-type]
+    assert t.cmds[-2].startswith("kill 4242") and "service.log" in t.cmds[-1]
+
+
+def test_service_that_exits_is_reported_with_its_log(tmp_path: Path) -> None:
+    from portpilot.target import TargetError, parse_service, start_service
+
+    (tmp_path / "broker").mkdir()
+    with pytest.raises(TargetError, match="Unable to open config file"):
+        start_service(_FakeTarget(alive=False),  # type: ignore[arg-type]
+                      parse_service(f"{tmp_path / 'broker'}=./broker"), settle=0)
+    with pytest.raises(TargetError, match="DIR=COMMAND"):
+        parse_service(str(tmp_path / "broker"))

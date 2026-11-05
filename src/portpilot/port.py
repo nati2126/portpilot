@@ -186,7 +186,7 @@ def record_tests(out: Path, tr: Any, arch: str = "x86_64") -> dict[str, Any]:
         "host": tr.host, "ok": tr.ok, "passed": tr.passed, "failed": tr.failed,
         "timeouts": tr.timeouts, "total": tr.total, "seconds": tr.seconds,
         "finished": tr.finished, "output": tr.output, "logs_dir": tr.logs_dir,
-        "localhost": getattr(tr, "localhost", ""),
+        "localhost": getattr(tr, "localhost", ""), "services": getattr(tr, "services", []),
         "cases": list(c) if (c := tr.cases()) else None,
         "results": [asdict(r) for r in tr.results]}
     (out / "run.json").write_text(json.dumps(run, indent=2), encoding="utf-8")
@@ -199,6 +199,9 @@ def record_tests(out: Path, tr: Any, arch: str = "x86_64") -> dict[str, Any]:
         result += f" (failing: {bad})"
     if lh := getattr(tr, "localhost", ""):
         result += f"; the tests' localhost services ran on the host ({lh})"
+    if svcs := getattr(tr, "services", []):
+        result += "; services run on the QNX target meanwhile: " + ", ".join(
+            f"`{s}`" for s in svcs)
     readme = render_readme(spec, results={"Result": result},
                            changes=changes_from_run(run))
     (Path(run["port_dir"]) / "README.md").write_text(readme, encoding="utf-8")
@@ -683,7 +686,8 @@ def _ai_test_repair(ai: Any, out: Path, failing: Any, logs_dir: Path, ai_files: 
 def test_and_fix(out: Path, target: Any, *, env: dict[str, str], jobs: int = 8,
                  arch: str = "x86_64", timeout_scale: float = 3,
                  build_files: Path | None = None, max_rounds: int = 3, ai: Any = None,
-                 say: Callable[[str], None] = say_flush, localhost: str = "") -> Any:
+                 say: Callable[[str], None] = say_flush, localhost: str = "",
+                 services: list[Any] | None = None) -> Any:
     from .deps import ensure_muslflt
     from .target import run_tests
     from .testfail import classify
@@ -698,7 +702,7 @@ def test_and_fix(out: Path, target: Any, *, env: dict[str, str], jobs: int = 8,
     tried: set[str] = set()  # one AI repair per failing test (temperature 0: same answer)
     for rnd in range(max_rounds + 1):
         tr = run_tests(target, test_dir(out, name, arch), name, out / "logs" / f"tests-{rnd + 1}",
-                       timeout_scale=timeout_scale, localhost=localhost)
+                       timeout_scale=timeout_scale, localhost=localhost, services=services)
         say(f"      tests round {rnd + 1}: {tr.passed}/{tr.total} pass"
             + (f", failing: {', '.join(r.name for r in tr.results if r.status != 'PASS')}"
                if tr.failed else ""))
