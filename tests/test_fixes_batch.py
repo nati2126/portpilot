@@ -371,3 +371,39 @@ def test_optional_absent_library(kb: KnowledgeBase, tmp_path: Path) -> None:
                                          None, tmp_path)
     assert unfixed == [] and [(f.rule_id, f.line) for f in fixes] == [
         ("link-optional-absent", 3)]
+
+
+def test_bsd_sockaddr_len_guard_gets_qnx(tmp_path: Path) -> None:
+    from portpilot.fixes import apply_source, bsd_sockaddr_len_fixes
+
+    src = tmp_path / "src"
+    src.mkdir()
+    (src / "inet_address.cpp").write_text(
+        "void create() {\n"
+        "\taddr_.sin_family = AF_INET;\n"
+        "\t#if defined(__APPLE__) || defined(BSD)\n"
+        "\t\taddr_.sin_len = (uint8_t) SZ;\n"
+        "\t#endif\n"
+        "}\n"
+        "#ifdef __FreeBSD__  // only BSD\n"
+        "  sa.sa_len = sizeof sa;\n"
+        "#else\n"
+        "  other();\n"
+        "#endif\n"
+        "#if defined(__APPLE__) || defined(__QNX__)\n"   # already handles QNX
+        "  s.sin_len = 16;\n"
+        "#endif\n"
+        "#if !defined(BSD)\n"   # negative guard: not ours to touch
+        "  s.sin_len = 0;\n"
+        "#endif\n"
+        "#if defined(__APPLE__)\n"   # BSD guard without a length field
+        "  apple_only();\n"
+        "#endif\n")
+    fixes = bsd_sockaddr_len_fixes(tmp_path)
+    assert [(f.line, f.new) for f in fixes] == [
+        (3, "#if defined(__APPLE__) || defined(BSD) || defined(__QNX__)"),
+        (7, "#if defined(__FreeBSD__) || defined(__QNX__) // only BSD")]
+    assert all(apply_source(tmp_path, f) for f in fixes)
+    text = (src / "inet_address.cpp").read_text()
+    assert "\t#if defined(__APPLE__) || defined(BSD) || defined(__QNX__)\n" in text
+    assert bsd_sockaddr_len_fixes(tmp_path) == []  # applied: nothing left

@@ -69,6 +69,9 @@ url = "docs/ground-truth.md#f-013"
 [sources.gt-F011]
 title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
 url = "docs/ground-truth.md#f-011"
+[sources.gt-F014]
+title = "Ground truth F-014: sockaddr has sin_len, but QNX defines neither BSD nor __APPLE__"
+url = "docs/ground-truth.md#f-014"
 
 # ---------------------------------------------------------------- event handling
 [[rule]]
@@ -711,3 +714,15 @@ strategy = "Check that the else-branch is right for QNX (POSIX features may be s
 fix = "assisted"
 severity = "warn"
 sources = ["qnx-deep"]
+
+[[rule]]
+id = "bsd-sockaddr-len"
+title = "sockaddr length field (sin_len) set only for BSD/macOS"
+category = "Networking"
+linux = "struct sockaddr_in has no sin_len; portable code sets it under #if __APPLE__ || BSD"
+qnx = "sockaddr_in has sin_len (netinet/in.h) and getsockname() fills it, but QNX defines neither BSD nor __APPLE__"
+strategy = "Add || defined(__QNX__) to the guard, so hand-built addresses match the kernel's."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # found by the guard scan in fixes.py before the first build; it compiles either way
+sources = ["sdp", "gt-F014"]

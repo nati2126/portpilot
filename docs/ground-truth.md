@@ -138,6 +138,17 @@ Captured with qcc 12.2 (real output in `tests/data/diag/`).
 - **PortPilot:** rule `strict-mode-hides-posix`. It adds `-D_QNX_SOURCE` when an undeclared name
   is one the SDP declares behind an `__EXT_*` gate.
 
+<a id="f-014"></a>
+## F-014: `sin_len` exists, but QNX is neither BSD nor Apple
+
+- **Symptom:** sockpp builds, then 3 of 33 test cases fail on QNX with
+  `REQUIRE( sock.address() == ADDR )` expanding to `127.0.0.1:12345 == 127.0.0.1:12345`.
+- **Fact:** QNX's `sockaddr_in` has `sin_len` (also `sin6_len`, `sa_len`, `sun_len`), and
+  `getsockname()` fills it. sockpp sets it only `#if defined(__APPLE__) || defined(BSD)`, so
+  its own addresses keep 0 there and its `memcmp`-based `operator==` fails.
+- **PortPilot:** rule `bsd-sockaddr-len`. Before the first build it adds
+  `|| defined(__QNX__)` to such guards.
+
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)
 

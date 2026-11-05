@@ -96,6 +96,8 @@ def from_findings(findings: Iterable[Finding], kb: KnowledgeBase, root: Path) ->
                 add(_include_fix(root, f.path, f.line, f.name, new, f.rule_id))
         elif f.rule_id == "cmake-check-header-layout":
             add(_header_layout_fix(root, f))
+    for bf in bsd_sockaddr_len_fixes(root):  # builds fine, fails at run time: fix up front
+        add(bf)
     return list(out.values())
 
 
@@ -348,6 +350,67 @@ def _header_or_source(root: Path, sym: str, include_dir: Path | None,
 _HOST_DISCOVERY = re.compile(r"(Catch|GoogleTest)AddTests\.cmake$")
 _DUMPMACHINE = re.compile(r"\$\{CMAKE_(?:C|CXX)_COMPILER\}(\s+-dumpmachine)")
 QNX_GCC = "$ENV{QNX_HOST}/usr/bin/nto${CMAKE_SYSTEM_PROCESSOR}-gcc"
+
+
+_BSD_MACROS = re.compile(r"\b(?:BSD|__APPLE__|__MACH__|__FreeBSD__|__NetBSD__|__OpenBSD__|"
+                         r"__DragonFly__|__BSD_VISIBLE)\b")
+_QNX_MACROS = re.compile(r"\b__QNX(?:NTO)?__\b")
+_SA_LEN = re.compile(r"\b(?:sin|sin6|sa|sun|ss)_len\b")
+_PP = re.compile(r"^\s*#\s*(if|ifdef|ifndef|elif|else|endif)\b(.*)$")
+_C_EXT = {".c", ".cc", ".cpp", ".cxx", ".h", ".hh", ".hpp", ".hxx", ".ipp", ".inl"}
+
+
+def _with_qnx(directive: str, cond: str) -> str | None:
+    """The guard with `|| defined(__QNX__)` added, or None if it is not a plain positive
+    test (negations, continuation lines)."""
+    body, sep, comment = cond.partition("//")
+    if not sep:
+        body, sep, comment = cond.partition("/*")
+    if "!" in body or body.rstrip().endswith("\\"):
+        return None
+    body = body.strip()
+    expr = f"defined({body})" if directive == "ifdef" else f"({body})" if "||" in body \
+        and "&&" in body else body
+    keep = f" {sep}{comment}" if sep else ""
+    return f"#{'if' if directive == 'ifdef' else directive} {expr} || defined(__QNX__){keep}"
+
+
+def bsd_sockaddr_len_fixes(root: Path) -> list[Fix]:
+    """Code that sets sin_len/sa_len/... only `#if defined(__APPLE__) || defined(BSD)`: QNX's
+    sockaddr has these fields too (BSD-derived stack) and getsockname() fills them, but QNX
+    defines neither macro. It builds, then byte-wise address compares fail at run time
+    (sockpp: `127.0.0.1:12345 == 127.0.0.1:12345` is false)."""
+    out: list[Fix] = []
+    for p in sorted(root.rglob("*")):
+        if p.suffix not in _C_EXT or ".git" in p.parts or not p.is_file():
+            continue
+        lines = _read_lines(p)
+        if not _SA_LEN.search("".join(lines)):
+            continue
+        stack: list[tuple[int, str, str, bool]] = []  # (line, directive, cond, uses sa_len)
+        for i, ln in enumerate(lines, 1):
+            m = _PP.match(ln)
+            if not m:
+                if stack and _SA_LEN.search(ln):
+                    stack[-1] = (*stack[-1][:3], True)
+                continue
+            d, cond = m.group(1), m.group(2)
+            if d in ("else", "elif", "endif") and stack:
+                at, d0, c0, used = stack.pop()
+                if used and d0 in ("if", "ifdef", "elif") and _BSD_MACROS.search(c0) \
+                        and not _QNX_MACROS.search(c0) and (new := _with_qnx(d0, c0)):
+                    old = lines[at - 1].rstrip("\r\n")
+                    out.append(Fix("bsd-sockaddr-len", "source",
+                                   "set the sockaddr length field on QNX too",
+                                   "QNX's sockaddr has sin_len/sa_len like BSD, but QNX "
+                                   "defines neither BSD nor __APPLE__",
+                                   path=p.relative_to(root).as_posix(), line=at,
+                                   old=old.strip(), new=new))
+            if d in ("if", "ifdef", "ifndef", "elif"):
+                stack.append((i, d, cond, False))
+            elif d == "else":
+                stack.append((i, "else", "", False))
+    return out
 
 
 def _dumpmachine_fixes(root: Path) -> list[Fix]:
