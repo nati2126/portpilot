@@ -121,3 +121,25 @@ def test_scan_without_sdp_still_works(minilib: Path, monkeypatch: pytest.MonkeyP
     # the headers-only facts still hold: epoll is still recognised as dead
     assert by_rule(r, "epoll")
     assert predicted(r)["MINI_HAVE_SEM_PTHREAD"] is False
+
+
+def test_optional_headers_do_not_block(tmp_path: Path) -> None:
+    """spdlog: include/spdlog/sinks/kafka_sink.h needs librdkafka, but no compiled source
+    includes it; only users who want that sink do."""
+    from portpilot.models import Finding
+    from portpilot.scan import mark_optional_headers
+    inc = tmp_path / "include" / "lib"
+    (inc / "sinks").mkdir(parents=True)
+    (tmp_path / "src").mkdir()
+    (tmp_path / "src" / "lib.cpp").write_text('#include "lib/core.h"\n')
+    (inc / "core.h").write_text('#include "details.h"\n')
+    (inc / "details.h").write_text("#include <sys/socket.h>\n")
+    (inc / "sinks" / "kafka_sink.h").write_text("#include <librdkafka/rdkafkacpp.h>\n")
+    fs = [Finding("third-party-dep", "librdkafka", "include", "include/lib/sinks/kafka_sink.h",
+                  1, "lib", "none"),
+          Finding("link-socket", "socket", "call", "include/lib/details.h", 1, "lib", "none")]
+    out = mark_optional_headers(tmp_path, fs)
+    assert [f.guard for f in out] == ["optional-header", "none"]
+    # header-only library: every header may be an entry point
+    (tmp_path / "src" / "lib.cpp").unlink()
+    assert [f.guard for f in mark_optional_headers(tmp_path, fs)] == ["none", "none"]

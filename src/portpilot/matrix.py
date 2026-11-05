@@ -23,6 +23,7 @@ GUARD_TEXT = {
     "build-other-os": "file built only on another OS",
     "qnx": "already handles QNX",
     "handled": "the build already links the library",
+    "optional-header": "optional header: no compiled library source includes it",
 }
 
 

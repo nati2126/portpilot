@@ -9,7 +9,8 @@ Each library gets a predicted tier from the rules it needs:
 
     auto       everything it needs is fixed by a PortPilot rule (or nothing is needed)
     assisted   needs AI-assisted or small manual edits with a known POSIX replacement
-    redesign   uses a Linux-only design (epoll, inotify, CPU affinity, ...): a person decides
+    deps       needs a library the SDP does not have (port it first), nothing worse
+    redesign   uses a Linux-only design (epoll, timerfd, CPU affinity, ...): a person decides
 
 The tier is a prediction. `portpilot port` then builds and tests the promising ones for real.
 """
@@ -31,7 +32,8 @@ from .scan import scan_project
 from .sdp_index import SdpIndex, load_default
 
 MAX_SIZE_KB = 300_000  # skip giant repositories (browsers, engines, monorepos)
-TIERS = ("auto", "assisted", "redesign")
+TIERS = ("auto", "assisted", "deps", "redesign")
+DEP_RULES = {"third-party-dep"}
 
 
 def _slug(repo: str) -> str:
@@ -39,10 +41,15 @@ def _slug(repo: str) -> str:
 
 
 def tier(needs: list[dict[str, Any]]) -> str:
-    fixes = {n["fix"] for n in needs if n["severity"] != "info"}
-    if "manual" in fixes:
+    """Only a blocking Linux-only design is a redesign. A missing library means porting the
+    dependency first; a manual warning (/proc reads) is a local edit."""
+    real = [n for n in needs if n["severity"] != "info"]
+    if any(n["fix"] == "manual" and n["severity"] == "blocker" and n["rule"] not in DEP_RULES
+           for n in real):
         return "redesign"
-    if fixes - {"rule", "none"}:
+    if any(n["rule"] in DEP_RULES for n in real):
+        return "deps"
+    if {n["fix"] for n in real} - {"rule", "none"}:
         return "assisted"
     return "auto"
 
@@ -163,6 +170,7 @@ def to_markdown(atlas: dict[str, Any], top: int = 15) -> str:
            "| Predicted tier | Libraries | Share |", "|---|---|---|",
            f"| auto (rules fix everything) | {t['auto']} | {pct(t['auto'])} |",
            f"| assisted (known POSIX replacement) | {t['assisted']} | {pct(t['assisted'])} |",
+           f"| deps (needs a library QNX lacks) | {t['deps']} | {pct(t['deps'])} |",
            f"| redesign (Linux-only design) | {t['redesign']} | {pct(t['redesign'])} |", "",
            "## What blocks QNX ports most", "",
            "| Linux dependency | Libraries | Share | Only blocker of | Fix | Examples |",
@@ -171,10 +179,11 @@ def to_markdown(atlas: dict[str, Any], top: int = 15) -> str:
         out.append(f"| {e['title']} (`{e['rule']}`) | {e['libraries']} | "
                    f"{100 * e['share']:.0f}% | {e['sole_blocker_of']} | {e['fix']} | "
                    + ", ".join(e["examples"][:3]) + " |")
-    out += ["", "## By market", "", "| Market | auto | assisted | redesign |", "|---|---|---|---|"]
+    out += ["", "## By market", "", "| Market | auto | assisted | deps | redesign |",
+            "|---|---|---|---|---|"]
     for m, c in atlas["markets"].items():
         out.append(f"| {m} | {c.get('auto', 0)} | {c.get('assisted', 0)} | "
-                   f"{c.get('redesign', 0)} |")
+                   f"{c.get('deps', 0)} | {c.get('redesign', 0)} |")
     out += ["", "_Tiers are predictions from the scan; `portpilot port` verifies them by "
             "building and testing on QNX._", ""]
     return "\n".join(out)

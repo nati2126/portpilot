@@ -26,6 +26,11 @@ def test_tiers() -> None:
     assert tier([need("epoll", "manual", "blocker"), need("dirent-d-type", "assisted")]) == \
         "redesign"
     assert tier([need("epoll", "manual", "info")]) == "auto"  # info never blocks
+    deps = [need("third-party-dep", "manual", "blocker"), need("link-socket", "rule")]
+    assert tier(deps) == "deps"
+    assert tier([need("third-party-dep", "manual", "blocker"),
+                 need("epoll", "manual", "blocker")]) == "redesign"
+    assert tier([need("proc-fs", "manual", "warn")]) == "assisted"
 
 
 def test_aggregate_ranks_blockers_and_sole_blockers() -> None:
@@ -37,7 +42,7 @@ def test_aggregate_ranks_blockers_and_sole_blockers() -> None:
             {"repo": "e/broken", "stars": 1, "error": "clone failed"}]
     at = aggregate(recs)  # type: ignore[arg-type]
     assert (at["scanned"], at["analyzed"], at["errors"]) == (5, 4, 1)
-    assert at["tiers"] == {"auto": 1, "assisted": 0, "redesign": 3}
+    assert at["tiers"] == {"auto": 1, "assisted": 0, "deps": 0, "redesign": 3}
     top = at["blockers"][0]
     assert (top["rule"], top["libraries"], top["share"]) == ("epoll", 3, 0.75)
     assert top["sole_blocker_of"] == 2  # a/net and b/ev; c/fs also needs inotify
