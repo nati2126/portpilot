@@ -177,7 +177,8 @@ def _cmd_test(a: argparse.Namespace) -> int:
         tr = test_and_fix(out, t, env=env, jobs=getattr(a, "jobs", 8), arch=a.arch,
                           timeout_scale=a.timeout_scale,
                           build_files=find_build_files(a.build_files),
-                          max_rounds=0 if a.no_fix else 3, ai=_provider(a))
+                          max_rounds=0 if a.no_fix else 3, ai=_provider(a),
+                          localhost=a.localhost or "")
     except (BuildError, TargetError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
@@ -204,6 +205,9 @@ def _add_target_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--timeout-scale", type=float, default=3,
                    help="multiply CTest timeouts (QEMU is slower; default 3)")
     p.add_argument("--stop-vm", action="store_true", help="stop the VM afterwards")
+    p.add_argument("--localhost", metavar="HOST",
+                   help="tests that connect to localhost (a broker, a database) connect to "
+                        "HOST instead; 'host' = this machine as the target sees it")
     p.add_argument("--build-files", help="build-files checkout, for dependency ports "
                    "(default $PORTPILOT_BUILD_FILES or ~/qnx-work/build-files)")
     p.add_argument("--no-fix", action="store_true", help="only run the tests once")

@@ -185,3 +185,22 @@ def test_boot_problem_bridge_without_dhcp(tmp_path: Path, monkeypatch) -> None: 
     assert "net-start default" in target.boot_problem(tmp_path)
     monkeypatch.setattr(target, "_bridge_without_dhcp", lambda: False)
     assert target.boot_problem(tmp_path) == ""
+
+
+def test_point_localhost_rewrites_only_test_arguments() -> None:
+    from portpilot.qnxtests import point_localhost
+
+    ts = [CTest("t1", "/b/test1", ["--connection", "tcp://localhost:1883"]),
+          CTest("t2", "/b/test2", ["ws://127.0.0.1:1883", "--name", "localhost.example"]),
+          CTest("t3", "/b/test3", ["--proxy", "localhost"], will_fail=True)]
+    out = point_localhost(render(ts, "demo"), "192.168.122.1")
+    assert "./test1 --connection tcp://192.168.122.1:1883" in out
+    assert "ws://192.168.122.1:1883 --name localhost.example" in out  # a longer name stays
+    assert "INVERT=1 run t3 60 ./test3 --proxy 192.168.122.1" in out
+    assert "cd \"$(dirname" in out and out.count("192.168.122.1") == 3  # runner body intact
+
+
+def test_host_address_is_the_route_source() -> None:
+    from portpilot.target import host_address
+
+    assert host_address("127.0.0.1") == "127.0.0.1"

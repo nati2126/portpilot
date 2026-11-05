@@ -171,6 +171,21 @@ def generate(build_dir: Path, port: str) -> tuple[str, list[CTest]]:
     return render(ok, port, skipped), ok
 
 
+_LOCAL = re.compile(r"(?<![\w.-])(?:localhost|127\.0\.0\.1)(?![\w-]|\.\w)")
+
+
+def point_localhost(script: str, host: str) -> str:
+    """Make the test programs' arguments name `host` instead of localhost/127.0.0.1, for
+    tests that talk to a service (an MQTT broker, a database) that runs on the host, not
+    on the QNX target. Only the `run` lines change."""
+    out = []
+    for line in script.splitlines(keepends=True):
+        if line.startswith(("run ", "INVERT=1 run ")):
+            line = _LOCAL.sub(host, line)
+        out.append(line)
+    return "".join(out)
+
+
 # ---- results ------------------------------------------------------------------------------
 _RESULT = re.compile(r"^QNXTEST (?P<name>\S+) (?P<status>PASS|FAIL|TIMEOUT) rc=(?P<rc>-?\d+) "
                      r"secs=(?P<secs>-?\d+)")

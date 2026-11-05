@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .qnxtests import TestResult, count_cases, parse_results
+from .qnxtests import TestResult, count_cases, parse_results, point_localhost
 
 _IP = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
 
@@ -174,6 +174,7 @@ class TestRun:
     logs_dir: str = ""  # local copy of the per-test logs
     finished: bool = True
     aborted: bool = False  # the runner stopped because every program hung
+    localhost: str = ""  # test arguments' localhost was pointed at this host
 
     def cases(self) -> tuple[int, int] | None:
         """(passed, total) test cases: a program's own count where it printed one, else
@@ -202,7 +203,9 @@ def stage_libs(test_dir: Path, have: set[str]) -> list[Path]:
 
 def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
               timeout_scale: float = 3, remote_root: str = "/data",
-              timeout: float = 4 * 3600) -> TestRun:
+              timeout: float = 4 * 3600, localhost: str = "") -> TestRun:
+    """Copy the test folder to the target and run qnxtests.sh there. With `localhost`,
+    the tests' localhost arguments name that host instead (see point_localhost)."""
     if not (test_dir / "qnxtests.sh").is_file():
         raise TargetError(f"{test_dir}/qnxtests.sh not found: build with tests first")
     remote = f"{remote_root}/{name}"
@@ -211,6 +214,14 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
         raise TargetError(f"cannot create {remote} on {target.host}: {r.stdout}{r.stderr}")
     files = sorted(test_dir.iterdir())
     files += stage_libs(test_dir, {f.name for f in files})
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if localhost:
+        if localhost == "host":
+            localhost = host_address(target.host)
+        runner = out_dir / "qnxtests.sh"
+        runner.write_text(point_localhost((test_dir / "qnxtests.sh").read_text(), localhost),
+                          newline="\n")
+        files = [runner if f.name == "qnxtests.sh" else f for f in files]
     target.scp_to(files, remote + "/")
     # check the copy really landed (a full /data fails silently otherwise)
     n_local = len(files)
@@ -218,7 +229,6 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
     if r.returncode != 0 or int((r.stdout.strip() or "0").split()[0]) < n_local:
         df = target.ssh(f"df -h {remote_root}").stdout
         raise TargetError(f"copy to {remote} incomplete (disk full?)\n{df}")
-    out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / "qnxtests.out"
     scale = f"{timeout_scale:g}"
     t0 = time.perf_counter()
@@ -242,7 +252,17 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
                    passed=passed, failed=failed, timeouts=tmo, total=len(results),
                    seconds=round(secs, 1), results=results, output=str(out),
                    logs_dir=str(logs), finished=summary is not None,
-                   aborted="QNXTEST-ABORT" in text)
+                   aborted="QNXTEST-ABORT" in text, localhost=localhost)
+
+
+def host_address(target_host: str) -> str:
+    """This machine's address as the target sees it: the source address of the route to
+    the target (a UDP connect sends no packet)."""
+    import socket
+
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+        s.connect((target_host, 9))
+        return str(s.getsockname()[0])
 
 
 def default_key() -> str:
