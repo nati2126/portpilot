@@ -214,40 +214,49 @@ class _FakeTarget:
     def __init__(self, alive: bool = True) -> None:
         self.cmds: list[str] = []
         self.alive = alive
+        self.proc: subprocess.Popen[bytes] | None = None
 
     def ssh(self, command: str, **_: object) -> subprocess.CompletedProcess[str]:
         self.cmds.append(command)
-        out, rc = "", 0
-        if command.endswith("echo $!"):
-            out = "4242\n"
-        elif command.startswith("kill -0"):
+        rc = 0
+        if command.startswith("kill -0"):
             rc = 0 if self.alive else 1
-        elif command.startswith("tail"):
-            out = "Error: Unable to open config file etc/test.conf.\n"
-        return subprocess.CompletedProcess(command, rc, out, "")
+        elif command.startswith("kill ") and self.proc is not None:
+            self.proc.terminate()
+        return subprocess.CompletedProcess(command, rc, "", "")
 
     def scp_to(self, files: list[Path], dest: str) -> None:
         self.cmds.append(f"scp {' '.join(f.name for f in files)} {dest}")
+
+    def ssh_popen(self, command: str, out: Path) -> subprocess.Popen[bytes]:
+        """The service session: prints the pid line; a dead service exits at once."""
+        self.cmds.append(command)
+        out.write_text("QNXSVC-PID 4242\n" + ("" if self.alive else
+                                             "Error: Unable to open config file.\n"))
+        self.proc = subprocess.Popen(["sleep", "30"] if self.alive else ["true"])
+        return self.proc
 
     def scp_from(self, src: str, dest: Path) -> bool:
         self.cmds.append(f"scp-from {src}")
         return True
 
 
-def test_service_starts_detached_and_stops(tmp_path: Path) -> None:
+def test_service_runs_in_its_own_session_and_stops(tmp_path: Path) -> None:
     from portpilot.target import parse_service, start_service, stop_service
 
     (tmp_path / "mosquitto").mkdir()
     svc = parse_service(f"{tmp_path / 'mosquitto'}=sbin/mosquitto -c etc/test.conf")
     assert (svc.name, svc.command) == ("mosquitto", "sbin/mosquitto -c etc/test.conf")
     t = _FakeTarget()
-    start_service(t, svc, settle=0)  # type: ignore[arg-type]
-    start = next(c for c in t.cmds if c.endswith("echo $!"))
-    assert "cd /data/services/mosquitto && LD_LIBRARY_PATH=/data/services/mosquitto/lib:" in start
-    assert "trap '' HUP; exec sbin/mosquitto -c etc/test.conf" in start  # survives ssh exit
-    assert "</dev/null &" in start and svc.pid == 4242  # ssh does not wait for it
-    stop_service(t, svc, tmp_path)  # type: ignore[arg-type]
-    assert t.cmds[-2].startswith("kill 4242") and "service.log" in t.cmds[-1]
+    start_service(t, svc, tmp_path / "logs", settle=0)  # type: ignore[arg-type]
+    start = next(c for c in t.cmds if "QNXSVC-PID" in c)
+    assert start.startswith("cd /data/services/mosquitto && echo QNXSVC-PID $$ && export "
+                            "LD_LIBRARY_PATH=/data/services/mosquitto/lib:")
+    assert start.endswith("exec sbin/mosquitto -c etc/test.conf")  # pid = the shell's $$
+    assert svc.pid == 4242 and svc.proc.poll() is None
+    t.cmds.clear()
+    stop_service(t, svc)  # type: ignore[arg-type]
+    assert t.cmds[0].startswith("kill 4242") and svc.proc.poll() is not None
 
 
 def test_service_that_exits_is_reported_with_its_log(tmp_path: Path) -> None:
@@ -256,6 +265,6 @@ def test_service_that_exits_is_reported_with_its_log(tmp_path: Path) -> None:
     (tmp_path / "broker").mkdir()
     with pytest.raises(TargetError, match="Unable to open config file"):
         start_service(_FakeTarget(alive=False),  # type: ignore[arg-type]
-                      parse_service(f"{tmp_path / 'broker'}=./broker"), settle=0)
+                      parse_service(f"{tmp_path / 'broker'}=./broker"), tmp_path, settle=0)
     with pytest.raises(TargetError, match="DIR=COMMAND"):
         parse_service(str(tmp_path / "broker"))

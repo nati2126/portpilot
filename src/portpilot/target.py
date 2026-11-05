@@ -14,6 +14,7 @@ import subprocess
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 from .qnxtests import TestResult, count_cases, parse_results, point_localhost
 
@@ -51,6 +52,13 @@ class Target:
             r = subprocess.run(cmd, stdout=fh, stderr=subprocess.STDOUT, text=True,
                                timeout=timeout, stdin=subprocess.DEVNULL)
         return subprocess.CompletedProcess(cmd, r.returncode, out.read_text(errors="replace"), "")
+
+    def ssh_popen(self, command: str, out: Path) -> subprocess.Popen[bytes]:
+        """Start a remote command that runs until it ends or is killed; output to `out`."""
+        cmd = ["ssh", *self._opts(), "-p", str(self.port), f"{self.user}@{self.host}", command]
+        with open(out, "wb") as fh:
+            return subprocess.Popen(cmd, stdout=fh, stderr=subprocess.STDOUT,
+                                    stdin=subprocess.DEVNULL)
 
     def scp_to(self, files: list[Path], dest: str, timeout: float = 600) -> None:
         cmd = ["scp", *self._opts(), "-q", "-r", "-P", str(self.port), *map(str, files),
@@ -237,7 +245,7 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
     started: list[Service] = []
     try:
         for svc in services or []:
-            started.append(start_service(target, svc))
+            started.append(start_service(target, svc, out_dir))
         t0 = time.perf_counter()
         with contextlib.suppress(subprocess.TimeoutExpired):
             target.ssh(f"TIMEOUT_SCALE={scale} sh {remote}/qnxtests.sh", timeout=timeout,
@@ -245,7 +253,7 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
         secs = time.perf_counter() - t0
     finally:
         for svc in started:
-            stop_service(target, svc, out_dir)
+            stop_service(target, svc)
     text = out.read_text(errors="replace") if out.exists() else ""
     results, summary = parse_results(text)
     logs = out_dir / "target-logs"
@@ -273,6 +281,8 @@ class Service:
     local: Path  # folder copied to the target: the program, its lib/, its config
     command: str  # run from that folder; LD_LIBRARY_PATH has the folder and its lib/
     pid: int = 0
+    proc: Any = None  # the ssh session that holds the service
+    log: Path | None = None
 
     @property
     def name(self) -> str:
@@ -290,34 +300,49 @@ def parse_service(spec: str) -> Service:
     return Service(local.resolve(), cmd.strip())
 
 
-def start_service(target: Target, svc: Service, root: str = "/data/services",
-                  settle: float = 1.0) -> Service:
-    """Copy the service folder to the target, start the command in the background (immune
-    to the ssh session's hangup) and check that it is still running after `settle` s."""
+_SVC_PID = re.compile(r"^QNXSVC-PID (\d+)$", re.M)
+
+
+def start_service(target: Target, svc: Service, out_dir: Path, root: str = "/data/services",
+                  settle: float = 1.0, wait: float = 30) -> Service:
+    """Copy the service folder to the target and run the command in its own ssh session,
+    held open until stop_service: QNX's sshd keeps a session open while any child runs, so
+    a detached `cmd &` would hang the ssh call that starts it. The output goes to
+    out_dir/service-<name>.log; the service must still run after `settle` seconds."""
     remote = f"{root}/{svc.name}"
     target.ssh(f"rm -rf {remote}; mkdir -p {root}")
     target.scp_to([svc.local], root + "/")
-    lib = f"{remote}/lib:{remote}"
-    r = target.ssh(f"cd {remote} && LD_LIBRARY_PATH={lib} sh -c \"trap '' HUP; exec "
-                   f"{svc.command}\" > service.log 2>&1 </dev/null & echo $!", timeout=30)
-    try:
-        svc.pid = int(r.stdout.split()[-1])
-    except (ValueError, IndexError) as e:
-        raise TargetError(f"cannot start {svc.command} on {target.host}: "
-                          f"{r.stdout}{r.stderr}") from e
-    time.sleep(settle)
-    if target.ssh(f"kill -0 {svc.pid}").returncode != 0:
-        log = target.ssh(f"tail -20 {remote}/service.log").stdout
-        raise TargetError(f"service `{svc.command}` exited on {target.host}:\n{log}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    svc.log = out_dir / f"service-{svc.name}.log"
+    svc.proc = target.ssh_popen(f"cd {remote} && echo QNXSVC-PID $$ && export "
+                                f"LD_LIBRARY_PATH={remote}/lib:{remote} && exec {svc.command}",
+                                svc.log)
+    end = time.monotonic() + wait
+    while not svc.pid and time.monotonic() < end and svc.proc.poll() is None:
+        if m := _SVC_PID.search(svc.log.read_text(errors="replace")):
+            svc.pid = int(m.group(1))
+        else:
+            time.sleep(0.2)
+    if svc.pid:
+        time.sleep(settle)
+    running = bool(svc.pid) and svc.proc.poll() is None
+    if not running or target.ssh(f"kill -0 {svc.pid}").returncode != 0:
+        stop_service(target, svc)
+        tail = "".join(svc.log.read_text(errors="replace").splitlines(True)[-20:])
+        raise TargetError(f"service `{svc.command}` is not running on {target.host}:\n{tail}")
     return svc
 
 
-def stop_service(target: Target, svc: Service, out_dir: Path,
-                 root: str = "/data/services") -> None:
-    """Stop the service and keep its log next to the test logs."""
+def stop_service(target: Target, svc: Service) -> None:
+    """Stop the service; its output stays in svc.log."""
     if svc.pid:
-        target.ssh(f"kill {svc.pid}; sleep 1; kill -9 {svc.pid} 2>/dev/null; true")
-    target.scp_from(f"{root}/{svc.name}/service.log", out_dir / f"service-{svc.name}.log")
+        target.ssh(f"kill {svc.pid} 2>/dev/null; sleep 1; kill -9 {svc.pid} 2>/dev/null; true")
+    if svc.proc is not None:
+        try:
+            svc.proc.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            svc.proc.kill()
+            svc.proc.wait()
 
 
 def host_address(target_host: str) -> str:
