@@ -132,7 +132,21 @@ def boot_problem(vm_dir: Path) -> str:
                 "The disk image is damaged, usually because the VM was killed while writing. "
                 f"Rebuild it (same options and SSH keys): cd {vm_dir} && "
                 "mkqnximage --build=all --noprompt")
+    if "Startup complete" in log and _bridge_without_dhcp():
+        return (": QNX booted, but nothing on the virbr0 bridge hands out addresses (no "
+                "dnsmasq). On WSL the bridge outlives a distro restart and libvirt then "
+                "refuses to restart its network ('already in use by interface virbr0'). Fix: "
+                "sudo ip link delete virbr0 && virsh -c qemu:///system net-start default")
     return ""
+
+
+def _bridge_without_dhcp() -> bool:
+    """virbr0 exists but libvirt's dnsmasq for it is not running."""
+    if not Path("/sys/class/net/virbr0").exists():
+        return False
+    r = subprocess.run(["pgrep", "-f", "dnsmasq.*default.conf"], capture_output=True,
+                       check=False)
+    return r.returncode != 0
 
 
 def vm_stop(vm_dir: Path, env: dict[str, str], target: Target | None = None) -> None:

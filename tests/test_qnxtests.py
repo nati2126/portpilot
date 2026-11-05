@@ -175,3 +175,13 @@ def test_stage_libs_includes_dependency_libraries(tmp_path: Path) -> None:
         (lib / n).write_text("x")
     got = stage_libs(tests, {"libsockpp.so.1"})
     assert [p.name for p in got] == ["libCatch2Main.so.3.5.0"]
+
+
+def test_boot_problem_bridge_without_dhcp(tmp_path: Path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    from portpilot import target
+    (tmp_path / "output").mkdir()
+    (tmp_path / "output" / "qemu.out").write_text("---> Starting sshd\nStartup complete\n")
+    monkeypatch.setattr(target, "_bridge_without_dhcp", lambda: True)
+    assert "net-start default" in target.boot_problem(tmp_path)
+    monkeypatch.setattr(target, "_bridge_without_dhcp", lambda: False)
+    assert target.boot_problem(tmp_path) == ""
