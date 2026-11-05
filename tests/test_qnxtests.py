@@ -138,3 +138,40 @@ def test_parse_results_from_a_real_run() -> None:
     assert [(r.name, r.status, r.seconds) for r in results] == [
         ("nng.core.aio_test", "PASS", 12), ("nng.sp.x", "FAIL", 3), ("nng.sp.y", "TIMEOUT", 540)]
     assert summary == (1, 2, 1, 3)
+
+
+def test_count_cases_from_framework_summaries() -> None:
+    from portpilot.qnxtests import count_cases
+    gtest = ("[==========] 1008 tests from 16 test suites ran. (52 ms total)\n"
+             "[  PASSED  ] 1007 tests.\n[  FAILED  ] 1 test, listed below:\n")
+    assert count_cases(gtest) == (1007, 1008)
+    assert count_cases("All tests passed (311 assertions in 42 test cases)\n") == (42, 42)
+    assert count_cases("test cases:  42 |  40 passed | 2 failed\n") == (40, 42)
+    assert count_cases("80%: Checks: 10, Failures: 1, Errors: 1\n"
+                       "100%: Checks: 5, Failures: 0, Errors: 0\n") == (13, 15)
+    assert count_cases("12 Tests 1 Failures 2 Ignored\n") == (9, 10)
+    assert count_cases("ldd:FATAL: Could not load library libCatch2Main.so.3.5.0\n") is None
+
+
+def test_run_cases_mix_counted_and_plain_programs() -> None:
+    from portpilot.qnxtests import TestResult
+    from portpilot.target import TestRun
+    rs = [TestResult("yaml-cpp::test", "FAIL", 1, 0, [1007, 1008]),
+          TestResult("plain", "PASS", 0, 0)]
+    tr = TestRun("h", False, 1, 1, 0, 2, 1.0, rs)
+    assert tr.cases() == (1008, 1009)
+    assert TestRun("h", True, 1, 0, 0, 1, 1.0, [TestResult("p", "PASS", 0, 0)]).cases() is None
+
+
+def test_stage_libs_includes_dependency_libraries(tmp_path: Path) -> None:
+    """spdlog/sockpp tests need libCatch2Main.so from the Catch2 port in the stage."""
+    from portpilot.target import stage_libs
+    tests = tmp_path / "stage" / "x86_64" / "usr" / "local" / "bin" / "sockpp_tests"
+    tests.mkdir(parents=True)
+    (tests / "libsockpp.so.1").write_text("x")
+    lib = tmp_path / "stage" / "x86_64" / "usr" / "local" / "lib"
+    lib.mkdir()
+    for n in ("libCatch2Main.so.3.5.0", "libsockpp.so.1", "libCatch2Main.a"):
+        (lib / n).write_text("x")
+    got = stage_libs(tests, {"libsockpp.so.1"})
+    assert [p.name for p in got] == ["libCatch2Main.so.3.5.0"]

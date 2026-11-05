@@ -15,7 +15,7 @@ from __future__ import annotations
 import os
 import re
 import shlex
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 DEFAULT_TIMEOUT = 60  # seconds, for tests without a CTest TIMEOUT
@@ -177,6 +177,37 @@ class TestResult:
     status: str  # PASS | FAIL | TIMEOUT
     rc: int
     seconds: int
+    cases: list[int] = field(default_factory=list)  # [passed, total] from the program's log
+
+
+# Test case summaries the common frameworks print: (passed, total)
+_GTEST_RAN = re.compile(r"^\[=+\] (\d+) tests? from .* ran\.", re.M)
+_GTEST_PASSED = re.compile(r"^\[  PASSED  \] (\d+) tests?\.", re.M)
+_CATCH_ALL = re.compile(r"^All tests passed \(\d+ assertions? in (\d+) test cases?\)", re.M)
+_CATCH_SOME = re.compile(r"^test cases:\s*(\d+)\s*\|\s*(\d+) passed", re.M)
+_CHECK = re.compile(r"^\d+%: Checks: (\d+), Failures: (\d+), Errors: (\d+)", re.M)
+_UNITY = re.compile(r"^(\d+) Tests (\d+) Failures (\d+) Ignored", re.M)
+
+
+def count_cases(text: str) -> tuple[int, int] | None:
+    """(passed, total) test cases from one program's output, for gtest, Catch2, Check and
+    Unity; None if the program printed no summary (other frameworks, or it crashed)."""
+    if (ran := _GTEST_RAN.findall(text)):
+        total = int(ran[-1])
+        passed = _GTEST_PASSED.findall(text)
+        return (int(passed[-1]) if passed else 0), total
+    if m := _CATCH_ALL.search(text):
+        return int(m.group(1)), int(m.group(1))
+    if m := _CATCH_SOME.search(text):
+        return int(m.group(2)), int(m.group(1))
+    if found := _CHECK.findall(text):
+        total = sum(int(c) for c, _, _ in found)
+        bad = sum(int(f) + int(e) for _, f, e in found)
+        return total - bad, total
+    if m := _UNITY.search(text):
+        total, fails, ign = (int(x) for x in m.groups())
+        return total - fails - ign, total - ign
+    return None
 
 
 def parse_results(text: str) -> tuple[list[TestResult], tuple[int, int, int, int] | None]:

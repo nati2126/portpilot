@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .qnxtests import TestResult, parse_results
+from .qnxtests import TestResult, count_cases, parse_results
 
 _IP = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
 
@@ -161,6 +161,30 @@ class TestRun:
     finished: bool = True
     aborted: bool = False  # the runner stopped because every program hung
 
+    def cases(self) -> tuple[int, int] | None:
+        """(passed, total) test cases: a program's own count where it printed one, else
+        the program counts as one case. None if no program printed a count."""
+        if not any(r.cases for r in self.results):
+            return None
+        p = sum(r.cases[0] if r.cases else int(r.status == "PASS") for r in self.results)
+        n = sum(r.cases[1] if r.cases else 1 for r in self.results)
+        return p, n
+
+
+def stage_libs(test_dir: Path, have: set[str]) -> list[Path]:
+    """Shared libraries installed in the stage, such as dependencies built from official
+    ports (libCatch2Main.so), that the tests need on the target. test_dir is
+    <stage>/<arch>/usr/local/bin/<name>_tests; qnxtests.sh puts its own folder on
+    LD_LIBRARY_PATH."""
+    arch_root = test_dir.parents[3]
+    out: list[Path] = []
+    for d in ("lib", "usr/lib", "usr/local/lib"):
+        for f in sorted((arch_root / d).glob("*.so*")) if (arch_root / d).is_dir() else ():
+            if f.name not in have and (f.is_file() or f.is_symlink()):
+                have.add(f.name)
+                out.append(f)
+    return out
+
 
 def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
               timeout_scale: float = 3, remote_root: str = "/data",
@@ -171,9 +195,11 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
     r = target.ssh(f"rm -rf {remote}; mkdir -p {remote}")
     if r.returncode != 0:
         raise TargetError(f"cannot create {remote} on {target.host}: {r.stdout}{r.stderr}")
-    target.scp_to(sorted(test_dir.iterdir()), remote + "/")
+    files = sorted(test_dir.iterdir())
+    files += stage_libs(test_dir, {f.name for f in files})
+    target.scp_to(files, remote + "/")
     # check the copy really landed (a full /data fails silently otherwise)
-    n_local = sum(1 for _ in test_dir.iterdir())
+    n_local = len(files)
     r = target.ssh(f"ls {remote} | wc -l")
     if r.returncode != 0 or int((r.stdout.strip() or "0").split()[0]) < n_local:
         df = target.ssh(f"df -h {remote_root}").stdout
@@ -191,6 +217,10 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
     if logs.exists():
         shutil.rmtree(logs)
     target.scp_from(f"{remote}/logs", logs)
+    for res in results:  # gtest/Catch2/...: count the cases inside each program
+        log = logs / f"{res.name}.out"
+        if log.is_file() and (c := count_cases(log.read_text(errors="replace"))):
+            res.cases = list(c)
     passed = sum(r.status == "PASS" for r in results)
     tmo = sum(r.status == "TIMEOUT" for r in results)
     failed = len(results) - passed

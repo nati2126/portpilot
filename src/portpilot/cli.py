@@ -187,6 +187,8 @@ def _cmd_test(a: argparse.Namespace) -> int:
     for r in tr.results:
         if r.status != "PASS":
             print(f"  {r.status:7} {r.name} rc={r.rc} {r.seconds}s")
+    if c := tr.cases():
+        print(f"{run['name']}: {c[0]}/{c[1]} test cases pass on QNX")
     print(f"{run['name']}: {tr.passed}/{tr.total} pass on QNX ({tr.host}), "
           f"{tr.timeouts} timeouts, {tr.seconds:.0f}s" + ("" if tr.finished else
                                                           " [runner did not finish]"))

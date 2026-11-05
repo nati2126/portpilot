@@ -156,10 +156,13 @@ def render_html(out: Path, kb: KnowledgeBase | None = None) -> str:
     attempts = run.get("attempts", [])
     ai = run.get("ai", [])
 
+    cases = tt.get("cases")
+    tests_txt = (f"{cases[0]}/{cases[1]} test cases pass on QNX" if cases else
+                 f"{tt.get('passed')}/{tt.get('total')} tests pass on QNX")
     if run.get("ok") and tt.get("ok"):
-        verdict, vcls = f"Ported · {tt['passed']}/{tt['total']} tests pass on QNX", "ok"
+        verdict, vcls = f"Ported · {tests_txt}", "ok"
     elif run.get("ok") and tt:
-        verdict, vcls = f"Built · {tt['passed']}/{tt['total']} tests pass on QNX", "warn"
+        verdict, vcls = f"Built · {tests_txt}", "warn"
     elif run.get("ok") and run.get("tests_skipped"):
         verdict, vcls = "Built for QNX · library only, tests not built", "warn"
     elif run.get("ok"):
@@ -189,7 +192,9 @@ def render_html(out: Path, kb: KnowledgeBase | None = None) -> str:
          f"<div class=card><b>{n_rule}</b><span>changes by rule (each cites a source)</span></div>",
          f"<div class=card><b>{n_ai}</b><span>AI edits kept · {n_rej} rejected by the "
          "build</span></div>",
-         (f"<div class=card><b>{_e(tt['passed'])}/{_e(tt['total'])}</b><span>test programs pass "
+         (f"<div class=card><b>{_e(cases[0])}/{_e(cases[1])}</b><span>test cases pass on QNX, "
+          f"in {_e(tt['passed'])}/{_e(tt['total'])} passing programs</span></div>" if cases else
+          f"<div class=card><b>{_e(tt['passed'])}/{_e(tt['total'])}</b><span>test programs pass "
           f"on QNX ({_e(tt['host'])})</span></div>" if tt else
           "<div class=card><b>–</b><span>not run on a QNX target</span></div>"),
          "</div>"]
@@ -197,7 +202,8 @@ def render_html(out: Path, kb: KnowledgeBase | None = None) -> str:
     flow = ["scan", "scaffold"] + [f"build {a['n']}: {'ok' if a['ok'] else a['phase']}"
                                    for a in attempts]
     if tt:
-        flow.append(f"QNX tests: {tt['passed']}/{tt['total']}")
+        flow.append(f"QNX tests: {cases[0]}/{cases[1]} cases" if cases else
+                    f"QNX tests: {tt['passed']}/{tt['total']}")
     h.append("<div class=flow>" + "".join(f"<span>{_e(s)}</span>" for s in flow) + "</div>")
 
     h.append("<h2>What PortPilot changed, and why</h2>")

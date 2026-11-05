@@ -186,10 +186,13 @@ def record_tests(out: Path, tr: Any, arch: str = "x86_64") -> dict[str, Any]:
         "host": tr.host, "ok": tr.ok, "passed": tr.passed, "failed": tr.failed,
         "timeouts": tr.timeouts, "total": tr.total, "seconds": tr.seconds,
         "finished": tr.finished, "output": tr.output, "logs_dir": tr.logs_dir,
+        "cases": list(c) if (c := tr.cases()) else None,
         "results": [asdict(r) for r in tr.results]}
     (out / "run.json").write_text(json.dumps(run, indent=2), encoding="utf-8")
     spec = load_spec(out / "spec.json")
     result = f"{tr.passed}/{tr.total} test programs pass on QNX"
+    if c:
+        result = f"{c[0]}/{c[1]} test cases pass on QNX ({result})"
     if tr.failed:
         bad = ", ".join(r.name for r in tr.results if r.status != "PASS")[:200]
         result += f" (failing: {bad})"
