@@ -151,6 +151,10 @@ def test_count_cases_from_framework_summaries() -> None:
                        "100%: Checks: 5, Failures: 0, Errors: 0\n") == (13, 15)
     assert count_cases("12 Tests 1 Failures 2 Ignored\n") == (9, 10)
     assert count_cases("ldd:FATAL: Could not load library libCatch2Main.so.3.5.0\n") is None
+    # Catch2 colors its summary even into a file (spdlog on QNX)
+    colored = ("\x1b[1;32m====\x1b[0m\n"
+               "\x1b[1;32mAll tests passed\x1b[0m (588 assertions in 180 test cases)\n")
+    assert count_cases(colored) == (180, 180)
 
 
 def test_run_cases_mix_counted_and_plain_programs() -> None:

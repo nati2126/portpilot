@@ -208,11 +208,13 @@ _CATCH_ALL = re.compile(r"^All tests passed \(\d+ assertions? in (\d+) test case
 _CATCH_SOME = re.compile(r"^test cases:\s*(\d+)\s*\|\s*(\d+) passed", re.M)
 _CHECK = re.compile(r"^\d+%: Checks: (\d+), Failures: (\d+), Errors: (\d+)", re.M)
 _UNITY = re.compile(r"^(\d+) Tests (\d+) Failures (\d+) Ignored", re.M)
+_ANSI = re.compile(r"\x1b\[[0-9;]*m")
 
 
 def count_cases(text: str) -> tuple[int, int] | None:
     """(passed, total) test cases from one program's output, for gtest, Catch2, Check and
     Unity; None if the program printed no summary (other frameworks, or it crashed)."""
+    text = _ANSI.sub("", text)  # Catch2 colors its output even into a file (spdlog)
     if (ran := _GTEST_RAN.findall(text)):
         total = int(ran[-1])
         passed = _GTEST_PASSED.findall(text)

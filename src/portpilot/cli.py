@@ -225,7 +225,7 @@ def _add_target_args(p: argparse.ArgumentParser) -> None:
 
 def _cmd_pr(a: argparse.Namespace) -> int:
     from .deps import find_build_files
-    from .pr import PrError, contribute
+    from .pr import PrError, commit_author, contribute
 
     bf = find_build_files(a.build_files)
     if bf is None:
@@ -234,12 +234,14 @@ def _cmd_pr(a: argparse.Namespace) -> int:
         return 2
     out = Path(a.output_dir).resolve()
     try:
-        dest = contribute(out, bf, Path(a.dest).resolve() if a.dest else None)
+        dest = contribute(out, bf, Path(a.dest).resolve() if a.dest else None,
+                          author=a.author or "")
     except PrError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
     name = json.loads((out / "spec.json").read_text(encoding="utf-8"))["name"]
     print(f"contribution committed on branch add-{name} in {dest}")
+    print(f"commit author: {commit_author(dest)}  (public once pushed; --author to change)")
     print(f"PR description: {dest.parent / 'PR.md'}")
     print("next: fork qnx-ports/build-files, push the branch to your fork, open the PR "
           "with the title from PR.md")
@@ -318,6 +320,8 @@ def main(argv: list[str] | None = None) -> int:
     pr.add_argument("--build-files", help="build-files checkout to clone from "
                     "(default $PORTPILOT_BUILD_FILES or ~/qnx-work/build-files)")
     pr.add_argument("--dest", help="where to put the clone (default <output_dir>/pr/build-files)")
+    pr.add_argument("--author", help="commit author 'Name <email>' (default: your git config "
+                    "in that clone; check it, it is public once pushed)")
     pr.set_defaults(func=_cmd_pr)
 
     dg = sub.add_parser("diagnose", help="parse a QNX build log and suggest rule fixes")

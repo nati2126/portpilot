@@ -106,7 +106,7 @@ def test_contribute_commits_port_workflow_and_row(tmp_path: Path) -> None:
     old = {k: os.environ.get(k) for k in env}
     os.environ.update(env)
     try:
-        dest = contribute(out, bf)
+        dest = contribute(out, bf, author="Port Author <port@example.org>")
     finally:
         for k, v in old.items():
             if v is None:
@@ -116,6 +116,11 @@ def test_contribute_commits_port_workflow_and_row(tmp_path: Path) -> None:
     log = subprocess.run(["git", "-C", str(dest), "log", "--format=%s", "-1"],
                          capture_output=True, text=True).stdout.strip()
     assert log == "Adding sockpp build-files"
+    from portpilot.pr import commit_author
+
+    assert commit_author(dest) == "Port Author <port@example.org>"
+    with pytest.raises(PrError, match="Name <email>"):
+        contribute(out, bf, author="no email")
     files = subprocess.run(["git", "-C", str(dest), "show", "--name-only", "--format="],
                            capture_output=True, text=True).stdout.split()
     assert sorted(files) == [".github/workflows/sockpp.yml", "README.md",

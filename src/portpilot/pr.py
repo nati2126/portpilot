@@ -9,6 +9,7 @@ writes PR.md with the evidence from the QNX test run. It never pushes.
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -158,6 +159,15 @@ def pr_body(name: str, spec: dict[str, Any], run: dict[str, Any]) -> str:
         for s in tt.get("services") or []:
             lines.append(f"- The tests ran against `{s}` on the same QNX target.")
         lines += ["- Run them with `ports/" + name + "/qnxtests.sh` (see the port README).", ""]
+    deps = (["muslflt"] if spec.get("muslflt") else []) + list(spec.get("deps") or [])
+    if deps:
+        lines += ["## Dependencies", "",
+                  "Built first from their build-files ports (the workflow does this): "
+                  + ", ".join(f"`{d}`" for d in deps) + "."]
+        if spec.get("muslflt"):
+            lines.append("- `muslflt`: the tests expect glibc-style float formatting; QNX libc "
+                         "prints valid but different digits.")
+        lines.append("")
     fixes = _fixes(run)
     if fixes:
         lines += ["## QNX changes", "", "| Change | Why |", "|---|---|"]
@@ -177,17 +187,29 @@ def pr_body(name: str, spec: dict[str, Any], run: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def _git(repo: Path, *args: str) -> str:
-    r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
+def _git(repo: Path, *args: str, env: dict[str, str] | None = None) -> str:
+    r = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True,
+                       env=env)
     if r.returncode != 0:
         raise PrError(f"git {' '.join(args)}: {r.stderr.strip()}")
     return r.stdout
 
 
-def contribute(out: Path, build_files: Path, dest: Path | None = None) -> Path:
+_AUTHOR = re.compile(r"^([^<>]+)<([^<>@\s]+@[^<>\s]+)>$")
+
+
+def commit_author(repo: Path) -> str:
+    """'Name <email>' of the last commit in repo."""
+    return _git(repo, "log", "-1", "--format=%an <%ae>").strip()
+
+
+def contribute(out: Path, build_files: Path, dest: Path | None = None,
+               author: str = "") -> Path:
     """Write the contribution for the port in `out` (a `portpilot port` output directory)
     into a fresh local clone of `build-files` at dest (default out/pr/build-files), commit it
     on branch add-<name>, and write out/pr/PR.md. Returns the clone."""
+    if not (out / "spec.json").is_file() or not (out / "run.json").is_file():
+        raise PrError(f"{out} is not a `portpilot port` output directory (no spec.json/run.json)")
     spec = json.loads((out / "spec.json").read_text(encoding="utf-8"))
     run = json.loads((out / "run.json").read_text(encoding="utf-8"))
     name = spec["name"]
@@ -196,6 +218,8 @@ def contribute(out: Path, build_files: Path, dest: Path | None = None) -> Path:
         raise PrError(f"{port} is not a generated port (no common.mk)")
     if not run.get("ok"):
         raise PrError(f"{name} did not build; nothing to contribute")
+    if author and not _AUTHOR.match(author.strip()):
+        raise PrError(f"--author wants 'Name <email>', got {author!r}")
     deps = dependency_checkouts(spec, build_files)
     dest = dest or out / "pr" / "build-files"
     if dest.exists():
@@ -219,7 +243,15 @@ def contribute(out: Path, build_files: Path, dest: Path | None = None) -> Path:
     readme.write_text(add_readme_row(readme.read_text(encoding="utf-8"), name),
                       encoding="utf-8", newline="\n")
     _git(dest, "add", "-A")
-    _git(dest, "commit", "-q", "-m", f"Adding {name} build-files")
+    env = None
+    if author:  # through the environment: it beats any git config or inherited GIT_* vars
+        m = _AUTHOR.match(author.strip())
+        if not m:
+            raise PrError(f"--author wants 'Name <email>', got {author!r}")
+        n, e = m.group(1).strip(), m.group(2)
+        env = {**os.environ, "GIT_AUTHOR_NAME": n, "GIT_AUTHOR_EMAIL": e,
+               "GIT_COMMITTER_NAME": n, "GIT_COMMITTER_EMAIL": e}
+    _git(dest, "commit", "-q", "-m", f"Adding {name} build-files", env=env)
     body = pr_body(name, spec, run)
     (dest.parent / "PR.md").write_text(body, encoding="utf-8", newline="\n")
     return dest
