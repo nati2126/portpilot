@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 from pathlib import Path
@@ -222,6 +223,29 @@ def _add_target_args(p: argparse.ArgumentParser) -> None:
                    help=f"OpenAI-compatible endpoint (default {DEFAULT_URL}, Ollama)")
 
 
+def _cmd_pr(a: argparse.Namespace) -> int:
+    from .deps import find_build_files
+    from .pr import PrError, contribute
+
+    bf = find_build_files(a.build_files)
+    if bf is None:
+        print("error: no build-files checkout: pass --build-files or set "
+              "PORTPILOT_BUILD_FILES", file=sys.stderr)
+        return 2
+    out = Path(a.output_dir).resolve()
+    try:
+        dest = contribute(out, bf, Path(a.dest).resolve() if a.dest else None)
+    except PrError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 2
+    name = json.loads((out / "spec.json").read_text(encoding="utf-8"))["name"]
+    print(f"contribution committed on branch add-{name} in {dest}")
+    print(f"PR description: {dest.parent / 'PR.md'}")
+    print("next: fork qnx-ports/build-files, push the branch to your fork, open the PR "
+          "with the title from PR.md")
+    return 0
+
+
 def _cmd_diagnose(a: argparse.Namespace) -> int:
     from . import fixes as fx
     from .diagnostics import parse
@@ -287,6 +311,14 @@ def main(argv: list[str] | None = None) -> int:
     ts.add_argument("--arch", default="x86_64")
     _add_target_args(ts)
     ts.set_defaults(func=_cmd_test)
+
+    pr = sub.add_parser("pr", help="prepare a qnx-ports/build-files contribution for a port "
+                        "(local clone + branch + PR.md; never pushes)")
+    pr.add_argument("output_dir", help="the -o directory of `portpilot port`")
+    pr.add_argument("--build-files", help="build-files checkout to clone from "
+                    "(default $PORTPILOT_BUILD_FILES or ~/qnx-work/build-files)")
+    pr.add_argument("--dest", help="where to put the clone (default <output_dir>/pr/build-files)")
+    pr.set_defaults(func=_cmd_pr)
 
     dg = sub.add_parser("diagnose", help="parse a QNX build log and suggest rule fixes")
     dg.add_argument("log")
