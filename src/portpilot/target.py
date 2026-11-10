@@ -101,11 +101,49 @@ def vm_ip(vm_dir: Path, env: dict[str, str]) -> str:
     return m.group(0) if m else ""
 
 
+_VIRSH = ["virsh", "-c", "qemu:///system"]
+_STALE_BRIDGE_FIX = "sudo ip link delete virbr0 && virsh -c qemu:///system net-start default"
+
+
+def libvirt_net_active(name: str = "default") -> bool | None:
+    """Whether libvirt's network is up (its dnsmasq gives the VM its address); None when
+    there is no virsh or no such network."""
+    if shutil.which("virsh") is None:
+        return None
+    try:
+        r = subprocess.run([*_VIRSH, "net-info", name], capture_output=True, text=True,
+                           stdin=subprocess.DEVNULL, timeout=30)
+    except subprocess.TimeoutExpired:
+        return None
+    m = re.search(r"^Active:\s+(yes|no)", r.stdout, re.M) if r.returncode == 0 else None
+    return None if m is None else m.group(1) == "yes"
+
+
+def ensure_vm_network(vm_dir: Path, env: dict[str, str]) -> str:
+    """Restart libvirt's default network if it is down (seen on WSL: its dnsmasq stopped,
+    so the VM boots without an address). A running VM is stopped first, since it is
+    attached to the old bridge. Returns what was done, or ""."""
+    if libvirt_net_active() is not False:
+        return ""
+    if vm_running():
+        vm_stop(vm_dir, env)  # it has no address, so it cannot be synced first
+    r = subprocess.run([*_VIRSH, "net-start", "default"], capture_output=True, text=True,
+                       stdin=subprocess.DEVNULL, timeout=60)
+    if r.returncode != 0:
+        why = (r.stderr or r.stdout).strip().splitlines()
+        raise TargetError("libvirt's default network (virbr0: DHCP for the VM) is down and "
+                          f"did not restart ({why[-1] if why else r.returncode}). On WSL the "
+                          "bridge can outlive its dnsmasq. Fix it once with: "
+                          + _STALE_BRIDGE_FIX)
+    return "restarted libvirt's default network (its dnsmasq had stopped)"
+
+
 def vm_start(vm_dir: Path, env: dict[str, str], key: str = "", known_hosts: str = "",
              wait_s: float = 120) -> Target:
     """Boot the VM in vm_dir (if needed) and wait until SSH answers."""
     if shutil.which("mkqnximage", path=env.get("PATH")) is None:
         raise TargetError("mkqnximage not found: source qnxsdp-env.sh")
+    ensure_vm_network(vm_dir, env)
     if not vm_running():
         log = vm_dir / "output" / "portpilot-run.log"
         log.parent.mkdir(parents=True, exist_ok=True)

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
+
 from portpilot.atlas import aggregate, tier, to_markdown
 from portpilot.target import boot_problem
 
@@ -60,3 +62,36 @@ def test_boot_problem_names_the_fix(tmp_path: Path) -> None:
         "mount: Can't mount /system (type qnx6)\nNo system file system, giving up.\n")
     hint = boot_problem(tmp_path)
     assert "disk image is damaged" in hint and "mkqnximage --build=all" in hint
+
+
+def test_vm_network_is_restarted_when_libvirt_reports_it_down(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import subprocess
+
+    from portpilot import target
+
+    calls: list[list[str]] = []
+    state = {"active": "no", "start_rc": 0}
+
+    def run(cmd: list[str], **_: object) -> subprocess.CompletedProcess[str]:
+        calls.append(cmd)
+        if "net-info" in cmd:
+            return subprocess.CompletedProcess(cmd, 0, f"Name: default\nActive:         "
+                                               f"{state['active']}\n", "")
+        if "net-start" in cmd:
+            return subprocess.CompletedProcess(cmd, state["start_rc"], "", "error: Network "
+                                               "is already in use by interface virbr0")
+        return subprocess.CompletedProcess(cmd, 0, "", "")
+
+    monkeypatch.setattr(target.shutil, "which", lambda *_a, **_k: "/usr/bin/virsh")
+    monkeypatch.setattr(target.subprocess, "run", run)
+    monkeypatch.setattr(target, "vm_running", lambda: True)
+    assert "restarted" in target.ensure_vm_network(tmp_path, {})
+    assert ["mkqnximage", "--stop", "--noprompt"] in calls  # off the old bridge first
+    assert calls[-1][-2:] == ["net-start", "default"]
+    state["start_rc"] = 1
+    with pytest.raises(target.TargetError, match="sudo ip link delete virbr0"):
+        target.ensure_vm_network(tmp_path, {})
+    state["active"] = "yes"
+    calls.clear()
+    assert target.ensure_vm_network(tmp_path, {}) == "" and len(calls) == 1
