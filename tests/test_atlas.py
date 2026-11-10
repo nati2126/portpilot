@@ -95,3 +95,27 @@ def test_vm_network_is_restarted_when_libvirt_reports_it_down(
     state["active"] = "yes"
     calls.clear()
     assert target.ensure_vm_network(tmp_path, {}) == "" and len(calls) == 1
+
+
+def test_most_wanted_dependencies_and_official_ports() -> None:
+    from portpilot.atlas import dependencies, package_of
+
+    assert package_of("boost/asio.hpp") == "boost" and package_of("zmq.h") == "zmq"
+
+    def dep(*names: str) -> dict[str, object]:
+        return {**need("third-party-dep", "manual", "blocker"), "names": list(names)}
+
+    recs = [rec("a/x", [dep("boost/asio.hpp", "boost/any.hpp")]),
+            rec("b/y", [dep("boost/asio.hpp", "gtest/gtest.h")]),
+            rec("c/z", [dep("rocksdb/db.h")]),
+            rec("d/w", [dep("rocksdb/db.h"), need("epoll", "manual", "blocker")])]
+    d = dependencies(recs, {"boost", "googletest"})  # type: ignore[arg-type]
+    rows = {e["package"]: e for e in d["packages"]}
+    assert rows["boost"]["libraries"] == 2 and rows["boost"]["qnx_port"]
+    assert rows["gtest"]["qnx_port"]  # include folder gtest -> port googletest
+    assert rows["rocksdb"] == {"package": "rocksdb", "libraries": 2, "sole_dependency_of": 1,
+                               "qnx_port": False}  # d/w is redesign, not deps
+    assert d["deps_tier_all_ported"] == 2  # a/x and b/y only need ported libraries
+    md = to_markdown(aggregate(recs, {"boost", "googletest"}))  # type: ignore[arg-type]
+    assert "| `rocksdb` | 2 | 1 | **no** |" in md
+    assert "3 libraries blocked only by missing dependencies, 2 need only" in md

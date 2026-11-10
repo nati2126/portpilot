@@ -81,7 +81,8 @@ def scan_one(cand: dict[str, Any], work: Path, sdp_path: str | None,
         rows = build_rows(res, kb)
         needs = [{"rule": r.rule.id, "title": r.rule.title, "severity": r.rule.severity,
                   "fix": r.rule.fix, "count": len(r.active),
-                  "where": [f"{f.path}:{f.line}" for f in r.active[:3]]}
+                  "where": [f"{f.path}:{f.line}" for f in r.active[:3]],
+                  "names": [nm for nm, _ in Counter(f.name for f in r.active).most_common(15)]}
                  for r in rows if r.status == "needs work"]
         rec.update(build_system=res.build_system, files=res.files_scanned,
                    qnx_aware=len(res.qnx_aware), needs=needs,
@@ -130,11 +131,65 @@ def run_scan(candidates: Path, out: Path, *, limit: int = 300, jobs: int = 6,
                 + (f"ERROR {rec['error'][:60]}" if "error" in rec else
                    f"{rec['tier']:9} {len(rec['needs'])} needs, {rec['scan_s']}s"))
     recs = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(recs_dir.glob("*.json"))]
-    (out / "atlas.json").write_text(json.dumps(aggregate(recs), indent=1), encoding="utf-8")
+    from .deps import find_build_files
+
+    (out / "atlas.json").write_text(
+        json.dumps(aggregate(recs, port_names(find_build_files(None))), indent=1),
+        encoding="utf-8")
     return recs
 
 
-def aggregate(recs: list[dict[str, Any]]) -> dict[str, Any]:
+def package_of(header: str) -> str:
+    """The library a third-party include belongs to: its top folder (boost/asio.hpp ->
+    boost)."""
+    return header.split("/")[0] if "/" in header else header.rsplit(".", 1)[0]
+
+
+# include folder -> build-files port, where the names differ
+PORT_ALIASES = {"gtest": "googletest", "gmock": "googletest", "eigen3": "eigen"}
+
+
+def _norm(name: str) -> str:
+    return name.lower().replace("_", "-")
+
+
+def port_names(build_files: Path | None) -> set[str]:
+    """Normalized names of the official ports in a build-files checkout."""
+    if build_files is None or not (build_files / "ports").is_dir():
+        return set()
+    return {_norm(d.name) for d in (build_files / "ports").iterdir() if d.is_dir()}
+
+
+def _has_port(pkg: str, ports: set[str]) -> bool:
+    n = _norm(pkg)
+    return n in ports or _norm(PORT_ALIASES.get(n, "")) in ports
+
+
+def dependencies(ok: list[dict[str, Any]], ports: set[str]) -> dict[str, Any]:
+    """The third-party libraries the scanned projects include but the SDP lacks, ranked:
+    how many projects need each, and for how many it is the only missing one."""
+    need: dict[str, set[str]] = {}
+    per_repo: dict[str, set[str]] = {}
+    for r in ok:
+        pk = {package_of(nm) for n in r["needs"] if n["rule"] in DEP_RULES
+              for nm in n.get("names", [])}
+        if pk:
+            per_repo[r["repo"]] = pk
+        for p in pk:
+            need.setdefault(p, set()).add(r["repo"])
+    deps_tier = {r["repo"] for r in ok if r["tier"] == "deps"}
+    rows: list[dict[str, Any]] = [{"package": p, "libraries": len(repos),
+             "sole_dependency_of": sum(1 for repo in repos & deps_tier
+                                       if per_repo[repo] == {p}),
+             "qnx_port": _has_port(p, ports)}
+            for p, repos in need.items()]
+    rows.sort(key=lambda e: (-e["libraries"], e["package"]))
+    covered = sum(1 for repo in deps_tier
+                  if per_repo.get(repo) and all(_has_port(p, ports) for p in per_repo[repo]))
+    return {"packages": rows, "deps_tier_all_ported": covered, "named": bool(need)}
+
+
+def aggregate(recs: list[dict[str, Any]], ports: set[str] | None = None) -> dict[str, Any]:
     ok = [r for r in recs if "error" not in r and r.get("tier") in TIERS]
     by_rule: dict[str, dict[str, Any]] = {}
     for r in ok:
@@ -166,6 +221,7 @@ def aggregate(recs: list[dict[str, Any]]) -> dict[str, Any]:
             "tiers": {t: tiers.get(t, 0) for t in TIERS},
             "markets": {m: dict(c) for m, c in sorted(markets.items())},
             "blockers": blockers,
+            "dependencies": dependencies(ok, ports or set()),
             "libraries": sorted(ok, key=lambda r: (TIERS.index(r["tier"]), -int(r["stars"])))}
 
 
@@ -191,6 +247,17 @@ def to_markdown(atlas: dict[str, Any], top: int = 15) -> str:
         out.append(f"| {e['title']} (`{e['rule']}`) | {e['libraries']} | "
                    f"{100 * e['share']:.0f}% | {e['sole_blocker_of']} | {e['fix']} | "
                    + ", ".join(e["examples"][:3]) + " |")
+    dep = atlas.get("dependencies") or {}
+    if dep.get("named"):
+        out += ["", "## Most-wanted dependencies", "",
+                f"Of the {t['deps']} libraries blocked only by missing dependencies, "
+                f"{dep['deps_tier_all_ported']} need only libraries that already have an "
+                "official QNX port (`portpilot port` builds those first).", "",
+                "| Library (include folder) | Projects that include it | Only missing "
+                "dependency of | Official QNX port |", "|---|---|---|---|"]
+        for e in dep["packages"][:top]:
+            out.append(f"| `{e['package']}` | {e['libraries']} | {e['sole_dependency_of']} | "
+                       f"{'yes' if e['qnx_port'] else '**no**'} |")
     out += ["", "## By market", "", "| Market | auto | assisted | deps | redesign |",
             "|---|---|---|---|---|"]
     for m, c in atlas["markets"].items():

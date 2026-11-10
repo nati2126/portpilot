@@ -46,9 +46,21 @@ def _cmd_atlas_scan(a: argparse.Namespace) -> int:
 def _cmd_atlas_report(a: argparse.Namespace) -> int:
     import json
 
+    from .atlas import aggregate, port_names
     from .atlas import to_markdown as atlas_md
-    atlas = json.loads((Path(a.dir).expanduser() / "atlas.json").read_text(encoding="utf-8"))
-    print(atlas_md(atlas))
+    from .deps import find_build_files
+
+    d = Path(a.dir).expanduser()
+    recs = [json.loads(p.read_text(encoding="utf-8"))
+            for p in sorted((d / "records").glob("*.json"))]
+    if recs:  # re-aggregate: picks up rule and build-files changes without rescanning
+        atlas = aggregate(recs, port_names(find_build_files(None)))
+        (d / "atlas.json").write_text(json.dumps(atlas, indent=1), encoding="utf-8")
+    else:
+        atlas = json.loads((d / "atlas.json").read_text(encoding="utf-8"))
+    md = atlas_md(atlas)
+    (d / "atlas.md").write_text(md, encoding="utf-8")
+    print(md)
     return 0
 
 
