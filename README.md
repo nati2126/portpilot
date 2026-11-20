@@ -63,7 +63,40 @@ Other commands:
   prints the summary.
 - `portpilot diagnose build.log`: parse a QNX build log and list the rule fixes.
 - `portpilot qnxtests BUILD_DIR`: write a target test runner from a CMake build tree.
+- `portpilot pr out/ --author 'Name <email>'`: turn a tested port into a
+  [build-files](https://github.com/qnx-ports/build-files) contribution, the way that repo's
+  own port PRs look: `ports/<name>/`, `.github/workflows/<name>.yml` and a README row,
+  committed on a branch of a local clone, plus `PR.md` with the QNX test results. It never
+  pushes.
+- `portpilot results DIR...`: one table over many port runs, from their `run.json`.
 - `--no-sdp`: work without an SDP index (less exact).
+
+Tests that need a service: `--service DIR='CMD'` copies DIR to the target and runs CMD
+there during the tests (paho.mqtt.c's tests against mosquitto, built from its official QNX
+port). `--localhost host` points tests that connect to `localhost` at this machine instead.
+
+## Tested with
+
+- QNX SDP 8.0 (GA 8.0.x packages), `qcc`/`q++` (gcc 12.2.0), target `x86_64`.
+- Target: QNX 8.0 on QEMU/KVM, image built with the SDP's `mkqnximage --type=qemu`.
+- Host: Ubuntu 24.04 on WSL 2. Ports build on a Linux host, as the official ports do.
+
+## QNX-specific code, for reviewers
+
+| What | Where |
+|---|---|
+| Rules: Linux feature → QNX fact → fix, each with its source | `src/portpilot/data/kb.toml` |
+| Reads **your** SDP: headers, exported symbols, `qcc` macros | `sdp_index.py`: `build_index`, `predefined_macros` |
+| Predicts CMake's configure on QNX (checks, `if()` branches) | `configure.py`, `scan_cmake.py` |
+| Generates the build-files port: `common.mk`, `nto-<arch>/Makefile`, `qnx.nto.toolchain.cmake` | `scaffold.py`: `render_common_mk`, `render` |
+| Builds with `qcc` through the port's `make install`, sources `qnxsdp-env.sh` | `build.py`: `sdp_env`, `run_make` |
+| Parses `qcc`/`ld` errors and maps them to rules | `diagnostics.py`, `fixes.py`: `from_diagnostics` |
+| Official QNX ports as dependencies (muslflt, Catch2, check, ...) | `deps.py`: `ensure_port`, `ensure_muslflt` |
+| Test runner for the QNX target's `/bin/sh` | `qnxtests.py`: `render` |
+| Boots the `mkqnximage` VM, copies tests, runs them over ssh | `target.py`: `vm_start`, `run_tests`, `start_service` |
+| QNX behavior seen in test failures (float output, `sin_len`) | `testfail.py`, `fixes.py`: `bsd_sockaddr_len_fixes` |
+| A build-files contribution (port, workflow, README row) | `pr.py`: `contribute` |
+| Real output from QNX 8.0 | [`evidence/`](evidence/) |
 
 ## Where the QNX facts come from
 
