@@ -51,8 +51,9 @@ python3 -m venv ~/venvs/portpilot
 ~/venvs/portpilot/bin/pip install -e .
 source ~/qnx800/qnxsdp-env.sh
 
+portpilot doctor                       # what's ready, what's missing, and how to fix it
 portpilot sdp-index                    # once: index your SDP (stays on your machine)
-portpilot port path/to/lib -o out/     # scan + port + build; add --vm DIR or --ip IP to test
+portpilot port <github url> -o out/    # scan + port + build; add --vm DIR or --ip IP to test
 portpilot test out/ --ip <target-ip>   # (re)run the tests on a QNX target
 ```
 

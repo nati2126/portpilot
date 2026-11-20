@@ -235,6 +235,15 @@ def _add_target_args(p: argparse.ArgumentParser) -> None:
                    help=f"OpenAI-compatible endpoint (default {DEFAULT_URL}, Ollama)")
 
 
+def _cmd_doctor(a: argparse.Namespace) -> int:
+    from .doctor import render, run_all
+
+    text, rc = render(run_all(vm=a.vm, key=a.key, build_files=a.build_files,
+                              ai_url=a.ai_url, ai_model=a.ai_model))
+    print(text)
+    return rc
+
+
 def _cmd_results(a: argparse.Namespace) -> int:
     from .results import collect, to_markdown
 
@@ -336,6 +345,15 @@ def main(argv: list[str] | None = None) -> int:
     ts.add_argument("--arch", default="x86_64")
     _add_target_args(ts)
     ts.set_defaults(func=_cmd_test)
+
+    dr = sub.add_parser("doctor", help="check this machine: SDP, qcc, build-files, QNX target, "
+                        "local model")
+    dr.add_argument("--vm", help="mkqnximage VM directory to check")
+    dr.add_argument("--key", help="ssh identity for the target")
+    dr.add_argument("--build-files")
+    dr.add_argument("--ai-url")
+    dr.add_argument("--ai-model")
+    dr.set_defaults(func=_cmd_doctor)
 
     rs = sub.add_parser("results", help="one table over many `portpilot port` outputs")
     rs.add_argument("dirs", nargs="+", help="output directories, or folders that hold them")
