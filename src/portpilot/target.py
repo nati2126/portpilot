@@ -302,6 +302,8 @@ def run_tests(target: Target, test_dir: Path, name: str, out_dir: Path, *,
         log = logs / f"{res.name}.out"
         if log.is_file() and (c := count_cases(log.read_text(errors="replace"))):
             res.cases = list(c)
+            if res.status == "PASS" and c[0] < c[1]:  # CUnit exits 0 when cases fail
+                res.status = "FAIL"
     passed = sum(r.status == "PASS" for r in results)
     tmo = sum(r.status == "TIMEOUT" for r in results)
     failed = len(results) - passed

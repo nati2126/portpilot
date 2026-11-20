@@ -145,8 +145,9 @@ def relocate_sdp_writes(qnx_target: Path, stage: Path, before: set[str],
 
 def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
                 build_files: Path | None, arch: str = "x86_64", jobs: int = 8,
-                timeout: float = 3600) -> tuple[str, str]:
-    """Build the official port that provides `package` into the stage.
+                timeout: float = 3600, header: str = "") -> tuple[str, str]:
+    """Build the official port that provides `package` into the stage. `header`: the
+    include that was missing; staged from the port's tree if the port does not install it.
 
     Returns (port name, "") on success, else (port name or "", reason)."""
     port = official_port(package, build_files)
@@ -177,9 +178,14 @@ def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
         try:
             # QNX_PROJECT_ROOT always explicit: some ports' hooks default to ../../.. (the
             # build-files root) and clean it with `rm -f */Makefile ...` (cunit)
+            proot = f"QNX_PROJECT_ROOT={src}"
+            # from a clean folder: cunit sets DESTDIR only when it configures, so a second
+            # build into a new stage installs to /x86_64
+            subprocess.run(["make", "-C", str(pdir / cpu), "clean", proot], stdout=fh,
+                           stderr=subprocess.STDOUT, env=env, timeout=600, check=False)
             rc = subprocess.run(
                 ["make", "-C", str(pdir / cpu), "install", f"JLEVEL={jobs}",
-                 f"QNX_PROJECT_ROOT={src}", f"INSTALL_ROOT_nto={stage}",
+                 proot, f"INSTALL_ROOT_nto={stage}",
                  "USE_INSTALL_ROOT=true"],
                 stdout=fh, stderr=subprocess.STDOUT, env=env, timeout=timeout).returncode
         except subprocess.TimeoutExpired:
@@ -201,4 +207,30 @@ def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
                              "existing file(s) in $QNX_TARGET: " + ", ".join(over[:20]) + "\n")
     if rc != 0:
         return port, f"building the official {port} port failed (rc={rc}); see {log}"
+    if header and (got := stage_headers(header, stage, [src, pdir / cpu])):
+        with open(log, "a") as fh:
+            fh.write(f"\nportpilot: the {port} port installs no <{header}>; copied "
+                     f"{len(got)} header(s) from its source and build folders to the stage\n")
     return port, ""
+
+
+def stage_headers(header: str, stage: Path, roots: list[Path]) -> list[Path]:
+    """Copy the headers next to `header` into stage/usr/include when a port built the
+    library but did not install them (cunit installs with `make install-exec` only, so
+    <CUnit/CUnit.h> is missing). Later roots win: the build folder holds headers that
+    configure generated (CUnit.h from CUnit.h.in). Returns the files copied."""
+    rel = Path(header)
+    dest = stage / "usr" / "include" / rel.parent
+    if any(p.as_posix().endswith("/" + rel.as_posix()) for p in stage.rglob(rel.name)):
+        return []  # installed by the port
+    copied: dict[str, Path] = {}
+    for root in roots:  # the source tree may hold only CUnit.h.in
+        found = [*root.rglob(rel.name), *root.rglob(rel.name + ".in")] if root.is_dir() else []
+        for f in sorted(found):
+            if not f.is_file():
+                continue
+            dest.mkdir(parents=True, exist_ok=True)
+            for h in f.parent.glob("*.h"):
+                shutil.copy2(h, dest / h.name)
+                copied[h.name] = dest / h.name
+    return list(copied.values())

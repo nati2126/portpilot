@@ -272,3 +272,28 @@ def test_service_that_exits_is_reported_with_its_log(tmp_path: Path) -> None:
                       parse_service(f"{tmp_path / 'broker'}=./broker"), tmp_path, settle=0)
     with pytest.raises(TargetError, match="DIR=COMMAND"):
         parse_service(str(tmp_path / "broker"))
+
+
+def test_unregistered_test_program(tmp_path: Path) -> None:
+    # libcoap builds its CUnit testdriver but never calls add_test
+    b = tmp_path / "build"
+    (b / "CMakeFiles" / "testdriver.dir" / "tests").mkdir(parents=True)
+    (b / "CMakeFiles" / "testdriver.dir" / "tests" / "testdriver.c.o").write_text("")
+    (b / "CMakeFiles" / "coap-3.dir" / "src").mkdir(parents=True)
+    (b / "CMakeFiles" / "coap-3.dir" / "src" / "net.c.o").write_text("")
+    (b / "CMakeFiles" / "coap-3.dir" / "tests").mkdir()
+    for exe in ("testdriver", "coap-3"):
+        (b / exe).write_text("")
+        (b / exe).chmod(0o755)
+    text, tests = generate(b, "libcoap")
+    assert [t.name for t in tests] == ["testdriver"]
+    assert "run testdriver 60 ./testdriver" in text
+
+
+def test_count_cunit_cases() -> None:
+    from portpilot.qnxtests import count_cases
+    out = ("Run Summary:    Type  Total    Ran Passed Failed Inactive\n"
+           "              suites     12     12    n/a      0        0\n"
+           "               tests    150    148    146      2        0\n"
+           "             asserts   1009   1009   1007      2      n/a\n")
+    assert count_cases(out) == (146, 148)

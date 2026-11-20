@@ -557,7 +557,8 @@ def _build_deps(errs: list[Any], tried: set[str], stage: Path, env: dict[str, st
         tried.add(pkg)
         say(f"      dependency {pkg}: building the official QNX port")
         port, why = ensure_port(pkg, stage, env, out / "logs" / f"dep-{pkg}.log", bf,
-                                arch=arch, jobs=jobs)
+                                arch=arch, jobs=jobs,
+                                header=d.symbol if d.kind == "missing-header" else "")
         if why:
             say(f"      dependency {pkg}: {why}")
             continue

@@ -166,8 +166,26 @@ def render(tests: list[CTest], port: str, skipped: list[tuple[CTest, str]] | Non
     return "\n".join(out) + "\n"
 
 
+_IN_TEST_DIR = re.compile(r"(?:^|/)(?:tests?|unittests?|unit_tests?|testing)/", re.I)
+
+
+def unregistered_tests(build_dir: Path) -> list[CTest]:
+    """Test programs a project builds but never registers with add_test (libcoap's CUnit
+    testdriver): executable targets whose object files all come from a test folder."""
+    found: list[CTest] = []
+    for tdir in sorted(build_dir.rglob("CMakeFiles/*.dir")):
+        objs = [o.relative_to(tdir).as_posix() for o in tdir.rglob("*.o")]
+        if not objs or not all(_IN_TEST_DIR.search(o) for o in objs):
+            continue
+        exe = tdir.parent.parent / tdir.name.removesuffix(".dir")
+        if exe.is_file() and os.access(exe, os.X_OK) and not exe.name.startswith("lib"):
+            found.append(CTest(exe.name, str(exe), []))
+    return found
+
+
 def generate(build_dir: Path, port: str) -> tuple[str, list[CTest]]:
-    ok, skipped = runnable(read_ctest(build_dir), build_dir)
+    tests = read_ctest(build_dir) or unregistered_tests(build_dir)
+    ok, skipped = runnable(tests, build_dir)
     return render(ok, port, skipped), ok
 
 
@@ -208,12 +226,15 @@ _CATCH_ALL = re.compile(r"^All tests passed \(\d+ assertions? in (\d+) test case
 _CATCH_SOME = re.compile(r"^test cases:\s*(\d+)\s*\|\s*(\d+) passed", re.M)
 _CHECK = re.compile(r"^\d+%: Checks: (\d+), Failures: (\d+), Errors: (\d+)", re.M)
 _UNITY = re.compile(r"^(\d+) Tests (\d+) Failures (\d+) Ignored", re.M)
+# CUnit "Run Summary": Type Total Ran Passed Failed Inactive
+_CUNIT = re.compile(r"^\s*tests\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+\d+\s*$", re.M)
 _ANSI = re.compile(r"\x1b\[[0-9;]*m")
 
 
 def count_cases(text: str) -> tuple[int, int] | None:
-    """(passed, total) test cases from one program's output, for gtest, Catch2, Check and
-    Unity; None if the program printed no summary (other frameworks, or it crashed)."""
+    """(passed, total) test cases from one program's output, for gtest, Catch2, Check,
+    Unity and CUnit; None if the program printed no summary (other frameworks, or it
+    crashed)."""
     text = _ANSI.sub("", text)  # Catch2 colors its output even into a file (spdlog)
     if (ran := _GTEST_RAN.findall(text)):
         total = int(ran[-1])
@@ -230,6 +251,9 @@ def count_cases(text: str) -> tuple[int, int] | None:
     if m := _UNITY.search(text):
         total, fails, ign = (int(x) for x in m.groups())
         return total - fails - ign, total - ign
+    if m := _CUNIT.search(text):
+        _tot, n_ran, n_ok, _bad = (int(x) for x in m.groups())
+        return n_ok, n_ran
     return None
 
 
