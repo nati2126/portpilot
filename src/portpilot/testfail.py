@@ -16,6 +16,9 @@ _WHICH = re.compile(r'Which is: "([^"\n]*)"')
 _WHICH_NUM = re.compile(r"Which is: ([-+]?\d+\.\d+(?:[eE][-+]?\d+)?)\s*$", re.M)
 _HEXFLOAT = re.compile(r"^[-+]?0[xX][0-9a-fA-F]+(?:\.[0-9a-fA-F]*)?[pP][-+]?\d+$")
 _LONGDEC = re.compile(r"^[-+]?\d+\.?\d*$")
+# a failed bitwise compare of a double after a parse (open62541: F-015)
+_DOUBLE_BITS = re.compile(r"Assertion '([^'\n]*\bmemcmp\([^'\n]*sizeof\s*\(\s*(?:\w+_)?"
+                          r"(?:double|Double|float|Float)\s*\)[^'\n]*)' failed")
 
 
 @dataclass(frozen=True)
@@ -67,4 +70,6 @@ def classify(log: str) -> list[FailureClass]:
             if _round_trip_pair(a, b):
                 out.append(FailureClass("float-format", f"{a} vs {b} after a round trip"))
                 break
+    if not out and (m := _DOUBLE_BITS.search(log)):
+        out.append(FailureClass("float-format", f"{m.group(1)[:80]} (double bits differ)"))
     return out

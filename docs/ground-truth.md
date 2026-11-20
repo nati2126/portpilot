@@ -149,6 +149,20 @@ Captured with qcc 12.2 (real output in `tests/data/diag/`).
 - **PortPilot:** rule `bsd-sockaddr-len`. Before the first build it adds
   `|| defined(__QNX__)` to such guards.
 
+<a id="f-015"></a>
+## F-015: `strtod` rounds wrongly at the edges of the double range
+
+- **Symptom:** open62541's `check_types_builtin_json` fails on QNX:
+  `memcmp(&srcData, &outData, sizeof(UA_Double)) == 0` after a JSON round trip of the
+  largest subnormal double, `(2^53-1) * 2^-1074`.
+- **Fact:** measured with [`probes/strtod_subnormal.c`](../probes/strtod_subnormal.c) on QNX
+  8.0 x86_64. QNX libc `strtod` returns `000ffffffffffffe` for `2.2250738585072009e-308`
+  (want `000fffffffffffff`, one ULP off) and **+inf** for `1.7976931348623157e308`
+  (`DBL_MAX`). `0.1`, `1 + 1 ULP`, the smallest subnormal and the smallest normal are exact.
+  Linked with the official muslflt port, all 6 values are exact.
+- **PortPilot:** rule `float-format`. A test that fails comparing a double's bytes
+  (`memcmp(..., sizeof(double))`) links muslflt and retests.
+
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)
 

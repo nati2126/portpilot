@@ -55,3 +55,13 @@ def test_round_trip_float_from_unquoted_gtest_values() -> None:
     assert classify("    Which is: 1.25\n    Which is: 1.5\n") == []
     assert classify("    Which is: 0.1\n    Which is: 0.10000000000000002\n") != []
     assert classify("    Which is: 0.1\n    Which is: 0.1000001\n") == []
+
+
+def test_double_bits_after_parse_is_float_format() -> None:
+    """open62541 check_types_builtin_json on QNX 8.0 (strtod, F-015)."""
+    log = ("check_types_builtin_json.c:1896:F:json_encode:UA_Variant_Double2_json_encode:0: "
+           "Assertion 'memcmp(&srcData, &outData, sizeof(UA_Double)) == 0' failed\n")
+    [c] = classify(log)
+    assert c.rule_id == "float-format" and "double bits differ" in c.evidence
+    # a memcmp of anything else is not a float problem
+    assert classify("Assertion 'memcmp(a, b, sizeof(UA_Guid)) == 0' failed\n") == []

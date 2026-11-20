@@ -69,6 +69,9 @@ url = "docs/ground-truth.md#f-013"
 [sources.gt-F011]
 title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
 url = "docs/ground-truth.md#f-011"
+[sources.gt-F015]
+title = "Ground truth F-015: QNX strtod is one ULP off for the largest subnormal and returns inf for DBL_MAX"
+url = "docs/ground-truth.md#f-015"
 [sources.gt-F014]
 title = "Ground truth F-014: sockaddr has sin_len, but QNX defines neither BSD nor __APPLE__"
 url = "docs/ground-truth.md#f-014"
@@ -398,15 +401,15 @@ sources = ["gt-F003", "sdp"]
 
 [[rule]]
 id = "float-format"
-title = "float formatting vs glibc"
+title = "float formatting and parsing vs glibc"
 category = "C library"
-linux = "glibc printf output for %a and exact float printing"
-qnx = "QNX libc output is valid but differs; link muslflt for glibc-identical output"
-strategy = "If tests compare float formatting with expected strings, link the muslflt port (project_hooks.cmake)."
+linux = "glibc printf output for %a and exact float printing; correctly rounded strtod"
+qnx = "QNX libc output is valid but differs, and strtod misrounds the edges of the double range (DBL_MAX becomes inf); muslflt gives glibc-identical results"
+strategy = "If tests compare float formatting with expected strings, or doubles after a parse, link the muslflt port (project_hooks.cmake)."
 fix = "rule"
 severity = "info"
 trigger = "tests"   # matched from test failures (week 4), not by the source scanner
-sources = ["gt-F002"]
+sources = ["gt-F002", "gt-F015"]
 
 [[rule]]
 id = "gnu-source"
