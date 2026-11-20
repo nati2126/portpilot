@@ -57,6 +57,9 @@ CFLAGS += $(FLAGS) \
           -I$(QNX_TARGET)/$(CPUVARDIR)/$(PREFIX)/include \
           -I$(INSTALL_ROOT)/$(CPUVARDIR)/$(PREFIX)/include
 
+#QNX-specific compiler flags:
+#-Wno-narrowing: char is unsigned on aarch64; the code puts negative constants in char arrays (same bytes)
+CFLAGS += -Wno-narrowing
 
 LDFLAGS += -Wl,--build-id=md5
 
@@ -92,7 +95,9 @@ ifeq ($(BUILD_TESTING),ON)
 	@mkdir -p $(TEST_DIR)
 	@cd build && grep -rh '^add_test' --include=CTestTestfile.cmake . | sed -E 's/^add_test\([^ ]+ "([^"]+)".*/\1/' | grep -F "$$(pwd)/" | sort -u | xargs -r -I{} cp {} $(TEST_DIR)/
 	@if [ -f $(PROJECT_ROOT)/qnxtests.sh ]; then cp $(PROJECT_ROOT)/qnxtests.sh $(TEST_DIR)/; fi
-	@find build -maxdepth 2 -name 'lib*.so*' -exec cp -P {} $(TEST_DIR)/ \;
+	@[ ! -f $(PROJECT_ROOT)/qnxtests.sh ] || sed -nE 's/^(INVERT=1 )?run .+ [0-9]+ \.\/([^ ;]+).*/\2/p' $(PROJECT_ROOT)/qnxtests.sh | sort -u | \
+	  while read b; do [ -e "$(TEST_DIR)/$$b" ] || find build -type f -name "$$b" -perm -u+x | head -n1 | xargs -r -I{} cp {} $(TEST_DIR)/; done
+	@find build -name 'lib*.so*' -not -path '*/CMakeFiles/*' -exec cp -P {} $(TEST_DIR)/ \;
 	@echo Tests, qnxtests.sh and shared libraries installed to $(TEST_DIR)
 endif
 	@echo Done.

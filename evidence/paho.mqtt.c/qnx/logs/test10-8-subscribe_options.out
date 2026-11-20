@@ -1,0 +1,10 @@
+
+Setting connection to tcp://localhost:1883
+20261120 101916.072 Starting test 8 - subscribe options
+20261120 101916.183 Connack properties:
+20261120 101916.183 Property name TOPIC_ALIAS_MAXIMUM value 10
+20261120 101916.183 Property name RECEIVE_MAXIMUM value 20
+20261120 101916.200 Message properties:
+20261120 101916.201 Property name SUBSCRIPTION_IDENTIFIER value 2
+20261120 101917.299 TEST8: test passed. 10 tests run, 0 failures.
+20261120 101917.299 verdict pass

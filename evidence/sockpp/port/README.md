@@ -8,29 +8,40 @@
 | Upstream | `v1.0.0` + `patches/qnx.patch` |
 | Result | **33/33 test cases pass on QNX (1/1 test programs pass on QNX)** |
 
-QNX ports are built from a Linux host.
+**NOTE**: QNX ports are only supported from a Linux host operating system
+
+## Create a workspace
+
+```bash
+mkdir -p ~/qnx_workspace && cd ~/qnx_workspace
+git clone https://github.com/qnx-ports/build-files.git
+git clone https://github.com/fpagliughi/sockpp sockpp
+git -C sockpp checkout v1.0.0
+git -C sockpp apply $(pwd)/build-files/ports/sockpp/patches/qnx.patch
+git clone https://github.com/qnx-ports/Catch2 Catch2   # dependency: the official Catch2 port
+```
 
 ## Build
 
 ```bash
 source ~/qnx800/qnxsdp-env.sh
-git clone https://github.com/fpagliughi/sockpp sockpp
-git -C sockpp checkout v1.0.0
-git -C sockpp apply $(pwd)/build-files/ports/sockpp/patches/qnx.patch
-STAGE=$HOME/qnx-staging     # install here instead of into the SDP
-
-BUILD_TESTING=ON QNX_PROJECT_ROOT=$(pwd)/sockpp \
-  make -C build-files/ports/sockpp install -j8 INSTALL_ROOT_nto=$STAGE USE_INSTALL_ROOT=1
+cd ~/qnx_workspace
+QNX_PROJECT_ROOT="$(pwd)/Catch2" make -C build-files/ports/Catch2 install JLEVEL=$(nproc)
+BUILD_TESTING=ON QNX_PROJECT_ROOT="$(pwd)/sockpp" \
+  make -C build-files/ports/sockpp install JLEVEL=$(nproc)
 ```
 
-Output goes to `$STAGE/<arch>/usr/local/`: the library is in `lib/`, and the tests are in `bin/sockpp_tests/`.
+This installs into the SDP, as the other ports do. To use a staging area instead, add `INSTALL_ROOT_nto=$HOME/qnx-staging USE_INSTALL_ROOT=true` to every `make` line.
+
+The tests go to `<install root>/x86_64/usr/local/bin/sockpp_tests/`.
 
 ## Run the tests on the target
 
 ```bash
 IP=<target-ip>        # QEMU: mkqnximage --getip
+TESTS=$QNX_TARGET/x86_64/usr/local/bin/sockpp_tests   # or $HOME/qnx-staging/x86_64/...
 ssh root@$IP "mkdir -p /data/sockpp"
-scp -r $STAGE/x86_64/usr/local/bin/sockpp_tests/* root@$IP:/data/sockpp/
+scp -r $TESTS/* root@$IP:/data/sockpp/
 ssh root@$IP "TIMEOUT_SCALE=3 sh /data/sockpp/qnxtests.sh"
 ```
 

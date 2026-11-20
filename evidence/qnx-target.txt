@@ -2,7 +2,7 @@ $ uname -a
 QNX noname 8.0.0 2026/06/05-16:26:03EDT x86pc x86_64
 
 $ pidin info
-CPU:X86_64 Release:8.0.0  FreeMem:837MB/1023MB BootTime:Nov 20 04:13:57 UTC 2026
-Processes: 31, Threads: 125
+CPU:X86_64 Release:8.0.0  FreeMem:846MB/1023MB BootTime:Nov 20 04:13:57 UTC 2026
+Processes: 21, Threads: 122
 Processor1: 721582 Intel 686 F6M183S1 2419MHz FPU 
 Processor2: 721582 Intel 686 F6M183S1 2419MHz FPU 

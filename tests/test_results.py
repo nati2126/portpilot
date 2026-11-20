@@ -37,3 +37,11 @@ def test_table_from_runs(tmp_path: Path) -> None:
         in md
     assert collect([tmp_path / "b" / "nng"])[0]["library"] == "nng"  # a run dir itself
     assert "Local AI: 3 proposals, 1 accepted (verified by rebuild or retest), 2 rejected" in md
+
+
+def test_no_tests_built(tmp_path: Path) -> None:
+    _write(tmp_path / "efsw", name="efsw", commit="1.7.3", ok=True, elapsed_s=24,
+           target_tests={"passed": 0, "total": 0})
+    md = to_markdown(collect([tmp_path]))
+    assert md.startswith("1/1 libraries built for QNX 8.0 from their upstream release; 0 tested")
+    assert "| no tests built |" in md

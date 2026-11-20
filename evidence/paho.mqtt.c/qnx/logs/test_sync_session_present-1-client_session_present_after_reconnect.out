@@ -1,0 +1,9 @@
+
+Setting connection to tcp://localhost:1883
+20261120 101920.326 Running 1 iteration(s)
+20261120 101920.327 Starting test 1 - clean session and reconnect with session present
+20261120 101920.635 Sleeping after session cleaned 3 s ...
+20261120 101923.839 Sleeping after session persist 3 s ...
+20261120 101927.145 passed: test test1. 10 tests run, 0 failures.
+
+20261120 101927.146 verdict pass

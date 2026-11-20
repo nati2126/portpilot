@@ -8,29 +8,38 @@
 | Upstream | `v1.17.0` + `patches/qnx.patch` |
 | Result | **180/180 test cases pass on QNX (1/1 test programs pass on QNX)** |
 
-QNX ports are built from a Linux host.
+**NOTE**: QNX ports are only supported from a Linux host operating system
+
+## Create a workspace
+
+```bash
+mkdir -p ~/qnx_workspace && cd ~/qnx_workspace
+git clone https://github.com/qnx-ports/build-files.git
+git clone https://github.com/gabime/spdlog spdlog
+git -C spdlog checkout v1.17.0
+git -C spdlog apply $(pwd)/build-files/ports/spdlog/patches/qnx.patch
+```
 
 ## Build
 
 ```bash
 source ~/qnx800/qnxsdp-env.sh
-git clone https://github.com/gabime/spdlog spdlog
-git -C spdlog checkout v1.17.0
-git -C spdlog apply $(pwd)/build-files/ports/spdlog/patches/qnx.patch
-STAGE=$HOME/qnx-staging     # install here instead of into the SDP
-
-BUILD_TESTING=ON QNX_PROJECT_ROOT=$(pwd)/spdlog \
-  make -C build-files/ports/spdlog install -j8 INSTALL_ROOT_nto=$STAGE USE_INSTALL_ROOT=1
+cd ~/qnx_workspace
+BUILD_TESTING=ON QNX_PROJECT_ROOT="$(pwd)/spdlog" \
+  make -C build-files/ports/spdlog install JLEVEL=$(nproc)
 ```
 
-Output goes to `$STAGE/<arch>/usr/local/`: the library is in `lib/`, and the tests are in `bin/spdlog_tests/`.
+This installs into the SDP, as the other ports do. To use a staging area instead, add `INSTALL_ROOT_nto=$HOME/qnx-staging USE_INSTALL_ROOT=true` to the `make` line.
+
+The tests go to `<install root>/x86_64/usr/local/bin/spdlog_tests/`.
 
 ## Run the tests on the target
 
 ```bash
 IP=<target-ip>        # QEMU: mkqnximage --getip
+TESTS=$QNX_TARGET/x86_64/usr/local/bin/spdlog_tests   # or $HOME/qnx-staging/x86_64/...
 ssh root@$IP "mkdir -p /data/spdlog"
-scp -r $STAGE/x86_64/usr/local/bin/spdlog_tests/* root@$IP:/data/spdlog/
+scp -r $TESTS/* root@$IP:/data/spdlog/
 ssh root@$IP "TIMEOUT_SCALE=3 sh /data/spdlog/qnxtests.sh"
 ```
 

@@ -57,11 +57,11 @@ CFLAGS += $(FLAGS) \
           -I$(QNX_TARGET)/$(CPUVARDIR)/$(PREFIX)/include \
           -I$(INSTALL_ROOT)/$(CPUVARDIR)/$(PREFIX)/include
 
-#QNX-specific compiler flags (PortPilot):
-#-D_QNX_SOURCE: a strict -std= mode hides POSIX declarations in QNX headers (docs/ground-truth.md#f-013)
+#QNX-specific compiler flags:
+#-D_QNX_SOURCE: a strict -std= mode hides POSIX declarations in QNX headers
 CFLAGS += -D_QNX_SOURCE
 
-#-lsocket: sendto and friends are in libsocket.so.4 on QNX, not in libc (docs/ground-truth.md#f-004)
+#-lsocket: sendto and friends are in libsocket.so.4 on QNX, not in libc
 LDFLAGS += -Wl,--build-id=md5 -lsocket
 
 CMAKE_ARGS = -DCMAKE_TOOLCHAIN_FILE=$(PROJECT_ROOT)/qnx.nto.toolchain.cmake \

@@ -16,7 +16,8 @@ for run in "$runs"/*/; do
   [ -f "$run/run.json" ] || continue
   t=$(ls -d "$run"/logs/tests-* 2>/dev/null | sort -V | tail -n1) || true
   # only libraries whose QNX test run finished
-  [ -n "$t" ] && [ -f "$t/qnxtests.out" ] && [ -d "$t/target-logs" ] || continue
+  [ -n "$t" ] && grep -q "^QNXTEST " "$t/qnxtests.out" 2>/dev/null && [ -d "$t/target-logs" ] ||
+    continue
   out=$ev/$lib
   rm -rf "$out"; mkdir -p "$out/port" "$out/qnx"
   (cd "$run/$lib" && find . -type f -not -path '*/build/*' -not -name '*.o' -print) |
@@ -31,8 +32,12 @@ for run in "$runs"/*/; do
   else
     cp -r "$t/target-logs" "$out/qnx/logs"
   fi
-  if find "$out" -type f -print0 | xargs -0 file --mime-encoding | grep -E ': *binary$'
-  then echo "error: binary file in $out (no QNX binaries in the repo)" >&2; exit 1; fi
+  # no ":" in file names (test names like yaml-cpp::test): Windows can't check them out
+  find "$out/qnx" -type f -name '*:*' | while read -r f; do
+    n=$(basename "$f" | tr : _); mv "$f" "$(dirname "$f")/$n"
+    sed -i "s#logs/$(basename "$f")#logs/$n#" "$out/qnx/qnxtests.out"; done
+  if find "$out" -type f -print0 | xargs -0 file | grep -E ": *(ELF|ar archive)"
+  then echo "error: ELF or archive file in $out (no QNX binaries in the repo)" >&2; exit 1; fi
   find "$out" -type f -print0 | xargs -0 sed -i "s/$home_re/~/g"
   echo "$lib: $(du -sh "$out" | cut -f1)"
 done

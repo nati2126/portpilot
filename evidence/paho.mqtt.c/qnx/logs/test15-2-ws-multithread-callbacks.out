@@ -1,0 +1,83 @@
+
+Setting connection to ws://localhost:1883
+20261120 063026.481 Starting test 2 - multi-threaded client using callbacks
+=========================================================
+                   Trace Output
+Product name: Eclipse Paho Synchronous MQTT C Client Library
+Version: 1.3.16
+Build level: 2026-11-04T18:59:01Z
+=========================================================
+20261120 063055.586 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 692, description: Good rc from connect
+
+rc was -120261120 063055.587 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 699, description: Good rc from subscribe
+
+rc was 020261120 063055.587 50 messages at QoS 0
+20261120 063055.587 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063105.698 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 1
+20261120 063105.698 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063115.809 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 2
+20261120 063115.809 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063125.920 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 3
+20261120 063125.920 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063136.031 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 4
+20261120 063136.031 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063146.142 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 5
+20261120 063146.142 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063156.253 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 6
+20261120 063156.253 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063206.365 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 7
+20261120 063206.366 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063216.477 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 8
+20261120 063216.477 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063226.588 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 9
+20261120 063226.588 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063236.699 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 10
+20261120 063236.699 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063246.810 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 11
+20261120 063246.810 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063256.921 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 12
+20261120 063256.921 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063307.033 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+
+Time out waiting for message 13
+20261120 063307.033 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 607, description: Good rc from publish
+
+rc was -320261120 063317.144 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 625, description: Message Arrived
+

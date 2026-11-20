@@ -1,0 +1,129 @@
+QNXTEST test1-1-single-thread-client PASS rc=0 secs=17
+QNXTEST test1-2-multithread-callbacks PASS rc=0 secs=15
+QNXTEST test1-3-connack-return-codes PASS rc=0 secs=0
+QNXTEST test1-4-client-persistence PASS rc=0 secs=0
+QNXTEST test1-5-disconnect-with-quiesce PASS rc=0 secs=1
+QNXTEST test1-6-connlost-will-message FAIL rc=1 secs=0 (see logs/test1-6-connlost-will-message.out)
+QNXTEST test1-7-connlost-binary-will-message FAIL rc=1 secs=0 (see logs/test1-7-connlost-binary-will-message.out)
+QNXTEST test1-1-ws-single-thread-client FAIL rc=1 secs=0 (see logs/test1-1-ws-single-thread-client.out)
+QNXTEST test1-2-ws-multithread-callbacks FAIL rc=1 secs=29 (see logs/test1-2-ws-multithread-callbacks.out)
+QNXTEST test1-3-ws-connack-return-codes PASS rc=0 secs=0
+QNXTEST test1-4-ws-client-persistence FAIL rc=254 secs=0 (see logs/test1-4-ws-client-persistence.out)
+QNXTEST test1-5-ws-disconnect-with-quiesce FAIL rc=1 secs=0 (see logs/test1-5-ws-disconnect-with-quiesce.out)
+QNXTEST test1-6-ws-connlost-will-message FAIL rc=1 secs=0 (see logs/test1-6-ws-connlost-will-message.out)
+QNXTEST test1-7-ws-connlost-binary-will-message FAIL rc=1 secs=1 (see logs/test1-7-ws-connlost-binary-will-message.out)
+QNXTEST test15-1-single-thread-client PASS rc=0 secs=16
+QNXTEST test15-2-multithread-callbacks PASS rc=0 secs=16
+QNXTEST test15-3-connack-return-codes PASS rc=0 secs=0
+QNXTEST test15-4-client-persistence PASS rc=0 secs=0
+QNXTEST test15-5-disconnect-with-quiesce PASS rc=0 secs=0
+QNXTEST test15-6-connlost-will-message FAIL rc=3 secs=40 (see logs/test15-6-connlost-will-message.out)
+QNXTEST test15-7-connlost-binary-will-message FAIL rc=1 secs=0 (see logs/test15-7-connlost-binary-will-message.out)
+QNXTEST test15-1-ws-single-thread-client FAIL rc=1 secs=0 (see logs/test15-1-ws-single-thread-client.out)
+Memory fault (core dumped) 
+QNXTEST test15-2-ws-multithread-callbacks FAIL rc=139 secs=171 (see logs/test15-2-ws-multithread-callbacks.out)
+QNXTEST test15-3-ws-connack-return-codes PASS rc=0 secs=0
+QNXTEST test15-4-ws-client-persistence FAIL rc=252 secs=0 (see logs/test15-4-ws-client-persistence.out)
+QNXTEST test15-5-ws-disconnect-with-quiesce FAIL rc=1 secs=0 (see logs/test15-5-ws-disconnect-with-quiesce.out)
+QNXTEST test15-6-ws-connlost-will-message FAIL rc=7 secs=68 (see logs/test15-6-ws-connlost-will-message.out)
+QNXTEST test15-7-ws-connlost-binary-will-message FAIL rc=1 secs=0 (see logs/test15-7-ws-connlost-binary-will-message.out)
+QNXTEST test2-1-multiple-threads-single-client PASS rc=0 secs=13
+QNXTEST test2-1-ws-multiple-threads-single-client FAIL rc=1 secs=29 (see logs/test2-1-ws-multiple-threads-single-client.out)
+QNXTEST test4-1-basic-connect-subscribe-receive PASS rc=0 secs=1
+QNXTEST test4-2-connect-timeout PASS rc=0 secs=7
+QNXTEST test4-3-multiple-client-objs-simultaneous-working PASS rc=0 secs=1
+QNXTEST test4-4-send-receive-big-messages PASS rc=0 secs=1
+QNXTEST test4-5-connack-return-codes PASS rc=0 secs=0
+QNXTEST test4-6-ha-connections PASS rc=0 secs=31
+QNXTEST test4-7-pending-tokens PASS rc=0 secs=7
+QNXTEST test4-8-incomplete-commands-requests PASS rc=0 secs=2
+QNXTEST test45-1-basic-connect-subscribe-receive FAIL rc=1 secs=1 (see logs/test45-1-basic-connect-subscribe-receive.out)
+QNXTEST test45-2-connect-timeout PASS rc=0 secs=7
+QNXTEST test45-3-multiple-client-objs-simultaneous-working PASS rc=0 secs=1
+QNXTEST test45-4-send-receive-big-messages FAIL rc=1 secs=1 (see logs/test45-4-send-receive-big-messages.out)
+QNXTEST test45-5-connack-return-codes PASS rc=0 secs=1
+QNXTEST test45-6-ha-connections PASS rc=0 secs=31
+QNXTEST test45-7-pending-tokens PASS rc=0 secs=10
+QNXTEST test45-8-incomplete-commands-requests PASS rc=0 secs=2
+QNXTEST test6-restart-recovery PASS rc=0 secs=1
+QNXTEST test8-1-basic-connect-subscribe-receive PASS rc=0 secs=1
+QNXTEST test8-2-connect-timeout PASS rc=0 secs=7
+QNXTEST test8-3-multiple-client-objects-simultaneous-working PASS rc=0 secs=1
+QNXTEST test8-4-send-receive-big-messages PASS rc=0 secs=10
+QNXTEST test8-5a-all-ha-connections-out-of-service PASS rc=0 secs=1
+QNXTEST test8-5b-all-ha-connections-out-of-service-except-the-last-one PASS rc=0 secs=0
+QNXTEST test8-5c-all-ha-connections-out-of-service-except-the-first-one PASS rc=0 secs=0
+QNXTEST test8-6-blocked-acks PASS rc=0 secs=2
+Killed 
+QNXTEST test9-1-offline-buffering-send-disconnected TIMEOUT rc=137 secs=547 limit=540
+QNXTEST test9-2-offline-buffering-send-disconnected-serverURIs FAIL rc=6 secs=92 (see logs/test9-2-offline-buffering-send-disconnected-serverURIs.out)
+Killed 
+QNXTEST test9-3-offline-buffering-auto-reconnect TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test9-4-offline-buffering-auto-reconnect-serverURIs TIMEOUT rc=137 secs=545 limit=540
+Killed 
+QNXTEST test9-5-offline-buffering-max-buffered TIMEOUT rc=137 secs=554 limit=540
+Killed 
+QNXTEST test9-6-offline-buffering-max-buffered-binary-will TIMEOUT rc=137 secs=547 limit=540
+QNXTEST test9-8-offline-buffering-before-connect PASS rc=0 secs=1
+QNXTEST test9-10-offline-buffering-delete-oldest-messages PASS rc=0 secs=1
+Killed 
+QNXTEST test9-1-ws-offline-buffering-send-disconnected TIMEOUT rc=137 secs=552 limit=540
+QNXTEST test9-2-ws-offline-buffering-send-disconnected-serverURIs FAIL rc=7 secs=122 (see logs/test9-2-ws-offline-buffering-send-disconnected-serverURIs.out)
+Killed 
+QNXTEST test9-3-ws-offline-buffering-auto-reconnect TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test9-4-ws-offline-buffering-auto-reconnect-serverURIs TIMEOUT rc=137 secs=545 limit=540
+Killed 
+QNXTEST test9-5-ws-offline-buffering-max-buffered TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test9-6-ws-offline-buffering-max-buffered-binary-will TIMEOUT rc=137 secs=545 limit=540
+Killed 
+QNXTEST test9-8-ws-offline-buffering-before-connect TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test9-10-ws-offline-buffering-delete-oldest-messages TIMEOUT rc=137 secs=545 limit=540
+Killed 
+QNXTEST test95-1-offline-buffering-send-disconnected TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-2-offline-buffering-send-disconnected-serverURIs TIMEOUT rc=137 secs=545 limit=540
+Killed 
+QNXTEST test95-3-offline-buffering-auto-reconnect TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-4-offline-buffering-auto-reconnect-serverURIs TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-5-offline-buffering-max-buffered TIMEOUT rc=137 secs=545 limit=540
+Killed 
+QNXTEST test95-6-offline-buffering-max-buffered-binary-will TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-1ws-offline-buffering-send-disconnected TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-2ws-offline-buffering-send-disconnected-serverURIs TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-3ws-offline-buffering-auto-reconnect TIMEOUT rc=137 secs=545 limit=540
+Killed 
+QNXTEST test95-4ws-offline-buffering-auto-reconnect-serverURIs TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-5ws-offline-buffering-max-buffered TIMEOUT rc=137 secs=544 limit=540
+Killed 
+QNXTEST test95-6ws-offline-buffering-max-buffered-binary-will TIMEOUT rc=137 secs=544 limit=540
+QNXTEST test10-1-client_topic_aliases PASS rc=0 secs=10
+QNXTEST test10-2-server_topic_aliases FAIL rc=3 secs=1 (see logs/test10-2-server_topic_aliases.out)
+QNXTEST test10-3-subscription_ids FAIL rc=2 secs=1 (see logs/test10-3-subscription_ids.out)
+QNXTEST test10-4-flow_control PASS rc=0 secs=2
+QNXTEST test10-5-error_handling FAIL rc=2 secs=0 (see logs/test10-5-error_handling.out)
+QNXTEST test10-6-qos_1_2_errors FAIL rc=4 secs=3 (see logs/test10-6-qos_1_2_errors.out)
+QNXTEST test10-7-request_response PASS rc=0 secs=2
+QNXTEST test10-8-subscribe_options PASS rc=0 secs=1
+QNXTEST test10-9-shared_subscriptions PASS rc=0 secs=1
+QNXTEST test11-1-client_topic_aliases PASS rc=0 secs=0
+QNXTEST test11-2-server_topic_aliases FAIL rc=5 secs=0 (see logs/test11-2-server_topic_aliases.out)
+QNXTEST test11-3-subscription_ids FAIL rc=1 secs=1 (see logs/test11-3-subscription_ids.out)
+QNXTEST test11-4-flow_control FAIL rc=1 secs=0 (see logs/test11-4-flow_control.out)
+QNXTEST test11-5-error_handling PASS rc=0 secs=0
+QNXTEST test11-6-qos_1_2_errors PASS rc=0 secs=0
+QNXTEST test11-7-request_response PASS rc=0 secs=0
+QNXTEST test11-8-subscribe_options PASS rc=0 secs=1
+QNXTEST test11-9-shared_subscriptions PASS rc=0 secs=0
+QNXTEST test_sync_session_present-1-client_session_present_after_reconnect PASS rc=0 secs=7
+QNXTEST test_connect_destroy-1-execute-destroy-during-connect PASS rc=0 secs=100
+QNXTEST-SUMMARY pass=51 fail=52 timeout=24 total=103

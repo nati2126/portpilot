@@ -1,118 +1,118 @@
 Running suite(s): PubSub timeout test suite: message receive timeout
-[2026-11-05 20:12:35.519 (UTC+0000)] [32minfo/application[0m	setup
-[2026-11-05 20:12:35.520 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
-[2026-11-05 20:12:35.520 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
-[2026-11-05 20:12:35.520 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
-[2026-11-05 20:12:35.522 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:35.526 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:35.536 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
-[2026-11-05 20:12:35.537 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:35.537 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
-[2026-11-05 20:12:35.538 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:35.538 (UTC+0000)] [32minfo/application[0m	
+[2026-11-20 06:17:05.990 (UTC+0000)] [32minfo/application[0m	setup
+[2026-11-20 06:17:05.991 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-20 06:17:05.991 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-20 06:17:05.991 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-20 06:17:05.993 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:05.997 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:06.006 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-20 06:17:06.007 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:06.007 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-20 06:17:06.007 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:06.008 (UTC+0000)] [32minfo/application[0m	
 
 START: Test_basic
-[2026-11-05 20:12:35.540 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
-[2026-11-05 20:12:35.540 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
-[2026-11-05 20:12:35.540 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
-[2026-11-05 20:12:35.540 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
-[2026-11-05 20:12:35.540 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
-[2026-11-05 20:12:35.540 (UTC+0000)] [32minfo/application[0m	teardown
-[2026-11-05 20:12:35.541 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
-[2026-11-05 20:12:35.541 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
-[2026-11-05 20:12:36.043 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
-[2026-11-05 20:12:36.045 (UTC+0000)] [32minfo/application[0m	setup
-[2026-11-05 20:12:36.045 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
-[2026-11-05 20:12:36.045 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
-[2026-11-05 20:12:36.045 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
-[2026-11-05 20:12:36.047 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:36.050 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:36.058 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
-[2026-11-05 20:12:36.059 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:36.059 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
-[2026-11-05 20:12:36.059 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:36.060 (UTC+0000)] [32minfo/application[0m	
+[2026-11-20 06:17:06.009 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
+[2026-11-20 06:17:06.009 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
+[2026-11-20 06:17:06.009 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
+[2026-11-20 06:17:06.010 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-20 06:17:06.010 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
+[2026-11-20 06:17:06.010 (UTC+0000)] [32minfo/application[0m	teardown
+[2026-11-20 06:17:06.010 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-20 06:17:06.010 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-20 06:17:06.512 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-20 06:17:06.514 (UTC+0000)] [32minfo/application[0m	setup
+[2026-11-20 06:17:06.515 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-20 06:17:06.515 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-20 06:17:06.515 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-20 06:17:06.516 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:06.519 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:06.526 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-20 06:17:06.527 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:06.527 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-20 06:17:06.527 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:06.528 (UTC+0000)] [32minfo/application[0m	
 
 START: Test_different_timeouts
-[2026-11-05 20:12:36.060 (UTC+0000)] [32minfo/application[0m	prepare configuration
-[2026-11-05 20:12:36.061 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
-[2026-11-05 20:12:36.062 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
-[2026-11-05 20:12:36.062 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
-[2026-11-05 20:12:36.062 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
-[2026-11-05 20:12:36.062 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
-[2026-11-05 20:12:36.062 (UTC+0000)] [32minfo/application[0m	teardown
-[2026-11-05 20:12:36.062 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
-[2026-11-05 20:12:36.063 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
-[2026-11-05 20:12:36.564 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
-[2026-11-05 20:12:36.566 (UTC+0000)] [32minfo/application[0m	setup
-[2026-11-05 20:12:36.566 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
-[2026-11-05 20:12:36.566 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
-[2026-11-05 20:12:36.566 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
-[2026-11-05 20:12:36.568 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:36.571 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:36.579 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
-[2026-11-05 20:12:36.580 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:36.580 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
-[2026-11-05 20:12:36.580 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:36.581 (UTC+0000)] [32minfo/application[0m	
+[2026-11-20 06:17:06.528 (UTC+0000)] [32minfo/application[0m	prepare configuration
+[2026-11-20 06:17:06.529 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
+[2026-11-20 06:17:06.529 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
+[2026-11-20 06:17:06.529 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
+[2026-11-20 06:17:06.529 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-20 06:17:06.529 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
+[2026-11-20 06:17:06.529 (UTC+0000)] [32minfo/application[0m	teardown
+[2026-11-20 06:17:06.530 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-20 06:17:06.530 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-20 06:17:07.031 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-20 06:17:07.033 (UTC+0000)] [32minfo/application[0m	setup
+[2026-11-20 06:17:07.033 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-20 06:17:07.033 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-20 06:17:07.033 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-20 06:17:07.035 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:07.037 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:07.045 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-20 06:17:07.045 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:07.045 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-20 06:17:07.045 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:07.046 (UTC+0000)] [32minfo/application[0m	
 
 START: Test_wrong_timeout
-[2026-11-05 20:12:36.581 (UTC+0000)] [32minfo/application[0m	prepare configuration
-[2026-11-05 20:12:36.583 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
-[2026-11-05 20:12:36.583 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
-[2026-11-05 20:12:36.583 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
-[2026-11-05 20:12:36.583 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
-[2026-11-05 20:12:36.583 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
-[2026-11-05 20:12:36.583 (UTC+0000)] [32minfo/application[0m	teardown
-[2026-11-05 20:12:36.584 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
-[2026-11-05 20:12:36.584 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
-[2026-11-05 20:12:37.086 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
-[2026-11-05 20:12:37.088 (UTC+0000)] [32minfo/application[0m	setup
-[2026-11-05 20:12:37.089 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
-[2026-11-05 20:12:37.089 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
-[2026-11-05 20:12:37.089 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
-[2026-11-05 20:12:37.090 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:37.093 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:37.101 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
-[2026-11-05 20:12:37.103 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:37.103 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
-[2026-11-05 20:12:37.103 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:37.104 (UTC+0000)] [32minfo/application[0m	
+[2026-11-20 06:17:07.046 (UTC+0000)] [32minfo/application[0m	prepare configuration
+[2026-11-20 06:17:07.047 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
+[2026-11-20 06:17:07.047 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
+[2026-11-20 06:17:07.047 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
+[2026-11-20 06:17:07.047 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-20 06:17:07.048 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
+[2026-11-20 06:17:07.048 (UTC+0000)] [32minfo/application[0m	teardown
+[2026-11-20 06:17:07.048 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-20 06:17:07.048 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-20 06:17:07.550 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-20 06:17:07.552 (UTC+0000)] [32minfo/application[0m	setup
+[2026-11-20 06:17:07.552 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-20 06:17:07.552 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-20 06:17:07.552 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-20 06:17:07.553 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:07.556 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:07.563 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-20 06:17:07.564 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:07.564 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-20 06:17:07.565 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:07.565 (UTC+0000)] [32minfo/application[0m	
 
 START: Test_update_config
-[2026-11-05 20:12:37.104 (UTC+0000)] [32minfo/application[0m	prepare configuration
-[2026-11-05 20:12:37.105 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
-[2026-11-05 20:12:37.106 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
-[2026-11-05 20:12:37.106 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
-[2026-11-05 20:12:37.106 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
-[2026-11-05 20:12:37.106 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
-[2026-11-05 20:12:37.106 (UTC+0000)] [32minfo/application[0m	teardown
-[2026-11-05 20:12:37.106 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
-[2026-11-05 20:12:37.106 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
-[2026-11-05 20:12:37.608 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
-[2026-11-05 20:12:37.610 (UTC+0000)] [32minfo/application[0m	setup
-[2026-11-05 20:12:37.610 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
-[2026-11-05 20:12:37.610 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
-[2026-11-05 20:12:37.610 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
-[2026-11-05 20:12:37.611 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:37.614 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
-[2026-11-05 20:12:37.622 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
-[2026-11-05 20:12:37.623 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:37.623 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
-[2026-11-05 20:12:37.623 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
-[2026-11-05 20:12:37.624 (UTC+0000)] [32minfo/application[0m	
+[2026-11-20 06:17:07.565 (UTC+0000)] [32minfo/application[0m	prepare configuration
+[2026-11-20 06:17:07.567 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
+[2026-11-20 06:17:07.567 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
+[2026-11-20 06:17:07.567 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
+[2026-11-20 06:17:07.567 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-20 06:17:07.567 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
+[2026-11-20 06:17:07.567 (UTC+0000)] [32minfo/application[0m	teardown
+[2026-11-20 06:17:07.567 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-20 06:17:07.567 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-20 06:17:08.068 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-20 06:17:08.070 (UTC+0000)] [32minfo/application[0m	setup
+[2026-11-20 06:17:08.070 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-20 06:17:08.070 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-20 06:17:08.070 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-20 06:17:08.071 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:08.074 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-20 06:17:08.081 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-20 06:17:08.081 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:08.082 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-20 06:17:08.082 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-20 06:17:08.082 (UTC+0000)] [32minfo/application[0m	
 
 START: Test_add_remove
-[2026-11-05 20:12:37.624 (UTC+0000)] [32minfo/application[0m	prepare configuration
-[2026-11-05 20:12:37.625 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
-[2026-11-05 20:12:37.625 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
-[2026-11-05 20:12:37.625 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
-[2026-11-05 20:12:37.625 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
-[2026-11-05 20:12:37.625 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
-[2026-11-05 20:12:37.625 (UTC+0000)] [32minfo/application[0m	teardown
-[2026-11-05 20:12:37.625 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
-[2026-11-05 20:12:37.626 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
-[2026-11-05 20:12:38.128 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-20 06:17:08.082 (UTC+0000)] [32minfo/application[0m	prepare configuration
+[2026-11-20 06:17:08.083 (UTC+0000)] [31merror/network[0m	UDP	| Invalid connection parameters to "224.0.0.22" on port 4840 (Error: None)
+[2026-11-20 06:17:08.083 (UTC+0000)] [31merror/pubsub[0m	Could not open an UDP recv channel
+[2026-11-20 06:17:08.083 (UTC+0000)] [31merror/pubsub[0m	Could not create the PubSubConnection. The connection parameters did not validate.
+[2026-11-20 06:17:08.083 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-20 06:17:08.084 (UTC+0000)] [32minfo/pubsub[0m	Connection deleted
+[2026-11-20 06:17:08.084 (UTC+0000)] [32minfo/application[0m	teardown
+[2026-11-20 06:17:08.084 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-20 06:17:08.084 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-20 06:17:08.586 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
 0%: Checks: 5, Failures: 5, Errors: 0
 ~/qnx-work/pp-batch-url/open62541/work/src/tests/pubsub/check_pubsub_subscribe_msgrcvtimeout.c:62:F:Message Receive Timeout:Test_basic:0: Assertion 'UA_Server_addPubSubConnection(server, &connectionConfig, opConnectionId) == ((UA_StatusCode) 0x00000000)' failed
 ~/qnx-work/pp-batch-url/open62541/work/src/tests/pubsub/check_pubsub_subscribe_msgrcvtimeout.c:62:F:Message Receive Timeout:Test_different_timeouts:0: Assertion 'UA_Server_addPubSubConnection(server, &connectionConfig, opConnectionId) == ((UA_StatusCode) 0x00000000)' failed

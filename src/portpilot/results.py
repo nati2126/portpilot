@@ -58,6 +58,8 @@ def _tests(r: dict[str, Any]) -> str:
     if not r["test_programs"]:
         return "not run"
     p, n = r["test_programs"]
+    if not n:
+        return "no tests built"
     s = f"{p}/{n} programs"
     if r["test_cases"]:
         s = f"{r['test_cases'][0]}/{r['test_cases'][1]} cases ({s})"
@@ -66,7 +68,7 @@ def _tests(r: dict[str, Any]) -> str:
 
 def to_markdown(rows: list[dict[str, Any]]) -> str:
     built = sum(r["built"] for r in rows)
-    tested = [r for r in rows if r["test_programs"]]
+    tested = [r for r in rows if r["test_programs"] and r["test_programs"][1]]
     out = [f"{built}/{len(rows)} libraries built for QNX 8.0 from their upstream release; "
            f"{len(tested)} tested on a QNX 8.0 QEMU target.", "",
            "| Library | Release | Built | Build attempts | Fixes (AI) | Patch lines | "

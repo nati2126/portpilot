@@ -1,0 +1,16 @@
+
+Setting connection to tcp://localhost:1883
+20261120 101907.175 Starting test 2 - server topic aliases
+20261120 101907.287 Property name TOPIC_ALIAS_MAXIMUM value 10
+20261120 101907.287 Property name RECEIVE_MAXIMUM value 20
+20261120 101907.297 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 631, description: topicAlias should not be 0
+
+Topic alias was 0
+20261120 101907.301 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 631, description: topicAlias should not be 0
+
+Topic alias was 0
+20261120 101907.406 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 631, description: topicAlias should not be 0
+
+Topic alias was 0
+20261120 101908.503 TEST2: test failed. 16 tests run, 3 failures.
+20261120 101908.503 verdict fail

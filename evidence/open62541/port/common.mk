@@ -58,12 +58,13 @@ CFLAGS += $(FLAGS) \
           -I$(INSTALL_ROOT)/$(CPUVARDIR)/$(PREFIX)/include
 
 
-#-lsocket: getsockopt and friends are in libsocket.so.4 on QNX, not in libc (docs/ground-truth.md#f-004)
+#-lsocket: getsockopt and friends are in libsocket.so.4 on QNX, not in libc
 LDFLAGS += -Wl,--build-id=md5 -lsocket
 
-#QNX-specific CMake settings (PortPilot):
-#-DCMAKE_POSITION_INDEPENDENT_CODE=ON: objects linked into a shared library must be PIC (https://github.com/qnx-ports/build-files)
+#QNX-specific CMake settings:
+#-DCMAKE_POSITION_INDEPENDENT_CODE=ON: objects linked into a shared library must be PIC
 CMAKE_ARGS = -DCMAKE_TOOLCHAIN_FILE=$(PROJECT_ROOT)/qnx.nto.toolchain.cmake \
+             -DCMAKE_PROJECT_INCLUDE=$(PROJECT_ROOT)/project_hooks.cmake \
              -DCMAKE_SYSTEM_PROCESSOR=$(CPUVARDIR) \
              -DCMAKE_C_FLAGS="$(CFLAGS)" \
              -DCMAKE_CXX_FLAGS="$(CFLAGS)" \
@@ -95,7 +96,9 @@ ifeq ($(BUILD_TESTING),ON)
 	@mkdir -p $(TEST_DIR)
 	@cd build && grep -rh '^add_test' --include=CTestTestfile.cmake . | sed -E 's/^add_test\([^ ]+ "([^"]+)".*/\1/' | grep -F "$$(pwd)/" | sort -u | xargs -r -I{} cp {} $(TEST_DIR)/
 	@if [ -f $(PROJECT_ROOT)/qnxtests.sh ]; then cp $(PROJECT_ROOT)/qnxtests.sh $(TEST_DIR)/; fi
-	@find build -maxdepth 2 -name 'lib*.so*' -exec cp -P {} $(TEST_DIR)/ \;
+	@[ ! -f $(PROJECT_ROOT)/qnxtests.sh ] || sed -nE 's/^(INVERT=1 )?run .+ [0-9]+ \.\/([^ ;]+).*/\2/p' $(PROJECT_ROOT)/qnxtests.sh | sort -u | \
+	  while read b; do [ -e "$(TEST_DIR)/$$b" ] || find build -type f -name "$$b" -perm -u+x | head -n1 | xargs -r -I{} cp {} $(TEST_DIR)/; done
+	@find build -name 'lib*.so*' -not -path '*/CMakeFiles/*' -exec cp -P {} $(TEST_DIR)/ \;
 	@echo Tests, qnxtests.sh and shared libraries installed to $(TEST_DIR)
 endif
 	@echo Done.

@@ -1,0 +1,20 @@
+20261120 073337.088 Random prefix/suffix is 18724
+20261120 073337.089 Starting Offline buffering 2 - messages while disconnected with serverURIs
+=========================================================
+                   Trace Output
+Product name: Eclipse Paho Asynchronous MQTT C Client Library
+Version: 1.3.16
+Build level: 2026-11-04T18:59:01Z
+=========================================================
+20261120 073407.293 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 759, description: Count should be less than 300
+count was 30020261120 073437.302 getaddrinfo failed for addr rubbish with rc 1
+20261120 073437.302 rubbish is not a valid IP address
+20261120 073437.497 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 791, description: Count should be less than 300
+count was 30020261120 073507.701 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 826, description: Count should be less than 300
+count was 30020261120 073537.902 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 832, description: Count should be less than 300
+count was 30020261120 073538.912 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 274, description: Number of getPendingTokens should be 0
+i was 3 20261120 073538.913 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 837, description: Good rc from disconnect
+rc was -3 20261120 073538.913 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 840, description: Good rc from disconnect
+rc was -3 20261120 073539.619 failed: test test2. 30 tests run, 7 failures.
+20261120 073539.619 Total tests run: 30
+20261120 073539.619 verdict fail

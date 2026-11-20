@@ -1,0 +1,11 @@
+
+Setting connection to tcp://localhost:1883
+20261120 101857.689 Starting test 1 - client topic aliases
+20261120 101857.804 Property name TOPIC_ALIAS_MAXIMUM value 10
+20261120 101857.804 Property name RECEIVE_MAXIMUM value 20
+20261120 101857.909 Callback: disconnected, reason code "Protocol error"
+20261120 101858.913 Property name TOPIC_ALIAS_MAXIMUM value 10
+20261120 101858.913 Property name RECEIVE_MAXIMUM value 20
+20261120 101902.243 Callback: disconnected, reason code "Protocol error"
+20261120 101907.147 TEST1: test passed. 25 tests run, 0 failures.
+20261120 101907.147 verdict pass

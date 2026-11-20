@@ -58,11 +58,11 @@ CFLAGS += $(FLAGS) \
           -I$(INSTALL_ROOT)/$(CPUVARDIR)/$(PREFIX)/include
 
 
-#-lsocket: socket and friends are in libsocket.so.4 on QNX, not in libc (docs/ground-truth.md#f-004)
+#-lsocket: socket and friends are in libsocket.so.4 on QNX, not in libc
 LDFLAGS += -Wl,--build-id=md5 -lsocket
 
-#QNX-specific CMake settings (PortPilot):
-#-DCMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST: test programs only run on the QNX target (https://github.com/qnx-ports/build-files)
+#QNX-specific CMake settings:
+#-DCMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE=PRE_TEST: test programs only run on the QNX target
 CMAKE_ARGS = -DCMAKE_TOOLCHAIN_FILE=$(PROJECT_ROOT)/qnx.nto.toolchain.cmake \
              -DCMAKE_SYSTEM_PROCESSOR=$(CPUVARDIR) \
              -DCMAKE_C_FLAGS="$(CFLAGS)" \

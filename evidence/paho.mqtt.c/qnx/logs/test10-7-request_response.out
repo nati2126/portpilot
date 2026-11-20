@@ -1,0 +1,13 @@
+
+Setting connection to tcp://localhost:1883
+20261120 101914.717 Starting test 7 - request response
+20261120 101914.829 Connack properties:
+20261120 101914.829 Property name TOPIC_ALIAS_MAXIMUM value 10
+20261120 101914.829 Property name RECEIVE_MAXIMUM value 20
+20261120 101914.845 Message properties:
+20261120 101914.845 Property name value RESPONSE_TOPIC my response topic
+20261120 101914.845 Property name value CORRELATION_DATA request no 1
+20261120 101915.847 Message properties:
+20261120 101915.847 Property name value CORRELATION_DATA request no 1
+20261120 101916.045 TEST7: test passed. 15 tests run, 0 failures.
+20261120 101916.045 verdict pass

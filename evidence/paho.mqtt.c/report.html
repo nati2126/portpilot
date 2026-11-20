@@ -1,0 +1,171 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>PortPilot · paho.mqtt.c</title><style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1b1f24;--mute:#5b6570;--line:#e3e6ea;--accent:#2557d6;
+--ok:#16794a;--okbg:#e5f5ec;--bad:#b42318;--badbg:#fdeceb;--warn:#8a5a00;--warnbg:#fff4dc;
+--ai:#6b3fb8;--aibg:#f1eafc;--code:#f2f4f7;--add:#e6f6ea;--del:#fdecec}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1216;--card:#171b21;--ink:#e6e9ee;--mute:#9aa4b0;
+--line:#2a3038;--accent:#7aa2ff;--ok:#5fd394;--okbg:#14301f;--bad:#ff8a80;--badbg:#3a1714;
+--warn:#f2c46b;--warnbg:#36290c;--ai:#c4a5ff;--aibg:#2a1f3d;--code:#1e232b;--add:#15301d;
+--del:#3a1a1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}
+a{color:var(--accent)}.mute{color:var(--mute)}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:600;font-size:14px}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}
+.warn{background:var(--warnbg);color:var(--warn)}.ai{background:var(--aibg);color:var(--ai)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card b{display:block;font-size:24px}.card span{color:var(--mute);font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;font-size:13px}
+.flow span{padding:3px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);
+border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+tr:last-child td{border-bottom:0}
+code,pre{font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace}
+code{background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);padding:12px;border-radius:8px;overflow:auto;margin:0}
+.diff span{display:block}.diff .a{background:var(--add)}.diff .d{background:var(--del)}
+.diff .h{color:var(--accent)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+margin:8px 0}summary{cursor:pointer;font-weight:600}
+.scroll{overflow-x:auto}
+footer{margin-top:40px;font-size:13px;color:var(--mute)}
+</style></head><body><main>
+<div class=top><div>
+<div class=mute>PortPilot report · QNX 8.0 · x86_64</div><h1>paho.mqtt.c</h1>
+<div class=mute><a href="https://github.com/eclipse-paho/paho.mqtt.c">https://github.com/eclipse-paho/paho.mqtt.c</a> @ <code>v1.3.16</code></div></div>
+<span class='pill warn'>Built · 51/103 tests pass on QNX</span></div>
+<div class=cards>
+<div class=card><b>2</b><span>build attempt(s), 40.4 s</span></div>
+<div class=card><b>3</b><span>changes by rule (each cites a source)</span></div>
+<div class=card><b>0</b><span>AI edits kept · 0 rejected by the build</span></div>
+<div class=card><b>51/103</b><span>test programs pass on QNX (192.168.122.202)</span></div>
+</div>
+<div class=flow><span>scan</span><span>scaffold</span><span>build 1: link</span><span>build 2: ok</span><span>QNX tests: 51/103</span></div>
+<h2>What PortPilot changed, and why</h2>
+<div class=scroll><table><tr><th>By</th><th>Change</th><th>Why</th><th>Evidence</th></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link pthread on QNX<br><code>test/CMakeLists.txt:19</code></td><td>QNX has no libpthread: its functions are in libc (&#x27;cannot find -lpthread&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>include &lt;net/netbyte.h&gt; for be32toh on QNX<br><code>src/SHA1.c:64</code></td><td>QNX declares be32toh in &lt;net/netbyte.h&gt; (declared when defined(__EXT_BSD))</td><td><code>qnx-header</code> · QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>include &lt;net/netbyte.h&gt; for be32toh on QNX<br><code>src/WebSocket.c:147</code></td><td>QNX declares be32toh in &lt;net/netbyte.h&gt; (declared when defined(__EXT_BSD))</td><td><code>qnx-header</code> · QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+</table></div>
+<h2>Needs a person's review</h2><div class=scroll><table><tr><th>Issue</th><th>Where</th><th>Source</th></tr>
+<tr><td>POLLHUP as an end-of-stream signal</td><td><code>src/Socket.c:554</code></td><td><code>pollhup-pipe</code> · Ground truth F-005: pipes do not report POLLHUP when the writer closes</td></tr>
+</table></div>
+<h2>Tests on QNX 8.0 (192.168.122.202)</h2><div class=scroll><table><tr><th>Test</th><th>Result</th><th>Seconds</th></tr>
+<tr><td><code>test1-1-single-thread-client</code></td><td><span class='pill ok'>PASS</span></td><td>17</td></tr>
+<tr><td><code>test1-2-multithread-callbacks</code></td><td><span class='pill ok'>PASS</span></td><td>15</td></tr>
+<tr><td><code>test1-3-connack-return-codes</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test1-4-client-persistence</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test1-5-disconnect-with-quiesce</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test1-6-connlost-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test1-7-connlost-binary-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test1-1-ws-single-thread-client</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test1-2-ws-multithread-callbacks</code></td><td><span class='pill bad'>FAIL</span></td><td>29</td></tr>
+<tr><td><code>test1-3-ws-connack-return-codes</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test1-4-ws-client-persistence</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test1-5-ws-disconnect-with-quiesce</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test1-6-ws-connlost-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test1-7-ws-connlost-binary-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>test15-1-single-thread-client</code></td><td><span class='pill ok'>PASS</span></td><td>16</td></tr>
+<tr><td><code>test15-2-multithread-callbacks</code></td><td><span class='pill ok'>PASS</span></td><td>16</td></tr>
+<tr><td><code>test15-3-connack-return-codes</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test15-4-client-persistence</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test15-5-disconnect-with-quiesce</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test15-6-connlost-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>40</td></tr>
+<tr><td><code>test15-7-connlost-binary-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test15-1-ws-single-thread-client</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test15-2-ws-multithread-callbacks</code></td><td><span class='pill bad'>FAIL</span></td><td>171</td></tr>
+<tr><td><code>test15-3-ws-connack-return-codes</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test15-4-ws-client-persistence</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test15-5-ws-disconnect-with-quiesce</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test15-6-ws-connlost-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>68</td></tr>
+<tr><td><code>test15-7-ws-connlost-binary-will-message</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test2-1-multiple-threads-single-client</code></td><td><span class='pill ok'>PASS</span></td><td>13</td></tr>
+<tr><td><code>test2-1-ws-multiple-threads-single-client</code></td><td><span class='pill bad'>FAIL</span></td><td>29</td></tr>
+<tr><td><code>test4-1-basic-connect-subscribe-receive</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test4-2-connect-timeout</code></td><td><span class='pill ok'>PASS</span></td><td>7</td></tr>
+<tr><td><code>test4-3-multiple-client-objs-simultaneous-working</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test4-4-send-receive-big-messages</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test4-5-connack-return-codes</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test4-6-ha-connections</code></td><td><span class='pill ok'>PASS</span></td><td>31</td></tr>
+<tr><td><code>test4-7-pending-tokens</code></td><td><span class='pill ok'>PASS</span></td><td>7</td></tr>
+<tr><td><code>test4-8-incomplete-commands-requests</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>test45-1-basic-connect-subscribe-receive</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>test45-2-connect-timeout</code></td><td><span class='pill ok'>PASS</span></td><td>7</td></tr>
+<tr><td><code>test45-3-multiple-client-objs-simultaneous-working</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test45-4-send-receive-big-messages</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>test45-5-connack-return-codes</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test45-6-ha-connections</code></td><td><span class='pill ok'>PASS</span></td><td>31</td></tr>
+<tr><td><code>test45-7-pending-tokens</code></td><td><span class='pill ok'>PASS</span></td><td>10</td></tr>
+<tr><td><code>test45-8-incomplete-commands-requests</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>test6-restart-recovery</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test8-1-basic-connect-subscribe-receive</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test8-2-connect-timeout</code></td><td><span class='pill ok'>PASS</span></td><td>7</td></tr>
+<tr><td><code>test8-3-multiple-client-objects-simultaneous-working</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test8-4-send-receive-big-messages</code></td><td><span class='pill ok'>PASS</span></td><td>10</td></tr>
+<tr><td><code>test8-5a-all-ha-connections-out-of-service</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test8-5b-all-ha-connections-out-of-service-except-the-last-one</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test8-5c-all-ha-connections-out-of-service-except-the-first-one</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test8-6-blocked-acks</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>test9-1-offline-buffering-send-disconnected</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>547</td></tr>
+<tr><td><code>test9-2-offline-buffering-send-disconnected-serverURIs</code></td><td><span class='pill bad'>FAIL</span></td><td>92</td></tr>
+<tr><td><code>test9-3-offline-buffering-auto-reconnect</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test9-4-offline-buffering-auto-reconnect-serverURIs</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>545</td></tr>
+<tr><td><code>test9-5-offline-buffering-max-buffered</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>554</td></tr>
+<tr><td><code>test9-6-offline-buffering-max-buffered-binary-will</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>547</td></tr>
+<tr><td><code>test9-8-offline-buffering-before-connect</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test9-10-offline-buffering-delete-oldest-messages</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test9-1-ws-offline-buffering-send-disconnected</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>552</td></tr>
+<tr><td><code>test9-2-ws-offline-buffering-send-disconnected-serverURIs</code></td><td><span class='pill bad'>FAIL</span></td><td>122</td></tr>
+<tr><td><code>test9-3-ws-offline-buffering-auto-reconnect</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test9-4-ws-offline-buffering-auto-reconnect-serverURIs</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>545</td></tr>
+<tr><td><code>test9-5-ws-offline-buffering-max-buffered</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test9-6-ws-offline-buffering-max-buffered-binary-will</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>545</td></tr>
+<tr><td><code>test9-8-ws-offline-buffering-before-connect</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test9-10-ws-offline-buffering-delete-oldest-messages</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>545</td></tr>
+<tr><td><code>test95-1-offline-buffering-send-disconnected</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-2-offline-buffering-send-disconnected-serverURIs</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>545</td></tr>
+<tr><td><code>test95-3-offline-buffering-auto-reconnect</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-4-offline-buffering-auto-reconnect-serverURIs</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-5-offline-buffering-max-buffered</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>545</td></tr>
+<tr><td><code>test95-6-offline-buffering-max-buffered-binary-will</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-1ws-offline-buffering-send-disconnected</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-2ws-offline-buffering-send-disconnected-serverURIs</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-3ws-offline-buffering-auto-reconnect</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>545</td></tr>
+<tr><td><code>test95-4ws-offline-buffering-auto-reconnect-serverURIs</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-5ws-offline-buffering-max-buffered</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test95-6ws-offline-buffering-max-buffered-binary-will</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>544</td></tr>
+<tr><td><code>test10-1-client_topic_aliases</code></td><td><span class='pill ok'>PASS</span></td><td>10</td></tr>
+<tr><td><code>test10-2-server_topic_aliases</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>test10-3-subscription_ids</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>test10-4-flow_control</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>test10-5-error_handling</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test10-6-qos_1_2_errors</code></td><td><span class='pill bad'>FAIL</span></td><td>3</td></tr>
+<tr><td><code>test10-7-request_response</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>test10-8-subscribe_options</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test10-9-shared_subscriptions</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test11-1-client_topic_aliases</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test11-2-server_topic_aliases</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test11-3-subscription_ids</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>test11-4-flow_control</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>test11-5-error_handling</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test11-6-qos_1_2_errors</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test11-7-request_response</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test11-8-subscribe_options</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>test11-9-shared_subscriptions</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>test_sync_session_present-1-client_session_present_after_reconnect</code></td><td><span class='pill ok'>PASS</span></td><td>7</td></tr>
+<tr><td><code>test_connect_destroy-1-execute-destroy-during-connect</code></td><td><span class='pill ok'>PASS</span></td><td>100</td></tr>
+</table></div>
+<h2>Build attempts</h2><div class=scroll><table><tr><th>#</th><th>Result</th><th>First error</th><th>Fixed by rule</th></tr>
+<tr><td>1</td><td><span class='pill bad'>link: 7 errors</span></td><td><code></code> cannot find -lpthread</td><td>do not link pthread on QNX<br>include &lt;net/netbyte.h&gt; for be32toh on QNX<br>include &lt;net/netbyte.h&gt; for be32toh on QNX</td></tr>
+<tr><td>2</td><td><span class='pill ok'>built</span></td><td></td><td></td></tr>
+</table></div>
+<h2>Dependency matrix</h2>
+<div class=scroll><table><tr><th>Dependency</th><th>Linux</th><th>QNX 8.0</th><th>Strategy</th><th>Auto-fix</th><th>Status</th></tr><tr><td><b>no libpthread / librt / libdl</b><br><span class=mute>Linking</span></td><td>-lpthread, -lrt, -ldl</td><td>all in libc (-lpthread etc. fail: &#x27;cannot find -lpthread&#x27;)</td><td>Drop pthread/rt/dl from the link line on QNX; use Threads::Threads and ${CMAKE_DL_LIBS}.</td><td>yes</td><td><span class='pill warn'>needs work</span><br><code>src/CMakeLists.txt:66</code>, <code>src/CMakeLists.txt:66</code></td></tr><tr><td><b>socket API lives in libsocket</b><br><span class=mute>Linking</span></td><td>socket API in libc</td><td>libsocket (-lsocket)</td><td>Link -lsocket (CMake: target_link_libraries(... socket) when QNX).</td><td>yes</td><td><span class='pill warn'>needs work</span><br><code>src/MQTTAsyncUtils.c:2910</code>, <code>src/MQTTClient.c:1002</code></td></tr><tr><td><b>POLLHUP as an end-of-stream signal</b><br><span class=mute>Event handling</span></td><td>pipe reader sees POLLHUP when the writer closes</td><td>pipe reader sees only POLLIN (read() returns 0)</td><td>If a loop waits for POLLHUP on a pipe to stop, also stop on an explicit flag or on read() == 0.</td><td>assisted</td><td><span class='pill warn'>needs work</span><br><code>src/Socket.c:554</code></td></tr><tr><td><b>Linux-only CMake branch</b><br><span class=mute>Build configuration</span></td><td>if(LINUX) / CMAKE_SYSTEM_NAME STREQUAL &quot;Linux&quot;</td><td>QNX takes the else-branch</td><td>Check that the else-branch is right for QNX (POSIX features may be skipped).</td><td>assisted</td><td><span class='pill '>test only</span><br><code>test/CMakeLists.txt:14</code></td></tr><tr><td><b>glibc-only headers</b><br><span class=mute>C library</span></td><td>features.h, error.h, argp.h, execinfo.h, endian.h, byteswap.h</td><td>not present</td><td>Remove or guard the include; use compiler builtins (__builtin_bswap32, __BYTE_ORDER__) for endian.h/byteswap.h.</td><td>assisted</td><td><span class='pill ok'>guarded</span><br><code>src/MQTTPacket.h:54</code>, <code>src/SHA1.c:56</code></td></tr><tr><td><b>_GNU_SOURCE feature macro</b><br><span class=mute>C library</span></td><td>_GNU_SOURCE exposes GNU extensions</td><td>_QNX_SOURCE / _POSIX_C_SOURCE / _XOPEN_SOURCE expose QNX APIs</td><td>If a needed declaration is missing on QNX, define _QNX_SOURCE as well.</td><td>-</td><td><span class='pill ok'>guarded</span><br><code>src/Thread.h:26</code>, <code>src/Thread.h:28</code></td></tr><tr><td><b>system header not in the QNX SDP</b><br><span class=mute>C library</span></td><td>header provided by glibc / the Linux kernel</td><td>not present in the QNX SDP</td><td>Find the QNX header that provides the same declarations, guard the include, or remove it. (Only reported when an SDP index is available.)</td><td>assisted</td><td><span class='pill '>test only</span><br><code>src/Base64.c:21</code>, <code>src/Base64.c:22</code></td></tr><tr><td><b>dependency not in the QNX SDP</b><br><span class=mute>Third-party libraries</span></td><td>library installed from the Linux distribution</td><td>not in the SDP: needs its own QNX port (check qnx-ports and repo.oss.qnx.com)</td><td>Port the dependency first (or disable the optional feature that needs it).</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>src/SHA1.c:58</code>, <code>src/WebSocket.c:41</code></td></tr></table></div>
+<h2>Source patch</h2><p class=mute>3 files changed, 7 insertions(+), 1 deletion(-) · shipped as <code>patches/qnx.patch</code></p>
+<pre class="diff"><span class="h">diff --git a/src/SHA1.c b/src/SHA1.c</span><span class="c">index 5c4c349..9f6c084 100644</span><span class="c">--- a/src/SHA1.c</span><span class="c">+++ b/src/SHA1.c</span><span class="h">@@ -62,6 +62,9 @@ int SHA1_Final(unsigned char *md, SHA_CTX *c)</span><span class="c"> #  include &lt;sys/endian.h&gt;</span><span class="c"> #endif</span><span class="c"> #include &lt;string.h&gt;</span><span class="a">+#if defined(__QNX__)</span><span class="a">+#include &lt;net/netbyte.h&gt;</span><span class="a">+#endif</span><span class="c"> static unsigned char pad[64] = {</span><span class="c"> 	0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,</span><span class="c"> 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,</span><span class="h">diff --git a/src/WebSocket.c b/src/WebSocket.c</span><span class="c">index 84142fd..a3d5559 100644</span><span class="c">--- a/src/WebSocket.c</span><span class="c">+++ b/src/WebSocket.c</span><span class="h">@@ -145,6 +145,9 @@ static void uuid_unparse( uuid_t uu, char *out )</span><span class="c"> #endif /* if !(defined(_WIN32)) */</span><span class="c"> </span><span class="c"> #include &quot;Heap.h&quot;</span><span class="a">+#if defined(__QNX__)</span><span class="a">+#include &lt;net/netbyte.h&gt;</span><span class="a">+#endif</span><span class="c"> </span><span class="c"> /** raw websocket frame data */</span><span class="c"> struct ws_frame</span><span class="h">diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt</span><span class="c">index 32ccbf8..4bf215b 100644</span><span class="c">--- a/test/CMakeLists.txt</span><span class="c">+++ b/test/CMakeLists.txt</span><span class="h">@@ -16,7 +16,7 @@ elseif(UNIX)</span><span class="c"> 	elseif (CMAKE_SYSTEM_NAME MATCHES &quot;FreeBSD&quot;)</span><span class="c"> 		set(LIBS_SYSTEM compat pthread)</span><span class="c"> 	else()</span><span class="d">-		set(LIBS_SYSTEM c pthread)</span><span class="a">+		set(LIBS_SYSTEM c $&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:pthread&gt;)</span><span class="c"> 	endif()</span><span class="c"> endif()</span><span class="c"> </span></pre>
+<footer>Generated 2026-11-20 13:21 by PortPilot 0.1.0. Port folder in the qnx-ports/build-files layout: <code>~/qnx-work/pp-batch-url/paho.mqtt.c/paho.mqtt.c</code>. AI ran locally; nothing left this machine.</footer></main></body></html>

@@ -29,5 +29,11 @@ Known failures, and why:
     into libcheck; probably that call changes errno on QNX (not verified).
   - `check_json_config` reads a file from the source tree, which is not on the target;
     `check_client_subscriptions` sees a connection closed with error 261.
-- paho.mqtt.c: run against mosquitto on QNX. `test45` expects MQTT 5 properties in UNSUBACK,
-  which paho's own test broker (paho.mqtt.testing) sends and mosquitto doesn't.
+- paho.mqtt.c (51/103): run against mosquitto, built from its official QNX port and running
+  on the same QNX target. The 52 failures come from the test setup; none is traced to QNX yet:
+  - 27 `ws` tests connect to `ws://localhost:1883`; this mosquitto has no WebSocket listener.
+  - 16 connection-lost and offline-buffering tests (test1-6/7, test15-6/7, test9, test95)
+    connect through paho's test proxy on port 1884, which was not running.
+  - 9 MQTT 5 tests (test10, test11, test45) expect behaviour of paho's own test broker
+    (paho.mqtt.testing), e.g. server topic aliases and UNSUBACK properties, that mosquitto
+    doesn't have.

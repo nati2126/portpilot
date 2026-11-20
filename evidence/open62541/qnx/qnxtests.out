@@ -1,7 +1,7 @@
 QNXTEST check_types_builtin PASS rc=0 secs=0
-QNXTEST check_ziptree PASS rc=0 secs=21
+QNXTEST check_ziptree PASS rc=0 secs=23
 QNXTEST check_mp_printf PASS rc=0 secs=0
-QNXTEST check_base64 PASS rc=0 secs=1
+QNXTEST check_base64 PASS rc=0 secs=0
 QNXTEST check_dtoa PASS rc=0 secs=0
 QNXTEST check_itoa PASS rc=0 secs=0
 QNXTEST check_libc_time PASS rc=0 secs=0
@@ -12,7 +12,7 @@ QNXTEST check_musl_inet_pton FAIL rc=1 secs=0 (see logs/check_musl_inet_pton.out
 QNXTEST check_config_default PASS rc=0 secs=0
 QNXTEST check_log_syslog PASS rc=0 secs=0
 QNXTEST check_cj5 PASS rc=0 secs=0
-QNXTEST check_types_builtin_json FAIL rc=1 secs=1 (see logs/check_types_builtin_json.out)
+QNXTEST check_types_builtin_json PASS rc=0 secs=1
 QNXTEST check_types_json_encode PASS rc=0 secs=0
 QNXTEST check_types_json_decode PASS rc=0 secs=0
 QNXTEST check_json_config FAIL rc=1 secs=0 (see logs/check_json_config.out)
@@ -31,8 +31,8 @@ QNXTEST check_utils PASS rc=0 secs=0
 QNXTEST check_kvm_utils PASS rc=0 secs=0
 QNXTEST check_util_functions PASS rc=0 secs=0
 QNXTEST check_types_nodeid_copy PASS rc=0 secs=0
-QNXTEST check_types_builtin_variant PASS rc=0 secs=1
-QNXTEST check_types_range_lookup PASS rc=0 secs=0
+QNXTEST check_types_builtin_variant PASS rc=0 secs=0
+QNXTEST check_types_range_lookup PASS rc=0 secs=1
 QNXTEST check_types_order PASS rc=0 secs=0
 QNXTEST check_types_order_struct PASS rc=0 secs=0
 QNXTEST check_utils_trustlist_path PASS rc=0 secs=0
@@ -42,32 +42,32 @@ QNXTEST check_types_definition PASS rc=0 secs=0
 QNXTEST check_types_namespace_mapping PASS rc=0 secs=0
 QNXTEST check_types_allocation_failures PASS rc=0 secs=0
 QNXTEST check_encoding_roundtrip PASS rc=0 secs=0
-QNXTEST check_types_builtin_binary PASS rc=0 secs=1
+QNXTEST check_types_builtin_binary PASS rc=0 secs=0
 QNXTEST check_utils_url_kvm PASS rc=0 secs=0
 QNXTEST check_securechannel PASS rc=0 secs=2
-QNXTEST check_securechannel_unit PASS rc=0 secs=2
+QNXTEST check_securechannel_unit PASS rc=0 secs=3
 QNXTEST check_timer PASS rc=0 secs=1
-QNXTEST check_eventloop PASS rc=0 secs=1
+QNXTEST check_eventloop PASS rc=0 secs=0
 QNXTEST check_eventloop_tcp PASS rc=0 secs=0
-QNXTEST check_eventloop_udp PASS rc=0 secs=30
+QNXTEST check_eventloop_udp PASS rc=0 secs=31
 QNXTEST check_server_config_json PASS rc=0 secs=0
 QNXTEST check_accesscontrol PASS rc=0 secs=9
 QNXTEST check_services_view PASS rc=0 secs=4
-QNXTEST check_services_attributes PASS rc=0 secs=13
+QNXTEST check_services_attributes PASS rc=0 secs=12
 QNXTEST check_services_nodemanagement PASS rc=0 secs=6
 QNXTEST check_discovery_coverage PASS rc=0 secs=0
 QNXTEST check_server_callbacks PASS rc=0 secs=4
-QNXTEST check_server_password PASS rc=0 secs=4
-QNXTEST check_mt_shutdown PASS rc=0 secs=1
-QNXTEST check_mt_addVariableNode PASS rc=0 secs=4
+QNXTEST check_server_password PASS rc=0 secs=5
+QNXTEST check_mt_shutdown PASS rc=0 secs=2
+QNXTEST check_mt_addVariableNode PASS rc=0 secs=1
 QNXTEST check_mt_addVariableTypeNode PASS rc=0 secs=1
-QNXTEST check_mt_addObjectNode PASS rc=0 secs=1
-QNXTEST check_mt_readValueAttribute PASS rc=0 secs=3
+QNXTEST check_mt_addObjectNode PASS rc=0 secs=3
+QNXTEST check_mt_readValueAttribute PASS rc=0 secs=2
 QNXTEST check_mt_writeValueAttribute PASS rc=0 secs=1
 QNXTEST check_mt_readWriteDelete PASS rc=0 secs=2
-QNXTEST check_mt_readWriteDeleteCallback PASS rc=0 secs=8
-QNXTEST check_mt_addDeleteObject PASS rc=0 secs=1
-QNXTEST check_server_asyncop PASS rc=0 secs=42
+QNXTEST check_mt_readWriteDeleteCallback PASS rc=0 secs=2
+QNXTEST check_mt_addDeleteObject PASS rc=0 secs=2
+QNXTEST check_server_asyncop PASS rc=0 secs=43
 QNXTEST check_services_call PASS rc=0 secs=2
 QNXTEST check_services_method_coverage PASS rc=0 secs=3
 QNXTEST check_services_subscriptions PASS rc=0 secs=12
@@ -75,68 +75,68 @@ QNXTEST check_subscription_publishqueue PASS rc=0 secs=1
 QNXTEST check_monitoreditem_filter PASS rc=0 secs=10
 QNXTEST check_subscription_events PASS rc=0 secs=2
 QNXTEST check_subscription_events_local PASS rc=0 secs=0
-QNXTEST check_subscription_event_filter PASS rc=0 secs=29
+QNXTEST check_subscription_event_filter PASS rc=0 secs=28
 QNXTEST check_nodestore PASS rc=0 secs=0
-QNXTEST check_server_historical_data PASS rc=0 secs=6
-QNXTEST check_server_historical_data_circular PASS rc=0 secs=2
-QNXTEST check_session PASS rc=0 secs=21
-QNXTEST check_session_errorpaths PASS rc=0 secs=14
+QNXTEST check_server_historical_data PASS rc=0 secs=7
+QNXTEST check_server_historical_data_circular PASS rc=0 secs=1
+QNXTEST check_session PASS rc=0 secs=25
+QNXTEST check_session_errorpaths PASS rc=0 secs=18
 QNXTEST check_session_authtoken_rng PASS rc=0 secs=1
-QNXTEST check_server PASS rc=0 secs=6
-QNXTEST check_server_utils_coverage PASS rc=0 secs=8
+QNXTEST check_server PASS rc=0 secs=7
+QNXTEST check_server_utils_coverage PASS rc=0 secs=9
 QNXTEST check_services_securechannel PASS rc=0 secs=1
 QNXTEST check_server_auditing PASS rc=0 secs=0
-QNXTEST check_server_jobs PASS rc=0 secs=3
+QNXTEST check_server_jobs PASS rc=0 secs=2
 QNXTEST check_server_userspace PASS rc=0 secs=1
 QNXTEST check_node_inheritance PASS rc=0 secs=1
-QNXTEST check_server_utils PASS rc=0 secs=2
+QNXTEST check_server_utils PASS rc=0 secs=3
 QNXTEST check_nodes PASS rc=0 secs=2
-QNXTEST check_server_diagnostics PASS rc=0 secs=2
-QNXTEST check_server_readwrite PASS rc=0 secs=30
-QNXTEST check_server_attr_wrappers PASS rc=0 secs=13
-QNXTEST check_services_nodemanagement_callbacks PASS rc=0 secs=44
-QNXTEST check_server_ns0_diagnostics PASS rc=0 secs=16
-QNXTEST check_server_node_services PASS rc=0 secs=9
-QNXTEST check_server_client_readwrite PASS rc=0 secs=23
-QNXTEST check_services_attributes_all PASS rc=0 secs=4
-QNXTEST check_services_subscriptions_modify PASS rc=0 secs=22
-QNXTEST check_local_monitored_item PASS rc=0 secs=6
+QNXTEST check_server_diagnostics PASS rc=0 secs=4
+QNXTEST check_server_readwrite PASS rc=0 secs=31
+QNXTEST check_server_attr_wrappers PASS rc=0 secs=14
+QNXTEST check_services_nodemanagement_callbacks PASS rc=0 secs=43
+QNXTEST check_server_ns0_diagnostics PASS rc=0 secs=17
+QNXTEST check_server_node_services PASS rc=0 secs=8
+QNXTEST check_server_client_readwrite PASS rc=0 secs=24
+QNXTEST check_services_attributes_all PASS rc=0 secs=3
+QNXTEST check_services_subscriptions_modify PASS rc=0 secs=24
+QNXTEST check_local_monitored_item PASS rc=0 secs=7
 QNXTEST check_datachange_deadband_typekinds PASS rc=0 secs=1
-QNXTEST check_pubsub_encoding PASS rc=0 secs=0
-QNXTEST check_pubsub_encoding_custom PASS rc=0 secs=1
-QNXTEST check_pubsub_pds FAIL rc=1 secs=6 (see logs/check_pubsub_pds.out)
-QNXTEST check_pubsub_state_machine FAIL rc=1 secs=5 (see logs/check_pubsub_state_machine.out)
+QNXTEST check_pubsub_encoding PASS rc=0 secs=1
+QNXTEST check_pubsub_encoding_custom PASS rc=0 secs=0
+QNXTEST check_pubsub_pds FAIL rc=1 secs=7 (see logs/check_pubsub_pds.out)
+QNXTEST check_pubsub_state_machine FAIL rc=1 secs=4 (see logs/check_pubsub_state_machine.out)
 QNXTEST check_pubsub_state_machine_extra FAIL rc=1 secs=10 (see logs/check_pubsub_state_machine_extra.out)
 QNXTEST check_pubsub_connection_udp FAIL rc=1 secs=127 (see logs/check_pubsub_connection_udp.out)
-QNXTEST check_pubsub_publish FAIL rc=1 secs=0 (see logs/check_pubsub_publish.out)
+QNXTEST check_pubsub_publish FAIL rc=1 secs=1 (see logs/check_pubsub_publish.out)
 QNXTEST check_pubsub_get_state FAIL rc=1 secs=2 (see logs/check_pubsub_get_state.out)
 QNXTEST check_pubsub_udp_unicast FAIL rc=1 secs=3 (see logs/check_pubsub_udp_unicast.out)
-QNXTEST check_pubsub_publisherid FAIL rc=1 secs=3 (see logs/check_pubsub_publisherid.out)
+QNXTEST check_pubsub_publisherid FAIL rc=1 secs=2 (see logs/check_pubsub_publisherid.out)
 QNXTEST check_pubsub_subscribe FAIL rc=1 secs=1 (see logs/check_pubsub_subscribe.out)
 QNXTEST check_pubsub_publishspeed FAIL rc=1 secs=0 (see logs/check_pubsub_publishspeed.out)
 Memory fault (core dumped) 
-QNXTEST check_pubsub_offset FAIL rc=139 secs=0 (see logs/check_pubsub_offset.out)
-QNXTEST check_pubsub_custom_state_machine PASS rc=0 secs=2
+QNXTEST check_pubsub_offset FAIL rc=139 secs=1 (see logs/check_pubsub_offset.out)
+QNXTEST check_pubsub_custom_state_machine PASS rc=0 secs=1
 QNXTEST check_pubsub_subscribe_msgrcvtimeout FAIL rc=1 secs=3 (see logs/check_pubsub_subscribe_msgrcvtimeout.out)
-QNXTEST check_pubsub_informationmodel FAIL rc=1 secs=9 (see logs/check_pubsub_informationmodel.out)
-QNXTEST check_pubsub_informationmodel_methods FAIL rc=1 secs=16 (see logs/check_pubsub_informationmodel_methods.out)
-QNXTEST check_server_readspeed PASS rc=0 secs=0
-QNXTEST check_server_speed_addnodes PASS rc=0 secs=1
+QNXTEST check_pubsub_informationmodel FAIL rc=1 secs=10 (see logs/check_pubsub_informationmodel.out)
+QNXTEST check_pubsub_informationmodel_methods FAIL rc=1 secs=15 (see logs/check_pubsub_informationmodel_methods.out)
+QNXTEST check_server_readspeed PASS rc=0 secs=1
+QNXTEST check_server_speed_addnodes PASS rc=0 secs=0
 QNXTEST check_server_monitoringspeed PASS rc=0 secs=0
 QNXTEST check_server_reverseconnect PASS rc=0 secs=11
-QNXTEST check_client PASS rc=0 secs=48
+QNXTEST check_client PASS rc=0 secs=47
 QNXTEST check_client_config_coverage PASS rc=0 secs=0
 QNXTEST check_client_lifecycle_coverage PASS rc=0 secs=0
 QNXTEST check_client_discovery PASS rc=0 secs=10
 QNXTEST check_activateSession PASS rc=0 secs=20
 QNXTEST check_activateSessionAsync PASS rc=0 secs=1
-QNXTEST check_client_securechannel PASS rc=0 secs=13
-QNXTEST check_client_async PASS rc=0 secs=7
-QNXTEST check_client_async_read PASS rc=0 secs=42
+QNXTEST check_client_securechannel PASS rc=0 secs=14
+QNXTEST check_client_async PASS rc=0 secs=6
+QNXTEST check_client_async_read PASS rc=0 secs=43
 QNXTEST check_client_async_connect PASS rc=0 secs=5
 QNXTEST check_client_highlevel PASS rc=0 secs=29
-QNXTEST check_client_highlevel_read PASS rc=0 secs=27
-QNXTEST check_client_highlevel_write PASS rc=0 secs=35
+QNXTEST check_client_highlevel_read PASS rc=0 secs=28
+QNXTEST check_client_highlevel_write PASS rc=0 secs=34
 QNXTEST check_client_highlevel_readwrite PASS rc=0 secs=26
 Killed 
 QNXTEST check_client_subscriptions TIMEOUT rc=137 secs=181 limit=180
@@ -146,4 +146,4 @@ QNXTEST check_client_reconnect PASS rc=0 secs=6
 QNXTEST check_client_historical_data PASS rc=0 secs=14
 QNXTEST check_certificategroup_none PASS rc=0 secs=0
 QNXTEST check_nodeset_value_mapping PASS rc=0 secs=0
-QNXTEST-SUMMARY pass=127 fail=19 timeout=1 total=146
+QNXTEST-SUMMARY pass=128 fail=18 timeout=1 total=146

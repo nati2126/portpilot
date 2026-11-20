@@ -1,0 +1,41 @@
+diff --git a/src/SHA1.c b/src/SHA1.c
+index 5c4c349..9f6c084 100644
+--- a/src/SHA1.c
++++ b/src/SHA1.c
+@@ -62,6 +62,9 @@ int SHA1_Final(unsigned char *md, SHA_CTX *c)
+ #  include <sys/endian.h>
+ #endif
+ #include <string.h>
++#if defined(__QNX__)
++#include <net/netbyte.h>
++#endif
+ static unsigned char pad[64] = {
+ 	0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+diff --git a/src/WebSocket.c b/src/WebSocket.c
+index 84142fd..a3d5559 100644
+--- a/src/WebSocket.c
++++ b/src/WebSocket.c
+@@ -145,6 +145,9 @@ static void uuid_unparse( uuid_t uu, char *out )
+ #endif /* if !(defined(_WIN32)) */
+ 
+ #include "Heap.h"
++#if defined(__QNX__)
++#include <net/netbyte.h>
++#endif
+ 
+ /** raw websocket frame data */
+ struct ws_frame
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+index 32ccbf8..4bf215b 100644
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -16,7 +16,7 @@ elseif(UNIX)
+ 	elseif (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+ 		set(LIBS_SYSTEM compat pthread)
+ 	else()
+-		set(LIBS_SYSTEM c pthread)
++		set(LIBS_SYSTEM c $<$<NOT:$<PLATFORM_ID:QNX>>:pthread>)
+ 	endif()
+ endif()
+ 

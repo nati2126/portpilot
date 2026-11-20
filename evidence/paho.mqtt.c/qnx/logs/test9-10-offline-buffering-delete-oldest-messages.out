@@ -1,0 +1,28 @@
+20261120 072424.600 Random prefix/suffix is 13252
+20261120 072424.600 Starting Offline buffering 10 - delete oldest buffered messages first
+=========================================================
+                   Trace Output
+Product name: Eclipse Paho Asynchronous MQTT C Client Library
+Version: 1.3.16
+Build level: 2026-11-04T18:59:01Z
+=========================================================
+20261120 072424.705 In send onFailure callback for client c rc No more messages can be buffered
+20261120 072424.706 In send onFailure callback for client c rc No more messages can be buffered
+20261120 072424.706 In send onFailure callback for client c rc No more messages can be buffered
+20261120 072424.710 Message received on topic paho-test9-10-test topic 13252, "3 message no, QoS 0"
+20261120 072424.751 Message received on topic paho-test9-10-test topic 13252, "4 message no, QoS 1"
+20261120 072424.752 Message received on topic paho-test9-10-test topic 13252, "5 message no, QoS 2"
+20261120 072424.807 Send onSuccess 3 onFailure 3
+20261120 072424.808 In send onFailure callback for client c rc No more messages can be buffered
+20261120 072424.809 In send onFailure callback for client c rc No more messages can be buffered
+20261120 072424.809 In send onFailure callback for client c rc No more messages can be buffered
+20261120 072424.809 In send onFailure callback for client c rc Operation discarded before completion
+20261120 072424.809 In send onFailure callback for client c rc Operation discarded before completion
+20261120 072424.809 In send onFailure callback for client c rc Operation discarded before completion
+20261120 072424.816 Message received on topic paho-test9-10-test topic 13252, "3 message no, QoS 0"
+20261120 072424.859 Message received on topic paho-test9-10-test topic 13252, "4 message no, QoS 1"
+20261120 072424.861 Message received on topic paho-test9-10-test topic 13252, "5 message no, QoS 2"
+20261120 072424.915 Send onSuccess 0 onFailure 6
+20261120 072425.925 passed: test test10. 46 tests run, 0 failures.
+20261120 072425.926 Total tests run: 46
+20261120 072425.926 verdict pass

@@ -1,0 +1,15 @@
+
+Setting connection to ws://localhost:1883
+20261120 063425.745 Starting test 6 - connectionLost and binary will messages
+=========================================================
+                   Trace Output
+Product name: Eclipse Paho Synchronous MQTT C Client Library
+Version: 1.3.16
+Build level: 2026-11-04T18:59:01Z
+=========================================================
+20261120 063425.850 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 1347, description: good rc from connect
+
+rc was -1
+20261120 063425.850 failed: test test6a. 3 tests run, 1 failures.
+
+20261120 063425.850 verdict fail

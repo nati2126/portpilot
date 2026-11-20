@@ -1,0 +1,22 @@
+20261120 101918.766 Product name: Eclipse Paho Asynchronous MQTT C Client Library
+20261120 101918.766 Version: 1.3.16
+20261120 101918.767 Build level: 2026-11-04T18:59:01Z
+20261120 101918.767 Starting V5 test 2 - server topic aliases
+Trace : 3, =========================================================
+Trace : 3,                    Trace Output
+Trace : 3, Product name: Eclipse Paho Asynchronous MQTT C Client Library
+Trace : 3, Version: 1.3.16
+Trace : 3, Build level: 2026-11-04T18:59:01Z
+Trace : 3, =========================================================
+Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test11.c, line 597, description: topicAlias should not be 0
+Topic alias was 0
+Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test11.c, line 593, description: Topic should be 0 length
+Topic name was server topic aliases topic
+Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test11.c, line 597, description: topicAlias should not be 0
+Topic alias was 0
+Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test11.c, line 593, description: Topic should be 0 length
+Topic name was server topic aliases topic
+Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test11.c, line 597, description: topicAlias should not be 0
+Topic alias was 0
+20261120 101918.881 TEST2: test failed. 19 tests run, 5 failures.
+20261120 101918.881 verdict fail
