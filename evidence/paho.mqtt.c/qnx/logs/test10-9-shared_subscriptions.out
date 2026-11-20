@@ -1,11 +1,13 @@
 
-Setting connection to tcp://localhost:1883
-20261120 101917.325 Starting test 8 - shared subscriptions
-20261120 101917.441 Connack properties:
-20261120 101917.441 Property name TOPIC_ALIAS_MAXIMUM value 10
-20261120 101917.441 Property name RECEIVE_MAXIMUM value 20
-20261120 101917.550 Connack properties:
-20261120 101917.550 Property name TOPIC_ALIAS_MAXIMUM value 10
-20261120 101917.550 Property name RECEIVE_MAXIMUM value 20
-20261120 101918.589 TEST9: test passed. 38 tests run, 0 failures.
-20261120 101918.589 verdict pass
+Setting connection to tcp://192.168.122.1:1883
+20261120 113135.735 Starting test 8 - shared subscriptions
+20261120 113135.853 Connack properties:
+20261120 113135.853 Property name RECEIVE_MAXIMUM value 20
+20261120 113135.853 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 113135.853 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 113135.963 Connack properties:
+20261120 113135.963 Property name RECEIVE_MAXIMUM value 20
+20261120 113135.963 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 113135.963 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 113137.000 TEST9: test passed. 38 tests run, 0 failures.
+20261120 113137.000 verdict pass

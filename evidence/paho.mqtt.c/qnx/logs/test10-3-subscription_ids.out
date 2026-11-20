@@ -1,14 +1,10 @@
 
-Setting connection to tcp://localhost:1883
-20261120 101908.528 Starting test 3 - subscription ids
-20261120 101908.641 Property name TOPIC_ALIAS_MAXIMUM value 10
-20261120 101908.641 Property name RECEIVE_MAXIMUM value 20
-20261120 101908.660 Property name SUBSCRIPTION_IDENTIFIER value 1
-20261120 101908.665 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 770, description: Subsid is i+1
-
-subsid is not correct 2
-20261120 101908.665 Property name SUBSCRIPTION_IDENTIFIER value 2
-20261120 101909.653 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 874, description: 1 message should have arrived
-
-was 220261120 101909.757 TEST3: test failed. 12 tests run, 2 failures.
-20261120 101909.758 verdict fail
+Setting connection to tcp://192.168.122.1:1883
+20261120 113126.827 Starting test 3 - subscription ids
+20261120 113126.939 Property name RECEIVE_MAXIMUM value 20
+20261120 113126.939 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 113126.939 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 113126.956 Property name SUBSCRIPTION_IDENTIFIER value 1
+20261120 113126.957 Property name SUBSCRIPTION_IDENTIFIER value 2
+20261120 113128.053 TEST3: test passed. 11 tests run, 0 failures.
+20261120 113128.053 verdict pass

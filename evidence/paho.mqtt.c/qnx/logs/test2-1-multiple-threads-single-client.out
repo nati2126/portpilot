@@ -1,14 +1,14 @@
 
-Setting connection to tcp://localhost:1883
-20261120 063425.873 Starting test 1 - multiple threads using same client object
+Setting connection to tcp://192.168.122.1:1883
+20261120 103102.876 Starting test 1 - multiple threads using same client object
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 063425.976 Thread 3, 50 messages at QoS 0
-20261120 063425.977 Thread 4, 50 messages at QoS 1
-20261120 063425.977 Thread 5, 50 messages at QoS 2
-20261120 063438.397 TEST1: test passed. 312 tests run, 0 failures.
-20261120 063438.398 verdict pass
+20261120 103103.083 Thread 3, 50 messages at QoS 0
+20261120 103103.085 Thread 4, 50 messages at QoS 1
+20261120 103103.128 Thread 5, 50 messages at QoS 2
+20261120 103111.703 TEST1: test passed. 312 tests run, 0 failures.
+20261120 103111.703 verdict pass

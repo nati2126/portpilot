@@ -1,314 +1,314 @@
-20261120 063712.644 Product name: Eclipse Paho Asynchronous MQTT C Client Library
-20261120 063712.644 Version: 1.3.16
-20261120 063712.645 Build level: 2026-11-04T18:59:01Z
-20261120 063712.645 Starting test 6 - acks blocked due to sending messages
+20261120 103352.013 Product name: Eclipse Paho Asynchronous MQTT C Client Library
+20261120 103352.014 Version: 1.3.16
+20261120 103352.014 Build level: 2026-11-04T18:59:01Z
+20261120 103352.014 Starting test 6 - acks blocked due to sending messages
 Trace : 3, =========================================================
 Trace : 3,                    Trace Output
 Trace : 3, Product name: Eclipse Paho Asynchronous MQTT C Client Library
 Trace : 3, Version: 1.3.16
 Trace : 3, Build level: 2026-11-04T18:59:01Z
 Trace : 3, =========================================================
-20261120 063712.649 In connect onSuccess callback, context 1fa7cb5708
-20261120 063712.650 In subscribe onSuccess callback, context 1fa7cb5708
-20261120 063712.660 In publish onSuccess callback, count 1
-20261120 063712.660 Calling sendMessage, count 1
-20261120 063712.662 Called sendMessage, count 1 rc 0
-20261120 063712.761 In publish onSuccess callback, count 2
-20261120 063712.761 Calling sendMessage, count 2
-20261120 063712.762 Called sendMessage, count 2 rc 0
-20261120 063712.862 In publish onSuccess callback, count 3
-20261120 063712.862 Calling sendMessage, count 3
-20261120 063712.863 Called sendMessage, count 3 rc 0
-20261120 063712.963 In publish onSuccess callback, count 4
-20261120 063712.963 Calling sendMessage, count 4
-20261120 063712.964 Called sendMessage, count 4 rc 0
-20261120 063712.966 In publish onSuccess callback, count 5
-20261120 063712.966 Calling sendMessage, count 5
-20261120 063712.967 Called sendMessage, count 5 rc 0
-20261120 063713.064 In publish onSuccess callback, count 6
-20261120 063713.064 Calling sendMessage, count 6
-20261120 063713.065 Called sendMessage, count 6 rc 0
-20261120 063713.066 In publish onSuccess callback, count 7
-20261120 063713.067 Calling sendMessage, count 7
-20261120 063713.067 Called sendMessage, count 7 rc 0
-20261120 063713.069 In publish onSuccess callback, count 8
-20261120 063713.069 Calling sendMessage, count 8
-20261120 063713.070 Called sendMessage, count 8 rc 0
-20261120 063713.072 In publish onSuccess callback, count 9
-20261120 063713.072 Calling sendMessage, count 9
-20261120 063713.073 Called sendMessage, count 9 rc 0
-20261120 063713.075 In publish onSuccess callback, count 10
-20261120 063713.075 Calling sendMessage, count 10
-20261120 063713.076 Called sendMessage, count 10 rc 0
-20261120 063713.079 In publish onSuccess callback, count 11
-20261120 063713.079 Calling sendMessage, count 11
-20261120 063713.080 Called sendMessage, count 11 rc 0
-20261120 063713.082 In publish onSuccess callback, count 12
-20261120 063713.082 Calling sendMessage, count 12
-20261120 063713.083 Called sendMessage, count 12 rc 0
-20261120 063713.085 In publish onSuccess callback, count 13
-20261120 063713.085 Calling sendMessage, count 13
-20261120 063713.086 Called sendMessage, count 13 rc 0
-20261120 063713.087 In publish onSuccess callback, count 14
-20261120 063713.087 Calling sendMessage, count 14
-20261120 063713.088 Called sendMessage, count 14 rc 0
-20261120 063713.090 In publish onSuccess callback, count 15
-20261120 063713.090 Calling sendMessage, count 15
-20261120 063713.091 Called sendMessage, count 15 rc 0
-20261120 063713.092 In publish onSuccess callback, count 16
-20261120 063713.092 Calling sendMessage, count 16
-20261120 063713.093 Called sendMessage, count 16 rc 0
-20261120 063713.095 In publish onSuccess callback, count 17
-20261120 063713.095 Calling sendMessage, count 17
-20261120 063713.096 Called sendMessage, count 17 rc 0
-20261120 063713.097 In publish onSuccess callback, count 18
-20261120 063713.097 Calling sendMessage, count 18
-20261120 063713.098 Called sendMessage, count 18 rc 0
-20261120 063713.100 In publish onSuccess callback, count 19
-20261120 063713.100 Calling sendMessage, count 19
-20261120 063713.101 Called sendMessage, count 19 rc 0
-20261120 063713.102 In publish onSuccess callback, count 20
-20261120 063713.102 Calling sendMessage, count 20
-20261120 063713.103 Called sendMessage, count 20 rc 0
-20261120 063713.105 In publish onSuccess callback, count 21
-20261120 063713.105 Calling sendMessage, count 21
-20261120 063713.106 Called sendMessage, count 21 rc 0
-20261120 063713.107 In publish onSuccess callback, count 22
-20261120 063713.108 Calling sendMessage, count 22
-20261120 063713.109 Called sendMessage, count 22 rc 0
-20261120 063713.110 In publish onSuccess callback, count 23
-20261120 063713.110 Calling sendMessage, count 23
-20261120 063713.111 Called sendMessage, count 23 rc 0
-20261120 063713.113 In publish onSuccess callback, count 24
-20261120 063713.113 Calling sendMessage, count 24
-20261120 063713.114 Called sendMessage, count 24 rc 0
-20261120 063713.116 In publish onSuccess callback, count 25
-20261120 063713.116 Calling sendMessage, count 25
-20261120 063713.117 Called sendMessage, count 25 rc 0
-20261120 063713.119 In publish onSuccess callback, count 26
-20261120 063713.119 Calling sendMessage, count 26
-20261120 063713.120 Called sendMessage, count 26 rc 0
-20261120 063713.122 In publish onSuccess callback, count 27
-20261120 063713.122 Calling sendMessage, count 27
-20261120 063713.122 Called sendMessage, count 27 rc 0
-20261120 063713.124 In publish onSuccess callback, count 28
-20261120 063713.124 Calling sendMessage, count 28
-20261120 063713.125 Called sendMessage, count 28 rc 0
-20261120 063713.127 In publish onSuccess callback, count 29
-20261120 063713.127 Calling sendMessage, count 29
-20261120 063713.127 Called sendMessage, count 29 rc 0
-20261120 063713.129 In publish onSuccess callback, count 30
-20261120 063713.129 Calling sendMessage, count 30
-20261120 063713.130 Called sendMessage, count 30 rc 0
-20261120 063713.131 In publish onSuccess callback, count 31
-20261120 063713.132 Calling sendMessage, count 31
-20261120 063713.133 Called sendMessage, count 31 rc 0
-20261120 063713.134 In publish onSuccess callback, count 32
-20261120 063713.137 Calling sendMessage, count 32
-20261120 063713.138 Called sendMessage, count 32 rc 0
-20261120 063713.140 In publish onSuccess callback, count 33
-20261120 063713.140 Calling sendMessage, count 33
-20261120 063713.141 Called sendMessage, count 33 rc 0
-20261120 063713.143 In publish onSuccess callback, count 34
-20261120 063713.143 Calling sendMessage, count 34
-20261120 063713.144 Called sendMessage, count 34 rc 0
-20261120 063713.145 In publish onSuccess callback, count 35
-20261120 063713.145 Calling sendMessage, count 35
-20261120 063713.146 Called sendMessage, count 35 rc 0
-20261120 063713.148 In publish onSuccess callback, count 36
-20261120 063713.148 Calling sendMessage, count 36
-20261120 063713.149 Called sendMessage, count 36 rc 0
-20261120 063713.151 In publish onSuccess callback, count 37
-20261120 063713.151 Calling sendMessage, count 37
-20261120 063713.152 Called sendMessage, count 37 rc 0
-20261120 063713.154 In publish onSuccess callback, count 38
-20261120 063713.154 Calling sendMessage, count 38
-20261120 063713.155 Called sendMessage, count 38 rc 0
-20261120 063713.156 In publish onSuccess callback, count 39
-20261120 063713.157 Calling sendMessage, count 39
-20261120 063713.157 Called sendMessage, count 39 rc 0
-20261120 063713.159 In publish onSuccess callback, count 40
-20261120 063713.159 Calling sendMessage, count 40
-20261120 063713.160 Called sendMessage, count 40 rc 0
-20261120 063713.162 In publish onSuccess callback, count 41
-20261120 063713.162 Calling sendMessage, count 41
-20261120 063713.164 Called sendMessage, count 41 rc 0
-20261120 063713.165 In publish onSuccess callback, count 42
-20261120 063713.165 Calling sendMessage, count 42
-20261120 063713.167 Called sendMessage, count 42 rc 0
-20261120 063713.168 In publish onSuccess callback, count 43
-20261120 063713.168 Calling sendMessage, count 43
-20261120 063713.169 Called sendMessage, count 43 rc 0
-20261120 063713.172 In publish onSuccess callback, count 44
-20261120 063713.172 Calling sendMessage, count 44
-20261120 063713.173 Called sendMessage, count 44 rc 0
-20261120 063713.174 In publish onSuccess callback, count 45
-20261120 063713.175 Calling sendMessage, count 45
-20261120 063713.176 Called sendMessage, count 45 rc 0
-20261120 063713.178 In publish onSuccess callback, count 46
-20261120 063713.178 Calling sendMessage, count 46
-20261120 063713.179 Called sendMessage, count 46 rc 0
-20261120 063713.181 In publish onSuccess callback, count 47
-20261120 063713.181 Calling sendMessage, count 47
-20261120 063713.182 Called sendMessage, count 47 rc 0
-20261120 063713.184 In publish onSuccess callback, count 48
-20261120 063713.184 Calling sendMessage, count 48
-20261120 063713.185 Called sendMessage, count 48 rc 0
-20261120 063713.187 In publish onSuccess callback, count 49
-20261120 063713.187 Calling sendMessage, count 49
-20261120 063713.188 Called sendMessage, count 49 rc 0
-20261120 063713.190 In publish onSuccess callback, count 50
-20261120 063713.190 Calling sendMessage, count 50
-20261120 063713.191 Called sendMessage, count 50 rc 0
-20261120 063713.193 In publish onSuccess callback, count 51
-20261120 063713.193 Calling sendMessage, count 51
-20261120 063713.194 Called sendMessage, count 51 rc 0
-20261120 063713.196 In publish onSuccess callback, count 52
-20261120 063713.196 Calling sendMessage, count 52
-20261120 063713.197 Called sendMessage, count 52 rc 0
-20261120 063713.199 In publish onSuccess callback, count 53
-20261120 063713.199 Calling sendMessage, count 53
-20261120 063713.199 Called sendMessage, count 53 rc 0
-20261120 063713.201 In publish onSuccess callback, count 54
-20261120 063713.201 Calling sendMessage, count 54
-20261120 063713.202 Called sendMessage, count 54 rc 0
-20261120 063713.204 In publish onSuccess callback, count 55
-20261120 063713.204 Calling sendMessage, count 55
-20261120 063713.205 Called sendMessage, count 55 rc 0
-20261120 063713.207 In publish onSuccess callback, count 56
-20261120 063713.207 Calling sendMessage, count 56
-20261120 063713.208 Called sendMessage, count 56 rc 0
-20261120 063713.210 In publish onSuccess callback, count 57
-20261120 063713.210 Calling sendMessage, count 57
-20261120 063713.211 Called sendMessage, count 57 rc 0
-20261120 063713.213 In publish onSuccess callback, count 58
-20261120 063713.213 Calling sendMessage, count 58
-20261120 063713.214 Called sendMessage, count 58 rc 0
-20261120 063713.215 In publish onSuccess callback, count 59
-20261120 063713.215 Calling sendMessage, count 59
-20261120 063713.216 Called sendMessage, count 59 rc 0
-20261120 063713.218 In publish onSuccess callback, count 60
-20261120 063713.218 Calling sendMessage, count 60
-20261120 063713.219 Called sendMessage, count 60 rc 0
-20261120 063713.221 In publish onSuccess callback, count 61
-20261120 063713.221 Calling sendMessage, count 61
-20261120 063713.222 Called sendMessage, count 61 rc 0
-20261120 063713.223 In publish onSuccess callback, count 62
-20261120 063713.224 Calling sendMessage, count 62
-20261120 063713.225 Called sendMessage, count 62 rc 0
-20261120 063713.227 In publish onSuccess callback, count 63
-20261120 063713.227 Calling sendMessage, count 63
-20261120 063713.228 Called sendMessage, count 63 rc 0
-20261120 063713.230 In publish onSuccess callback, count 64
-20261120 063713.230 Calling sendMessage, count 64
-20261120 063713.231 Called sendMessage, count 64 rc 0
-20261120 063713.233 In publish onSuccess callback, count 65
-20261120 063713.233 Calling sendMessage, count 65
-20261120 063713.234 Called sendMessage, count 65 rc 0
-20261120 063713.236 In publish onSuccess callback, count 66
-20261120 063713.236 Calling sendMessage, count 66
-20261120 063713.237 Called sendMessage, count 66 rc 0
-20261120 063713.239 In publish onSuccess callback, count 67
-20261120 063713.239 Calling sendMessage, count 67
-20261120 063713.239 Called sendMessage, count 67 rc 0
-20261120 063713.241 In publish onSuccess callback, count 68
-20261120 063713.241 Calling sendMessage, count 68
-20261120 063713.242 Called sendMessage, count 68 rc 0
-20261120 063713.244 In publish onSuccess callback, count 69
-20261120 063713.244 Calling sendMessage, count 69
-20261120 063713.245 Called sendMessage, count 69 rc 0
-20261120 063713.247 In publish onSuccess callback, count 70
-20261120 063713.247 Calling sendMessage, count 70
-20261120 063713.248 Called sendMessage, count 70 rc 0
-20261120 063713.249 In publish onSuccess callback, count 71
-20261120 063713.249 Calling sendMessage, count 71
-20261120 063713.250 Called sendMessage, count 71 rc 0
-20261120 063713.252 In publish onSuccess callback, count 72
-20261120 063713.252 Calling sendMessage, count 72
-20261120 063713.253 Called sendMessage, count 72 rc 0
-20261120 063713.255 In publish onSuccess callback, count 73
-20261120 063713.255 Calling sendMessage, count 73
-20261120 063713.256 Called sendMessage, count 73 rc 0
-20261120 063713.258 In publish onSuccess callback, count 74
-20261120 063713.258 Calling sendMessage, count 74
-20261120 063713.259 Called sendMessage, count 74 rc 0
-20261120 063713.261 In publish onSuccess callback, count 75
-20261120 063713.261 Calling sendMessage, count 75
-20261120 063713.262 Called sendMessage, count 75 rc 0
-20261120 063713.264 In publish onSuccess callback, count 76
-20261120 063713.264 Calling sendMessage, count 76
-20261120 063713.265 Called sendMessage, count 76 rc 0
-20261120 063713.266 In publish onSuccess callback, count 77
-20261120 063713.266 Calling sendMessage, count 77
-20261120 063713.267 Called sendMessage, count 77 rc 0
-20261120 063713.269 In publish onSuccess callback, count 78
-20261120 063713.269 Calling sendMessage, count 78
-20261120 063713.270 Called sendMessage, count 78 rc 0
-20261120 063713.272 In publish onSuccess callback, count 79
-20261120 063713.272 Calling sendMessage, count 79
-20261120 063713.273 Called sendMessage, count 79 rc 0
-20261120 063713.274 In publish onSuccess callback, count 80
-20261120 063713.274 Calling sendMessage, count 80
-20261120 063713.276 Called sendMessage, count 80 rc 0
-20261120 063713.278 In publish onSuccess callback, count 81
-20261120 063713.278 Calling sendMessage, count 81
-20261120 063713.279 Called sendMessage, count 81 rc 0
-20261120 063713.281 In publish onSuccess callback, count 82
-20261120 063713.281 Calling sendMessage, count 82
-20261120 063713.282 Called sendMessage, count 82 rc 0
-20261120 063713.283 In publish onSuccess callback, count 83
-20261120 063713.283 Calling sendMessage, count 83
-20261120 063713.284 Called sendMessage, count 83 rc 0
-20261120 063713.286 In publish onSuccess callback, count 84
-20261120 063713.286 Calling sendMessage, count 84
-20261120 063713.287 Called sendMessage, count 84 rc 0
-20261120 063713.289 In publish onSuccess callback, count 85
-20261120 063713.289 Calling sendMessage, count 85
-20261120 063713.290 Called sendMessage, count 85 rc 0
-20261120 063713.292 In publish onSuccess callback, count 86
-20261120 063713.292 Calling sendMessage, count 86
-20261120 063713.293 Called sendMessage, count 86 rc 0
-20261120 063713.295 In publish onSuccess callback, count 87
-20261120 063713.295 Calling sendMessage, count 87
-20261120 063713.296 Called sendMessage, count 87 rc 0
-20261120 063713.297 In publish onSuccess callback, count 88
-20261120 063713.297 Calling sendMessage, count 88
-20261120 063713.299 Called sendMessage, count 88 rc 0
-20261120 063713.301 In publish onSuccess callback, count 89
-20261120 063713.301 Calling sendMessage, count 89
-20261120 063713.302 Called sendMessage, count 89 rc 0
-20261120 063713.303 In publish onSuccess callback, count 90
-20261120 063713.303 Calling sendMessage, count 90
-20261120 063713.304 Called sendMessage, count 90 rc 0
-20261120 063713.306 In publish onSuccess callback, count 91
-20261120 063713.306 Calling sendMessage, count 91
-20261120 063713.307 Called sendMessage, count 91 rc 0
-20261120 063713.309 In publish onSuccess callback, count 92
-20261120 063713.309 Calling sendMessage, count 92
-20261120 063713.310 Called sendMessage, count 92 rc 0
-20261120 063713.312 In publish onSuccess callback, count 93
-20261120 063713.312 Calling sendMessage, count 93
-20261120 063713.313 Called sendMessage, count 93 rc 0
-20261120 063713.314 In publish onSuccess callback, count 94
-20261120 063713.315 Calling sendMessage, count 94
-20261120 063713.315 Called sendMessage, count 94 rc 0
-20261120 063713.317 In publish onSuccess callback, count 95
-20261120 063713.317 Calling sendMessage, count 95
-20261120 063713.318 Called sendMessage, count 95 rc 0
-20261120 063713.320 In publish onSuccess callback, count 96
-20261120 063713.320 Calling sendMessage, count 96
-20261120 063713.321 Called sendMessage, count 96 rc 0
-20261120 063713.323 In publish onSuccess callback, count 97
-20261120 063713.323 Calling sendMessage, count 97
-20261120 063713.324 Called sendMessage, count 97 rc 0
-20261120 063713.326 In publish onSuccess callback, count 98
-20261120 063713.326 Calling sendMessage, count 98
-20261120 063713.327 Called sendMessage, count 98 rc 0
-20261120 063713.328 In publish onSuccess callback, count 99
-20261120 063713.328 Calling sendMessage, count 99
-20261120 063713.329 Called sendMessage, count 99 rc 0
-20261120 063713.330 In publish onSuccess callback, count 100
-20261120 063713.331 Calling sendMessage, count 100
-20261120 063713.331 Called sendMessage, count 100 rc 0
-20261120 063714.478 TEST6: test passed. 123 tests run, 0 failures.
-20261120 063714.478 verdict pass
+20261120 103352.022 In connect onSuccess callback, context 5650522708
+20261120 103352.025 In subscribe onSuccess callback, context 5650522708
+20261120 103406.041 In publish onSuccess callback, count 1
+20261120 103406.042 Calling sendMessage, count 1
+20261120 103406.045 Called sendMessage, count 1 rc 0
+20261120 103406.057 In publish onSuccess callback, count 2
+20261120 103406.058 Calling sendMessage, count 2
+20261120 103406.058 Called sendMessage, count 2 rc 0
+20261120 103406.066 In publish onSuccess callback, count 3
+20261120 103406.066 Calling sendMessage, count 3
+20261120 103406.067 Called sendMessage, count 3 rc 0
+20261120 103406.072 In publish onSuccess callback, count 4
+20261120 103406.072 Calling sendMessage, count 4
+20261120 103406.073 Called sendMessage, count 4 rc 0
+20261120 103409.079 In publish onSuccess callback, count 5
+20261120 103409.079 Calling sendMessage, count 5
+20261120 103409.080 Called sendMessage, count 5 rc 0
+20261120 103409.088 In publish onSuccess callback, count 6
+20261120 103409.088 Calling sendMessage, count 6
+20261120 103409.090 Called sendMessage, count 6 rc 0
+20261120 103409.096 In publish onSuccess callback, count 7
+20261120 103409.096 Calling sendMessage, count 7
+20261120 103409.097 Called sendMessage, count 7 rc 0
+20261120 103409.103 In publish onSuccess callback, count 8
+20261120 103409.103 Calling sendMessage, count 8
+20261120 103409.104 Called sendMessage, count 8 rc 0
+20261120 103409.109 In publish onSuccess callback, count 9
+20261120 103409.110 Calling sendMessage, count 9
+20261120 103409.110 Called sendMessage, count 9 rc 0
+20261120 103409.118 In publish onSuccess callback, count 10
+20261120 103409.118 Calling sendMessage, count 10
+20261120 103409.120 Called sendMessage, count 10 rc 0
+20261120 103409.125 In publish onSuccess callback, count 11
+20261120 103409.125 Calling sendMessage, count 11
+20261120 103409.126 Called sendMessage, count 11 rc 0
+20261120 103409.135 In publish onSuccess callback, count 12
+20261120 103409.135 Calling sendMessage, count 12
+20261120 103409.136 Called sendMessage, count 12 rc 0
+20261120 103409.142 In publish onSuccess callback, count 13
+20261120 103409.142 Calling sendMessage, count 13
+20261120 103409.143 Called sendMessage, count 13 rc 0
+20261120 103409.149 In publish onSuccess callback, count 14
+20261120 103409.149 Calling sendMessage, count 14
+20261120 103409.151 Called sendMessage, count 14 rc 0
+20261120 103409.155 In publish onSuccess callback, count 15
+20261120 103409.155 Calling sendMessage, count 15
+20261120 103409.155 Called sendMessage, count 15 rc 0
+20261120 103409.162 In publish onSuccess callback, count 16
+20261120 103409.162 Calling sendMessage, count 16
+20261120 103409.163 Called sendMessage, count 16 rc 0
+20261120 103409.169 In publish onSuccess callback, count 17
+20261120 103409.169 Calling sendMessage, count 17
+20261120 103409.170 Called sendMessage, count 17 rc 0
+20261120 103409.177 In publish onSuccess callback, count 18
+20261120 103409.178 Calling sendMessage, count 18
+20261120 103409.179 Called sendMessage, count 18 rc 0
+20261120 103409.187 In publish onSuccess callback, count 19
+20261120 103409.187 Calling sendMessage, count 19
+20261120 103409.188 Called sendMessage, count 19 rc 0
+20261120 103409.193 In publish onSuccess callback, count 20
+20261120 103409.193 Calling sendMessage, count 20
+20261120 103409.194 Called sendMessage, count 20 rc 0
+20261120 103409.202 In publish onSuccess callback, count 21
+20261120 103409.202 Calling sendMessage, count 21
+20261120 103409.203 Called sendMessage, count 21 rc 0
+20261120 103409.207 In publish onSuccess callback, count 22
+20261120 103409.207 Calling sendMessage, count 22
+20261120 103409.208 Called sendMessage, count 22 rc 0
+20261120 103409.211 In publish onSuccess callback, count 23
+20261120 103409.211 Calling sendMessage, count 23
+20261120 103409.212 Called sendMessage, count 23 rc 0
+20261120 103409.217 In publish onSuccess callback, count 24
+20261120 103409.217 Calling sendMessage, count 24
+20261120 103409.218 Called sendMessage, count 24 rc 0
+20261120 103409.224 In publish onSuccess callback, count 25
+20261120 103409.224 Calling sendMessage, count 25
+20261120 103409.225 Called sendMessage, count 25 rc 0
+20261120 103409.232 In publish onSuccess callback, count 26
+20261120 103409.232 Calling sendMessage, count 26
+20261120 103409.233 Called sendMessage, count 26 rc 0
+20261120 103409.238 In publish onSuccess callback, count 27
+20261120 103409.239 Calling sendMessage, count 27
+20261120 103409.240 Called sendMessage, count 27 rc 0
+20261120 103409.242 In publish onSuccess callback, count 28
+20261120 103409.242 Calling sendMessage, count 28
+20261120 103409.244 Called sendMessage, count 28 rc 0
+20261120 103409.246 In publish onSuccess callback, count 29
+20261120 103409.246 Calling sendMessage, count 29
+20261120 103409.247 Called sendMessage, count 29 rc 0
+20261120 103409.253 In publish onSuccess callback, count 30
+20261120 103409.253 Calling sendMessage, count 30
+20261120 103409.254 Called sendMessage, count 30 rc 0
+20261120 103409.260 In publish onSuccess callback, count 31
+20261120 103409.260 Calling sendMessage, count 31
+20261120 103409.261 Called sendMessage, count 31 rc 0
+20261120 103409.265 In publish onSuccess callback, count 32
+20261120 103409.265 Calling sendMessage, count 32
+20261120 103409.266 Called sendMessage, count 32 rc 0
+20261120 103409.272 In publish onSuccess callback, count 33
+20261120 103409.272 Calling sendMessage, count 33
+20261120 103409.273 Called sendMessage, count 33 rc 0
+20261120 103409.280 In publish onSuccess callback, count 34
+20261120 103409.281 Calling sendMessage, count 34
+20261120 103409.282 Called sendMessage, count 34 rc 0
+20261120 103409.285 In publish onSuccess callback, count 35
+20261120 103409.285 Calling sendMessage, count 35
+20261120 103409.287 Called sendMessage, count 35 rc 0
+20261120 103409.290 In publish onSuccess callback, count 36
+20261120 103409.290 Calling sendMessage, count 36
+20261120 103409.291 Called sendMessage, count 36 rc 0
+20261120 103409.294 In publish onSuccess callback, count 37
+20261120 103409.295 Calling sendMessage, count 37
+20261120 103409.295 Called sendMessage, count 37 rc 0
+20261120 103409.301 In publish onSuccess callback, count 38
+20261120 103409.301 Calling sendMessage, count 38
+20261120 103409.302 Called sendMessage, count 38 rc 0
+20261120 103409.306 In publish onSuccess callback, count 39
+20261120 103409.306 Calling sendMessage, count 39
+20261120 103409.307 Called sendMessage, count 39 rc 0
+20261120 103409.312 In publish onSuccess callback, count 40
+20261120 103409.312 Calling sendMessage, count 40
+20261120 103409.313 Called sendMessage, count 40 rc 0
+20261120 103409.316 In publish onSuccess callback, count 41
+20261120 103409.316 Calling sendMessage, count 41
+20261120 103409.317 Called sendMessage, count 41 rc 0
+20261120 103409.320 In publish onSuccess callback, count 42
+20261120 103409.320 Calling sendMessage, count 42
+20261120 103409.321 Called sendMessage, count 42 rc 0
+20261120 103409.324 In publish onSuccess callback, count 43
+20261120 103409.324 Calling sendMessage, count 43
+20261120 103409.325 Called sendMessage, count 43 rc 0
+20261120 103409.327 In publish onSuccess callback, count 44
+20261120 103409.327 Calling sendMessage, count 44
+20261120 103409.328 Called sendMessage, count 44 rc 0
+20261120 103409.330 In publish onSuccess callback, count 45
+20261120 103409.330 Calling sendMessage, count 45
+20261120 103409.331 Called sendMessage, count 45 rc 0
+20261120 103409.337 In publish onSuccess callback, count 46
+20261120 103409.337 Calling sendMessage, count 46
+20261120 103409.338 Called sendMessage, count 46 rc 0
+20261120 103409.344 In publish onSuccess callback, count 47
+20261120 103409.345 Calling sendMessage, count 47
+20261120 103409.345 Called sendMessage, count 47 rc 0
+20261120 103409.348 In publish onSuccess callback, count 48
+20261120 103409.348 Calling sendMessage, count 48
+20261120 103409.349 Called sendMessage, count 48 rc 0
+20261120 103409.351 In publish onSuccess callback, count 49
+20261120 103409.351 Calling sendMessage, count 49
+20261120 103409.352 Called sendMessage, count 49 rc 0
+20261120 103409.359 In publish onSuccess callback, count 50
+20261120 103409.359 Calling sendMessage, count 50
+20261120 103409.360 Called sendMessage, count 50 rc 0
+20261120 103409.362 In publish onSuccess callback, count 51
+20261120 103409.362 Calling sendMessage, count 51
+20261120 103409.363 Called sendMessage, count 51 rc 0
+20261120 103409.369 In publish onSuccess callback, count 52
+20261120 103409.369 Calling sendMessage, count 52
+20261120 103409.370 Called sendMessage, count 52 rc 0
+20261120 103409.372 In publish onSuccess callback, count 53
+20261120 103409.372 Calling sendMessage, count 53
+20261120 103409.373 Called sendMessage, count 53 rc 0
+20261120 103409.379 In publish onSuccess callback, count 54
+20261120 103409.379 Calling sendMessage, count 54
+20261120 103409.380 Called sendMessage, count 54 rc 0
+20261120 103409.382 In publish onSuccess callback, count 55
+20261120 103409.382 Calling sendMessage, count 55
+20261120 103409.383 Called sendMessage, count 55 rc 0
+20261120 103409.386 In publish onSuccess callback, count 56
+20261120 103409.386 Calling sendMessage, count 56
+20261120 103409.387 Called sendMessage, count 56 rc 0
+20261120 103409.389 In publish onSuccess callback, count 57
+20261120 103409.389 Calling sendMessage, count 57
+20261120 103409.390 Called sendMessage, count 57 rc 0
+20261120 103409.392 In publish onSuccess callback, count 58
+20261120 103409.392 Calling sendMessage, count 58
+20261120 103409.393 Called sendMessage, count 58 rc 0
+20261120 103409.396 In publish onSuccess callback, count 59
+20261120 103409.396 Calling sendMessage, count 59
+20261120 103409.398 Called sendMessage, count 59 rc 0
+20261120 103409.403 In publish onSuccess callback, count 60
+20261120 103409.403 Calling sendMessage, count 60
+20261120 103409.404 Called sendMessage, count 60 rc 0
+20261120 103409.409 In publish onSuccess callback, count 61
+20261120 103409.409 Calling sendMessage, count 61
+20261120 103409.410 Called sendMessage, count 61 rc 0
+20261120 103409.412 In publish onSuccess callback, count 62
+20261120 103409.412 Calling sendMessage, count 62
+20261120 103409.413 Called sendMessage, count 62 rc 0
+20261120 103409.416 In publish onSuccess callback, count 63
+20261120 103409.416 Calling sendMessage, count 63
+20261120 103409.417 Called sendMessage, count 63 rc 0
+20261120 103409.421 In publish onSuccess callback, count 64
+20261120 103409.421 Calling sendMessage, count 64
+20261120 103409.422 Called sendMessage, count 64 rc 0
+20261120 103409.428 In publish onSuccess callback, count 65
+20261120 103409.428 Calling sendMessage, count 65
+20261120 103409.429 Called sendMessage, count 65 rc 0
+20261120 103409.432 In publish onSuccess callback, count 66
+20261120 103409.432 Calling sendMessage, count 66
+20261120 103409.433 Called sendMessage, count 66 rc 0
+20261120 103409.436 In publish onSuccess callback, count 67
+20261120 103409.436 Calling sendMessage, count 67
+20261120 103409.437 Called sendMessage, count 67 rc 0
+20261120 103409.441 In publish onSuccess callback, count 68
+20261120 103409.442 Calling sendMessage, count 68
+20261120 103409.443 Called sendMessage, count 68 rc 0
+20261120 103409.444 In publish onSuccess callback, count 69
+20261120 103409.444 Calling sendMessage, count 69
+20261120 103409.445 Called sendMessage, count 69 rc 0
+20261120 103409.449 In publish onSuccess callback, count 70
+20261120 103409.449 Calling sendMessage, count 70
+20261120 103409.450 Called sendMessage, count 70 rc 0
+20261120 103409.454 In publish onSuccess callback, count 71
+20261120 103409.454 Calling sendMessage, count 71
+20261120 103409.455 Called sendMessage, count 71 rc 0
+20261120 103409.458 In publish onSuccess callback, count 72
+20261120 103409.458 Calling sendMessage, count 72
+20261120 103409.459 Called sendMessage, count 72 rc 0
+20261120 103409.466 In publish onSuccess callback, count 73
+20261120 103409.466 Calling sendMessage, count 73
+20261120 103409.467 Called sendMessage, count 73 rc 0
+20261120 103409.469 In publish onSuccess callback, count 74
+20261120 103409.469 Calling sendMessage, count 74
+20261120 103409.470 Called sendMessage, count 74 rc 0
+20261120 103409.475 In publish onSuccess callback, count 75
+20261120 103409.475 Calling sendMessage, count 75
+20261120 103409.476 Called sendMessage, count 75 rc 0
+20261120 103409.478 In publish onSuccess callback, count 76
+20261120 103409.479 Calling sendMessage, count 76
+20261120 103409.480 Called sendMessage, count 76 rc 0
+20261120 103409.482 In publish onSuccess callback, count 77
+20261120 103409.482 Calling sendMessage, count 77
+20261120 103409.483 Called sendMessage, count 77 rc 0
+20261120 103409.488 In publish onSuccess callback, count 78
+20261120 103409.488 Calling sendMessage, count 78
+20261120 103409.489 Called sendMessage, count 78 rc 0
+20261120 103409.491 In publish onSuccess callback, count 79
+20261120 103409.492 Calling sendMessage, count 79
+20261120 103409.492 Called sendMessage, count 79 rc 0
+20261120 103409.496 In publish onSuccess callback, count 80
+20261120 103409.496 Calling sendMessage, count 80
+20261120 103409.498 Called sendMessage, count 80 rc 0
+20261120 103409.503 In publish onSuccess callback, count 81
+20261120 103409.503 Calling sendMessage, count 81
+20261120 103409.504 Called sendMessage, count 81 rc 0
+20261120 103409.523 In publish onSuccess callback, count 82
+20261120 103409.524 Calling sendMessage, count 82
+20261120 103409.525 Called sendMessage, count 82 rc 0
+20261120 103409.534 In publish onSuccess callback, count 83
+20261120 103409.534 Calling sendMessage, count 83
+20261120 103409.535 Called sendMessage, count 83 rc 0
+20261120 103409.547 In publish onSuccess callback, count 84
+20261120 103409.551 Calling sendMessage, count 84
+20261120 103409.561 Called sendMessage, count 84 rc 0
+20261120 103409.563 In publish onSuccess callback, count 85
+20261120 103409.563 Calling sendMessage, count 85
+20261120 103409.564 Called sendMessage, count 85 rc 0
+20261120 103409.567 In publish onSuccess callback, count 86
+20261120 103409.567 Calling sendMessage, count 86
+20261120 103409.568 Called sendMessage, count 86 rc 0
+20261120 103409.571 In publish onSuccess callback, count 87
+20261120 103409.571 Calling sendMessage, count 87
+20261120 103409.572 Called sendMessage, count 87 rc 0
+20261120 103409.577 In publish onSuccess callback, count 88
+20261120 103409.577 Calling sendMessage, count 88
+20261120 103409.578 Called sendMessage, count 88 rc 0
+20261120 103409.580 In publish onSuccess callback, count 89
+20261120 103409.580 Calling sendMessage, count 89
+20261120 103409.581 Called sendMessage, count 89 rc 0
+20261120 103409.584 In publish onSuccess callback, count 90
+20261120 103409.584 Calling sendMessage, count 90
+20261120 103409.585 Called sendMessage, count 90 rc 0
+20261120 103409.587 In publish onSuccess callback, count 91
+20261120 103409.587 Calling sendMessage, count 91
+20261120 103409.588 Called sendMessage, count 91 rc 0
+20261120 103409.591 In publish onSuccess callback, count 92
+20261120 103409.591 Calling sendMessage, count 92
+20261120 103409.592 Called sendMessage, count 92 rc 0
+20261120 103409.597 In publish onSuccess callback, count 93
+20261120 103409.597 Calling sendMessage, count 93
+20261120 103409.598 Called sendMessage, count 93 rc 0
+20261120 103409.601 In publish onSuccess callback, count 94
+20261120 103409.601 Calling sendMessage, count 94
+20261120 103409.602 Called sendMessage, count 94 rc 0
+20261120 103409.604 In publish onSuccess callback, count 95
+20261120 103409.604 Calling sendMessage, count 95
+20261120 103409.605 Called sendMessage, count 95 rc 0
+20261120 103409.608 In publish onSuccess callback, count 96
+20261120 103409.608 Calling sendMessage, count 96
+20261120 103409.609 Called sendMessage, count 96 rc 0
+20261120 103409.611 In publish onSuccess callback, count 97
+20261120 103409.611 Calling sendMessage, count 97
+20261120 103409.612 Called sendMessage, count 97 rc 0
+20261120 103409.616 In publish onSuccess callback, count 98
+20261120 103409.616 Calling sendMessage, count 98
+20261120 103409.617 Called sendMessage, count 98 rc 0
+20261120 103409.620 In publish onSuccess callback, count 99
+20261120 103409.620 Calling sendMessage, count 99
+20261120 103409.621 Called sendMessage, count 99 rc 0
+20261120 103409.623 In publish onSuccess callback, count 100
+20261120 103409.623 Calling sendMessage, count 100
+20261120 103409.624 Called sendMessage, count 100 rc 0
+20261120 103410.820 TEST6: test passed. 459 tests run, 0 failures.
+20261120 103410.820 verdict pass

@@ -1,11 +1,10 @@
 
-Setting connection to tcp://localhost:1883
-20261120 101911.219 Starting test - error reporting
-20261120 101911.331 Property name TOPIC_ALIAS_MAXIMUM value 10
-20261120 101911.331 Property name RECEIVE_MAXIMUM value 20
-20261120 101911.336 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 1079, description: Properties should exist
-
-props was 020261120 101911.340 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 1088, description: Properties should exist
-
-props was 020261120 101911.443 TEST3: test failed. 7 tests run, 2 failures.
-20261120 101911.443 verdict fail
+Setting connection to tcp://192.168.122.1:1883
+20261120 113129.525 Starting test - error reporting
+20261120 113129.640 Property name RECEIVE_MAXIMUM value 20
+20261120 113129.640 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 113129.640 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 113129.646 Property name USER_PROPERTY key unsub user property value unsub user property value
+20261120 113129.650 Property name USER_PROPERTY key unsub user property value unsub user property value
+20261120 113129.854 TEST3: test passed. 7 tests run, 0 failures.
+20261120 113129.854 verdict pass

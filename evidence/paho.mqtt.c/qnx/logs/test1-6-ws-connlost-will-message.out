@@ -1,15 +1,16 @@
 
-Setting connection to ws://localhost:1883
-20261120 062913.827 Starting test 6 - connectionLost and will messages
+Setting connection to ws://192.168.122.1:1883
+20261120 102946.109 Starting test 6 - connectionLost and will messages
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 062913.931 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test1.c, line 998, description: good rc from connect
+20261120 102946.320 Connecting Client_2 ...
+20261120 102946.427 Waiting to receive the will message
+Client-1 -> Callback: connection lost
+Client-2 -> Callback: message received on topic 'C Test 2: will topic' is 'will message from Client-1'.
+20261120 102947.635 passed: test test6. 14 tests run, 0 failures.
 
-rc was -1
-20261120 062913.931 failed: test test6. 3 tests run, 1 failures.
-
-20261120 062913.931 verdict fail
+20261120 102947.636 verdict pass

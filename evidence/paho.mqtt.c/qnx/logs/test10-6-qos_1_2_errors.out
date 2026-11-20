@@ -1,21 +1,16 @@
 
-Setting connection to tcp://localhost:1883
-20261120 101911.466 Starting test - qos 1 and 2 errors
-20261120 101911.578 Property name TOPIC_ALIAS_MAXIMUM value 10
-20261120 101911.578 Property name RECEIVE_MAXIMUM value 20
-20261120 101911.583 Callback: published, reason code "No matching subscribers" msgid: 1 packet type: 4
-20261120 101911.583 Callback: published, properties:
-20261120 101912.582 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 1230, description: Reason code was packet identifier not found
-
-Reason code was 1620261120 101912.589 Callback: published, reason code "SUCCESS" msgid: 2 packet type: 7
-20261120 101912.589 Callback: published, properties:
-20261120 101913.585 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 1252, description: Reason code was packet identifier not found
-
-Reason code was 020261120 101913.585 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 1255, description: Packet type was PUBREC
-
-packet type was 720261120 101913.591 Callback: published, reason code "SUCCESS" msgid: 3 packet type: 7
-20261120 101913.591 Callback: published, properties:
-20261120 101914.587 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test10.c, line 1273, description: Reason code was packet identifier not found
-
-Reason code was 020261120 101914.690 TEST6: test failed. 16 tests run, 4 failures.
-20261120 101914.690 verdict fail
+Setting connection to tcp://192.168.122.1:1883
+20261120 113129.876 Starting test - qos 1 and 2 errors
+20261120 113129.988 Property name RECEIVE_MAXIMUM value 20
+20261120 113129.988 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 113129.988 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 113129.994 Callback: published, reason code "Not authorized" msgid: 1 packet type: 4
+20261120 113129.994 Callback: published, properties:
+20261120 113129.994 Property name USER_PROPERTY key unsub user property value unsub user property value
+20261120 113130.996 Callback: published, reason code "Not authorized" msgid: 2 packet type: 5
+20261120 113130.996 Callback: published, properties:
+20261120 113130.996 Property name USER_PROPERTY key unsub user property value unsub user property value
+20261120 113131.999 Callback: published, reason code "Packet Identifier not found" msgid: 3 packet type: 7
+20261120 113131.999 Callback: published, properties:
+20261120 113133.097 TEST6: test passed. 16 tests run, 0 failures.
+20261120 113133.097 verdict pass

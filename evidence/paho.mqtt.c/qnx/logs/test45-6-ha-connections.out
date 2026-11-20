@@ -1,15 +1,15 @@
-20261120 063608.170 Product name: Eclipse Paho Asynchronous MQTT C Client Library
-20261120 063608.171 Version: 1.3.16
-20261120 063608.171 Build level: 2026-11-04T18:59:01Z
-20261120 063608.171 Starting test 6 - HA connections
+20261120 103222.427 Product name: Eclipse Paho Asynchronous MQTT C Client Library
+20261120 103222.427 Version: 1.3.16
+20261120 103222.427 Build level: 2026-11-04T18:59:01Z
+20261120 103222.427 Starting test 6 - HA connections
 Trace : 3, =========================================================
 Trace : 3,                    Trace Output
 Trace : 3, Product name: Eclipse Paho Asynchronous MQTT C Client Library
 Trace : 3, Version: 1.3.16
 Trace : 3, Build level: 2026-11-04T18:59:01Z
 Trace : 3, =========================================================
-Trace : 5, 20261120 063638.180 getaddrinfo failed for addr rubbish with rc 1
-Trace : 5, 20261120 063638.180 rubbish is not a valid IP address
-20261120 063638.180 Connack rc is 0
-20261120 063639.388 TEST6: test passed. 6 tests run, 0 failures.
-20261120 063639.388 verdict pass
+Trace : 5, 20261120 103252.438 getaddrinfo failed for addr rubbish with rc 1
+Trace : 5, 20261120 103252.438 rubbish is not a valid IP address
+20261120 103252.438 Connack rc is 0
+20261120 103253.639 TEST6: test passed. 6 tests run, 0 failures.
+20261120 103253.640 verdict pass

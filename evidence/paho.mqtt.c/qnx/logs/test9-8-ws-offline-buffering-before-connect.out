@@ -1,2 +1,17 @@
-20261120 081157.343 Random prefix/suffix is 15052
-20261120 081157.343 Starting Offline buffering 8 - send messages before successful connect
+20261120 105439.986 Random prefix/suffix is 26311
+20261120 105439.987 Starting Offline buffering 8 - send messages before successful connect
+=========================================================
+                   Trace Output
+Product name: Eclipse Paho Asynchronous MQTT C Client Library
+Version: 1.3.16
+Build level: 2026-11-04T18:59:01Z
+=========================================================
+=========================================================
+                   Trace Output
+Product name: Eclipse Paho Asynchronous MQTT C Client Library
+Version: 1.3.16
+Build level: 2026-11-04T18:59:01Z
+=========================================================
+20261120 105441.203 passed: test test8. 25 tests run, 0 failures.
+20261120 105441.203 Total tests run: 25
+20261120 105441.203 verdict pass

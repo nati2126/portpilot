@@ -1,18 +1,11 @@
 
-Setting connection to ws://localhost:1883
-20261120 063317.320 Starting test 5 - disconnect with quiesce timeout should allow exchanges to complete
+Setting connection to ws://192.168.122.1:1883
+20261120 103059.546 Starting test 5 - disconnect with quiesce timeout should allow exchanges to complete
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 063317.325 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test15.c, line 1113, description: Good rc from connect
-
-rc was -120261120 063317.325 Some memory not freed at shutdown, possible memory leak
-20261120 063317.325 Heap scan start, total 400 bytes
-20261120 063317.325 Heap element size 400, line 120, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/src/MQTTProperties.c, ptr 1311caec40
-20261120 063317.325   Content 
-20261120 063317.325 Heap scan end
-20261120 063317.325 failed: test test 5. 1 tests run, 1 failures.
-20261120 063317.325 verdict fail
+20261120 103059.759 passed: test test 5. 9 tests run, 0 failures.
+20261120 103059.759 verdict pass

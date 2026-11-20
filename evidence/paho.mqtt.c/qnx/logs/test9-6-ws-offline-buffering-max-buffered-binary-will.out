@@ -1,2 +1,11 @@
-20261120 080252.927 Random prefix/suffix is 13216
-20261120 080252.927 Starting Offline buffering 6 - max buffered with binary will
+20261120 105438.645 Random prefix/suffix is 9473
+20261120 105438.645 Starting Offline buffering 6 - max buffered with binary will
+=========================================================
+                   Trace Output
+Product name: Eclipse Paho Asynchronous MQTT C Client Library
+Version: 1.3.16
+Build level: 2026-11-04T18:59:01Z
+=========================================================
+20261120 105439.962 passed: test test6. 21 tests run, 0 failures.
+20261120 105439.962 Total tests run: 21
+20261120 105439.962 verdict pass

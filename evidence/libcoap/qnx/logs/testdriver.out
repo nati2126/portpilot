@@ -1,0 +1,205 @@
+
+
+     CUnit - A unit testing framework for C - Version 2.1-3
+     http://cunit.sourceforge.net/
+
+
+Suite: uri parser
+  Test: t_parse_uri1 ...passed
+  Test: t_parse_uri2 ...passed
+  Test: t_parse_uri3 ...passed
+  Test: t_parse_uri4 ...passed
+  Test: t_parse_uri5 ...passed
+  Test: t_parse_uri6 ...passed
+  Test: t_parse_uri7 ...passed
+  Test: t_parse_uri8 ...passed
+  Test: t_parse_uri9 ...passed
+  Test: t_parse_uri10 ...passed
+  Test: t_parse_uri11 ...passed
+  Test: t_parse_uri12 ...passed
+  Test: t_parse_uri13 ...passed
+  Test: t_parse_uri14 ...passed
+  Test: t_parse_uri15 ...passed
+  Test: t_parse_uri16 ...passed
+  Test: t_parse_uri17 ...passed
+  Test: t_parse_uri18 ...passed
+  Test: t_parse_uri19 ...passed
+  Test: t_parse_uri20 ...passed
+  Test: t_parse_uri21 ...passed
+  Test: t_parse_uri22 ...passed
+  Test: t_parse_uri23 ...passed
+  Test: t_parse_uri24 ...passed
+  Test: t_parse_uri25 ...passed
+  Test: t_parse_uri26 ...passed
+  Test: t_parse_uri27 ...passed
+  Test: t_parse_uri28 ...passed
+  Test: t_parse_uri29 ...passed
+  Test: t_parse_uri30 ...passed
+  Test: t_parse_uri31 ...passed
+  Test: t_parse_uri32 ...passed
+  Test: t_parse_uri33 ...passed
+Suite: byte value decoder
+  Test: decode value #1 ...passed
+  Test: decode value #2 ...passed
+  Test: decode value #3 ...passed
+  Test: decode value #4 ...passed
+  Test: decode value #5 ...passed
+  Test: decode value #6 ...passed
+  Test: decode value #7 ...passed
+  Test: decode value #8 ...passed
+Suite: byte value encoder
+  Test: encode value #1 ...passed
+  Test: encode value #2 ...passed
+  Test: encode value #3 ...passed
+  Test: encode value #4 ...passed
+  Test: encode value #5 ...passed
+  Test: encode value #6 ...passed
+  Test: encode value #7 ...passed
+  Test: encode value #8 ...passed
+Suite: option parser
+  Test: parse option #1 ...passed
+  Test: parse option #2 ...passed
+  Test: parse option #3 ...passed
+  Test: parse option #4 ...passed
+  Test: parse option #5 ...passed
+  Test: parse option #6 ...passed
+  Test: parse option #7 ...passed
+  Test: parse option #8 ...passed
+  Test: parse option #9 ...passed
+  Test: parse option #10 ...passed
+  Test: parse option #11 ...passed
+  Test: parse option #12 ...passed
+  Test: parse option #13 ...passed
+  Test: parse option #14 ...passed
+Suite: option encoder
+  Test: encode option #1 ...passed
+  Test: encode option #2 ...passed
+  Test: encode option #3 ...passed
+  Test: encode option #4 ...passed
+  Test: encode option #5 ...passed
+  Test: encode option #6 ...passed
+  Test: encode option #7 ...passed
+  Test: encode option #8 ...passed
+  Test: encode option #9 ...passed
+Suite: option accessors
+  Test: access option #1 ...passed
+  Test: access option #2 ...passed
+  Test: access option #3 ...passed
+  Test: access option #4 ...passed
+  Test: access option #5 ...passed
+  Test: access option #6 ...passed
+  Test: access option #7 ...passed
+Suite: option iterator
+  Test: option iterator #1 ...passed
+  Test: option iterator #2 ...passed
+  Test: option iterator #3 ...passed
+  Test: option iterator #4 ...passed
+  Test: option iterator #5 ...passed
+  Test: option iterator #6 ...passed
+  Test: option iterator #7 ...passed
+  Test: option iterator #8 ...passed
+  Test: option iterator #9 ...passed
+  Test: option iterator #10 ...passed
+Suite: option filter
+  Test: option filter #1 ...passed
+  Test: option filter #2 ...passed
+  Test: option filter #3 ...passed
+Suite: pdu parser
+  Test: t_parse_pdu1 ...passed
+  Test: t_parse_pdu2 ...passed
+  Test: t_parse_pdu3 ...passed
+  Test: t_parse_pdu4 ...passed
+  Test: t_parse_pdu5 ...passed
+  Test: t_parse_pdu6 ...passed
+  Test: t_parse_pdu7 ...passed
+  Test: t_parse_pdu8 ...passed
+  Test: t_parse_pdu9 ...passed
+  Test: t_parse_pdu10 ...passed
+  Test: t_parse_pdu11 ...passed
+  Test: t_parse_pdu12 ...passed
+  Test: t_parse_pdu13 ...passed
+  Test: t_parse_pdu14 ...passed
+  Test: t_parse_pdu15 ...passed
+  Test: t_parse_pdu16 ...passed
+  Test: t_parse_pdu17 ...passed
+Suite: pdu encoder
+  Test: t_encode_pdu1 ...passed
+  Test: t_encode_pdu2 ...passed
+  Test: t_encode_pdu3 ...passed
+  Test: t_encode_pdu4 ...passed
+  Test: t_encode_pdu5 ...passed
+  Test: t_encode_pdu6 ...passed
+  Test: t_encode_pdu7 ...passed
+  Test: t_encode_pdu8 ...passed
+  Test: t_encode_pdu9 ...passed
+  Test: t_encode_pdu10 ...passed
+  Test: t_encode_pdu11 ...passed
+  Test: t_encode_pdu12 ...passed
+  Test: t_encode_pdu13 ...passed
+  Test: t_encode_pdu14 ...passed
+  Test: t_encode_pdu15 ...passed
+  Test: t_encode_pdu16 ...passed
+  Test: t_encode_pdu17 ...passed
+  Test: t_encode_pdu18 ...passed
+  Test: t_encode_pdu19 ...passed
+  Test: t_encode_pdu20 ...passed
+  Test: t_encode_pdu21 ...passed
+  Test: t_encode_pdu22 ...passed
+  Test: t_encode_pdu23 ...passed
+  Test: t_encode_pdu24 ...passed
+Suite: error response generator
+  Test: t_error_response1 ...passed
+  Test: t_error_response2 ...passed
+  Test: t_error_response3 ...passed
+  Test: t_error_response4 ...passed
+  Test: t_error_response5 ...passed
+  Test: t_error_response6 ...passed
+  Test: t_error_response7 ...passed
+  Test: t_error_response8 ...passed
+Suite: session
+  Test: t_session1 ...passed
+  Test: t_session2 ...passed
+  Test: t_session3 ...passed
+  Test: t_session4 ...passed
+  Test: t_session5 ...passed
+  Test: t_session6 ...passed
+Suite: sendqueue
+  Test: t_sendqueue1 ...passed
+  Test: t_sendqueue2 ...passed
+  Test: t_sendqueue3 ...passed
+  Test: t_sendqueue4 ...passed
+  Test: t_sendqueue5 ...passed
+  Test: t_sendqueue6 ...passed
+  Test: t_sendqueue7 ...passed
+  Test: t_sendqueue8 ...passed
+  Test: t_sendqueue9 ...passed
+  Test: t_sendqueue10 ...passed
+Suite: .well-known/core
+  Test: t_wellknown1 ...passed
+  Test: t_wellknown2 ...passed
+  Test: t_wellknown3 ...passed
+  Test: t_wellknown4 ...passed
+Suite: TLS
+  Test: t_tls1 ...passed
+  Test: t_tls2 ...passed
+Suite: RFC8613 Appendix C OSCORE tests
+  Test: t_oscore_c_1_1 ...passed
+  Test: t_oscore_c_1_2 ...passed
+  Test: t_oscore_c_2_1 ...passed
+  Test: t_oscore_c_2_2 ...passed
+  Test: t_oscore_c_3_1 ...passed
+  Test: t_oscore_c_3_2 ...passed
+  Test: t_oscore_c_4 ...passed
+  Test: t_oscore_c_5 ...passed
+  Test: t_oscore_c_6 ...passed
+  Test: t_oscore_c_7 ...passed
+  Test: t_oscore_c_7_2 ...passed
+  Test: t_oscore_c_8 ...passed
+  Test: t_oscore_c_8_2 ...passed
+
+Run Summary:    Type  Total    Ran Passed Failed Inactive
+              suites     16     16    n/a      0        0
+               tests    176    176    176      0        0
+             asserts   1378   1378   1378      0      n/a
+
+Elapsed time =    0.015 seconds

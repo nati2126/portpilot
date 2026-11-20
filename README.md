@@ -75,14 +75,15 @@ Other commands:
 - `--no-sdp`: work without an SDP index (less exact).
 
 Tests that need a service: `--service DIR='CMD'` copies DIR to the target and runs CMD
-there during the tests (paho.mqtt.c's tests against mosquitto, built from its official QNX
-port). `--localhost host` points tests that connect to `localhost` at this machine instead.
+there during the tests (e.g. mosquitto, built from its official QNX port).
+`--localhost host` points tests that connect to `localhost` at this machine instead
+(paho.mqtt.c's tests against paho's test broker and proxy on the host, as in paho's CI).
 
 ## Results on QNX 8.0
 
 12 C/C++ libraries, each ported from its latest GitHub release by `portpilot port <url>` with rules only (no AI), on QNX SDP 8.0, x86_64 QEMU target. Ten of them have no QNX port anywhere (checked against qnx-ports and repo.oss.qnx.com); zlib-ng and hiredis are packaged by QNX.
 
-12/12 libraries built for QNX 8.0 from their upstream release; 6 tested on a QNX 8.0 QEMU target.
+12/12 libraries built for QNX 8.0 from their upstream release; 7 tested on a QNX 8.0 QEMU target.
 
 | Library | Release | Built | Build attempts | Fixes (AI) | Patch lines | Tests on QNX | Time |
 |---|---|---|---|---|---|---|---|
@@ -90,10 +91,10 @@ port). `--localhost host` points tests that connect to `localhost` at this machi
 | efsw | `1.7.3` | yes | 1 | 0 (0) | 0 | no tests built | 0.4 min |
 | hiredis | `v1.5.0` | yes | 1 | 0 (0) | 0 | no tests built | 0.2 min |
 | libcbor | `v0.14.0` | yes | 2 | 2 (0) | 0 | not run | 0.8 min |
-| libcoap | `v4.3.5` | yes | 2 | 3 (0) | 0 | not run | 2.3 min |
+| libcoap | `v4.3.5` | yes | 2 | 3 (0) | 0 | 176/176 cases (1/1 programs) | 4.3 min |
 | libhv | `v1.3.4` | yes | 3 | 10 (0) | 14 | no tests built | 3.9 min |
 | open62541 | `v1.5.10` | yes | 7 | 15 (0) | 25 | 5029/5187 cases (128/146 programs) | 10.2 min |
-| paho.mqtt.c | `v1.3.16` | yes | 2 | 3 (0) | 8 | 51/103 programs | 0.7 min |
+| paho.mqtt.c | `v1.3.16` | yes | 2 | 3 (0) | 8 | 95/103 programs | 0.7 min |
 | sockpp | `v1.0.0` | yes | 4 | 7 (0) | 8 | 33/33 cases (1/1 programs) | 1.3 min |
 | spdlog | `v1.17.0` | yes | 3 | 3 (0) | 3 | 180/180 cases (1/1 programs) | 1.8 min |
 | yaml-cpp | `yaml-cpp-0.9.0` | yes | 1 | 1 (0) | 0 | 1008/1008 cases (1/1 programs) | 4.1 min |
