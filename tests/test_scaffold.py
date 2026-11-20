@@ -156,3 +156,11 @@ def test_readme_builds_dependencies_first_in_the_official_workspace(
         < i('QNX_PROJECT_ROOT="$(pwd)/Catch2" make -C build-files/ports/Catch2 install') \
         < i('BUILD_TESTING=ON QNX_PROJECT_ROOT="$(pwd)/sockpp"')
     assert "USE_INSTALL_ROOT=true` to every `make` line" in md
+
+
+def test_deps_add_the_plain_install_root() -> None:
+    from portpilot.scaffold import PortSpec, render_common_mk
+
+    assert "$(CMAKE_FIND_ROOT_PATH);$(INSTALL_ROOT)\n" in render_common_mk(
+        PortSpec("mozjpeg", deps=["libpng"]))
+    assert ";$(INSTALL_ROOT)\n" not in render_common_mk(PortSpec("x"))

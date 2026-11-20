@@ -348,7 +348,11 @@ def start_service(target: Target, svc: Service, out_dir: Path, root: str = "/dat
     a detached `cmd &` would hang the ssh call that starts it. The output goes to
     out_dir/service-<name>.log; the service must still run after `settle` seconds."""
     remote = f"{root}/{svc.name}"
-    target.ssh(f"rm -rf {remote}; mkdir -p {root}")
+    # a run that was killed (timeout, Ctrl-C) leaves its service running and holding its
+    # port: stop whatever still runs a program from this service folder (QNX /proc/<pid>/exefile)
+    target.ssh(f"for f in /proc/[0-9]*/exefile; do if grep -q '^{remote}/' $f 2>/dev/null; then "
+               f"p=${{f#/proc/}}; kill -9 ${{p%/exefile}}; sleep 1; fi; done; "
+               f"rm -rf {remote}; mkdir -p {root}")
     target.scp_to([svc.local], root + "/")
     out_dir.mkdir(parents=True, exist_ok=True)
     svc.log = out_dir / f"service-{svc.name}.log"
