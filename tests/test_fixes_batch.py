@@ -407,3 +407,31 @@ def test_bsd_sockaddr_len_guard_gets_qnx(tmp_path: Path) -> None:
     text = (src / "inet_address.cpp").read_text()
     assert "\t#if defined(__APPLE__) || defined(BSD) || defined(__QNX__)\n" in text
     assert bsd_sockaddr_len_fixes(tmp_path) == []  # applied: nothing left
+
+
+def test_install_into_the_sdp_is_moved_to_the_stage(tmp_path: Path) -> None:
+    import time
+
+    from portpilot.deps import _tree, relocate_sdp_writes
+
+    qt, stage = tmp_path / "qnx", tmp_path / "stage"
+    (qt / "x86_64" / "usr" / "lib").mkdir(parents=True)
+    (qt / "x86_64" / "usr" / "lib" / "libc.so").write_text("sdp")
+    (qt / "usr" / "include").mkdir(parents=True)
+    (qt / "usr" / "include" / "stdio.h").write_text("sdp")
+    before, t0 = _tree(qt), time.time() + 1  # SDP files are older than the build
+    # the build: two new files (one in a new folder) and one overwritten SDP header
+    (qt / "x86_64" / "usr" / "local" / "lib").mkdir(parents=True)
+    (qt / "x86_64" / "usr" / "local" / "lib" / "libmosquitto.so.1").write_text("new")
+    (qt / "usr" / "include" / "mosquitto.h").write_text("new")
+    (qt / "usr" / "include" / "stdio.h").write_text("changed")
+    import os
+    os.utime(qt / "usr" / "include" / "stdio.h", (t0 + 5, t0 + 5))
+    for f in ("x86_64/usr/local/lib/libmosquitto.so.1", "usr/include/mosquitto.h"):
+        os.utime(qt / f, (t0 + 5, t0 + 5))
+    moved, over = relocate_sdp_writes(qt, stage, before, t0)
+    assert moved == ["usr/include/mosquitto.h", "x86_64/usr/local/lib/libmosquitto.so.1"]
+    assert over == ["usr/include/stdio.h"]
+    assert (stage / "x86_64/usr/local/lib/libmosquitto.so.1").read_text() == "new"
+    assert not (qt / "x86_64" / "usr" / "local").exists()  # emptied folders removed
+    assert (qt / "x86_64" / "usr" / "lib" / "libc.so").exists()  # SDP untouched

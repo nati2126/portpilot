@@ -11,7 +11,9 @@ from __future__ import annotations
 
 import os
 import re
+import shutil
 import subprocess
+import time
 from pathlib import Path
 
 _CLONE = re.compile(r"git clone\s+(?:(?:-b|--branch)\s+(?P<branch>\S+)\s+)?"
@@ -92,6 +94,39 @@ def _changed_tracked(repo: Path) -> set[str]:
     return set(r.stdout.split("\n")) - {""} if r.returncode == 0 else set()
 
 
+def _tree(root: Path) -> set[str]:
+    """Relative paths of the files and links under root."""
+    out: set[str] = set()
+    for d, _, files in os.walk(root):
+        rel = os.path.relpath(d, root)
+        out.update(f if rel == "." else f"{rel}/{f}" for f in files)
+    return out
+
+
+def relocate_sdp_writes(qnx_target: Path, stage: Path, before: set[str],
+                        t0: float) -> tuple[list[str], list[str]]:
+    """Undo an install that went into the SDP instead of the stage (the official mosquitto
+    port ignores INSTALL_ROOT_nto). Files it created under $QNX_TARGET move to the same
+    place under the stage, which stands in for $QNX_TARGET. Returns (moved, overwritten):
+    files that existed before and changed cannot be restored, only reported."""
+    moved, overwritten = [], []
+    for rel in sorted(_tree(qnx_target)):
+        p = qnx_target / rel
+        if rel not in before:
+            dest = stage / rel
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(p), str(dest))
+            moved.append(rel)
+        elif p.lstat().st_mtime >= t0:
+            overwritten.append(rel)
+    for rel in moved:  # drop the folders the install created and left empty
+        d = (qnx_target / rel).parent
+        while d != qnx_target and d.is_dir() and not any(d.iterdir()):
+            d.rmdir()
+            d = d.parent
+    return moved, overwritten
+
+
 def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
                 build_files: Path | None, arch: str = "x86_64", jobs: int = 8,
                 timeout: float = 3600) -> tuple[str, str]:
@@ -119,6 +154,9 @@ def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
         return port, f"{port} has no {arch} build folder"
     log.parent.mkdir(parents=True, exist_ok=True)
     before = _changed_tracked(build_files)
+    qt = Path(env["QNX_TARGET"]) if env.get("QNX_TARGET") else None
+    sdp_before = _tree(qt) if qt and qt.is_dir() else set()
+    t0 = time.time()
     with open(log, "w") as fh:
         try:
             # QNX_PROJECT_ROOT always explicit: some ports' hooks default to ../../.. (the
@@ -137,6 +175,14 @@ def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
                                capture_output=True, check=False)
                 fh.write(f"\nportpilot: the {port} build changed {len(touched)} tracked "
                          "build-files file(s); restored them from git\n")
+            if sdp_before and qt is not None:  # never leave files in the user's SDP
+                moved, over = relocate_sdp_writes(qt, stage, sdp_before, t0)
+                if moved:
+                    fh.write(f"\nportpilot: the {port} port installed {len(moved)} file(s) "
+                             "into $QNX_TARGET, not the stage; moved them to the stage\n")
+                if over:
+                    fh.write(f"\nportpilot: WARNING the {port} build changed {len(over)} "
+                             "existing file(s) in $QNX_TARGET: " + ", ".join(over[:20]) + "\n")
     if rc != 0:
         return port, f"building the official {port} port failed (rc={rc}); see {log}"
     return port, ""

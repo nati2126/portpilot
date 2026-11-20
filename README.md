@@ -42,6 +42,8 @@ the prediction matches the real QNX `CMakeCache.txt` for 42 of 44 checks, with 0
 
 ## Quick start
 
+New to QNX ports? The [codelab](docs/codelab.md) walks through porting sockpp and running its tests on QNX 8.0 in about 30 minutes.
+
 Linux or WSL, Python 3.11+, QNX SDP 8.0 installed.
 
 ```sh
