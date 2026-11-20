@@ -153,7 +153,6 @@ def test_readme_builds_dependencies_first_in_the_official_workspace(
     assert i("git clone https://github.com/qnx-ports/build-files.git") \
         < i("git -C sockpp apply $(pwd)/build-files/ports/sockpp/patches/qnx.patch") \
         < i("git clone https://github.com/qnx-ports/Catch2.git Catch2") \
-        < i("make -C build-files/ports/Catch2 install JLEVEL=$(nproc)") \
-        < i("BUILD_TESTING=ON make -C build-files/ports/sockpp install JLEVEL=$(nproc)")
+        < i('QNX_PROJECT_ROOT="$(pwd)/Catch2" make -C build-files/ports/Catch2 install') \
+        < i('BUILD_TESTING=ON QNX_PROJECT_ROOT="$(pwd)/sockpp"')
     assert "USE_INSTALL_ROOT=true` to every `make` line" in md
-    assert "QNX_PROJECT_ROOT" not in md  # the default ../../sockpp fits the workspace

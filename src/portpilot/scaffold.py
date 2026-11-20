@@ -357,9 +357,13 @@ def render_readme(spec: PortSpec, results: dict[str, str] | None = None,
                      f"   # dependency: the official {d} port")
     lines += ["```", "", "## Build", "", "```bash", "source ~/qnx800/qnxsdp-env.sh",
               "cd ~/qnx_workspace"]
+    # QNX_PROJECT_ROOT always explicit, as the official workflows do: some ports' defaults
+    # do not point at the source (muslflt's is $(PRODUCT_ROOT)/../../)
     for d in deps:
-        lines.append(f"make -C build-files/ports/{d} install JLEVEL=$(nproc)")
-    lines += [f"BUILD_TESTING=ON make -C build-files/ports/{spec.name} install JLEVEL=$(nproc)",
+        lines.append(f'QNX_PROJECT_ROOT="$(pwd)/{d}" make -C build-files/ports/{d} install '
+                     "JLEVEL=$(nproc)")
+    lines += [f'BUILD_TESTING=ON QNX_PROJECT_ROOT="$(pwd)/{spec.name}" \\',
+              f"  make -C build-files/ports/{spec.name} install JLEVEL=$(nproc)",
               "```", "",
               "This installs into the SDP, as the other ports do. To use a staging area "
               "instead, add `INSTALL_ROOT_nto=$HOME/qnx-staging USE_INSTALL_ROOT=true` to "
