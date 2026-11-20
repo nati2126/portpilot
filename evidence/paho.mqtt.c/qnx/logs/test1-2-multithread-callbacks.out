@@ -1,14 +1,14 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 102853.309 Starting test 2 - multi-threaded client using callbacks
+20261120 130209.899 Starting test 2 - multi-threaded client using callbacks
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 102853.416 50 messages at QoS 0
-20261120 102858.467 50 messages at QoS 1
-20261120 102903.520 50 messages at QoS 2
-20261120 102908.691 passed: test test2. 307 tests run, 0 failures.
-20261120 102908.691 verdict pass
+20261120 130210.110 50 messages at QoS 0
+20261120 130215.163 50 messages at QoS 1
+20261120 130220.233 50 messages at QoS 2
+20261120 130225.405 passed: test test2. 307 tests run, 0 failures.
+20261120 130225.405 verdict pass

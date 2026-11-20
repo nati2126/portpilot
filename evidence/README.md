@@ -29,12 +29,12 @@ Known failures, and why:
     into libcheck; probably that call changes errno on QNX (not verified).
   - `check_json_config` reads a file from the source tree, which is not on the target;
     `check_client_subscriptions` sees a connection closed with error 261.
-- paho.mqtt.c (95/103): the client runs on QNX; paho's own test broker (paho.mqtt.testing)
+- paho.mqtt.c (103/103): the client runs on QNX; paho's own test broker (paho.mqtt.testing)
   and test proxy (`test/mqttsas.py`) run on the host, as in paho's CI
-  (`portpilot test --localhost 192.168.122.1`). The 8 failures are the `serverURIs` variants
-  of test9/test95: their first URI is the host name `rubbish`, and the VM network's DNS
-  (libvirt dnsmasq, forwarding to the WSL/Windows resolver) takes 30 s to say a plain name
-  does not exist (`rubbish.invalid` fails at once), as long as the tests wait.
-  - An earlier run against mosquitto on the QNX target passed 51/103: no WebSocket listener,
-    no proxy, and no MQTT 5 behaviour of paho's broker (server topic aliases, UNSUBACK
-    properties).
+  (`portpilot test --localhost 192.168.122.1`). Earlier runs:
+  - 95/103: the 8 `serverURIs` tests first try the host name `rubbish`, and the VM network's
+    DNS forwarded plain names to the WSL/Windows resolver, which took 30 s to say "not
+    found", as long as the tests wait. Fixed in the test network (libvirt
+    `<dns forwardPlainNames='no'/>`), not in paho.
+  - 51/103 against mosquitto on the QNX target: no WebSocket listener, no proxy, and no
+    MQTT 5 behaviour of paho's broker (server topic aliases, UNSUBACK properties).

@@ -1,12 +1,12 @@
-20261120 103350.685 Product name: Eclipse Paho Asynchronous MQTT C Client Library
-20261120 103350.686 Version: 1.3.16
-20261120 103350.686 Build level: 2026-11-04T18:59:01Z
-20261120 103350.686 Starting test 5a - All HA connections out of service
+20261120 130605.413 Product name: Eclipse Paho Asynchronous MQTT C Client Library
+20261120 130605.413 Version: 1.3.16
+20261120 130605.413 Build level: 2026-11-04T18:59:01Z
+20261120 130605.413 Starting test 5a - All HA connections out of service
 Trace : 3, =========================================================
 Trace : 3,                    Trace Output
 Trace : 3, Product name: Eclipse Paho Asynchronous MQTT C Client Library
 Trace : 3, Version: 1.3.16
 Trace : 3, Build level: 2026-11-04T18:59:01Z
 Trace : 3, =========================================================
-20261120 103351.709 TEST5a: test passed. 3 tests run, 0 failures.
-20261120 103351.709 verdict pass
+20261120 130606.436 TEST5a: test passed. 3 tests run, 0 failures.
+20261120 130606.436 verdict pass

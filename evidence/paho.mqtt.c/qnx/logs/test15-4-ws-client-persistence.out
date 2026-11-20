@@ -1,6 +1,6 @@
 
 Setting connection to ws://192.168.122.1:1883
-20261120 103058.368 Starting test 4 - persistence, qos 1, MQTT versions: 5 then 5
+20261120 130414.857 Starting test 4 - persistence, qos 1, MQTT versions: 5 then 5
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
@@ -13,14 +13,14 @@ Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 103058.597 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.597 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.598 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.599 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.641 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.642 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.745 passed: test test 4. 34 tests run, 0 failures.
-20261120 103058.745 Starting test 4 - persistence, qos 2, MQTT versions: 5 then 5
+20261120 130415.083 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.083 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.084 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.084 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.126 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.127 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.230 passed: test test 4. 34 tests run, 0 failures.
+20261120 130415.230 Starting test 4 - persistence, qos 2, MQTT versions: 5 then 5
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
@@ -33,11 +33,11 @@ Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 103058.969 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.969 Property name USER_PROPERTY key test user property value test user property value
-20261120 103058.970 Property name USER_PROPERTY key test user property value test user property value
-20261120 103059.073 passed: test test 4. 62 tests run, 0 failures.
-20261120 103059.074 Starting test 4 - persistence, qos 2, MQTT versions: 3.1.1 then 5
+20261120 130415.452 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.453 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.454 Property name USER_PROPERTY key test user property value test user property value
+20261120 130415.556 passed: test test 4. 62 tests run, 0 failures.
+20261120 130415.556 Starting test 4 - persistence, qos 2, MQTT versions: 3.1.1 then 5
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
@@ -50,8 +50,8 @@ Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 103059.408 passed: test test 4. 92 tests run, 0 failures.
-20261120 103059.408 Starting test 4 - persistence, qos 2, MQTT versions: 5 then 3.1.1
+20261120 130415.887 passed: test test 4. 92 tests run, 0 failures.
+20261120 130415.888 Starting test 4 - persistence, qos 2, MQTT versions: 5 then 3.1.1
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
@@ -64,5 +64,5 @@ Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 103059.521 passed: test test 4. 104 tests run, 0 failures.
-20261120 103059.521 verdict pass
+20261120 130416.000 passed: test test 4. 104 tests run, 0 failures.
+20261120 130416.001 verdict pass

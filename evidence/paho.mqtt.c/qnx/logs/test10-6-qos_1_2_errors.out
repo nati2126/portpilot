@@ -1,16 +1,16 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 113129.876 Starting test - qos 1 and 2 errors
-20261120 113129.988 Property name RECEIVE_MAXIMUM value 20
-20261120 113129.988 Property name TOPIC_ALIAS_MAXIMUM value 2
-20261120 113129.988 Property name MAXIMUM_PACKET_SIZE value 200000000
-20261120 113129.994 Callback: published, reason code "Not authorized" msgid: 1 packet type: 4
-20261120 113129.994 Callback: published, properties:
-20261120 113129.994 Property name USER_PROPERTY key unsub user property value unsub user property value
-20261120 113130.996 Callback: published, reason code "Not authorized" msgid: 2 packet type: 5
-20261120 113130.996 Callback: published, properties:
-20261120 113130.996 Property name USER_PROPERTY key unsub user property value unsub user property value
-20261120 113131.999 Callback: published, reason code "Packet Identifier not found" msgid: 3 packet type: 7
-20261120 113131.999 Callback: published, properties:
-20261120 113133.097 TEST6: test passed. 16 tests run, 0 failures.
-20261120 113133.097 verdict pass
+20261120 130739.054 Starting test - qos 1 and 2 errors
+20261120 130739.167 Property name RECEIVE_MAXIMUM value 20
+20261120 130739.167 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 130739.167 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 130739.173 Callback: published, reason code "Not authorized" msgid: 1 packet type: 4
+20261120 130739.173 Callback: published, properties:
+20261120 130739.173 Property name USER_PROPERTY key unsub user property value unsub user property value
+20261120 130740.175 Callback: published, reason code "Not authorized" msgid: 2 packet type: 5
+20261120 130740.175 Callback: published, properties:
+20261120 130740.175 Property name USER_PROPERTY key unsub user property value unsub user property value
+20261120 130741.181 Callback: published, reason code "Packet Identifier not found" msgid: 3 packet type: 7
+20261120 130741.181 Callback: published, properties:
+20261120 130742.276 TEST6: test passed. 16 tests run, 0 failures.
+20261120 130742.276 verdict pass

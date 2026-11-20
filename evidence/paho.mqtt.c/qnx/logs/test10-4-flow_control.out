@@ -1,8 +1,8 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 113128.078 Starting test - flow control
-20261120 113128.192 Property name RECEIVE_MAXIMUM value 20
-20261120 113128.192 Property name TOPIC_ALIAS_MAXIMUM value 2
-20261120 113128.192 Property name MAXIMUM_PACKET_SIZE value 200000000
-20261120 113129.498 TEST3: test passed. 50 tests run, 0 failures.
-20261120 113129.498 verdict pass
+20261120 130737.272 Starting test - flow control
+20261120 130737.385 Property name RECEIVE_MAXIMUM value 20
+20261120 130737.385 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 130737.385 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 130738.680 TEST3: test passed. 50 tests run, 0 failures.
+20261120 130738.680 verdict pass

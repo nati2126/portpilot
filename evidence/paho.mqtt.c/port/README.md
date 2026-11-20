@@ -6,7 +6,7 @@
 |---|---|
 | Tested | QNX SDP 8.0, x86_64, QEMU target |
 | Upstream | `v1.3.16` + `patches/qnx.patch` |
-| Result | **95/103 test programs pass on QNX (failing: test9-2-offline-buffering-send-disconnected-serverURIs, test9-4-offline-buffering-auto-reconnect-serverURIs, test9-2-ws-offline-buffering-send-disconnected-serverURIs, test9-4-ws-offline-buffering-aut); the tests' localhost services ran on the host (192.168.122.1)** |
+| Result | **103/103 test programs pass on QNX; the tests' localhost services ran on the host (192.168.122.1)** |
 
 **NOTE**: QNX ports are only supported from a Linux host operating system
 

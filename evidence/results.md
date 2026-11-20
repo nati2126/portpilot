@@ -9,7 +9,7 @@
 | libcoap | `v4.3.5` | yes | 2 | 3 (0) | 0 | 176/176 cases (1/1 programs) | 4.3 min |
 | libhv | `v1.3.4` | yes | 3 | 10 (0) | 14 | no tests built | 3.9 min |
 | open62541 | `v1.5.10` | yes | 7 | 15 (0) | 25 | 5029/5187 cases (128/146 programs) | 10.2 min |
-| paho.mqtt.c | `v1.3.16` | yes | 2 | 3 (0) | 8 | 95/103 programs | 0.7 min |
+| paho.mqtt.c | `v1.3.16` | yes | 2 | 3 (0) | 8 | 103/103 programs | 0.7 min |
 | sockpp | `v1.0.0` | yes | 4 | 7 (0) | 8 | 33/33 cases (1/1 programs) | 1.3 min |
 | spdlog | `v1.17.0` | yes | 3 | 3 (0) | 3 | 180/180 cases (1/1 programs) | 1.8 min |
 | yaml-cpp | `yaml-cpp-0.9.0` | yes | 1 | 1 (0) | 0 | 1008/1008 cases (1/1 programs) | 4.1 min |

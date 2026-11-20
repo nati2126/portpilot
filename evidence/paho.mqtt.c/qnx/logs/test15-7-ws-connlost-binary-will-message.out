@@ -1,16 +1,16 @@
 
 Setting connection to ws://192.168.122.1:1883
-20261120 103101.328 Starting test 6 - connectionLost and binary will messages
+20261120 130417.804 Starting test 6 - connectionLost and binary will messages
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 103101.538 Connecting Client_2 ...
-20261120 103101.647 Waiting to receive the will message
-20261120 103101.648 Client-1 -> Callback: connection lost
-20261120 103101.688 Client-2 -> Callback: message received on topic 'C Test 2: will topic' is 'will message from Client-1'
-20261120 103102.852 passed: test test6a. 14 tests run, 0 failures.
+20261120 130418.016 Connecting Client_2 ...
+20261120 130418.124 Waiting to receive the will message
+20261120 130418.127 Client-1 -> Callback: connection lost
+20261120 130418.166 Client-2 -> Callback: message received on topic 'C Test 2: will topic' is 'will message from Client-1'
+20261120 130419.330 passed: test test6a. 14 tests run, 0 failures.
 
-20261120 103102.852 verdict pass
+20261120 130419.331 verdict pass

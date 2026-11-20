@@ -1,14 +1,14 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 113133.123 Starting test 7 - request response
-20261120 113133.239 Connack properties:
-20261120 113133.239 Property name RECEIVE_MAXIMUM value 20
-20261120 113133.239 Property name TOPIC_ALIAS_MAXIMUM value 2
-20261120 113133.240 Property name MAXIMUM_PACKET_SIZE value 200000000
-20261120 113133.256 Message properties:
-20261120 113133.256 Property name value RESPONSE_TOPIC my response topic
-20261120 113133.256 Property name value CORRELATION_DATA request no 1
-20261120 113134.259 Message properties:
-20261120 113134.259 Property name value CORRELATION_DATA request no 1
-20261120 113134.458 TEST7: test passed. 15 tests run, 0 failures.
-20261120 113134.458 verdict pass
+20261120 130742.300 Starting test 7 - request response
+20261120 130742.413 Connack properties:
+20261120 130742.413 Property name RECEIVE_MAXIMUM value 20
+20261120 130742.413 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 130742.413 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 130742.431 Message properties:
+20261120 130742.431 Property name value RESPONSE_TOPIC my response topic
+20261120 130742.431 Property name value CORRELATION_DATA request no 1
+20261120 130743.435 Message properties:
+20261120 130743.435 Property name value CORRELATION_DATA request no 1
+20261120 130743.632 TEST7: test passed. 15 tests run, 0 failures.
+20261120 130743.633 verdict pass

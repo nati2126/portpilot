@@ -1,9 +1,9 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 113138.865 Running 1 iteration(s)
-20261120 113138.866 Starting test 1 - clean session and reconnect with session present
-20261120 113139.179 Sleeping after session cleaned 3 s ...
-20261120 113142.589 Sleeping after session persist 3 s ...
-20261120 113145.896 passed: test test1. 10 tests run, 0 failures.
+20261120 130748.013 Running 1 iteration(s)
+20261120 130748.013 Starting test 1 - clean session and reconnect with session present
+20261120 130748.429 Sleeping after session cleaned 3 s ...
+20261120 130751.838 Sleeping after session persist 3 s ...
+20261120 130755.146 passed: test test1. 10 tests run, 0 failures.
 
-20261120 113145.896 verdict pass
+20261120 130755.146 verdict pass

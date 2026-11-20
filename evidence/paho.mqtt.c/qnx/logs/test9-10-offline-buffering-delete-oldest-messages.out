@@ -1,28 +1,28 @@
-20261120 104425.295 Random prefix/suffix is 9511
-20261120 104425.295 Starting Offline buffering 10 - delete oldest buffered messages first
+20261120 130641.418 Random prefix/suffix is 20846
+20261120 130641.418 Starting Offline buffering 10 - delete oldest buffered messages first
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Asynchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 104425.398 In send onFailure callback for client c rc No more messages can be buffered
-20261120 104425.399 In send onFailure callback for client c rc No more messages can be buffered
-20261120 104425.399 In send onFailure callback for client c rc No more messages can be buffered
-20261120 104425.407 Message received on topic paho-test9-10-test topic 9511, "3 message no, QoS 0"
-20261120 104425.449 Message received on topic paho-test9-10-test topic 9511, "4 message no, QoS 1"
-20261120 104425.451 Message received on topic paho-test9-10-test topic 9511, "5 message no, QoS 2"
-20261120 104425.499 Send onSuccess 3 onFailure 3
-20261120 104425.501 In send onFailure callback for client c rc No more messages can be buffered
-20261120 104425.502 In send onFailure callback for client c rc No more messages can be buffered
-20261120 104425.502 In send onFailure callback for client c rc No more messages can be buffered
-20261120 104425.502 In send onFailure callback for client c rc Operation discarded before completion
-20261120 104425.502 In send onFailure callback for client c rc Operation discarded before completion
-20261120 104425.502 In send onFailure callback for client c rc Operation discarded before completion
-20261120 104425.512 Message received on topic paho-test9-10-test topic 9511, "3 message no, QoS 0"
-20261120 104425.554 Message received on topic paho-test9-10-test topic 9511, "4 message no, QoS 1"
-20261120 104425.556 Message received on topic paho-test9-10-test topic 9511, "5 message no, QoS 2"
-20261120 104425.607 Send onSuccess 0 onFailure 6
-20261120 104426.616 passed: test test10. 46 tests run, 0 failures.
-20261120 104426.616 Total tests run: 46
-20261120 104426.616 verdict pass
+20261120 130641.522 In send onFailure callback for client c rc No more messages can be buffered
+20261120 130641.522 In send onFailure callback for client c rc No more messages can be buffered
+20261120 130641.523 In send onFailure callback for client c rc No more messages can be buffered
+20261120 130641.530 Message received on topic paho-test9-10-test topic 20846, "3 message no, QoS 0"
+20261120 130641.570 Message received on topic paho-test9-10-test topic 20846, "4 message no, QoS 1"
+20261120 130641.572 Message received on topic paho-test9-10-test topic 20846, "5 message no, QoS 2"
+20261120 130641.624 Send onSuccess 3 onFailure 3
+20261120 130641.625 In send onFailure callback for client c rc No more messages can be buffered
+20261120 130641.625 In send onFailure callback for client c rc No more messages can be buffered
+20261120 130641.626 In send onFailure callback for client c rc No more messages can be buffered
+20261120 130641.626 In send onFailure callback for client c rc Operation discarded before completion
+20261120 130641.626 In send onFailure callback for client c rc Operation discarded before completion
+20261120 130641.626 In send onFailure callback for client c rc Operation discarded before completion
+20261120 130641.635 Message received on topic paho-test9-10-test topic 20846, "3 message no, QoS 0"
+20261120 130641.677 Message received on topic paho-test9-10-test topic 20846, "4 message no, QoS 1"
+20261120 130641.679 Message received on topic paho-test9-10-test topic 20846, "5 message no, QoS 2"
+20261120 130641.730 Send onSuccess 0 onFailure 6
+20261120 130642.739 passed: test test10. 46 tests run, 0 failures.
+20261120 130642.739 Total tests run: 46
+20261120 130642.739 verdict pass

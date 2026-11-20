@@ -1,16 +1,13 @@
-20261120 104427.073 Random prefix/suffix is 10420
-20261120 104427.074 Starting Offline buffering 2 - messages while disconnected with serverURIs
+20261120 130643.199 Random prefix/suffix is 21755
+20261120 130643.199 Starting Offline buffering 2 - messages while disconnected with serverURIs
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Asynchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 104457.187 getaddrinfo failed for addr rubbish with rc 1
-20261120 104457.188 rubbish is not a valid IP address
-20261120 104457.379 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 791, description: Count should be less than 300
-count was 30020261120 104527.681 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 832, description: Count should be less than 300
-count was 30020261120 104527.682 Assertion failed, file ~/qnx-work/pp-batch-url/paho.mqtt.c/work/src/test/test9.c, line 840, description: Good rc from disconnect
-rc was -3 20261120 104528.693 failed: test test2. 23 tests run, 3 failures.
-20261120 104528.693 Total tests run: 23
-20261120 104528.693 verdict fail
+20261120 130643.307 getaddrinfo failed for addr rubbish with rc 8
+20261120 130643.307 rubbish is not a valid IP address
+20261120 130644.516 passed: test test2. 23 tests run, 0 failures.
+20261120 130644.516 Total tests run: 23
+20261120 130644.516 verdict pass

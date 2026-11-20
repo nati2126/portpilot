@@ -1,11 +1,11 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 113125.474 Starting test 2 - server topic aliases
-20261120 113125.586 Property name RECEIVE_MAXIMUM value 20
-20261120 113125.586 Property name TOPIC_ALIAS_MAXIMUM value 2
-20261120 113125.586 Property name MAXIMUM_PACKET_SIZE value 200000000
-20261120 113125.595 Property name TOPIC_ALIAS value 1
-20261120 113125.636 Property name TOPIC_ALIAS value 1
-20261120 113125.698 Property name TOPIC_ALIAS value 1
-20261120 113126.799 TEST2: test passed. 16 tests run, 0 failures.
-20261120 113126.799 verdict pass
+20261120 130734.562 Starting test 2 - server topic aliases
+20261120 130734.775 Property name RECEIVE_MAXIMUM value 20
+20261120 130734.776 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 130734.776 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 130734.784 Property name TOPIC_ALIAS value 1
+20261120 130734.828 Property name TOPIC_ALIAS value 1
+20261120 130734.890 Property name TOPIC_ALIAS value 1
+20261120 130735.989 TEST2: test passed. 16 tests run, 0 failures.
+20261120 130735.989 verdict pass

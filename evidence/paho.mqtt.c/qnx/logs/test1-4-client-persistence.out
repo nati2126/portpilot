@@ -1,6 +1,6 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 102908.844 Starting test 4 - persistence, qos 1
+20261120 130225.562 Starting test 4 - persistence, qos 1
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
@@ -13,8 +13,8 @@ Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 102909.175 passed: test test 4. 22 tests run, 0 failures.
-20261120 102909.175 Starting test 4 - persistence, qos 2
+20261120 130225.993 passed: test test 4. 22 tests run, 0 failures.
+20261120 130225.993 Starting test 4 - persistence, qos 2
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
@@ -27,5 +27,5 @@ Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 102909.608 passed: test test 4. 41 tests run, 0 failures.
-20261120 102909.608 verdict pass
+20261120 130226.426 passed: test test 4. 41 tests run, 0 failures.
+20261120 130226.426 verdict pass

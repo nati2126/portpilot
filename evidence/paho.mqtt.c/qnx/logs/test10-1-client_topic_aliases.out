@@ -1,15 +1,15 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 113115.886 Starting test 1 - client topic aliases
-20261120 113115.998 Property name RECEIVE_MAXIMUM value 20
-20261120 113115.998 Property name TOPIC_ALIAS_MAXIMUM value 2
-20261120 113115.998 Property name MAXIMUM_PACKET_SIZE value 200000000
-20261120 113116.104 Callback: disconnected, reason code "Topic Alias invalid"
-20261120 113116.104 Property name value REASON_STRING Topic alias invalid
-20261120 113117.109 Property name RECEIVE_MAXIMUM value 20
-20261120 113117.110 Property name TOPIC_ALIAS_MAXIMUM value 2
-20261120 113117.110 Property name MAXIMUM_PACKET_SIZE value 200000000
-20261120 113120.542 Callback: disconnected, reason code "Topic Alias invalid"
-20261120 113120.542 Property name value REASON_STRING Topic alias invalid
-20261120 113125.444 TEST1: test passed. 25 tests run, 0 failures.
-20261120 113125.444 verdict pass
+20261120 130725.073 Starting test 1 - client topic aliases
+20261120 130725.190 Property name RECEIVE_MAXIMUM value 20
+20261120 130725.190 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 130725.190 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 130725.298 Callback: disconnected, reason code "Topic Alias invalid"
+20261120 130725.298 Property name value REASON_STRING Topic alias invalid
+20261120 130726.303 Property name RECEIVE_MAXIMUM value 20
+20261120 130726.303 Property name TOPIC_ALIAS_MAXIMUM value 2
+20261120 130726.303 Property name MAXIMUM_PACKET_SIZE value 200000000
+20261120 130729.637 Callback: disconnected, reason code "Topic Alias invalid"
+20261120 130729.637 Property name value REASON_STRING Topic alias invalid
+20261120 130734.538 TEST1: test passed. 25 tests run, 0 failures.
+20261120 130734.539 verdict pass

@@ -1,803 +1,803 @@
 
 Setting connection to tcp://192.168.122.1:1883
-20261120 113145.922 Starting test 1 - execute destroy while connecting
+20261120 130755.170 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113147.028 TEST1: test passed. 1 tests run, 0 failures.
-20261120 113147.028 Starting test 1 - execute destroy while connecting
+20261120 130756.275 TEST1: test passed. 1 tests run, 0 failures.
+20261120 130756.275 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113148.134 TEST1: test passed. 2 tests run, 0 failures.
-20261120 113148.134 Starting test 1 - execute destroy while connecting
+20261120 130757.380 TEST1: test passed. 2 tests run, 0 failures.
+20261120 130757.380 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113149.240 TEST1: test passed. 3 tests run, 0 failures.
-20261120 113149.240 Starting test 1 - execute destroy while connecting
+20261120 130758.485 TEST1: test passed. 3 tests run, 0 failures.
+20261120 130758.485 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113150.348 TEST1: test passed. 4 tests run, 0 failures.
-20261120 113150.348 Starting test 1 - execute destroy while connecting
+20261120 130759.591 TEST1: test passed. 4 tests run, 0 failures.
+20261120 130759.591 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113151.456 TEST1: test passed. 5 tests run, 0 failures.
-20261120 113151.456 Starting test 1 - execute destroy while connecting
+20261120 130800.696 TEST1: test passed. 5 tests run, 0 failures.
+20261120 130800.696 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113152.561 TEST1: test passed. 6 tests run, 0 failures.
-20261120 113152.561 Starting test 1 - execute destroy while connecting
+20261120 130801.802 TEST1: test passed. 6 tests run, 0 failures.
+20261120 130801.803 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113153.667 TEST1: test passed. 7 tests run, 0 failures.
-20261120 113153.667 Starting test 1 - execute destroy while connecting
+20261120 130802.908 TEST1: test passed. 7 tests run, 0 failures.
+20261120 130802.908 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113154.773 TEST1: test passed. 8 tests run, 0 failures.
-20261120 113154.773 Starting test 1 - execute destroy while connecting
+20261120 130804.015 TEST1: test passed. 8 tests run, 0 failures.
+20261120 130804.015 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113155.880 TEST1: test passed. 9 tests run, 0 failures.
-20261120 113155.880 Starting test 1 - execute destroy while connecting
+20261120 130805.121 TEST1: test passed. 9 tests run, 0 failures.
+20261120 130805.121 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113156.985 TEST1: test passed. 10 tests run, 0 failures.
-20261120 113156.985 Starting test 1 - execute destroy while connecting
+20261120 130806.227 TEST1: test passed. 10 tests run, 0 failures.
+20261120 130806.227 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113158.091 TEST1: test passed. 11 tests run, 0 failures.
-20261120 113158.091 Starting test 1 - execute destroy while connecting
+20261120 130807.334 TEST1: test passed. 11 tests run, 0 failures.
+20261120 130807.334 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113159.198 TEST1: test passed. 12 tests run, 0 failures.
-20261120 113159.198 Starting test 1 - execute destroy while connecting
+20261120 130808.441 TEST1: test passed. 12 tests run, 0 failures.
+20261120 130808.441 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113200.304 TEST1: test passed. 13 tests run, 0 failures.
-20261120 113200.304 Starting test 1 - execute destroy while connecting
+20261120 130809.546 TEST1: test passed. 13 tests run, 0 failures.
+20261120 130809.546 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113201.410 TEST1: test passed. 14 tests run, 0 failures.
-20261120 113201.410 Starting test 1 - execute destroy while connecting
+20261120 130810.651 TEST1: test passed. 14 tests run, 0 failures.
+20261120 130810.651 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113202.516 TEST1: test passed. 15 tests run, 0 failures.
-20261120 113202.516 Starting test 1 - execute destroy while connecting
+20261120 130811.758 TEST1: test passed. 15 tests run, 0 failures.
+20261120 130811.758 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113203.621 TEST1: test passed. 16 tests run, 0 failures.
-20261120 113203.621 Starting test 1 - execute destroy while connecting
+20261120 130812.863 TEST1: test passed. 16 tests run, 0 failures.
+20261120 130812.863 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113204.727 TEST1: test passed. 17 tests run, 0 failures.
-20261120 113204.727 Starting test 1 - execute destroy while connecting
+20261120 130813.969 TEST1: test passed. 17 tests run, 0 failures.
+20261120 130813.970 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113205.833 TEST1: test passed. 18 tests run, 0 failures.
-20261120 113205.833 Starting test 1 - execute destroy while connecting
+20261120 130815.075 TEST1: test passed. 18 tests run, 0 failures.
+20261120 130815.075 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113206.939 TEST1: test passed. 19 tests run, 0 failures.
-20261120 113206.940 Starting test 1 - execute destroy while connecting
+20261120 130816.181 TEST1: test passed. 19 tests run, 0 failures.
+20261120 130816.181 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113208.045 TEST1: test passed. 20 tests run, 0 failures.
-20261120 113208.045 Starting test 1 - execute destroy while connecting
+20261120 130817.287 TEST1: test passed. 20 tests run, 0 failures.
+20261120 130817.288 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113209.152 TEST1: test passed. 21 tests run, 0 failures.
-20261120 113209.152 Starting test 1 - execute destroy while connecting
+20261120 130818.395 TEST1: test passed. 21 tests run, 0 failures.
+20261120 130818.395 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113210.259 TEST1: test passed. 22 tests run, 0 failures.
-20261120 113210.259 Starting test 1 - execute destroy while connecting
+20261120 130819.501 TEST1: test passed. 22 tests run, 0 failures.
+20261120 130819.501 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113211.366 TEST1: test passed. 23 tests run, 0 failures.
-20261120 113211.366 Starting test 1 - execute destroy while connecting
+20261120 130820.607 TEST1: test passed. 23 tests run, 0 failures.
+20261120 130820.607 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113212.471 TEST1: test passed. 24 tests run, 0 failures.
-20261120 113212.472 Starting test 1 - execute destroy while connecting
+20261120 130821.712 TEST1: test passed. 24 tests run, 0 failures.
+20261120 130821.712 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113213.578 TEST1: test passed. 25 tests run, 0 failures.
-20261120 113213.578 Starting test 1 - execute destroy while connecting
+20261120 130822.817 TEST1: test passed. 25 tests run, 0 failures.
+20261120 130822.817 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113214.683 TEST1: test passed. 26 tests run, 0 failures.
-20261120 113214.683 Starting test 1 - execute destroy while connecting
+20261120 130823.923 TEST1: test passed. 26 tests run, 0 failures.
+20261120 130823.923 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113215.789 TEST1: test passed. 27 tests run, 0 failures.
-20261120 113215.789 Starting test 1 - execute destroy while connecting
+20261120 130824.928 TEST1: test passed. 27 tests run, 0 failures.
+20261120 130824.928 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113216.895 TEST1: test passed. 28 tests run, 0 failures.
-20261120 113216.895 Starting test 1 - execute destroy while connecting
+20261120 130826.034 TEST1: test passed. 28 tests run, 0 failures.
+20261120 130826.034 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113218.002 TEST1: test passed. 29 tests run, 0 failures.
-20261120 113218.002 Starting test 1 - execute destroy while connecting
+20261120 130827.140 TEST1: test passed. 29 tests run, 0 failures.
+20261120 130827.140 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113219.007 TEST1: test passed. 30 tests run, 0 failures.
-20261120 113219.007 Starting test 1 - execute destroy while connecting
+20261120 130828.246 TEST1: test passed. 30 tests run, 0 failures.
+20261120 130828.246 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113220.114 TEST1: test passed. 31 tests run, 0 failures.
-20261120 113220.114 Starting test 1 - execute destroy while connecting
+20261120 130829.352 TEST1: test passed. 31 tests run, 0 failures.
+20261120 130829.352 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113221.221 TEST1: test passed. 32 tests run, 0 failures.
-20261120 113221.221 Starting test 1 - execute destroy while connecting
+20261120 130830.458 TEST1: test passed. 32 tests run, 0 failures.
+20261120 130830.458 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113222.327 TEST1: test passed. 33 tests run, 0 failures.
-20261120 113222.327 Starting test 1 - execute destroy while connecting
+20261120 130831.563 TEST1: test passed. 33 tests run, 0 failures.
+20261120 130831.563 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113223.435 TEST1: test passed. 34 tests run, 0 failures.
-20261120 113223.435 Starting test 1 - execute destroy while connecting
+20261120 130832.669 TEST1: test passed. 34 tests run, 0 failures.
+20261120 130832.669 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113224.542 TEST1: test passed. 35 tests run, 0 failures.
-20261120 113224.542 Starting test 1 - execute destroy while connecting
+20261120 130833.774 TEST1: test passed. 35 tests run, 0 failures.
+20261120 130833.774 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113225.648 TEST1: test passed. 36 tests run, 0 failures.
-20261120 113225.648 Starting test 1 - execute destroy while connecting
+20261120 130834.880 TEST1: test passed. 36 tests run, 0 failures.
+20261120 130834.880 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113226.754 TEST1: test passed. 37 tests run, 0 failures.
-20261120 113226.754 Starting test 1 - execute destroy while connecting
+20261120 130835.987 TEST1: test passed. 37 tests run, 0 failures.
+20261120 130835.987 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113227.860 TEST1: test passed. 38 tests run, 0 failures.
-20261120 113227.860 Starting test 1 - execute destroy while connecting
+20261120 130837.094 TEST1: test passed. 38 tests run, 0 failures.
+20261120 130837.095 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113228.965 TEST1: test passed. 39 tests run, 0 failures.
-20261120 113228.965 Starting test 1 - execute destroy while connecting
+20261120 130838.200 TEST1: test passed. 39 tests run, 0 failures.
+20261120 130838.201 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113230.072 TEST1: test passed. 40 tests run, 0 failures.
-20261120 113230.072 Starting test 1 - execute destroy while connecting
+20261120 130839.308 TEST1: test passed. 40 tests run, 0 failures.
+20261120 130839.308 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113231.178 TEST1: test passed. 41 tests run, 0 failures.
-20261120 113231.178 Starting test 1 - execute destroy while connecting
+20261120 130840.413 TEST1: test passed. 41 tests run, 0 failures.
+20261120 130840.413 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113232.283 TEST1: test passed. 42 tests run, 0 failures.
-20261120 113232.283 Starting test 1 - execute destroy while connecting
+20261120 130841.519 TEST1: test passed. 42 tests run, 0 failures.
+20261120 130841.519 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113233.389 TEST1: test passed. 43 tests run, 0 failures.
-20261120 113233.389 Starting test 1 - execute destroy while connecting
+20261120 130842.626 TEST1: test passed. 43 tests run, 0 failures.
+20261120 130842.626 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113234.496 TEST1: test passed. 44 tests run, 0 failures.
-20261120 113234.496 Starting test 1 - execute destroy while connecting
+20261120 130843.732 TEST1: test passed. 44 tests run, 0 failures.
+20261120 130843.732 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113235.603 TEST1: test passed. 45 tests run, 0 failures.
-20261120 113235.604 Starting test 1 - execute destroy while connecting
+20261120 130844.837 TEST1: test passed. 45 tests run, 0 failures.
+20261120 130844.837 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113236.709 TEST1: test passed. 46 tests run, 0 failures.
-20261120 113236.709 Starting test 1 - execute destroy while connecting
+20261120 130845.943 TEST1: test passed. 46 tests run, 0 failures.
+20261120 130845.943 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113237.815 TEST1: test passed. 47 tests run, 0 failures.
-20261120 113237.815 Starting test 1 - execute destroy while connecting
+20261120 130847.049 TEST1: test passed. 47 tests run, 0 failures.
+20261120 130847.049 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113238.922 TEST1: test passed. 48 tests run, 0 failures.
-20261120 113238.922 Starting test 1 - execute destroy while connecting
+20261120 130848.155 TEST1: test passed. 48 tests run, 0 failures.
+20261120 130848.155 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113240.027 TEST1: test passed. 49 tests run, 0 failures.
-20261120 113240.027 Starting test 1 - execute destroy while connecting
+20261120 130849.261 TEST1: test passed. 49 tests run, 0 failures.
+20261120 130849.261 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113241.133 TEST1: test passed. 50 tests run, 0 failures.
-20261120 113241.133 Starting test 1 - execute destroy while connecting
+20261120 130850.367 TEST1: test passed. 50 tests run, 0 failures.
+20261120 130850.367 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113242.241 TEST1: test passed. 51 tests run, 0 failures.
-20261120 113242.241 Starting test 1 - execute destroy while connecting
+20261120 130851.473 TEST1: test passed. 51 tests run, 0 failures.
+20261120 130851.473 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113243.347 TEST1: test passed. 52 tests run, 0 failures.
-20261120 113243.347 Starting test 1 - execute destroy while connecting
+20261120 130852.580 TEST1: test passed. 52 tests run, 0 failures.
+20261120 130852.580 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113244.454 TEST1: test passed. 53 tests run, 0 failures.
-20261120 113244.454 Starting test 1 - execute destroy while connecting
+20261120 130853.686 TEST1: test passed. 53 tests run, 0 failures.
+20261120 130853.686 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113245.559 TEST1: test passed. 54 tests run, 0 failures.
-20261120 113245.559 Starting test 1 - execute destroy while connecting
+20261120 130854.791 TEST1: test passed. 54 tests run, 0 failures.
+20261120 130854.791 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113246.665 TEST1: test passed. 55 tests run, 0 failures.
-20261120 113246.665 Starting test 1 - execute destroy while connecting
+20261120 130855.896 TEST1: test passed. 55 tests run, 0 failures.
+20261120 130855.896 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113247.771 TEST1: test passed. 56 tests run, 0 failures.
-20261120 113247.771 Starting test 1 - execute destroy while connecting
+20261120 130857.004 TEST1: test passed. 56 tests run, 0 failures.
+20261120 130857.004 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113248.876 TEST1: test passed. 57 tests run, 0 failures.
-20261120 113248.876 Starting test 1 - execute destroy while connecting
+20261120 130858.110 TEST1: test passed. 57 tests run, 0 failures.
+20261120 130858.110 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113249.982 TEST1: test passed. 58 tests run, 0 failures.
-20261120 113249.982 Starting test 1 - execute destroy while connecting
+20261120 130859.219 TEST1: test passed. 58 tests run, 0 failures.
+20261120 130859.219 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113251.088 TEST1: test passed. 59 tests run, 0 failures.
-20261120 113251.088 Starting test 1 - execute destroy while connecting
+20261120 130900.326 TEST1: test passed. 59 tests run, 0 failures.
+20261120 130900.326 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113252.195 TEST1: test passed. 60 tests run, 0 failures.
-20261120 113252.195 Starting test 1 - execute destroy while connecting
+20261120 130901.432 TEST1: test passed. 60 tests run, 0 failures.
+20261120 130901.432 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113253.302 TEST1: test passed. 61 tests run, 0 failures.
-20261120 113253.302 Starting test 1 - execute destroy while connecting
+20261120 130902.538 TEST1: test passed. 61 tests run, 0 failures.
+20261120 130902.538 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113254.408 TEST1: test passed. 62 tests run, 0 failures.
-20261120 113254.408 Starting test 1 - execute destroy while connecting
+20261120 130903.643 TEST1: test passed. 62 tests run, 0 failures.
+20261120 130903.643 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113255.515 TEST1: test passed. 63 tests run, 0 failures.
-20261120 113255.515 Starting test 1 - execute destroy while connecting
+20261120 130904.749 TEST1: test passed. 63 tests run, 0 failures.
+20261120 130904.749 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113256.620 TEST1: test passed. 64 tests run, 0 failures.
-20261120 113256.620 Starting test 1 - execute destroy while connecting
+20261120 130905.854 TEST1: test passed. 64 tests run, 0 failures.
+20261120 130905.854 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113257.726 TEST1: test passed. 65 tests run, 0 failures.
-20261120 113257.726 Starting test 1 - execute destroy while connecting
+20261120 130906.960 TEST1: test passed. 65 tests run, 0 failures.
+20261120 130906.960 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113258.833 TEST1: test passed. 66 tests run, 0 failures.
-20261120 113258.833 Starting test 1 - execute destroy while connecting
+20261120 130908.067 TEST1: test passed. 66 tests run, 0 failures.
+20261120 130908.068 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113259.938 TEST1: test passed. 67 tests run, 0 failures.
-20261120 113259.938 Starting test 1 - execute destroy while connecting
+20261120 130909.176 TEST1: test passed. 67 tests run, 0 failures.
+20261120 130909.177 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113301.046 TEST1: test passed. 68 tests run, 0 failures.
-20261120 113301.046 Starting test 1 - execute destroy while connecting
+20261120 130910.283 TEST1: test passed. 68 tests run, 0 failures.
+20261120 130910.283 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113302.151 TEST1: test passed. 69 tests run, 0 failures.
-20261120 113302.151 Starting test 1 - execute destroy while connecting
+20261120 130911.388 TEST1: test passed. 69 tests run, 0 failures.
+20261120 130911.388 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113303.258 TEST1: test passed. 70 tests run, 0 failures.
-20261120 113303.258 Starting test 1 - execute destroy while connecting
+20261120 130912.494 TEST1: test passed. 70 tests run, 0 failures.
+20261120 130912.494 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113304.366 TEST1: test passed. 71 tests run, 0 failures.
-20261120 113304.366 Starting test 1 - execute destroy while connecting
+20261120 130913.599 TEST1: test passed. 71 tests run, 0 failures.
+20261120 130913.600 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113305.474 TEST1: test passed. 72 tests run, 0 failures.
-20261120 113305.474 Starting test 1 - execute destroy while connecting
+20261120 130914.705 TEST1: test passed. 72 tests run, 0 failures.
+20261120 130914.705 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113306.580 TEST1: test passed. 73 tests run, 0 failures.
-20261120 113306.580 Starting test 1 - execute destroy while connecting
+20261120 130915.811 TEST1: test passed. 73 tests run, 0 failures.
+20261120 130915.811 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113307.686 TEST1: test passed. 74 tests run, 0 failures.
-20261120 113307.686 Starting test 1 - execute destroy while connecting
+20261120 130916.916 TEST1: test passed. 74 tests run, 0 failures.
+20261120 130916.916 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113308.791 TEST1: test passed. 75 tests run, 0 failures.
-20261120 113308.791 Starting test 1 - execute destroy while connecting
+20261120 130918.023 TEST1: test passed. 75 tests run, 0 failures.
+20261120 130918.024 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113309.897 TEST1: test passed. 76 tests run, 0 failures.
-20261120 113309.897 Starting test 1 - execute destroy while connecting
+20261120 130919.130 TEST1: test passed. 76 tests run, 0 failures.
+20261120 130919.130 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113311.003 TEST1: test passed. 77 tests run, 0 failures.
-20261120 113311.003 Starting test 1 - execute destroy while connecting
+20261120 130920.237 TEST1: test passed. 77 tests run, 0 failures.
+20261120 130920.237 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113312.110 TEST1: test passed. 78 tests run, 0 failures.
-20261120 113312.110 Starting test 1 - execute destroy while connecting
+20261120 130921.343 TEST1: test passed. 78 tests run, 0 failures.
+20261120 130921.343 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113313.216 TEST1: test passed. 79 tests run, 0 failures.
-20261120 113313.216 Starting test 1 - execute destroy while connecting
+20261120 130922.448 TEST1: test passed. 79 tests run, 0 failures.
+20261120 130922.448 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113314.323 TEST1: test passed. 80 tests run, 0 failures.
-20261120 113314.323 Starting test 1 - execute destroy while connecting
+20261120 130923.555 TEST1: test passed. 80 tests run, 0 failures.
+20261120 130923.556 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113315.430 TEST1: test passed. 81 tests run, 0 failures.
-20261120 113315.430 Starting test 1 - execute destroy while connecting
+20261120 130924.664 TEST1: test passed. 81 tests run, 0 failures.
+20261120 130924.664 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113316.537 TEST1: test passed. 82 tests run, 0 failures.
-20261120 113316.537 Starting test 1 - execute destroy while connecting
+20261120 130925.770 TEST1: test passed. 82 tests run, 0 failures.
+20261120 130925.770 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113317.643 TEST1: test passed. 83 tests run, 0 failures.
-20261120 113317.643 Starting test 1 - execute destroy while connecting
+20261120 130926.877 TEST1: test passed. 83 tests run, 0 failures.
+20261120 130926.877 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113318.749 TEST1: test passed. 84 tests run, 0 failures.
-20261120 113318.749 Starting test 1 - execute destroy while connecting
+20261120 130927.983 TEST1: test passed. 84 tests run, 0 failures.
+20261120 130927.984 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113319.855 TEST1: test passed. 85 tests run, 0 failures.
-20261120 113319.855 Starting test 1 - execute destroy while connecting
+20261120 130929.091 TEST1: test passed. 85 tests run, 0 failures.
+20261120 130929.091 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113320.961 TEST1: test passed. 86 tests run, 0 failures.
-20261120 113320.961 Starting test 1 - execute destroy while connecting
+20261120 130930.196 TEST1: test passed. 86 tests run, 0 failures.
+20261120 130930.196 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113322.067 TEST1: test passed. 87 tests run, 0 failures.
-20261120 113322.067 Starting test 1 - execute destroy while connecting
+20261120 130931.303 TEST1: test passed. 87 tests run, 0 failures.
+20261120 130931.303 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113323.172 TEST1: test passed. 88 tests run, 0 failures.
-20261120 113323.172 Starting test 1 - execute destroy while connecting
+20261120 130932.409 TEST1: test passed. 88 tests run, 0 failures.
+20261120 130932.409 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113324.279 TEST1: test passed. 89 tests run, 0 failures.
-20261120 113324.279 Starting test 1 - execute destroy while connecting
+20261120 130933.514 TEST1: test passed. 89 tests run, 0 failures.
+20261120 130933.514 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113325.386 TEST1: test passed. 90 tests run, 0 failures.
-20261120 113325.387 Starting test 1 - execute destroy while connecting
+20261120 130934.620 TEST1: test passed. 90 tests run, 0 failures.
+20261120 130934.621 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113326.494 TEST1: test passed. 91 tests run, 0 failures.
-20261120 113326.494 Starting test 1 - execute destroy while connecting
+20261120 130935.727 TEST1: test passed. 91 tests run, 0 failures.
+20261120 130935.727 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113327.601 TEST1: test passed. 92 tests run, 0 failures.
-20261120 113327.601 Starting test 1 - execute destroy while connecting
+20261120 130936.832 TEST1: test passed. 92 tests run, 0 failures.
+20261120 130936.832 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113328.707 TEST1: test passed. 93 tests run, 0 failures.
-20261120 113328.707 Starting test 1 - execute destroy while connecting
+20261120 130937.938 TEST1: test passed. 93 tests run, 0 failures.
+20261120 130937.938 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113329.813 TEST1: test passed. 94 tests run, 0 failures.
-20261120 113329.813 Starting test 1 - execute destroy while connecting
+20261120 130939.044 TEST1: test passed. 94 tests run, 0 failures.
+20261120 130939.044 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113330.918 TEST1: test passed. 95 tests run, 0 failures.
-20261120 113330.918 Starting test 1 - execute destroy while connecting
+20261120 130940.150 TEST1: test passed. 95 tests run, 0 failures.
+20261120 130940.150 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113332.023 TEST1: test passed. 96 tests run, 0 failures.
-20261120 113332.023 Starting test 1 - execute destroy while connecting
+20261120 130941.255 TEST1: test passed. 96 tests run, 0 failures.
+20261120 130941.255 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113333.129 TEST1: test passed. 97 tests run, 0 failures.
-20261120 113333.129 Starting test 1 - execute destroy while connecting
+20261120 130942.360 TEST1: test passed. 97 tests run, 0 failures.
+20261120 130942.360 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113334.236 TEST1: test passed. 98 tests run, 0 failures.
-20261120 113334.236 Starting test 1 - execute destroy while connecting
+20261120 130943.465 TEST1: test passed. 98 tests run, 0 failures.
+20261120 130943.465 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113335.342 TEST1: test passed. 99 tests run, 0 failures.
-20261120 113335.342 Starting test 1 - execute destroy while connecting
+20261120 130944.572 TEST1: test passed. 99 tests run, 0 failures.
+20261120 130944.572 Starting test 1 - execute destroy while connecting
 =========================================================
                    Trace Output
 Product name: Eclipse Paho Synchronous MQTT C Client Library
 Version: 1.3.16
 Build level: 2026-11-04T18:59:01Z
 =========================================================
-20261120 113336.448 TEST1: test passed. 100 tests run, 0 failures.
-20261120 113336.448 verdict pass
+20261120 130945.677 TEST1: test passed. 100 tests run, 0 failures.
+20261120 130945.677 verdict pass
