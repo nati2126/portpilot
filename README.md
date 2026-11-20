@@ -1,5 +1,8 @@
 # PortPilot
 
+[![CI](https://github.com/nati2126/portpilot/actions/workflows/ci.yml/badge.svg)](https://github.com/nati2126/portpilot/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
 Port Linux C/C++ libraries to QNX 8.0.
 
 > Status: works end to end on real libraries: scan, generate the port, build with qcc,
