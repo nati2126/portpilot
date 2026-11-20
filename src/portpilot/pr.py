@@ -237,7 +237,10 @@ def contribute(out: Path, build_files: Path, dest: Path | None = None,
     if check_archs:  # build-files CI builds every nto-* folder, not only the tested one
         from .port import verify_archs
 
-        verify_archs(out, build_files=build_files)
+        unverified = [a for a in verify_archs(out, build_files=build_files) if a["ok"] is None]
+        if unverified:
+            raise PrError(f"{unverified[0]['arch']}: {unverified[0]['reason']}. Rerun with "
+                          "network access (or --no-arch-check to skip the check)")
         spec = json.loads((out / "spec.json").read_text(encoding="utf-8"))
         run = json.loads((out / "run.json").read_text(encoding="utf-8"))
     if author and not _AUTHOR.match(author.strip()):

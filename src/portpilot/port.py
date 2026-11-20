@@ -405,6 +405,17 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
                    env=env, jobs=jobs, arch=arch)
 
 
+_NET_FAIL = re.compile(r"Failed to clone repository|Could not resolve host|RPC failed|"
+                       r"early EOF|unable to access '[^']+'|Failed to connect to|"
+                       r"error: downloading '[^']+' failed|Timeout was reached")
+
+
+def network_failure(log: str) -> str:
+    """The first sign in a build log that a download (FetchContent, git) failed, or ""."""
+    m = _NET_FAIL.search(log)
+    return m.group(0)[:80] if m else ""
+
+
 def verify_archs(out: Path, *, tested: str = "x86_64", jobs: int = 8, max_attempts: int = 4,
                  env: dict[str, str] | None = None, build_files: Path | None = None,
                  say: Callable[[str], None] = print) -> list[dict[str, Any]]:
@@ -454,6 +465,9 @@ def verify_archs(out: Path, *, tested: str = "x86_64", jobs: int = 8, max_attemp
                 break
             found, _unfixed = fx.from_diagnostics(b.parsed.errors, kb, None, srcw, {},
                                                   include_dir)
+            if net := network_failure(b.log.read_text(encoding="utf-8", errors="replace")):
+                res.update(ok=None, reason=f"not verified: a download failed ({net})")
+                break
             new = [f for f in found if fx.apply(f, spec, srcw)]
             if not new:
                 e = b.parsed.errors
@@ -465,7 +479,9 @@ def verify_archs(out: Path, *, tested: str = "x86_64", jobs: int = 8, max_attemp
             res["fixes"] += [_fix_dict(f) for f in new]
             changed = True
             rerender(out, spec)
-        if not res["ok"]:
+        if res["ok"] is None:  # says nothing about the port: leave it as it is
+            say(f"      {arch}: {res['reason']}; rerun `portpilot pr` with network access")
+        elif not res["ok"]:
             say(f"      {arch}: does not build ({res.get('reason', '')[:100]}); "
                 "marked Makefile.dnm")
             dnm.write_text("", encoding="utf-8")

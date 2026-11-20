@@ -165,3 +165,13 @@ def test_pr_body_reports_other_architectures() -> None:
     assert "| allow negative constants in char (aarch64) | plain char is unsigned" in body
     run["arch_builds"] = [{"arch": "aarch64", "ok": False, "reason": "x.c:1 boom"}]
     assert "- aarch64: not built (`Makefile.dnm`): x.c:1 boom" in pr_body("yaml-cpp", spec, run)
+
+
+def test_network_failure_is_not_a_build_failure() -> None:
+    from portpilot.port import network_failure
+
+    log = ("CMake Error at catch2-subbuild/catch2-populate-prefix/tmp/"
+           "catch2-populate-gitclone.cmake:39 (message):\n  Failed to clone repository: "
+           "'https://github.com/catchorg/Catch2.git'\n")
+    assert network_failure(log) == "Failed to clone repository"
+    assert network_failure("x.c:1:2: error: narrowing conversion of '-58'\n") == ""
