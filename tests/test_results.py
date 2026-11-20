@@ -26,7 +26,8 @@ def test_table_from_runs(tmp_path: Path) -> None:
            target_tests={"passed": 1, "total": 1, "cases": [1008, 1008]})
     _write(tmp_path / "b" / "nng", name="nng", commit="v1.9.0", ok=False, elapsed_s=60,
            patch_stat="1 file changed, 3 insertions(+)",
-           pre_fixes=[{"rule": "link-socket"}], attempts=[{"applied": [{"rule": "ai-edit"}]}])
+           pre_fixes=[{"rule": "link-socket"}], attempts=[{"applied": [{"rule": "ai-edit"}]}],
+           ai=[{"result": "accepted"}, {"result": "rejected"}, {"result": "no_fix"}])
     rows = collect([tmp_path / "b"])
     assert [r["library"] for r in rows] == ["nng", "yaml-cpp"]
     md = to_markdown(rows)
@@ -35,3 +36,4 @@ def test_table_from_runs(tmp_path: Path) -> None:
     assert "| yaml-cpp | `yaml-cpp-0.9.0` | yes | 0 | 1 (0) | 0 | 1008/1008 cases (1/1 programs)" \
         in md
     assert collect([tmp_path / "b" / "nng"])[0]["library"] == "nng"  # a run dir itself
+    assert "Local AI: 3 proposals, 1 accepted (verified by rebuild or retest), 2 rejected" in md
