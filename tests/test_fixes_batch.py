@@ -446,3 +446,15 @@ def test_negative_char_constant_on_aarch64(kb: KnowledgeBase, tmp_path: Path) ->
     spec = PortSpec("yaml-cpp")
     assert fx.apply(fixes[0], spec, tmp_path)
     assert [s.value for s in spec.cflags] == ["-Wno-narrowing"]
+
+
+def test_dependency_port_build_folder_names(tmp_path: Path) -> None:
+    from portpilot.deps import cpu_dir
+
+    (tmp_path / "Catch2" / "nto-x86_64-o").mkdir(parents=True)
+    (tmp_path / "Catch2" / "nto-aarch64-le").mkdir()
+    (tmp_path / "muslflt" / "nto-aarch64").mkdir(parents=True)
+    assert cpu_dir(tmp_path / "Catch2", "x86_64") == "nto-x86_64-o"
+    assert cpu_dir(tmp_path / "Catch2", "aarch64") == "nto-aarch64-le"
+    assert cpu_dir(tmp_path / "muslflt", "aarch64") == "nto-aarch64"
+    assert cpu_dir(tmp_path / "muslflt", "x86_64") is None

@@ -94,6 +94,13 @@ def _changed_tracked(repo: Path) -> set[str]:
     return set(r.stdout.split("\n")) - {""} if r.returncode == 0 else set()
 
 
+def cpu_dir(port_dir: Path, arch: str) -> str | None:
+    """The port's build folder for arch: nto-x86_64-o / nto-aarch64-le in most official
+    ports (129 and 132 of them), plain nto-<arch> in a few (muslflt)."""
+    return next((c for c in (f"nto-{arch}-o", f"nto-{arch}-le", f"nto-{arch}")
+                 if (port_dir / c).is_dir()), None)
+
+
 def _tree(root: Path) -> set[str]:
     """Relative paths of the files and links under root."""
     out: set[str] = set()
@@ -149,7 +156,7 @@ def ensure_port(package: str, stage: Path, env: dict[str, str], log: Path,
         r = subprocess.run(cmd, capture_output=True, text=True, timeout=900)
         if r.returncode != 0:
             return port, f"cannot clone {url}: {r.stderr.strip()[:200]}"
-    cpu = next((c for c in (f"nto-{arch}-o", f"nto-{arch}") if (pdir / c).is_dir()), None)
+    cpu = cpu_dir(pdir, arch)
     if cpu is None:
         return port, f"{port} has no {arch} build folder"
     log.parent.mkdir(parents=True, exist_ok=True)
