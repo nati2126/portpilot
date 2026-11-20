@@ -17,8 +17,15 @@ No QNX SDP files and no binaries: `collect.sh` refuses to copy a binary file.
 
 Known failures, and why:
 
-- open62541: PubSub UDP multicast tests (no multicast route on the QEMU network, and
-  open62541 picks the multicast interface only on Linux and macOS), a JSON config test that
-  reads a file from the source tree, which is not on the target.
+- open62541 (19 of 146 programs, all logs in `open62541/qnx/logs/`), not yet fixed:
+  - PubSub over UDP multicast (most of the 19): `Invalid connection parameters to
+    "224.0.0.22"`. open62541 chooses the multicast interface only in `__linux__` and
+    `__APPLE__` branches. `check_pubsub_udp_unicast`: the received value differs from the
+    published one.
+  - `check_types_builtin_json`: a double is not bit-identical after a JSON round trip (QNX
+    float formatting, as in yaml-cpp before the `float-format` fix).
+  - `check_musl_inet_pton`: errno is 3, not `EAFNOSUPPORT`, for a bad address family.
+  - `check_json_config` reads a file from the source tree, which is not on the target;
+    `check_client_subscriptions` sees a connection closed with error 261.
 - paho.mqtt.c: run against mosquitto on QNX. `test45` expects MQTT 5 properties in UNSUBACK,
   which paho's own test broker (paho.mqtt.testing) sends and mosquitto doesn't.
