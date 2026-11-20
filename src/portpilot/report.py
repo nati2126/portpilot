@@ -123,14 +123,17 @@ def _diff_html(patch: str) -> str:
     return '<pre class="diff">' + "".join(out) + "</pre>"
 
 
-def _matrix_html(matrix: dict[str, Any]) -> str:
+def _matrix_html(matrix: dict[str, Any], fixed: set[str] | None = None) -> str:
+    """`fixed`: rules PortPilot applied in this run; their rows read "fixed by rule"."""
     rows = matrix.get("matrix", [])
     if not rows:
         return '<p class="mute">The scan found no Linux-only dependencies.</p>'
     body = []
     for r in rows:
         st = r["status"]
-        cls = "warn" if st == "needs work" else "ok" if st == "guarded" else ""
+        if st == "needs work" and r.get("rule") in (fixed or set()):
+            st = "fixed by rule"
+        cls = "warn" if st == "needs work" else "ok" if st in ("guarded", "fixed by rule") else ""
         where = ", ".join(f"<code>{_e(o['path'])}:{_e(o['line'])}</code>"
                           for o in r["occurrences"][:2])
         body.append(f"<tr><td><b>{_e(r['dependency'])}</b><br><span class=mute>"
@@ -278,7 +281,11 @@ def render_html(out: Path, kb: KnowledgeBase | None = None) -> str:
 
     if matrix:
         h.append("<h2>Dependency matrix</h2>")
-        h.append(_matrix_html(matrix))
+        applied = {f.get("rule") for f in [
+            *run.get("pre_fixes", []), *(f for a in run.get("attempts", [])
+                                         for f in a.get("applied", [])),
+            *(f for t in run.get("test_rounds") or [] for f in t.get("fixes", []))]}
+        h.append(_matrix_html(matrix, {r for r in applied if r}))
 
     if patch:
         h.append(f"<h2>Source patch</h2><p class=mute>{_e(run.get('patch_stat', ''))} · "

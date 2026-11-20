@@ -68,3 +68,14 @@ def test_failed_run_lists_what_is_left(tmp_path: Path, kb: KnowledgeBase) -> Non
     text = render_html(out, kb)
     assert "Not built: needs a person" in text
     assert "Left for a person" in text and "use poll() or ionotify" in text
+
+
+def test_matrix_row_fixed_by_an_applied_rule() -> None:
+    from portpilot.report import _matrix_html
+    m = {"matrix": [{"dependency": "socket API lives in libsocket", "category": "Linking",
+                     "linux_standard": "libc", "qnx_equivalent": "libsocket",
+                     "porting_strategy": "link -lsocket", "auto_fixable": "yes",
+                     "status": "needs work", "rule": "link-socket", "occurrences": []}]}
+    assert "needs work" in _matrix_html(m)
+    html = _matrix_html(m, {"link-socket"})
+    assert "fixed by rule" in html and "needs work" not in html
