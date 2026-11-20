@@ -148,3 +148,25 @@ def test_a_gated_declaration_gets_the_strict_mode_fix(kb: KnowledgeBase, qnx_tar
     facts = qnx_facts(d, kb, None, qnx_target)
     assert any(f.startswith("QNX declares `timespec_get` only when __EXT_ANSIC_201112 is set")
                and "#define _QNX_SOURCE" in f for f in facts)
+
+
+def test_prompt_shows_the_include_block_when_the_excerpt_misses_it(tmp_path: Path) -> None:
+    """workflow CommScheduler.cc: the excerpt started below the first #include, so the
+    model's #define _QNX_SOURCE landed after it and was rejected."""
+    body = ["// license"] * 18 + ["#include <sys/types.h>", "#include <errno.h>", ""]
+    body += ["int x;"] * 14 + ["  clock_gettime(CLOCK_REALTIME, ts);"] + ["int y;"] * 30
+    (tmp_path / "a.cc").write_text("\n".join(body) + "\n")
+    assert ai.include_block(tmp_path / "a.cc") == "#include <sys/types.h>\n#include <errno.h>"
+    d = parse("a.cc:36:3: error: 'clock_gettime' was not declared in this scope\n").errors[0]
+    p = ai.build_prompt(d, "a.cc", tmp_path, [])
+    assert "The #include lines at the top of a.cc" in p and "#include <sys/types.h>" in p
+
+
+def test_declarations_in_comments_are_not_declarations(qnx_target: Path) -> None:
+    from portpilot.facts import declaring_headers
+
+    p = qnx_target / "usr" / "include" / "libxml" / "xmlmemory.h"
+    p.parent.mkdir(parents=True)
+    p.write_text("/**\n * Signature for an strdup() implementation.\n */\n"
+                 "// also strdup(x);\ntypedef char *(*xmlStrdupFunc) (const char *str);\n")
+    assert declaring_headers("strdup", qnx_target / "usr" / "include") == []

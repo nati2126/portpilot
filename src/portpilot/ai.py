@@ -206,6 +206,23 @@ def excerpt(path: Path, line: int, radius: int = 15) -> tuple[str, str]:
     return "\n".join(lines[lo - 1:hi]), lines[line - 1] if 0 < line <= len(lines) else ""
 
 
+def include_block(path: Path, max_lines: int = 40) -> str:
+    """The file's first #include line through its last one before any code (at most
+    max_lines lines), or ""."""
+    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    first = next((i for i, ln in enumerate(lines) if ln.lstrip().startswith("#include")), None)
+    if first is None:
+        return ""
+    last = first
+    for i in range(first, min(len(lines), first + max_lines)):
+        s = lines[i].strip()
+        if s.startswith("#include"):
+            last = i
+        elif s and not s.startswith(("#", "//", "/*", "*")):
+            break
+    return "\n".join(lines[first:last + 1])
+
+
 def build_prompt(d: Diagnostic, rel: str, root: Path, facts: list[str],
                  related: list[Diagnostic] | None = None) -> str:
     parts = [f"Build error (qcc for QNX 8.0 x86_64):\n{rel}:{d.line}:{d.col}: {d.message}"]
@@ -214,6 +231,10 @@ def build_prompt(d: Diagnostic, rel: str, root: Path, facts: list[str],
     for r in (related or [])[:4]:
         parts.append(f"Also in this file: {r.location()}: {r.message}")
     code, err_line = excerpt(root / rel, d.line)
+    if (top := include_block(root / rel)) and top not in code:
+        # a fix that must come before the first #include (a feature macro) needs to see it
+        parts.append(f"The #include lines at the top of {rel} (copy SEARCH lines from here "
+                     f"exactly):\n{top}")
     parts.append(f"The error is on this line of {rel}:\n{err_line}")
     parts.append(f"Code around it in {rel} (copy SEARCH lines from here exactly):\n{code}")
     if facts:

@@ -55,6 +55,15 @@ def _decl_patterns(sym: str) -> re.Pattern[str]:
                       rf"^\s*{s}\s*(?:=[^;]*)?,?\s*(?:/[*/].*)?$", re.M)  # enum constant
 
 
+def _in_comment(text: str, pos: int) -> bool:
+    """pos is inside a /* */ block or after // on its line (libxml's '* Signature for an
+    strdup() implementation' is not a declaration of strdup)."""
+    line_start = text.rfind("\n", 0, pos) + 1
+    if "//" in text[line_start:pos]:
+        return True
+    return text.rfind("/*", 0, pos) > text.rfind("*/", 0, pos)
+
+
 _REDIRECT = re.compile(r'#\s*error\s+"?do not include \S+ directly,?\s+include\s+'
                        r'<?(?P<h>[\w/+-]+\.h(?:pp)?)\b')
 
@@ -105,7 +114,7 @@ def declaring_headers(sym: str, include_dir: Path,
     for rel, text in _headers(str(include_dir)):
         if sym not in text or rel.startswith(DRIVER_KIT):  # never for applications (F-018)
             continue
-        m = pat.search(text)
+        m = next((m for m in pat.finditer(text) if not _in_comment(text, m.start())), None)
         if not m:
             continue
         ln = text.count("\n", 0, m.start())
