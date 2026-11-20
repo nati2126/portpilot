@@ -88,12 +88,14 @@ def _errors(diags: list[Diagnostic]) -> list[Diagnostic]:
 
 def judge(case: Case, before: list[Diagnostic], after: list[Diagnostic],
           edited: set[str]) -> tuple[bool, str]:
-    """The port loop's test: the error is gone and the edited files have no new error."""
+    """The error is gone and the recompile has no new error. Every error of a one-file
+    compile comes from that file and what it includes, so a new error anywhere counts:
+    an edit that moves the error into a header it now includes is not a fix (F-018)."""
     target = Diagnostic(**{**case.error, "included_from": tuple(case.error["included_from"])})
     keys_after = {_key(x) for x in _errors(after)}
     if _key(target) in keys_after:
         return False, "error still there"
-    added = {k for k in keys_after - {_key(x) for x in _errors(before)} if k[1] in edited}
+    added = keys_after - {_key(x) for x in _errors(before)}
     if added:
         return False, "new errors: " + "; ".join(k[3] for k in list(added)[:2])
     return True, "error gone, no new error in the edited file"

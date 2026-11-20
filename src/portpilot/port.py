@@ -657,9 +657,12 @@ def _ai_round(ai: Any, unfixed: list[fx.Unfixed], last: BuildResult, kb: Knowled
                 d.kind == "undefined-reference"
                 and any(x.symbol == d.symbol for x in b.parsed.errors))
             edited = {Path(e.path).name for e in prop.edits}
-            added = {k_ for k_ in after - before if k_[1] in edited
-                     and k_[0] not in ("undefined-reference", "missing-library",
-                                       "duplicate-symbol", "link-error")}
+            # new compile errors in the edited files or in headers they include: an edit
+            # that moves the error into a header it now includes is no fix (F-018)
+            added = {_err_key(x) for x in b.parsed.errors if _err_key(x) not in before
+                     and x.tool == "cc" and (Path(x.file).name in edited or any(
+                         Path(loc.rsplit(":", 1)[0]).name in edited
+                         for loc in x.included_from))}
             if b.ok or (gone and not added):
                 entry.update(result="accepted", reason="the build succeeds" if b.ok else
                              "rebuild: the error is gone and the edited file has no new "

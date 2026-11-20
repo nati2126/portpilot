@@ -21,6 +21,11 @@ MAX_HITS = 3
 _INCLUDE_GUARD = re.compile(r"!?\s*defined\s*\(?\w+_H(?:_\w*)?\)?")
 
 
+# the SDP include folder for driver code (io-sock's FreeBSD kernel headers), not for
+# applications: devs/sys/event.h declares struct kevent, but libc has no kqueue (F-018)
+DRIVER_KIT = ("devs/",)
+
+
 @lru_cache(maxsize=2)
 def _headers(include_dir: str) -> tuple[tuple[str, str], ...]:
     out = []
@@ -155,9 +160,13 @@ def _facts(d: Diagnostic, kb: KnowledgeBase, sdp: SdpIndex | None,
         if sdp is not None and inc is not None:
             base = Path(d.symbol).name
             similar = [rel for rel, _ in _headers(str(inc)) if Path(rel).name == base]
+            apps = [h for h in similar if not h.startswith(DRIVER_KIT)]
+            kit = [h for h in similar if h.startswith(DRIVER_KIT)]
             facts.append(f"<{d.symbol}> does not exist in QNX 8.0."
-                         + (f" Headers with that name: {', '.join(similar[:5])}" if similar
-                            else ""))
+                         + (f" Headers with that name: {', '.join(apps[:5])}" if apps else "")
+                         + (f" ({', '.join(kit[:2])} belongs to the driver development kit: "
+                            "kernel/driver code only, applications must not include it)"
+                            if kit else ""))
         return facts
     if d.kind == "no-member" and inc is not None:
         if body := struct_members(d.symbol, inc):

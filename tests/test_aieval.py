@@ -33,7 +33,9 @@ def test_judge_needs_the_error_gone_and_nothing_new_in_the_edited_file() -> None
     new = _d("'Z' undeclared", sym="Z")
     ok, why = judge(case, [target], [new], {"a.c"})
     assert not ok and why.startswith("new errors")
-    assert judge(case, [target], [_d("'Z' undeclared", file="/s/b.c", sym="Z")], {"a.c"})[0]
+    # a new error in a header the file now includes is no fix either (F-018)
+    assert not judge(case, [target], [_d("'Z' undeclared", file="/sdp/devs/e.h", sym="Z")],
+                     {"a.c"})[0]
 
 
 def test_suspect_edits() -> None:

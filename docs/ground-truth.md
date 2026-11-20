@@ -187,6 +187,20 @@ Captured with qcc 12.2 (real output in `tests/data/diag/`).
 - **PortPilot:** rule `qcc-driver-option`. Where the project's CMake files add the option, drop
   `-pipe` (a speed hint) and rewrite `--param=X` as `--param X`, which gcc accepts too.
 
+<a id="f-018"></a>
+## F-018: no kqueue on QNX; `devs/sys/event.h` is for drivers
+
+- **Symptom:** sogou/workflow's poller uses kqueue on every non-Linux system:
+  `sys/event.h: No such file or directory`. Given "headers with that name:
+  devs/sys/event.h", the local model swapped the include, and the port loop's check accepted
+  it: the error was gone from the edited file and the new one was inside the SDP header.
+- **Fact:** measured on SDP 8.0: `devs/sys/event.h` is io-sock's FreeBSD kernel header (it
+  needs `sys/_types.h`, which applications do not have); `libc.so` exports no `kqueue` or
+  `kevent`.
+- **PortPilot:** rule `kqueue` (manual: redesign, like epoll); SDP facts mark `devs/`
+  headers as driver-kit only; an AI edit is rejected for a new error in any header
+  the edited file includes, not only in the file.
+
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)
 

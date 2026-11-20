@@ -69,6 +69,9 @@ url = "docs/ground-truth.md#f-013"
 [sources.gt-F011]
 title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
 url = "docs/ground-truth.md#f-011"
+[sources.gt-F018]
+title = "Ground truth F-018: QNX 8.0 has no kqueue; devs/sys/event.h is a driver-kit header"
+url = "docs/ground-truth.md#f-018"
 [sources.gt-F017]
 title = "Ground truth F-017: qcc rejects -pipe and --param=X (accepts --param X)"
 url = "docs/ground-truth.md#f-017"
@@ -98,6 +101,19 @@ severity = "blocker"
 headers = ["sys/epoll.h"]
 functions = ["epoll_create", "epoll_create1", "epoll_ctl", "epoll_wait", "epoll_pwait"]
 sources = ["qnx-depmap", "qnx-syscall", "qnx-deep", "sdp"]
+
+[[rule]]
+id = "kqueue"
+title = "kqueue"
+category = "Event handling"
+linux = "kqueue/kevent (sys/event.h; BSD and macOS, the non-Linux branch of many event loops)"
+qnx = "poll() / select(), or ionotify() + pulses (QNX libc has no kqueue; devs/sys/event.h is driver-kit only)"
+strategy = "Use the project's poll()/select() backend if it has one; otherwise redesign the event loop like an epoll one."
+fix = "manual"
+severity = "blocker"
+headers = ["sys/event.h"]
+functions = ["kqueue", "kevent"]
+sources = ["gt-F018", "qnx-depmap"]
 
 [[rule]]
 id = "eventfd"

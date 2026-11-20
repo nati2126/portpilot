@@ -10,6 +10,7 @@ from portpilot.diagnostics import parse
 from portpilot.facts import qnx_facts, struct_members, where_declared
 from portpilot.kb import KnowledgeBase
 from portpilot.scaffold import PortSpec
+from portpilot.sdp_index import SdpIndex
 
 REPLY = """Here is the fix:
 ```c
@@ -125,3 +126,17 @@ def test_optional_flag_rule_defines_it_to_zero(kb: KnowledgeBase, tmp_path: Path
     assert fx.apply(fixes[0], PortSpec("x"), tmp_path)
     assert (tmp_path / "net.c").read_text().startswith(
         "#include <sys/socket.h>\n#include <string.h>\n#ifndef MSG_MORE\n#define MSG_MORE 0")
+
+
+def test_driver_kit_headers_are_not_offered_as_replacements(
+        kb: KnowledgeBase, qnx_target: Path, fake_sdp: SdpIndex) -> None:
+    """workflow's <sys/event.h> (kqueue): the model swapped in devs/sys/event.h (F-018)."""
+    p = qnx_target / "usr" / "include" / "devs" / "sys" / "event.h"
+    p.parent.mkdir(parents=True)
+    p.write_text("struct kevent { int ident; };\n")
+    d = parse("poller.c:26:11: fatal error: sys/event.h: No such file or directory\n").errors[0]
+    facts = qnx_facts(d, kb, fake_sdp, qnx_target)
+    assert any(f.startswith("kqueue: on QNX use poll()") for f in facts)
+    header = next(f for f in facts if f.startswith("<sys/event.h> does not exist"))
+    assert "Headers with that name" not in header
+    assert "devs/sys/event.h belongs to the driver development kit" in header
