@@ -45,3 +45,17 @@ def test_no_tests_built(tmp_path: Path) -> None:
     md = to_markdown(collect([tmp_path]))
     assert md.startswith("1/1 libraries built for QNX 8.0 from their upstream release; 0 tested")
     assert "| no tests built |" in md
+
+
+def test_text_table(tmp_path: Path) -> None:
+    from portpilot.results import to_text
+    _write(tmp_path / "sockpp", name="sockpp", commit="v1.0.0", ok=True, elapsed_s=78,
+           patch_stat="2 files changed, 4 insertions(+), 4 deletions(-)",
+           target_tests={"passed": 1, "total": 1, "cases": [33, 33]})
+    txt = to_text(collect([tmp_path]))
+    lines = txt.splitlines()
+    assert lines[0].startswith("1/1 libraries built")
+    assert lines[2].split() == ["Library", "Release", "Built", "Attempts", "Fixes", "Patch",
+                                "Tests", "on", "QNX", "Time"]
+    assert lines[4].split()[:6] == ["sockpp", "v1.0.0", "yes", "0", "0", "8"]
+    assert "33/33 cases (1/1 programs)" in lines[4] and "|" not in txt

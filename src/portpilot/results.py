@@ -66,11 +66,30 @@ def _tests(r: dict[str, Any]) -> str:
     return s
 
 
-def to_markdown(rows: list[dict[str, Any]]) -> str:
+def _headline(rows: list[dict[str, Any]]) -> str:
     built = sum(r["built"] for r in rows)
     tested = [r for r in rows if r["test_programs"] and r["test_programs"][1]]
-    out = [f"{built}/{len(rows)} libraries built for QNX 8.0 from their upstream release; "
-           f"{len(tested)} tested on a QNX 8.0 QEMU target.", "",
+    return (f"{built}/{len(rows)} libraries built for QNX 8.0 from their upstream release; "
+            f"{len(tested)} tested on a QNX 8.0 QEMU target.")
+
+
+def to_text(rows: list[dict[str, Any]]) -> str:
+    """The same table with aligned columns, for a terminal."""
+    head = ["Library", "Release", "Built", "Attempts", "Fixes", "Patch", "Tests on QNX",
+            "Time"]
+    body = [[r["library"], r["ref"], "yes" if r["built"] else "no", str(r["attempts"]),
+             str(r["fixes"]) + (f" ({r['ai_fixes']} AI)" if r["ai_fixes"] else ""),
+             str(r["patch_lines"]), _tests(r), f"{r['minutes']} min"]
+            for r in sorted(rows, key=lambda r: r["library"].lower())]
+    widths = [max(len(x[i]) for x in [head, *body]) for i in range(len(head))]
+    fmt = "  ".join(f"{{:<{w}}}" for w in widths)
+    lines = [_headline(rows), "", fmt.format(*head), "  ".join("-" * w for w in widths)]
+    lines += [fmt.format(*b).rstrip() for b in body]
+    return "\n".join(lines) + "\n"
+
+
+def to_markdown(rows: list[dict[str, Any]]) -> str:
+    out = [_headline(rows), "",
            "| Library | Release | Built | Build attempts | Fixes (AI) | Patch lines | "
            "Tests on QNX | Time |",
            "|---|---|---|---|---|---|---|---|"]

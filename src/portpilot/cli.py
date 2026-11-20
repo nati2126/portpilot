@@ -245,13 +245,18 @@ def _cmd_doctor(a: argparse.Namespace) -> int:
 
 
 def _cmd_results(a: argparse.Namespace) -> int:
-    from .results import collect, to_markdown
+    from .results import collect, to_markdown, to_text
 
     rows = collect([Path(d).expanduser() for d in a.dirs])
     if not rows:
         print("error: no run.json found in those directories", file=sys.stderr)
         return 2
-    print(json.dumps(rows, indent=1) if a.json else to_markdown(rows))
+    if a.json:
+        print(json.dumps(rows, indent=1))
+    elif a.markdown or not sys.stdout.isatty():  # into a file: Markdown, as before
+        print(to_markdown(rows))
+    else:
+        print(to_text(rows), end="")
     return 0
 
 
@@ -380,7 +385,9 @@ def main(argv: list[str] | None = None) -> int:
 
     rs = sub.add_parser("results", help="one table over many `portpilot port` outputs")
     rs.add_argument("dirs", nargs="+", help="output directories, or folders that hold them")
-    rs.add_argument("--json", action="store_true", help="print JSON instead of Markdown")
+    rs.add_argument("--json", action="store_true", help="print JSON")
+    rs.add_argument("--markdown", action="store_true",
+                    help="print Markdown (the default when the output is not a terminal)")
     rs.set_defaults(func=_cmd_results)
 
     ev = sub.add_parser("ai-eval", help="measure rules vs. local AI (with and without QNX "
