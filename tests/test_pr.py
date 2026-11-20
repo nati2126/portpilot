@@ -130,3 +130,18 @@ def test_contribute_commits_port_workflow_and_row(tmp_path: Path) -> None:
     assert (out / "pr" / "PR.md").read_text().startswith("# Adding sockpp build-files")
     # the source checkout is untouched
     assert not (bf / "ports" / "sockpp").exists()
+
+
+def test_pr_body_lists_every_file_and_test_round_fixes() -> None:
+    spec = {"upstream": "https://github.com/jbeder/yaml-cpp.git", "commit": "v1", "has_patch": 1}
+    fix = {"rule": "bsd-sockaddr-len", "title": "set sin_len", "reason": "QNX has sin_len"}
+    run = _run(passed=1, total=1, cases=[1, 1], results=[])
+    run["pre_fixes"] = [{**fix, "path": "src/a.cpp"}, {**fix, "path": "src/b.cpp"},
+                        {**fix, "path": "src/a.cpp"}]
+    run["test_rounds"] = [{"fixes": [{"rule": "float-format", "test": "yaml-cpp::test",
+                                      "evidence": "0.1 vs 0.10000000000000001",
+                                      "title": "link muslflt (project_hooks.cmake)"}]}]
+    body = pr_body("yaml-cpp", spec, run)
+    assert "| set sin_len (`src/a.cpp`, `src/b.cpp`) | QNX has sin_len |" in body
+    assert ("| link muslflt (project_hooks.cmake) | yaml-cpp::test failed on QNX: "
+            "0.1 vs 0.10000000000000001 |") in body

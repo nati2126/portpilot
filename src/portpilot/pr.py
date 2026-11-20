@@ -134,10 +134,17 @@ def add_readme_row(text: str, name: str) -> str:
 
 
 def _fixes(run: dict[str, Any]) -> list[dict[str, Any]]:
+    """One entry per (rule, title), with every file it changed, including test-round fixes."""
     seen: dict[tuple[str, str], dict[str, Any]] = {}
     for f in [*run.get("pre_fixes", []),
-              *(f for a in run.get("attempts", []) for f in a.get("applied", []))]:
-        seen.setdefault((f.get("rule", ""), f.get("title", "")), f)
+              *(f for a in run.get("attempts", []) for f in a.get("applied", [])),
+              *(f for t in run.get("test_rounds") or [] for f in t.get("fixes", []))]:
+        e = seen.setdefault((f.get("rule", ""), f.get("title", "")),
+                            {**f, "paths": [], "reason": f.get("reason")
+                             or (f"{f['test']} failed on QNX: {f['evidence']}"
+                                 if f.get("evidence") else "")})
+        if f.get("path") and f["path"] not in e["paths"]:
+            e["paths"].append(f["path"])
     return list(seen.values())
 
 
@@ -172,7 +179,7 @@ def pr_body(name: str, spec: dict[str, Any], run: dict[str, Any]) -> str:
     if fixes:
         lines += ["## QNX changes", "", "| Change | Why |", "|---|---|"]
         for f in fixes:
-            where = f" (`{f['path']}`)" if f.get("path") else ""
+            where = f" ({', '.join(f'`{p}`' for p in f['paths'])})" if f["paths"] else ""
             lines.append(f"| {f['title']}{where} | {f['reason']} |")
         lines.append("")
     if spec.get("has_patch"):
