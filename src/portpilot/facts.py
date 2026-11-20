@@ -21,6 +21,13 @@ MAX_HITS = 3
 _INCLUDE_GUARD = re.compile(r"!?\s*defined\s*\(?\w+_H(?:_\w*)?\)?")
 
 
+STRICT_MODE = ("QNX declares `{sym}` only when {gate} is set. QNX's headers set the __EXT_* "
+               "macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them "
+               "off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name "
+               "is missing although the header is included. Fix: add `#define _QNX_SOURCE` "
+               "before the first #include of this file (guarded by #ifndef _QNX_SOURCE); "
+               "do not add other includes or redeclare the function.")
+
 # the SDP include folder for driver code (io-sock's FreeBSD kernel headers), not for
 # applications: devs/sys/event.h declares struct kevent, but libc has no kqueue (F-018)
 DRIVER_KIT = ("devs/",)
@@ -96,7 +103,7 @@ def declaring_headers(sym: str, include_dir: Path,
     hits: list[tuple[str, list[str], str]] = []
     pat = _decl_patterns(sym)
     for rel, text in _headers(str(include_dir)):
-        if sym not in text:
+        if sym not in text or rel.startswith(DRIVER_KIT):  # never for applications (F-018)
             continue
         m = pat.search(text)
         if not m:
@@ -180,6 +187,10 @@ def _facts(d: Diagnostic, kb: KnowledgeBase, sdp: SdpIndex | None,
     if inc is not None:
         hits = where_declared(sym, inc)
         facts += hits or [f"`{sym}` is not declared in any QNX SDP header"]
+        gates = sorted({g for h in declaring_headers(sym, inc) for c in h[1]
+                        for g in re.findall(r"__EXT_\w+", c)})
+        if gates:  # declared, but behind a feature-test macro the build leaves off
+            facts.append(STRICT_MODE.format(sym=sym, gate=" / ".join(gates[:2])))
         if m := re.search(r"did you mean '([^']+)'", d.message):
             alt = m.group(1)
             facts += where_declared(alt, inc)[:1]

@@ -140,3 +140,11 @@ def test_driver_kit_headers_are_not_offered_as_replacements(
     header = next(f for f in facts if f.startswith("<sys/event.h> does not exist"))
     assert "Headers with that name" not in header
     assert "devs/sys/event.h belongs to the driver development kit" in header
+
+
+def test_a_gated_declaration_gets_the_strict_mode_fix(kb: KnowledgeBase, qnx_target: Path) -> None:
+    """workflow: 'strdup' was not declared (q++ -std=c++11; <string.h> gates it)."""
+    d = parse("u.cc:3:5: error: 'timespec_get' was not declared in this scope\n").errors[0]
+    facts = qnx_facts(d, kb, None, qnx_target)
+    assert any(f.startswith("QNX declares `timespec_get` only when __EXT_ANSIC_201112 is set")
+               and "#define _QNX_SOURCE" in f for f in facts)
