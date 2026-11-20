@@ -235,6 +235,17 @@ def _add_target_args(p: argparse.ArgumentParser) -> None:
                    help=f"OpenAI-compatible endpoint (default {DEFAULT_URL}, Ollama)")
 
 
+def _cmd_results(a: argparse.Namespace) -> int:
+    from .results import collect, to_markdown
+
+    rows = collect([Path(d).expanduser() for d in a.dirs])
+    if not rows:
+        print("error: no run.json found in those directories", file=sys.stderr)
+        return 2
+    print(json.dumps(rows, indent=1) if a.json else to_markdown(rows))
+    return 0
+
+
 def _cmd_pr(a: argparse.Namespace) -> int:
     from .deps import find_build_files
     from .pr import PrError, commit_author, contribute
@@ -325,6 +336,11 @@ def main(argv: list[str] | None = None) -> int:
     ts.add_argument("--arch", default="x86_64")
     _add_target_args(ts)
     ts.set_defaults(func=_cmd_test)
+
+    rs = sub.add_parser("results", help="one table over many `portpilot port` outputs")
+    rs.add_argument("dirs", nargs="+", help="output directories, or folders that hold them")
+    rs.add_argument("--json", action="store_true", help="print JSON instead of Markdown")
+    rs.set_defaults(func=_cmd_results)
 
     pr = sub.add_parser("pr", help="prepare a qnx-ports/build-files contribution for a port "
                         "(local clone + branch + PR.md; never pushes)")
