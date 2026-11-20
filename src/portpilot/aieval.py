@@ -38,7 +38,8 @@ from .facts import qnx_facts
 from .kb import KnowledgeBase
 from .sdp_index import SdpIndex
 
-_CMD = re.compile(r"^cd (?P<cwd>\S+) && (?P<cmd>\S*/(?:qcc|q\+\+) .* -c (?P<src>\S+))\s*$")
+_CMD = re.compile(r"^(?:cd (?P<cwd>\S+) && )?(?P<cmd>\S*/(?:qcc|q\+\+) .* -c (?P<src>\S+))\s*$")
+_ENTER = re.compile(r"^g?make(?:\[\d+\])?: Entering directory '(?P<d>[^']+)'")
 _OBJ = re.compile(r"(?<=\s)-o\s+\S+")
 CONDITIONS = ("rules", "bare", "grounded")
 
@@ -61,9 +62,12 @@ def _key(d: Diagnostic) -> tuple[str, str, str, str]:
 def commands(log: str) -> dict[str, tuple[str, str]]:
     """Absolute source path -> (directory, qcc command) from a CMake VERBOSE build log."""
     out: dict[str, tuple[str, str]] = {}
+    cwd = ""
     for ln in log.splitlines():
-        if m := _CMD.match(ln.rstrip()):
-            out[m.group("src")] = (m.group("cwd"), m.group("cmd"))
+        if m := _ENTER.match(ln):
+            cwd = m.group("d")  # CMake prints no `cd` for files built in the build root
+        elif (m := _CMD.match(ln.rstrip())) and (m.group("cwd") or cwd):
+            out[m.group("src")] = (m.group("cwd") or cwd, m.group("cmd"))
     return out
 
 
@@ -110,6 +114,18 @@ def suspect(edits: list[dict[str, str]]) -> str:
 
 
 # ---- preparing the cases ---------------------------------------------------------------------
+def pristine_source(run_dir: Path, run: dict[str, Any]) -> Path | None:
+    """The upstream checkout a run started from: work/upstream for a URL, else the local
+    source folder it was given (which must be a clean git checkout)."""
+    if (run_dir / "work" / "upstream").is_dir():
+        return run_dir / "work" / "upstream"
+    src = Path(str(run.get("source") or ""))
+    if src.is_dir() and subprocess.run(["git", "-C", str(src), "status", "--porcelain", "-uno"],
+                                       capture_output=True, text=True).stdout == "":
+        return src
+    return None
+
+
 _BUILD_FILE = re.compile(r"(?:^|/)(?:CMakeLists\.txt|[^/]*\.cmake(?:\.in)?)$")
 
 
@@ -129,10 +145,16 @@ def keep_build_edits(ported: Path, src: Path) -> list[str]:
             copied.append(rel)
     return copied
 def prepare(run_dir: Path, eval_dir: Path, env: dict[str, str], *, jobs: int = 16,
-            max_cases: int = 12, say: Callable[[str], None] = print) -> list[Case]:
+            max_cases: int = 12, no_cflags: bool = False,
+            say: Callable[[str], None] = print) -> list[Case]:
+    """Build the pristine source once with the port's final settings (with no_cflags: minus
+    the compiler flags the rules added, so the errors they fixed come back) and return its
+    cases."""
     run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
     lib = run["name"]
-    upstream = run_dir / "work" / "upstream"
+    upstream = pristine_source(run_dir, run)
+    if upstream is None:
+        return []
     port = Path(run.get("port_dir") or run_dir / lib)
     d = eval_dir / lib
     src, port_copy, stage = d / "src", d / "port", d / "stage"
@@ -144,6 +166,13 @@ def prepare(run_dir: Path, eval_dir: Path, env: dict[str, str], *, jobs: int = 1
         keep_build_edits(run_dir / "work" / "src", src)
         shutil.copytree(port, port_copy, symlinks=True,
                         ignore=shutil.ignore_patterns("build", "Makefile.dnm"))
+        if no_cflags:
+            from .port import load_spec
+            from .scaffold import render_common_mk
+
+            spec = load_spec(run_dir / "spec.json")
+            spec.cflags = []
+            (port_copy / "common.mk").write_text(render_common_mk(spec), encoding="utf-8")
         if (run_dir / "work" / "stage").is_dir():
             shutil.copytree(run_dir / "work" / "stage", stage, symlinks=True)
         say(f"  {lib}: building the pristine source with the final port settings")
@@ -246,7 +275,7 @@ def run_ai(case: Case, src: Path, before: list[Diagnostic], ai: ai_mod.Provider,
 def evaluate(run_dirs: list[Path], eval_dir: Path, env: dict[str, str], kb: KnowledgeBase,
              sdp: SdpIndex | None, ai: ai_mod.Provider | None, *,
              conditions: tuple[str, ...] = CONDITIONS, max_cases: int = 12, jobs: int = 16,
-             say: Callable[[str], None] = print) -> list[Case]:
+             no_cflags: bool = False, say: Callable[[str], None] = print) -> list[Case]:
     eval_dir.mkdir(parents=True, exist_ok=True)
     qt = Path(env["QNX_TARGET"]) if env.get("QNX_TARGET") else None
     include_dir = qt / "usr" / "include" if qt else None
@@ -263,10 +292,12 @@ def evaluate(run_dirs: list[Path], eval_dir: Path, env: dict[str, str], kb: Know
         if not (rd / "run.json").is_file():
             continue
         name = json.loads((rd / "run.json").read_text(encoding="utf-8"))["name"]
-        if name in libs or not (rd / "work" / "upstream").is_dir():
+        if name in libs or pristine_source(rd, json.loads(
+                (rd / "run.json").read_text(encoding="utf-8"))) is None:
             continue  # the same library from another run, or no pristine source
         libs.add(name)
-        for c in prepare(rd, eval_dir, env, jobs=jobs, max_cases=max_cases, say=say):
+        for c in prepare(rd, eval_dir, env, jobs=jobs, max_cases=max_cases,
+                         no_cflags=no_cflags, say=say):
             prev = done.get((c.library, c.rel))
             if prev and all(k in prev.results for k in conditions):
                 cases.append(prev)

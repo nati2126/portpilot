@@ -68,3 +68,10 @@ def test_keep_build_edits_only_copies_cmake_files(tmp_path) -> None:  # type: ig
     assert keep_build_edits(ported, src) == ["CMakeLists.txt", "cmake/Arch.cmake"]
     assert (src / "cmake" / "Arch.cmake").read_text() == "qnx"
     assert (src / "a.c").read_text() == "orig();"
+
+
+def test_commands_without_cd_use_the_make_directory() -> None:
+    log = ("make[1]: Entering directory '/b/build'\n"
+           f"{QCC} -Vgcc_ntox86_64 -o CMakeFiles/t.dir/t.c.o -c /s/t.c\n")
+    assert commands(log) == {"/s/t.c": ("/b/build", f"{QCC} -Vgcc_ntox86_64 -o "
+                                                    "CMakeFiles/t.dir/t.c.o -c /s/t.c")}

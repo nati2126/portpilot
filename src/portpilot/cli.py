@@ -270,7 +270,8 @@ def _cmd_ai_eval(a: argparse.Namespace) -> int:
             return 2
     out = Path(a.output).expanduser()
     cases = evaluate([Path(d).expanduser() for d in a.dirs], out, sdp_env(), kb_mod.load(),
-                     _load_sdp(a), ai, conditions=conds, max_cases=a.max_cases, jobs=a.jobs)
+                     _load_sdp(a), ai, conditions=conds, max_cases=a.max_cases, jobs=a.jobs,
+                     no_cflags=a.no_cflags)
     text = summary(cases, ai.model if ai else "")
     (out / "summary.md").write_text(text, encoding="utf-8")
     print(text)
@@ -393,6 +394,8 @@ def main(argv: list[str] | None = None) -> int:
     ev.add_argument("-j", "--jobs", type=int, default=16)
     ev.add_argument("--sdp-index", default=None)
     ev.add_argument("--arch", default="x86_64")
+    ev.add_argument("--no-cflags", action="store_true", help="start from the port without the "
+                    "compiler flags its rules added (the errors they fixed come back)")
     ev.set_defaults(func=_cmd_ai_eval)
 
     pr = sub.add_parser("pr", help="prepare a qnx-ports/build-files contribution for a port "
