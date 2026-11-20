@@ -346,7 +346,8 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
         built_pkgs = {f.path for _, f in built_deps}  # the CMake package names
         test_only = [d for d in errs if d.kind == "missing-package"
                      and d.symbol.lower() in TEST_FRAMEWORKS and d.symbol not in built_pkgs]
-        bundled = [d for d in errs if _bundled_test_framework(d)]
+        bundled = [d for d in errs if _bundled_test_framework(d)
+                   and _bundled_test_framework(d) not in built_pkgs]
         if (test_only or bundled) and testing:
             # a test framework QNX cannot provide: build the library without its tests
             testing = False
@@ -547,7 +548,11 @@ def _build_deps(errs: list[Any], tried: set[str], stage: Path, env: dict[str, st
     built: list[tuple[str, fx.Fix]] = []
     for d in errs:
         pkg = d.symbol
-        if d.kind != "missing-package" or not pkg or pkg in tried:
+        if d.kind == "missing-header" and _TEST_HEADER.search(d.symbol):
+            pkg = _bundled_test_framework(d)  # <CUnit/CUnit.h> -> CUnit (libcoap)
+        elif d.kind != "missing-package":
+            continue
+        if not pkg or pkg in tried:
             continue
         tried.add(pkg)
         say(f"      dependency {pkg}: building the official QNX port")

@@ -13,7 +13,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 
@@ -130,6 +130,8 @@ def run_all(*, vm: str | None = None, key: str | None = None, build_files: str |
             check_tool("cmake", "configures the ports", "sudo apt install cmake"),
             check_tool("make", "drives the build-files Makefiles", "sudo apt install make"),
             check_tool("git", "clones libraries and ports", "sudo apt install git"),
+            replace(check_tool("autoreconf", "official ports that use autotools, e.g. cunit",
+                               "sudo apt install autoconf automake libtool"), required=False),
             *check_sdp(env), check_sdp_index(), check_build_files(build_files),
             *check_target(vm, key, env), check_ai(ai_url, ai_model)]
 

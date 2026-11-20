@@ -283,8 +283,11 @@ def render_common_mk(spec: PortSpec) -> str:
     out = [_COMMON_HEAD.format(name=spec.name)]
     if [d for d in spec.deps if d != "muslflt"]:
         out += ["#Dependency ports install their headers without a CPU folder",
-                "#($(INSTALL_ROOT)/$(PREFIX)/include): search there too",
-                "CMAKE_FIND_ROOT_PATH := $(CMAKE_FIND_ROOT_PATH);$(INSTALL_ROOT)", ""]
+                "#($(INSTALL_ROOT)/$(PREFIX)/include): search there too, and in their",
+                "#libraries for code that links them by name (-lcunit) without find_package",
+                "CMAKE_FIND_ROOT_PATH := $(CMAKE_FIND_ROOT_PATH);$(INSTALL_ROOT)",
+                "CFLAGS += -I$(INSTALL_ROOT)/$(PREFIX)/include",
+                "LDFLAGS += -L$(INSTALL_ROOT)/$(CPUVARDIR)/$(PREFIX)/lib", ""]
     if spec.cflags:
         out.append("#QNX-specific compiler flags:")
         for s in spec.cflags:

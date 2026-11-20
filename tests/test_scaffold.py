@@ -164,3 +164,12 @@ def test_deps_add_the_plain_install_root() -> None:
     assert "$(CMAKE_FIND_ROOT_PATH);$(INSTALL_ROOT)\n" in render_common_mk(
         PortSpec("mozjpeg", deps=["libpng"]))
     assert ";$(INSTALL_ROOT)\n" not in render_common_mk(PortSpec("x"))
+
+
+def test_deps_put_the_stage_on_the_compile_and_link_paths() -> None:
+    """libcoap links -lcunit and includes <CUnit/CUnit.h> without find_package."""
+    from portpilot.scaffold import PortSpec, render_common_mk
+
+    mk = render_common_mk(PortSpec("libcoap", deps=["cunit"]))
+    assert "CFLAGS += -I$(INSTALL_ROOT)/$(PREFIX)/include\n" in mk
+    assert "LDFLAGS += -L$(INSTALL_ROOT)/$(CPUVARDIR)/$(PREFIX)/lib\n" in mk
