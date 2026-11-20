@@ -77,3 +77,10 @@ def test_commands_without_cd_use_the_make_directory() -> None:
            f"{QCC} -Vgcc_ntox86_64 -o CMakeFiles/t.dir/t.c.o -c /s/t.c\n")
     assert commands(log) == {"/s/t.c": ("/b/build", f"{QCC} -Vgcc_ntox86_64 -o "
                                                     "CMakeFiles/t.dir/t.c.o -c /s/t.c")}
+
+
+def test_summary_reports_ai_on_rule_fixed_errors() -> None:
+    a = _case(_d("'X' undeclared"))
+    a.results = {"rules": {"ok": True}, "bare": {"ok": False}, "grounded": {"ok": True}}
+    assert "Of the 1 errors a rule fixes (the AI never sees the rules): AI without facts " \
+           "fixes 0/1 (0%), with facts 1/1 (100%)." in summary([a])

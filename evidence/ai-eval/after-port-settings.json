@@ -1,0 +1,795 @@
+[
+ {
+  "library": "tini",
+  "rel": "src/tini.c",
+  "tu": "~/qnx-work/ai-eval/tini/src/src/tini.c",
+  "cwd": "~/qnx-work/ai-eval/tini/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -D_FORTIFY_SOURCE=2 -I~/qnx-work/ai-eval/tini/port/nto-x86_64-o/build -I. -I~/qnx-work/ai-eval/tini/port/nto-x86_64-o -I~/qnx-work/ai-eval/tini/port -I~/qnx-work/ai-eval/tini/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/tini/stage/x86_64//usr/local/include -std=gnu99 -Werror -Wextra -Wall -pedantic-errors -O2 -fstack-protector --param ssp-buffer-size=4 -Wformat -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/tini-static.dir/src/tini.c.o.d -Wp,-MT,CMakeFiles/tini-static.dir/src/tini.c.o -Wp,-MF,CMakeFiles/tini-static.dir/src/tini.c.o.d -o CMakeFiles/tini-static.dir/src/tini.c.o -c ~/qnx-work/ai-eval/tini/src/src/tini.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "sys/prctl.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/tini/src/src/tini.c",
+   "line": 6,
+   "col": 10,
+   "symbol": "sys/prctl.h",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "#include <sys/prctl.h>",
+   "log_line": 63
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.0,
+    "reason": "NO_FIX: sys/prctl.h is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "prctl(): on QNX use pthread_setname_np() for PR_SET_NAME; ThreadCtl() for others. Most uses are PR_SET_NAME: replace with pthread_setname_np(). Others need review.",
+     "<sys/prctl.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <sys/prctl.h> does not exist in QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/kernel/poller.c",
+  "tu": "~/qnx-work/ai-eval/workflow/src/src/kernel/poller.c",
+  "cwd": "~/qnx-work/ai-eval/workflow/port/nto-x86_64-o/build/src/kernel",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval/workflow/port -I~/qnx-work/ai-eval/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/workflow/stage/x86_64//usr/local/include -D_QNX_SOURCE   -Wall -fPIC -std=gnu90 -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/kernel.dir/poller.c.o.d -Wp,-MT,src/kernel/CMakeFiles/kernel.dir/poller.c.o -Wp,-MF,CMakeFiles/kernel.dir/poller.c.o.d -o CMakeFiles/kernel.dir/poller.c.o -c ~/qnx-work/ai-eval/workflow/src/src/kernel/poller.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "sys/event.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/workflow/src/src/kernel/poller.c",
+   "line": 26,
+   "col": 11,
+   "symbol": "sys/event.h",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "# include <sys/event.h>",
+   "log_line": 233
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: sys/event.h is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "kqueue: on QNX use poll() / select(), or ionotify() + pulses (QNX libc has no kqueue; devs/sys/event.h is driver-kit only). Use the project's poll()/select() backend if it has one; otherwise redesign the event loop like an epoll one.",
+     "<sys/event.h> does not exist in QNX 8.0. (devs/sys/event.h belongs to the driver development kit: kernel/driver code only, applications must not include it)"
+    ],
+    "seconds": 1.0,
+    "reason": "NO_FIX: <sys/event.h> does not exist in QNX 8.0. Use poll() / select(), or ionotify() + pulses instead."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/testdriver.c",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/testdriver.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/testdriver.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/testdriver.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/testdriver.c.o.d -o CMakeFiles/testdriver.dir/tests/testdriver.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/testdriver.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/testdriver.c",
+   "line": 13,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 449
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <CUnit/CUnit.h> does not exist in QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_encode.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_encode.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_encode.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_encode.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_encode.c.o.d -o CMakeFiles/testdriver.dir/tests/test_encode.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_encode.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_encode.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_encode.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 457
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.8,
+    "reason": "NO_FIX: <CUnit/CUnit.h does not exist in QNX 8.0.>"
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_oscore.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_oscore.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_oscore.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_oscore.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_oscore.c.o.d -o CMakeFiles/testdriver.dir/tests/test_oscore.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_oscore.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_oscore.h",
+   "line": 13,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_oscore.c:16"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 463
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <CUnit/CUnit.h does not exist in QNX 8.0.>"
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_pdu.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_pdu.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_pdu.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_pdu.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_pdu.c.o.d -o CMakeFiles/testdriver.dir/tests/test_pdu.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_pdu.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_pdu.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_pdu.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 468
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_error_response.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_error_response.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_error_response.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_error_response.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_error_response.c.o.d -o CMakeFiles/testdriver.dir/tests/test_error_response.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_error_response.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_error_response.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_error_response.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 474
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_options.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_options.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_options.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_options.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_options.c.o.d -o CMakeFiles/testdriver.dir/tests/test_options.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_options.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_options.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_options.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 482
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <CUnit/CUnit.h does not exist in QNX 8.0.>"
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_session.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_session.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_session.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_session.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_session.c.o.d -o CMakeFiles/testdriver.dir/tests/test_session.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_session.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_session.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_session.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 487
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_sendqueue.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_sendqueue.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o.d -o CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_sendqueue.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_sendqueue.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_sendqueue.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 494
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_tls.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_tls.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_tls.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_tls.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_tls.c.o.d -o CMakeFiles/testdriver.dir/tests/test_tls.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_tls.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_tls.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_tls.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 499
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_uri.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_uri.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_uri.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_uri.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_uri.c.o.d -o CMakeFiles/testdriver.dir/tests/test_uri.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_uri.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_uri.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_uri.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 506
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.8,
+    "reason": "NO_FIX: <CUnit/CUnit.h does not exist in QNX 8.0.>"
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_wellknown.h",
+  "tu": "~/qnx-work/ai-eval/libcoap/src/tests/test_wellknown.c",
+  "cwd": "~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval/libcoap/port -I~/qnx-work/ai-eval/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_wellknown.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_wellknown.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_wellknown.c.o.d -o CMakeFiles/testdriver.dir/tests/test_wellknown.c.o -c ~/qnx-work/ai-eval/libcoap/src/tests/test_wellknown.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/libcoap/src/tests/test_wellknown.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/libcoap/src/tests/test_wellknown.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 512
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "open62541",
+  "rel": "arch/posix/eventloop_posix.h",
+  "tu": "~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix.c",
+  "cwd": "~/qnx-work/ai-eval/open62541/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -DUA_DYNAMIC_LINKING_EXPORT -I~/qnx-work/ai-eval/open62541/src/deps -I~/qnx-work/ai-eval/open62541/src/include -I~/qnx-work/ai-eval/open62541/src/plugins/include -I~/qnx-work/ai-eval/open62541/port/nto-x86_64-o/build/src_generated -I. -I~/qnx-work/ai-eval/open62541/port/nto-x86_64-o -I~/qnx-work/ai-eval/open62541/port -I~/qnx-work/ai-eval/open62541/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/open62541/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -Wp,-MD,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o.d -Wp,-MT,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o -Wp,-MF,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o.d -o CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o -c ~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix.c",
+  "error": {
+   "kind": "unknown-type",
+   "severity": "error",
+   "message": "expected specifier-qualifier-list before 'LIST_ENTRY'",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix.h",
+   "line": 366,
+   "col": 5,
+   "symbol": "LIST_ENTRY",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix.c:9"
+   ],
+   "source_line": "    LIST_ENTRY(UA_DeregisteredListenFD) pointers;",
+   "log_line": 185
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.5,
+    "reason": "NO_FIX: The error indicates that the `LIST_ENTRY` macro is not defined, which is typically part of the BSD list macros. QNX does not provide these macros by default, and there is no standard way to include them without additional headers or definitions."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`LIST_ENTRY` is declared in <sys/queue.h>: `#define\tLIST_ENTRY(type)\t\t\t\t\t\t\\`"
+    ],
+    "seconds": 5.2,
+    "reason": "NO_FIX: <LIST_ENTRY is not declared in the included headers>"
+   }
+  }
+ },
+ {
+  "library": "open62541",
+  "rel": "arch/posix/eventloop_posix_tcp.c",
+  "tu": "~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix_tcp.c",
+  "cwd": "~/qnx-work/ai-eval/open62541/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -DUA_DYNAMIC_LINKING_EXPORT -I~/qnx-work/ai-eval/open62541/src/deps -I~/qnx-work/ai-eval/open62541/src/include -I~/qnx-work/ai-eval/open62541/src/plugins/include -I~/qnx-work/ai-eval/open62541/port/nto-x86_64-o/build/src_generated -I. -I~/qnx-work/ai-eval/open62541/port/nto-x86_64-o -I~/qnx-work/ai-eval/open62541/port -I~/qnx-work/ai-eval/open62541/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/open62541/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -Wp,-MD,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o.d -Wp,-MT,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o -Wp,-MF,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o.d -o CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o -c ~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix_tcp.c",
+  "error": {
+   "kind": "no-member",
+   "severity": "error",
+   "message": "'UA_DeregisteredListenFD' has no member named 'listenFd'",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix_tcp.c",
+   "line": 83,
+   "col": 37,
+   "symbol": "UA_DeregisteredListenFD",
+   "member": "listenFd",
+   "function": "",
+   "included_from": [],
+   "source_line": "    UA_RegisteredFD *rfd = listenRfd->listenFd;",
+   "log_line": 246
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 2.3,
+    "reason": "NO_FIX: The code contains non-standard structures and members that are not portable to QNX. The error indicates that 'UA_DeregisteredListenFD' does not have a member named 'listenFd', and 'pointers' is undeclared. These issues are specific to the codebase and cannot be fixed with minimal changes without altering the functionality or introducing new errors."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.8,
+    "reason": "NO_FIX: The code contains non-standard structures and members that are not portable to QNX. The error indicates that 'UA_DeregisteredListenFD' does not have a member named 'listenFd', and 'pointers' is undeclared. These issues are not easily fixable without changing the underlying data structures, which would require a more comprehensive refactoring."
+   }
+  }
+ },
+ {
+  "library": "open62541",
+  "rel": "arch/posix/eventloop_posix_interrupt.c",
+  "tu": "~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix_interrupt.c",
+  "cwd": "~/qnx-work/ai-eval/open62541/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -DUA_DYNAMIC_LINKING_EXPORT -I~/qnx-work/ai-eval/open62541/src/deps -I~/qnx-work/ai-eval/open62541/src/include -I~/qnx-work/ai-eval/open62541/src/plugins/include -I~/qnx-work/ai-eval/open62541/port/nto-x86_64-o/build/src_generated -I. -I~/qnx-work/ai-eval/open62541/port/nto-x86_64-o -I~/qnx-work/ai-eval/open62541/port -I~/qnx-work/ai-eval/open62541/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/open62541/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -Wp,-MD,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o.d -Wp,-MT,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o -Wp,-MF,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o.d -o CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o -c ~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix_interrupt.c",
+  "error": {
+   "kind": "unknown-type",
+   "severity": "error",
+   "message": "expected specifier-qualifier-list before 'LIST_ENTRY'",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/open62541/src/arch/posix/eventloop_posix_interrupt.c",
+   "line": 23,
+   "col": 5,
+   "symbol": "LIST_ENTRY",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "    LIST_ENTRY(UA_RegisteredSignal) listPointers;",
+   "log_line": 313
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.5,
+    "reason": "NO_FIX: The code uses `LIST_ENTRY` and `LIST_HEAD` which are not defined in the provided headers and are not standard POSIX or QNX functions. These are typically part of the BSD or Linux kernel headers, not QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`LIST_ENTRY` is declared in <sys/queue.h>: `#define\tLIST_ENTRY(type)\t\t\t\t\t\t\\`"
+    ],
+    "seconds": 12.5,
+    "reason": "NO_FIX: <LIST_ENTRY and LIST_HEAD are not defined on QNX 8.0>"
+   }
+  }
+ },
+ {
+  "library": "bloaty",
+  "rel": "third_party/protobuf/src/google/protobuf/text_format.cc",
+  "tu": "~/qnx-work/ai-eval/bloaty/src/third_party/protobuf/src/google/protobuf/text_format.cc",
+  "cwd": "~/qnx-work/ai-eval/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++ -DGOOGLE_PROTOBUF_CMAKE_BUILD -DHAVE_PTHREAD -DHAVE_ZLIB -D_LIBCXXABI_FUNC_VIS=\"\" -I~/qnx-work/ai-eval/bloaty/src/third_party/re2 -I~/qnx-work/ai-eval/bloaty/src/third_party/capstone/include -I~/qnx-work/ai-eval/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake -I~/qnx-work/ai-eval/bloaty/src/third_party/protobuf/src -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval/bloaty/port/nto-x86_64-o -I~/qnx-work/ai-eval/bloaty/port -I~/qnx-work/ai-eval/bloaty/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval/bloaty/stage/x86_64//usr/local/include -D_QNX_SOURCE -O3 -DNDEBUG -O3 -DNDEBUG -std=c++11 -Wp,-MD,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o.d -Wp,-MT,third_party/protobuf/cmake/CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o -Wp,-MF,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o.d -o CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o -c ~/qnx-work/ai-eval/bloaty/src/third_party/protobuf/src/google/protobuf/text_format.cc",
+  "error": {
+   "kind": "compile-error",
+   "severity": "error",
+   "message": "expected unqualified-id before '(' token",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval/bloaty/src/third_party/protobuf/src/google/protobuf/text_format.cc",
+   "line": 1623,
+   "col": 32,
+   "symbol": "",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "  generator->PrintString(!std::isnan(val) ? SimpleFtoa(val) : \"nan\");",
+   "log_line": 10852
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "error still there",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.7,
+    "reason": "NO_FIX: The error is likely due to a missing include for `SimpleDtoa` or `SimpleFtoa`. These functions are not part of the standard C++ library and need to be defined or included from a specific header file."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.3,
+    "reason": "NO_FIX: The error is likely due to a missing include for `SimpleDtoa` or `SimpleFtoa`. These functions are not part of the standard C++ library and need to be defined or included from a specific header file."
+   }
+  }
+ }
+]

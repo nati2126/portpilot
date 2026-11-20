@@ -103,6 +103,22 @@ Fixes count every change PortPilot applied (rules, dependency ports, AI); patch 
 
 The outputs behind these numbers, including the QNX test logs and known failures, are in [`evidence/`](evidence/).
 
+### What the local AI adds
+
+`portpilot ai-eval` measures it on the compile errors of the libraries above and the benchmark libraries, starting from each port without the compiler flags its rules added. One error per file, 32 in all. A fix counts only if recompiling the file shows the error gone and no new error, including in headers the file includes. Model: `qwen2.5-coder:7b` on Ollama, offline.
+
+| Condition | Errors fixed |
+|---|---|
+| Rules only | 17/32 |
+| AI, no QNX facts | 0/32 |
+| AI, with QNX facts (knowledge base + SDP index) | 6/32 |
+
+- The QNX facts are what make the model useful. Without them it fixes nothing. With them it fixes 6 of the 17 errors a rule also fixes, without seeing the rules: 5 per-file `#define _QNX_SOURCE` and 1 `#include <strings.h>`. All 6 were reviewed by hand and are correct.
+- None of the 15 errors no rule fixes is a small source fix: 11 are a missing test framework (CUnit, a dependency port), 2 need a redesign (kqueue, `prctl`) and 2 are a bloaty include-path problem. The model declines all 15 and makes no false fix.
+- The eval found a false fix the port loop had accepted: the model moved workflow's `<sys/event.h>` error into an SDP driver-kit header ([F-018](docs/ground-truth.md#f-018)). Both checks now reject that.
+
+Cases, model answers and edits: [`evidence/ai-eval/`](evidence/ai-eval/).
+
 ## Tested with
 
 - QNX SDP 8.0 (GA 8.0.x packages), `qcc`/`q++` (gcc 12.2.0), target `x86_64`.

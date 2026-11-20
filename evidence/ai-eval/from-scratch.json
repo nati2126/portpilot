@@ -1,0 +1,1698 @@
+[
+ {
+  "library": "tini",
+  "rel": "src/tini.c",
+  "tu": "~/qnx-work/ai-eval-scratch/tini/src/src/tini.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/tini/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -D_FORTIFY_SOURCE=2 -I~/qnx-work/ai-eval-scratch/tini/port/nto-x86_64-o/build -I. -I~/qnx-work/ai-eval-scratch/tini/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/tini/port -I~/qnx-work/ai-eval-scratch/tini/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/tini/stage/x86_64//usr/local/include -std=gnu99 -Werror -Wextra -Wall -pedantic-errors -O2 -fstack-protector --param ssp-buffer-size=4 -Wformat -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/tini-static.dir/src/tini.c.o.d -Wp,-MT,CMakeFiles/tini-static.dir/src/tini.c.o -Wp,-MF,CMakeFiles/tini-static.dir/src/tini.c.o.d -o CMakeFiles/tini-static.dir/src/tini.c.o -c ~/qnx-work/ai-eval-scratch/tini/src/src/tini.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "sys/prctl.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/tini/src/src/tini.c",
+   "line": 6,
+   "col": 10,
+   "symbol": "sys/prctl.h",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "#include <sys/prctl.h>",
+   "log_line": 63
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.0,
+    "reason": "NO_FIX: sys/prctl.h is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "prctl(): on QNX use pthread_setname_np() for PR_SET_NAME; ThreadCtl() for others. Most uses are PR_SET_NAME: replace with pthread_setname_np(). Others need review.",
+     "<sys/prctl.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <sys/prctl.h> does not exist in QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/kernel/poller.c",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/poller.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/kernel",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include   -Wall -fPIC -std=gnu90 -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/kernel.dir/poller.c.o.d -Wp,-MT,src/kernel/CMakeFiles/kernel.dir/poller.c.o -Wp,-MF,CMakeFiles/kernel.dir/poller.c.o.d -o CMakeFiles/kernel.dir/poller.c.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/poller.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "sys/event.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/poller.c",
+   "line": 26,
+   "col": 11,
+   "symbol": "sys/event.h",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "# include <sys/event.h>",
+   "log_line": 225
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: sys/event.h is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "kqueue: on QNX use poll() / select(), or ionotify() + pulses (QNX libc has no kqueue; devs/sys/event.h is driver-kit only). Use the project's poll()/select() backend if it has one; otherwise redesign the event loop like an epoll one.",
+     "<sys/event.h> does not exist in QNX 8.0. (devs/sys/event.h belongs to the driver development kit: kernel/driver code only, applications must not include it)"
+    ],
+    "seconds": 1.0,
+    "reason": "NO_FIX: <sys/event.h> does not exist in QNX 8.0. Use poll() / select(), or ionotify() + pulses instead."
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/kernel/IOService_thread.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/IOService_thread.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/kernel",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/kernel.dir/IOService_thread.cc.o.d -Wp,-MT,src/kernel/CMakeFiles/kernel.dir/IOService_thread.cc.o -Wp,-MF,CMakeFiles/kernel.dir/IOService_thread.cc.o.d -o CMakeFiles/kernel.dir/IOService_thread.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/IOService_thread.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'fsync' was not declared in this scope; did you mean '_sync'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/IOService_thread.cc",
+   "line": 111,
+   "col": 35,
+   "symbol": "fsync",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                this->fdatasync = fsync;",
+   "log_line": 236
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 3.5,
+    "reason": "NO_FIX: The error indicates that 'fsync' is not declared in the scope, but it is a standard POSIX function. The issue might be due to a missing include or a naming conflict. Ensure that the correct header is included and that there are no naming conflicts with other functions or macros.",
+    "edits": [
+     {
+      "path": "src/kernel/IOService_thread.cc",
+      "search": "this->fdatasync = fsync;",
+      "replace": "this->fdatasync = _sync;"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": true,
+    "tries": 1,
+    "facts": [
+     "`fsync` is exported by libc.so.6 on QNX",
+     "`fsync` is declared in <unistd.h> (only when: defined(__EXT_POSIX1_199309)): `extern int      fsync(int __fildes);`",
+     "QNX declares `fsync` only when __EXT_POSIX1_199309 is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function.",
+     "`_sync` is declared in <sys/target_nto.h>: `struct _sync { \\`"
+    ],
+    "seconds": 2.6,
+    "reason": "error gone, no new error in the edited file",
+    "edits": [
+     {
+      "path": "src/kernel/IOService_thread.cc",
+      "search": "#include <sys/uio.h>\n#include <errno.h>\n#include <dlfcn.h>\n#include <unistd.h>\n#include <pthread.h>\n#include \"list.h\"\n#include \"IOService_thread.h\"",
+      "replace": "#ifndef _QNX_SOURCE\n#define _QNX_SOURCE\n#endif\n#include <sys/uio.h>\n#include <errno.h>\n#include <dlfcn.h>\n#include <unistd.h>\n#include <pthread.h>\n#include \"list.h\"\n#include \"IOService_thread.h\""
+     }
+    ],
+    "suspect": ""
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/kernel/CommScheduler.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/CommScheduler.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/kernel",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/kernel.dir/CommScheduler.cc.o.d -Wp,-MT,src/kernel/CMakeFiles/kernel.dir/CommScheduler.cc.o -Wp,-MF,CMakeFiles/kernel.dir/CommScheduler.cc.o.d -o CMakeFiles/kernel.dir/CommScheduler.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/CommScheduler.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'clock_gettime' was not declared in this scope",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/CommScheduler.cc",
+   "line": 35,
+   "col": 9,
+   "symbol": "clock_gettime",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "        clock_gettime(CLOCK_REALTIME, ts);",
+   "log_line": 484
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header",
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 11.9,
+    "reason": "NO_FIX: The error indicates that `clock_gettime` is not declared in the scope, which suggests that the necessary header is missing. However, including `<time.h>` should resolve this issue.",
+    "edits": [
+     {
+      "path": "src/kernel/CommScheduler.cc",
+      "search": "#include <sys/types.h>\n#include <sys/socket.h>\n#include <errno.h>\n#include <stdlib.h>\n#include <pthread.h>\n#include \"CommScheduler.h\"\n\n#define PTHREAD_COND_TIMEDWAIT(cond, mutex, abstime) \\\n\t((abstime) ? pthread_cond_timedwait(cond, mutex, abstime) : \\\n\t\t\t\t pthread_cond_wait(cond, mutex))\n\nstatic struct timespec *__get_abstime(int timeout, struct timespec *ts)\n{\n\tif (timeout < 0)\n\t\treturn NULL;\n\n\tclock_gettime(CLOCK_REALTIME, ts);\n\tts->tv_sec += timeout / 1000;\n\tts->tv_nsec += timeout % 1000 * 1000000;\n\tif (ts->tv_nsec >= 1000000000)\n\t{\n\t\tts->tv_nsec -= 1000000000;\n\t\tts->tv_sec++;\n\t}\n\n\treturn ts;\n}\n\nint CommSchedTarget::init(const struct sockaddr *addr, socklen_t addrlen,\n\t\t\t\t\t\t  int connect_timeout, int response_timeout,\n\t\t\t\t\t\t  size_t max_connections)\n{",
+      "replace": "#include <sys/types.h>\n#include <sys/socket.h>\n#include <errno.h>\n#include <stdlib.h>\n#include <pthread.h>\n#include <time.h>  // Add this line\n#include \"CommScheduler.h\"\n\n#define PTHREAD_COND_TIMEDWAIT(cond, mutex, abstime) \\\n\t((abstime) ? pthread_cond_timedwait(cond, mutex, abstime) : \\\n\t\t\t\t pthread_cond_wait(cond, mutex))\n\nstatic struct timespec *__get_abstime(int timeout, struct timespec *ts)\n{\n\tif (timeout < 0)\n\t\treturn NULL;\n\n\tclock_gettime(CLOCK_REALTIME, ts);\n\tts->tv_sec += timeout / 1000;\n\tts->tv_nsec += timeout % 1000 * 1000000;\n\tif (ts->tv_nsec >= 1000000000)\n\t{\n\t\tts->tv_nsec -= 1000000000;\n\t\tts->tv_sec++;\n\t}\n\n\treturn ts;\n}\n\nint CommSchedTarget::init(const struct sockaddr *addr, socklen_t addrlen,\n\t\t\t\t\t\t  int connect_timeout, int response_timeout,\n\t\t\t\t\t\t  size_t max_connections)\n{"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": true,
+    "tries": 1,
+    "facts": [
+     "`clock_gettime` is exported by libc.so.6 on QNX",
+     "`clock_gettime` is declared in <time.h> (only when: defined(__EXT_POSIX1_199309)): `extern int clock_gettime(clockid_t __clock_id, struct timespec *__tp);`",
+     "QNX declares `clock_gettime` only when __EXT_POSIX1_199309 is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function."
+    ],
+    "seconds": 10.3,
+    "reason": "error gone, no new error in the edited file",
+    "edits": [
+     {
+      "path": "src/kernel/CommScheduler.cc",
+      "search": "#include <sys/types.h>\n#include <sys/socket.h>\n#include <errno.h>\n#include <stdlib.h>\n#include <pthread.h>\n#include \"CommScheduler.h\"\n\n#define PTHREAD_COND_TIMEDWAIT(cond, mutex, abstime) \\\n\t((abstime) ? pthread_cond_timedwait(cond, mutex, abstime) : \\\n\t\t\t\t pthread_cond_wait(cond, mutex))\n\nstatic struct timespec *__get_abstime(int timeout, struct timespec *ts)\n{\n\tif (timeout < 0)\n\t\treturn NULL;\n\n\tclock_gettime(CLOCK_REALTIME, ts);\n\tts->tv_sec += timeout / 1000;\n\tts->tv_nsec += timeout % 1000 * 1000000;\n\tif (ts->tv_nsec >= 1000000000)\n\t{\n\t\tts->tv_nsec -= 1000000000;\n\t\tts->tv_sec++;\n\t}\n\n\treturn ts;\n}\n\nint CommSchedTarget::init(const struct sockaddr *addr, socklen_t addrlen,\n\t\t\t\t\t\t  int connect_timeout, int response_timeout,\n\t\t\t\t\t\t  size_t max_connections)\n{",
+      "replace": "#ifndef _QNX_SOURCE\n#define _QNX_SOURCE\n#endif\n#include <sys/types.h>\n#include <sys/socket.h>\n#include <errno.h>\n#include <stdlib.h>\n#include <pthread.h>\n#include \"CommScheduler.h\"\n\n#define PTHREAD_COND_TIMEDWAIT(cond, mutex, abstime) \\\n\t((abstime) ? pthread_cond_timedwait(cond, mutex, abstime) : \\\n\t\t\t\t pthread_cond_wait(cond, mutex))\n\nstatic struct timespec *__get_abstime(int timeout, struct timespec *ts)\n{\n\tif (timeout < 0)\n\t\treturn NULL;\n\n\tclock_gettime(CLOCK_REALTIME, ts);\n\tts->tv_sec += timeout / 1000;\n\tts->tv_nsec += timeout % 1000 * 1000000;\n\tif (ts->tv_nsec >= 1000000000)\n\t{\n\t\tts->tv_nsec -= 1000000000;\n\t\tts->tv_sec++;\n\t}\n\n\treturn ts;\n}\n\nint CommSchedTarget::init(const struct sockaddr *addr, socklen_t addrlen,\n\t\t\t\t\t\t  int connect_timeout, int response_timeout,\n\t\t\t\t\t\t  size_t max_connections)\n{"
+     }
+    ],
+    "suspect": ""
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/server/WFServer.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/server/WFServer.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/server",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/server.dir/WFServer.cc.o.d -Wp,-MT,src/server/CMakeFiles/server.dir/WFServer.cc.o -Wp,-MF,CMakeFiles/server.dir/WFServer.cc.o.d -o CMakeFiles/server.dir/WFServer.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/server/WFServer.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'dup' was not declared in this scope",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/server/WFServer.cc",
+   "line": 173,
+   "col": 35,
+   "symbol": "dup",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                this->listen_fd = dup(this->listen_fd);",
+   "log_line": 535
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.2,
+    "reason": "NO_FIX: 'dup' is not available on QNX 8.0. Use 'dup' only on Linux."
+   },
+   "grounded": {
+    "ok": true,
+    "tries": 1,
+    "facts": [
+     "`dup` is exported by libc.so.6 on QNX",
+     "`dup` is declared in <unistd.h> (only when: defined(__EXT_POSIX1_198808)): `extern int dup(int __fildes);`",
+     "QNX declares `dup` only when __EXT_POSIX1_198808 is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function."
+    ],
+    "seconds": 4.7,
+    "reason": "error gone, no new error in the edited file",
+    "edits": [
+     {
+      "path": "src/server/WFServer.cc",
+      "search": "#include <sys/types.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <netinet/tcp.h>\n#include <errno.h>\n#include <unistd.h>\n#include <stdio.h>\n#include <atomic>\n#include <mutex>\n#include <condition_variable>\n#include <openssl/ssl.h>\n#include \"CommScheduler.h\"\n#include \"EndpointParams.h\"\n#include \"WFConnection.h\"\n#include \"WFGlobal.h\"\n#include \"WFServer.h\"",
+      "replace": "#ifndef _QNX_SOURCE\n#define _QNX_SOURCE\n#endif\n#include <sys/types.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <netinet/tcp.h>\n#include <errno.h>\n#include <unistd.h>\n#include <stdio.h>\n#include <atomic>\n#include <mutex>\n#include <condition_variable>\n#include <openssl/ssl.h>\n#include \"CommScheduler.h\"\n#include \"EndpointParams.h\"\n#include \"WFConnection.h\"\n#include \"WFGlobal.h\"\n#include \"WFServer.h\""
+     }
+    ],
+    "suspect": ""
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/client/WFMySQLConnection.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/client/WFMySQLConnection.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/client",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/client.dir/WFMySQLConnection.cc.o.d -Wp,-MT,src/client/CMakeFiles/client.dir/WFMySQLConnection.cc.o -Wp,-MF,CMakeFiles/client.dir/WFMySQLConnection.cc.o.d -o CMakeFiles/client.dir/WFMySQLConnection.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/client/WFMySQLConnection.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'strdup' was not declared in this scope; did you mean 'strcmp'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/client/WFMySQLConnection.cc",
+   "line": 42,
+   "col": 29,
+   "symbol": "strdup",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                uri.query = strdup(query.c_str());",
+   "log_line": 618
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 3.0,
+    "reason": "NO_FIX: 'strdup' is not available on QNX. Use 'strdup' from <cstring> and ensure it is available on QNX.",
+    "edits": [
+     {
+      "path": "src/client/WFMySQLConnection.cc",
+      "search": "\t\turi.query = strdup(query.c_str());",
+      "replace": "\t\turi.query = strdup(query.c_str());\n\t\tif (uri.query == nullptr) {\n\t\t\terrno = ENOMEM;\n\t\t\treturn -1;\n\t\t}"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": true,
+    "tries": 1,
+    "facts": [
+     "`strdup` is exported by libc.so.6 on QNX",
+     "`strdup` is declared in <string.h> (only when: defined(__EXT_POSIX1_200112) || defined(__EXT_XOPEN_EX)): `extern char *strdup(const char *__string);`",
+     "QNX declares `strdup` only when __EXT_POSIX1_200112 / __EXT_XOPEN_EX is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function.",
+     "`strcmp` is declared in <openssl/ocsp.h> (only when: !defined(OPENSSL_NO_OCSP) && !defined(OPENSSL_NO_DEPRECATED_3_0)): `(OSSL_HTTP_REQ_CTX_set_expected(rctx, NULL, 1 /* asn1 */, 0, 0) && OSSL_HTTP_REQ_CTX_set_request_line(rctx, strcmp(op, \"`"
+    ],
+    "seconds": 9.0,
+    "reason": "error gone, no new error in the edited file",
+    "edits": [
+     {
+      "path": "src/client/WFMySQLConnection.cc",
+      "search": "#include <errno.h>\n#include <stdlib.h>\n#include <string.h>\n#include <string>\n#include <utility>\n#include \"URIParser.h\"\n#include \"WFMySQLConnection.h\"\n\nint WFMySQLConnection::init(const std::string& url, SSL_CTX *ssl_ctx)\n{\n\tstd::string query;\n\tParsedURI uri;\n\n\tif (URIParser::parse(url, uri) >= 0)\n\t{\n\t\tif (uri.query)\n\t\t{\n\t\t\tquery = uri.query;\n\t\t\tquery += '&';\n\t\t}\n\n\t\tquery += \"transaction=INTERNAL_CONN_ID_\" + std::to_string(this->id);\n\t\tfree(uri.query);\n\t\turi.query = strdup(query.c_str());\n\t\tif (uri.query)\n\t\t{\n\t\t\tthis->uri = std::move(uri);\n\t\t\tthis->ssl_ctx = ssl_ctx;\n\t\t\treturn 0;\n\t\t}\n\t}\n\telse if (uri.state == URI_STATE_INVALID)\n\t\terrno = EINVAL;\n\n\treturn -1;\n}",
+      "replace": "#ifndef _QNX_SOURCE\n#define _QNX_SOURCE\n#endif\n#include <errno.h>\n#include <stdlib.h>\n#include <string.h>\n#include <string>\n#include <utility>\n#include \"URIParser.h\"\n#include \"WFMySQLConnection.h\"\n\nint WFMySQLConnection::init(const std::string& url, SSL_CTX *ssl_ctx)\n{\n\tstd::string query;\n\tParsedURI uri;\n\n\tif (URIParser::parse(url, uri) >= 0)\n\t{\n\t\tif (uri.query)\n\t\t{\n\t\t\tquery = uri.query;\n\t\t\tquery += '&';\n\t\t}\n\n\t\tquery += \"transaction=INTERNAL_CONN_ID_\" + std::to_string(this->id);\n\t\tfree(uri.query);\n\t\turi.query = strdup(query.c_str());\n\t\tif (uri.query)\n\t\t{\n\t\t\tthis->uri = std::move(uri);\n\t\t\tthis->ssl_ctx = ssl_ctx;\n\t\t\treturn 0;\n\t\t}\n\t}\n\telse if (uri.state == URI_STATE_INVALID)\n\t\terrno = EINVAL;\n\n\treturn -1;\n}"
+     }
+    ],
+    "suspect": ""
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/manager/WFGlobal.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/manager/WFGlobal.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/manager",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/manager.dir/WFGlobal.cc.o.d -Wp,-MT,src/manager/CMakeFiles/manager.dir/WFGlobal.cc.o -Wp,-MF,CMakeFiles/manager.dir/WFGlobal.cc.o.d -o CMakeFiles/manager.dir/WFGlobal.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/manager/WFGlobal.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'PTHREAD_RWLOCK_INITIALIZER' was not declared in this scope; did you mean 'PTHREAD_COND_INITIALIZER'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/manager/WFGlobal.cc",
+   "line": 394,
+   "col": 25,
+   "symbol": "PTHREAD_RWLOCK_INITIALIZER",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                rwlock_(PTHREAD_RWLOCK_INITIALIZER)",
+   "log_line": 633
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header",
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 9.9,
+    "reason": "NO_FIX: The error indicates that the pthread_rwlock_t type and associated functions are not available on QNX 8.0. These are specific to POSIX threads and may not be supported by QNX's pthread implementation.",
+    "edits": [
+     {
+      "path": "src/manager/WFGlobal.cc",
+      "search": "protected:\n\tusing ExecQueueMap = std::unordered_map<std::string, ExecQueue *>;\n\npublic:\n\tstatic __ExecManager *get_instance()\n\t{\n\t\tstatic __ExecManager kInstance;\n\t\treturn &kInstance;\n\t}\n\n\tExecQueue *get_exec_queue(const std::string& queue_name);\n\tExecutor *get_compute_executor() { return &compute_executor_; }\n\nprivate:\n\t__ExecManager():\n\t\trwlock_(PTHREAD_RWLOCK_INITIALIZER)\n\t{\n\t\tint compute_threads = WFGlobal::get_global_settings()->compute_threads;\n\n\t\tif (compute_threads < 0)\n\t\t\tcompute_threads = sysconf(_SC_NPROCESSORS_ONLN);\n\n\t\tif (compute_executor_.init(compute_threads) < 0)\n\t\t\tabort();\n\t}\n\n\t~__ExecManager()\n\t{\n\t\tcompute_executor_.deinit();\n\n\t\tfor (auto& kv : queue_map_)",
+      "replace": "protected:\n\tusing ExecQueueMap = std::unordered_map<std::string, ExecQueue *>;\n\npublic:\n\tstatic __ExecManager *get_instance()\n\t{\n\t\tstatic __ExecManager kInstance;\n\t\treturn &kInstance;\n\t}\n\n\tExecQueue *get_exec_queue(const std::string& queue_name);\n\tExecutor *get_compute_executor() { return &compute_executor_; }\n\nprivate:\n\t__ExecManager():\n\t\trwlock_(PTHREAD_RWLOCK_INITIALIZER)\n\t{\n\t\tint compute_threads = WFGlobal::get_global_settings()->compute_threads;\n\n\t\tif (compute_threads < 0)\n\t\t\tcompute_threads = sysconf(_SC_NPROCESSORS_ONLN);\n\n\t\tif (compute_executor_.init(compute_threads) < 0)\n\t\t\tabort();\n\t}\n\n\t~__ExecManager()\n\t{\n\t\tcompute_executor_.deinit();\n\n\t\tfor (auto& kv : queue_map_)"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`PTHREAD_RWLOCK_INITIALIZER` is declared in <pthread.h> (only when: defined(__EXT_QNX)): `#define PTHREAD_RWLOCK_INITIALIZER\t{ .__u = { .__count = 0U }, .__owner = 0U }`",
+     "QNX declares `PTHREAD_RWLOCK_INITIALIZER` only when __EXT_QNX is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function.",
+     "`PTHREAD_COND_INITIALIZER` is declared in <pthread.h>: `#define PTHREAD_COND_INITIALIZER\t{ .__u = { .__clockid = CLOCK_REALTIME }, .__owner = _NTO_SYNC_COND }`"
+    ],
+    "seconds": 14.3,
+    "reason": "NO_FIX: The error is due to the missing `__EXT_QNX` macro, which is required to define `PTHREAD_RWLOCK_INITIALIZER`. Adding `#define _QNX_SOURCE` before the first `#include` of this file should resolve the issue."
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/nameservice/WFNameService.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/nameservice/WFNameService.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/nameservice",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/nameservice.dir/WFNameService.cc.o.d -Wp,-MT,src/nameservice/CMakeFiles/nameservice.dir/WFNameService.cc.o -Wp,-MF,CMakeFiles/nameservice.dir/WFNameService.cc.o.d -o CMakeFiles/nameservice.dir/WFNameService.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/nameservice/WFNameService.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'pthread_rwlock_wrlock' was not declared in this scope; did you mean 'pthread_rwlock_t'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/nameservice/WFNameService.cc",
+   "line": 41,
+   "col": 9,
+   "symbol": "pthread_rwlock_wrlock",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "        pthread_rwlock_wrlock(&this->rwlock);",
+   "log_line": 663
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 6.4,
+    "reason": "NO_FIX: The 'pthread_rwlock_t' type is declared, but the functions are not. QNX 8.0 may not support these pthread_rwlock functions directly."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`pthread_rwlock_wrlock` is exported by libc.so.6 on QNX",
+     "`pthread_rwlock_wrlock` is declared in <c++/12.2.0/shared_mutex> (only when: !defined(_GLIBCXX_SHARED_MUTEX) && __cplusplus >= 201402L && defined(_GLIBCXX_HAS_GTHREADS) && _GLIBCXX_USE_PTHREAD_RWLOCK_T && !defined(__gthrw)): `{ return pthread_rwlock_wrlock (__rwlock); }`",
+     "`pthread_rwlock_wrlock` is declared in <pthread.h> (only when: defined(__EXT_POSIX1_200112)\t\t/* Approved 1003.1j D10 */): `extern int pthread_rwlock_wrlock(pthread_rwlock_t *);`",
+     "QNX declares `pthread_rwlock_wrlock` only when __EXT_POSIX1_200112 is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function.",
+     "`pthread_rwlock_t` is declared in <pthread.h> (only when: defined(__EXT_POSIX1_200112)\t\t/* Approved 1003.1j D10 */ && defined(__PTHREAD_RWLOCK_T)): `typedef __PTHREAD_RWLOCK_T pthread_rwlock_t;`"
+    ],
+    "seconds": 11.7,
+    "reason": "SEARCH text found 2 times in src/nameservice/WFNameService.cc (must be exactly once)"
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/kernel/Communicator.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/Communicator.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/kernel",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/kernel.dir/Communicator.cc.o.d -Wp,-MT,src/kernel/CMakeFiles/kernel.dir/Communicator.cc.o -Wp,-MF,CMakeFiles/kernel.dir/Communicator.cc.o.d -o CMakeFiles/kernel.dir/Communicator.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/Communicator.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'fcntl' was not declared in this scope",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/kernel/Communicator.cc",
+   "line": 68,
+   "col": 21,
+   "symbol": "fcntl",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "        int flags = fcntl(fd, F_GETFL);",
+   "log_line": 683
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header",
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 3.1,
+    "reason": "NO_FIX: The error indicates that the necessary headers are already included, and the functions are not declared in the scope. This suggests a potential issue with the QNX environment or the specific version of qcc being used.",
+    "edits": [
+     {
+      "path": "src/kernel/Communicator.cc",
+      "search": "\tint flags = fcntl(fd, F_GETFL);",
+      "replace": "\tint flags = fcntl(fd, F_GETFL, 0);"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": true,
+    "tries": 1,
+    "facts": [
+     "`fcntl` is exported by libc.so.6 on QNX",
+     "`fcntl` is declared in <c++/12.2.0/experimental/socket> (only when: !defined(_GLIBCXX_EXPERIMENTAL_SOCKET) && __cplusplus >= 201402L && _GLIBCXX_HAVE_UNISTD_H && defined _GLIBCXX_HAVE_FCNTL_H && defined _GLIBCXX_HAVE_DECL_O_NONBLOCK): `int __flags = ::fcntl(_M_sockfd, F_GETFL, 0);`",
+     "`fcntl` is declared in <fcntl.h> (only when: defined(__EXT_POSIX1_198808)): `extern int fcntl(int __fildes, int __cmd, ...);`",
+     "QNX declares `fcntl` only when __EXT_POSIX1_198808 is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function."
+    ],
+    "seconds": 5.3,
+    "reason": "error gone, no new error in the edited file",
+    "edits": [
+     {
+      "path": "src/kernel/Communicator.cc",
+      "search": "#include <sys/types.h>\n#include <sys/socket.h>\n#include <sys/uio.h>\n#include <errno.h>\n#include <limits.h>\n#include <time.h>\n#include <fcntl.h>\n#include <unistd.h>\n#include <stddef.h>\n#include <stdlib.h>\n#include <string.h>\n#include <pthread.h>\n#include <openssl/ssl.h>\n#include \"list.h\"\n#include \"msgqueue.h\"\n#include \"thrdpool.h\"\n#include \"poller.h\"\n#include \"mpoller.h\"\n#include \"Communicator.h\"",
+      "replace": "#ifndef _QNX_SOURCE\n#define _QNX_SOURCE\n#endif\n#include <sys/types.h>\n#include <sys/socket.h>\n#include <sys/uio.h>\n#include <errno.h>\n#include <limits.h>\n#include <time.h>\n#include <fcntl.h>\n#include <unistd.h>\n#include <stddef.h>\n#include <stdlib.h>\n#include <string.h>\n#include <pthread.h>\n#include <openssl/ssl.h>\n#include \"list.h\"\n#include \"msgqueue.h\"\n#include \"thrdpool.h\"\n#include \"poller.h\"\n#include \"mpoller.h\"\n#include \"Communicator.h\""
+     }
+    ],
+    "suspect": ""
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/client/WFDnsClient.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/client/WFDnsClient.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/client",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/client.dir/WFDnsClient.cc.o.d -Wp,-MT,src/client/CMakeFiles/client.dir/WFDnsClient.cc.o -Wp,-MF,CMakeFiles/client.dir/WFDnsClient.cc.o.d -o CMakeFiles/client.dir/WFDnsClient.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/client/WFDnsClient.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'strncasecmp' was not declared in this scope; did you mean 'strncmp'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/client/WFDnsClient.cc",
+   "line": 205,
+   "col": 21,
+   "symbol": "strncasecmp",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                if (strncasecmp(host.c_str(), \"dns://\", 6) != 0 &&",
+   "log_line": 731
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header",
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 4.1,
+    "reason": "NO_FIX: strncasecmp is not available on QNX 8.0, and there is no direct equivalent function provided by QNX.",
+    "edits": [
+     {
+      "path": "src/client/WFDnsClient.cc",
+      "search": "\t\tif (strncasecmp(host.c_str(), \"dns://\", 6) != 0 &&\n\t\t\tstrncasecmp(host.c_str(), \"dnss://\", 7) != 0)\n\t\t{\n\t\t\thost = \"dns://\" + host;\n\t\t}",
+      "replace": "\t\tif (strcasecmp(host.c_str(), \"dns://\") != 0 &&\n\t\t\tstrcasecmp(host.c_str(), \"dnss://\") != 0)\n\t\t{\n\t\t\thost = \"dns://\" + host;\n\t\t}"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": true,
+    "tries": 1,
+    "facts": [
+     "`strncasecmp` is exported by libc.so.6 on QNX",
+     "`strncasecmp` is declared in <curl/stdcheaders.h>: `int strncasecmp(const char *, const char *, size_t);`",
+     "`strncasecmp` is declared in <strings.h>: `extern int  strncasecmp(const char *, const char *, size_t);`",
+     "`strncmp` is declared in <string.h>: `extern int strncmp(const char *__s1, const char *__s2, size_t __n);`"
+    ],
+    "seconds": 3.9,
+    "reason": "error gone, no new error in the edited file",
+    "edits": [
+     {
+      "path": "src/client/WFDnsClient.cc",
+      "search": "#include <string>\n#include <vector>\n#include <atomic>\n#include \"URIParser.h\"\n#include \"StringUtil.h\"\n#include \"dns_types.h\"\n#include \"DnsMessage.h\"\n#include \"WFDnsClient.h\"",
+      "replace": "#include <string>\n#include <vector>\n#include <atomic>\n#include <strings.h>  // Add this line\n#include \"URIParser.h\"\n#include \"StringUtil.h\"\n#include \"dns_types.h\"\n#include \"DnsMessage.h\"\n#include \"WFDnsClient.h\""
+     }
+    ],
+    "suspect": ""
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/protocol/DnsMessage.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/protocol/DnsMessage.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/protocol",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/protocol.dir/DnsMessage.cc.o.d -Wp,-MT,src/protocol/CMakeFiles/protocol.dir/DnsMessage.cc.o -Wp,-MF,CMakeFiles/protocol.dir/DnsMessage.cc.o.d -o CMakeFiles/protocol.dir/DnsMessage.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/protocol/DnsMessage.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'strcasecmp' was not declared in this scope; did you mean 'strncmp'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/protocol/DnsMessage.cc",
+   "line": 465,
+   "col": 17,
+   "symbol": "strcasecmp",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                strcasecmp(this->request_name.c_str(), qname) != 0))",
+   "log_line": 759
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 2.9,
+    "reason": "NO_FIX: 'strcasecmp' is not available on QNX 8.0. Use 'strncasecmp' instead, which is a portable alternative.",
+    "edits": [
+     {
+      "path": "src/protocol/DnsMessage.cc",
+      "search": "strcasecmp(this->request_name.c_str(), qname) != 0))",
+      "replace": "#include <string.h>\n\nstrcasecmp(this->request_name.c_str(), qname) != 0))"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`strcasecmp` is exported by libc.so.6 on QNX",
+     "`strcasecmp` is declared in <curl/stdcheaders.h>: `int strcasecmp(const char *, const char *);`",
+     "`strcasecmp` is declared in <strings.h>: `extern int  strcasecmp(const char *, const char *);`",
+     "`strncmp` is declared in <string.h>: `extern int strncmp(const char *__s1, const char *__s2, size_t __n);`"
+    ],
+    "seconds": 10.4,
+    "reason": "NO_FIX: strcasecmp is declared in <strings.h> and <curl/stdcheaders.h>, which are already included in src/protocol/DnsMessage.cc. The error might be due to a different issue or a misconfiguration in the build environment."
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/protocol/DnsUtil.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/protocol/DnsUtil.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/protocol",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/protocol.dir/DnsUtil.cc.o.d -Wp,-MT,src/protocol/CMakeFiles/protocol.dir/DnsUtil.cc.o -Wp,-MF,CMakeFiles/protocol.dir/DnsUtil.cc.o.d -o CMakeFiles/protocol.dir/DnsUtil.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/protocol/DnsUtil.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'strcasecmp' was not declared in this scope; did you mean 'strncmp'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/protocol/DnsUtil.cc",
+   "line": 79,
+   "col": 25,
+   "symbol": "strcasecmp",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                        strcasecmp(record->name, cname) == 0))",
+   "log_line": 890
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header",
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "reason": "AI unavailable: <urlopen error curl.exe rc=28>"
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`strcasecmp` is exported by libc.so.6 on QNX",
+     "`strcasecmp` is declared in <curl/stdcheaders.h>: `int strcasecmp(const char *, const char *);`",
+     "`strcasecmp` is declared in <strings.h>: `extern int  strcasecmp(const char *, const char *);`",
+     "`strncmp` is declared in <string.h>: `extern int strncmp(const char *__s1, const char *__s2, size_t __n);`"
+    ],
+    "seconds": 5.7,
+    "reason": "NO_FIX: The error is caused by the incomplete type `sockaddr_in6` and `in6_addr` being used before they are defined. These types are part of the `<netinet/in.h>` header, which should already be included. The issue might be due to a missing or incorrect include order. Ensure that all necessary headers are included at the top of the file.",
+    "edits": [
+     {
+      "path": "src/protocol/DnsUtil.cc",
+      "search": "#include <sys/types.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <netdb.h>\n#include <string>\n#include \"dns_types.h\"\n#include \"DnsUtil.h\"",
+      "replace": "#include <sys/types.h>\n#include <sys/socket.h>\n#include <netinet/in.h>\n#include <netdb.h>\n#include <string>\n#include \"dns_types.h\"\n#include \"DnsUtil.h\"\n#include <strings.h>"
+     },
+     {
+      "path": "src/protocol/DnsUtil.cc",
+      "search": "\t\t\tstrcasecmp(record->name, cname) == 0))",
+      "replace": "\t\t\tstrcasecmp(record->name, cname) == 0)"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "library": "workflow",
+  "rel": "src/util/URIParser.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/workflow/src/src/util/URIParser.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o/build/src/util",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++  -I~/qnx800/target/qnx/usr/include -I~/qnx-work/ai-eval-scratch/workflow/src/_include/workflow -I. -I~/qnx-work/ai-eval-scratch/workflow/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/workflow/port -I~/qnx-work/ai-eval-scratch/workflow/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/workflow/stage/x86_64//usr/local/include -Wall -fPIC -std=c++11 -fno-exceptions -Wno-invalid-offsetof -O3 -DNDEBUG -O3 -DNDEBUG -Wp,-MD,CMakeFiles/util.dir/URIParser.cc.o.d -Wp,-MT,src/util/CMakeFiles/util.dir/URIParser.cc.o -Wp,-MF,CMakeFiles/util.dir/URIParser.cc.o.d -o CMakeFiles/util.dir/URIParser.cc.o -c ~/qnx-work/ai-eval-scratch/workflow/src/src/util/URIParser.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'strdup' was not declared in this scope; did you mean 'strcmp'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/workflow/src/src/util/URIParser.cc",
+   "line": 184,
+   "col": 42,
+   "symbol": "strdup",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "                                scheme = strdup(uri.scheme);",
+   "log_line": 1025
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 2.7,
+    "reason": "NO_FIX: 'strdup' is not available on QNX. Use 'strdup' from <cstring> instead of <string.h>.",
+    "edits": [
+     {
+      "path": "src/util/URIParser.cc",
+      "search": "\t\t\t\tscheme = strdup(uri.scheme);",
+      "replace": "\t\t\t\tscheme = strdup(uri.scheme);\n\t\t\t\tif (!scheme) {\n\t\t\t\t\terrno = ENOMEM;\n\t\t\t\t\treturn;\n\t\t\t\t}"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`strdup` is exported by libc.so.6 on QNX",
+     "`strdup` is declared in <string.h> (only when: defined(__EXT_POSIX1_200112) || defined(__EXT_XOPEN_EX)): `extern char *strdup(const char *__string);`",
+     "QNX declares `strdup` only when __EXT_POSIX1_200112 / __EXT_XOPEN_EX is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function.",
+     "`strcmp` is declared in <openssl/ocsp.h> (only when: !defined(OPENSSL_NO_OCSP) && !defined(OPENSSL_NO_DEPRECATED_3_0)): `(OSSL_HTTP_REQ_CTX_set_expected(rctx, NULL, 1 /* asn1 */, 0, 0) && OSSL_HTTP_REQ_CTX_set_request_line(rctx, strcmp(op, \"`"
+    ],
+    "seconds": 9.0,
+    "reason": "NO_FIX: `strdup` is declared conditionally in QNX headers and cannot be fixed by simply defining `_QNX_SOURCE`. The correct approach would involve modifying the build system to include the necessary headers with the appropriate macros defined, which is beyond the scope of a single file edit."
+   }
+  }
+ },
+ {
+  "library": "civetweb",
+  "rel": "src/civetweb.c",
+  "tu": "~/qnx-work/ai-eval-scratch/civetweb/src/src/civetweb.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/civetweb/port/nto-x86_64-o/build/src",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -DCIVETWEB_DLL_EXPORTS -DCRYPTO_LIB=\\\"libcrypto.so\\\" -DOPENSSL_API_1_1 -DSSL_LIB=\\\"libssl.so\\\" -DUSE_IPV6 -DUSE_STACK_SIZE=102400 -Dcivetweb_c_library_EXPORTS -I~/qnx-work/ai-eval-scratch/civetweb/src/include -I. -I~/qnx-work/ai-eval-scratch/civetweb/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/civetweb/port -I~/qnx-work/ai-eval-scratch/civetweb/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/civetweb/stage/x86_64//usr/local/include -std=c11 -Wall -Wextra -Wshadow -Wconversion -Wmissing-prototypes -Wparentheses -Wno-padded -Wno-unused-macros -Wno-format-nonliteral -Wno-cast-qual -pedantic-errors -fvisibility=hidden -O3 -DNDEBUG -O3 -DNDEBUG -fstack-protector-strong -fPIC -Wp,-MD,CMakeFiles/civetweb-c-library.dir/civetweb.c.o.d -Wp,-MT,src/CMakeFiles/civetweb-c-library.dir/civetweb.c.o -Wp,-MF,CMakeFiles/civetweb-c-library.dir/civetweb.c.o.d -o CMakeFiles/civetweb-c-library.dir/civetweb.c.o -c ~/qnx-work/ai-eval-scratch/civetweb/src/src/civetweb.c",
+  "error": {
+   "kind": "implicit-decl",
+   "severity": "error",
+   "message": "implicit declaration of function 'clock_gettime' [-Wimplicit-function-declaration]",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/civetweb/src/src/civetweb.c",
+   "line": 1679,
+   "col": 9,
+   "symbol": "clock_gettime",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "        clock_gettime(CLOCK_REALTIME, &tsnow);",
+   "log_line": 171
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 2.8,
+    "reason": "NO_FIX: clock_gettime is not available on QNX 8.0",
+    "edits": [
+     {
+      "path": "src/civetweb.c",
+      "search": "\tstruct timespec tsnow;\n\tclock_gettime(CLOCK_REALTIME, &tsnow);",
+      "replace": "#if defined(__QNX__)\n\tstruct timespec tsnow;\n\tclock_gettime(CLOCK_REALTIME, &tsnow);\n#else\n#warning \"clock_gettime is not available on this platform\"\n#endif"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`clock_gettime` is exported by libc.so.6 on QNX",
+     "`clock_gettime` is declared in <time.h> (only when: defined(__EXT_POSIX1_199309)): `extern int clock_gettime(clockid_t __clock_id, struct timespec *__tp);`",
+     "QNX declares `clock_gettime` only when __EXT_POSIX1_199309 is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function."
+    ],
+    "seconds": 5.0,
+    "reason": "NO_FIX: The QNX headers do not declare `clock_gettime` when `__EXT_POSIX1_199309` is not set, and adding `_QNX_SOURCE` before the first include does not resolve the issue. The function is not available on QNX 8.0.",
+    "edits": [
+     {
+      "path": "src/civetweb.c",
+      "search": "#include <ctype.h>\n#include <fcntl.h>\n#include <netdb.h>\n#include <poll.h>\n#include <pthread.h>\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <sys/socket.h>\n#include <time.h>\n\n#include <zephyr/kernel.h>",
+      "replace": "#ifndef _QNX_SOURCE\n#define _QNX_SOURCE\n#endif\n#include <ctype.h>\n#include <fcntl.h>\n#include <netdb.h>\n#include <poll.h>\n#include <pthread.h>\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n#include <sys/socket.h>\n#include <time.h>\n\n#include <zephyr/kernel.h>"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/testdriver.c",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/testdriver.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/testdriver.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/testdriver.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/testdriver.c.o.d -o CMakeFiles/testdriver.dir/tests/testdriver.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/testdriver.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/testdriver.c",
+   "line": 13,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 367
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <CUnit/CUnit.h> does not exist in QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_pdu.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_pdu.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_pdu.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_pdu.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_pdu.c.o.d -o CMakeFiles/testdriver.dir/tests/test_pdu.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_pdu.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_pdu.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_pdu.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 380
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_error_response.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_error_response.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_error_response.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_error_response.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_error_response.c.o.d -o CMakeFiles/testdriver.dir/tests/test_error_response.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_error_response.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_error_response.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_error_response.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 386
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_oscore.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_oscore.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_oscore.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_oscore.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_oscore.c.o.d -o CMakeFiles/testdriver.dir/tests/test_oscore.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_oscore.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_oscore.h",
+   "line": 13,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_oscore.c:16"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 391
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.8,
+    "reason": "NO_FIX: <CUnit/CUnit.h does not exist in QNX 8.0.>"
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_tls.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_tls.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_tls.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_tls.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_tls.c.o.d -o CMakeFiles/testdriver.dir/tests/test_tls.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_tls.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_tls.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_tls.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 397
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_options.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_options.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_options.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_options.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_options.c.o.d -o CMakeFiles/testdriver.dir/tests/test_options.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_options.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_options.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_options.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 403
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <CUnit/CUnit.h does not exist in QNX 8.0.>"
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_uri.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_uri.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_uri.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_uri.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_uri.c.o.d -o CMakeFiles/testdriver.dir/tests/test_uri.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_uri.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_uri.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_uri.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 410
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: <CUnit/CUnit.h does not exist in QNX 8.0.>"
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_encode.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_encode.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_encode.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_encode.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_encode.c.o.d -o CMakeFiles/testdriver.dir/tests/test_encode.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_encode.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_encode.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_encode.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 416
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_sendqueue.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_sendqueue.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o.d -o CMakeFiles/testdriver.dir/tests/test_sendqueue.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_sendqueue.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_sendqueue.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_sendqueue.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 422
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_session.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_session.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_session.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_session.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_session.c.o.d -o CMakeFiles/testdriver.dir/tests/test_session.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_session.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_session.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_session.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 428
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.6,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "libcoap",
+  "rel": "tests/test_wellknown.h",
+  "tu": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_wellknown.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64  -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o/build/include -I~/qnx-work/ai-eval-scratch/libcoap/src/include -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/libcoap/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/libcoap/port -I~/qnx-work/ai-eval-scratch/libcoap/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/libcoap/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=gnu11 -DLIBCOAP_PACKAGE_BUILD=\\\"4.3.5\\\" -Wp,-MD,CMakeFiles/testdriver.dir/tests/test_wellknown.c.o.d -Wp,-MT,CMakeFiles/testdriver.dir/tests/test_wellknown.c.o -Wp,-MF,CMakeFiles/testdriver.dir/tests/test_wellknown.c.o.d -o CMakeFiles/testdriver.dir/tests/test_wellknown.c.o -c ~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_wellknown.c",
+  "error": {
+   "kind": "missing-header",
+   "severity": "error",
+   "message": "CUnit/CUnit.h: No such file or directory",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_wellknown.h",
+   "line": 11,
+   "col": 10,
+   "symbol": "CUnit/CUnit.h",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/libcoap/src/tests/test_wellknown.c:12"
+   ],
+   "source_line": "#include <CUnit/CUnit.h>",
+   "log_line": 434
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "no rule applies",
+    "rules": []
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [
+     "<CUnit/CUnit.h> does not exist in QNX 8.0."
+    ],
+    "seconds": 0.7,
+    "reason": "NO_FIX: CUnit is not available on QNX 8.0."
+   }
+  }
+ },
+ {
+  "library": "open62541",
+  "rel": "arch/posix/eventloop_posix.h",
+  "tu": "~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -DUA_DYNAMIC_LINKING_EXPORT -I~/qnx-work/ai-eval-scratch/open62541/src/deps -I~/qnx-work/ai-eval-scratch/open62541/src/include -I~/qnx-work/ai-eval-scratch/open62541/src/plugins/include -I~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o/build/src_generated -I. -I~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/open62541/port -I~/qnx-work/ai-eval-scratch/open62541/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/open62541/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -Wp,-MD,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o.d -Wp,-MT,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o -Wp,-MF,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o.d -o CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix.c.o -c ~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix.c",
+  "error": {
+   "kind": "unknown-type",
+   "severity": "error",
+   "message": "expected specifier-qualifier-list before 'LIST_ENTRY'",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix.h",
+   "line": 366,
+   "col": 5,
+   "symbol": "LIST_ENTRY",
+   "member": "",
+   "function": "",
+   "included_from": [
+    "~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix.c:9"
+   ],
+   "source_line": "    LIST_ENTRY(UA_DeregisteredListenFD) pointers;",
+   "log_line": 184
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.5,
+    "reason": "NO_FIX: The error indicates that the `LIST_ENTRY` macro is not defined, which is typically part of the BSD list macros. QNX does not provide these macros by default, and there is no standard way to include them without additional headers or definitions."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`LIST_ENTRY` is declared in <sys/queue.h>: `#define\tLIST_ENTRY(type)\t\t\t\t\t\t\\`"
+    ],
+    "seconds": 5.2,
+    "reason": "NO_FIX: <LIST_ENTRY is not declared in the included headers>"
+   }
+  }
+ },
+ {
+  "library": "open62541",
+  "rel": "arch/posix/eventloop_posix_tcp.c",
+  "tu": "~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix_tcp.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -DUA_DYNAMIC_LINKING_EXPORT -I~/qnx-work/ai-eval-scratch/open62541/src/deps -I~/qnx-work/ai-eval-scratch/open62541/src/include -I~/qnx-work/ai-eval-scratch/open62541/src/plugins/include -I~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o/build/src_generated -I. -I~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/open62541/port -I~/qnx-work/ai-eval-scratch/open62541/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/open62541/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -Wp,-MD,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o.d -Wp,-MT,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o -Wp,-MF,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o.d -o CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_tcp.c.o -c ~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix_tcp.c",
+  "error": {
+   "kind": "no-member",
+   "severity": "error",
+   "message": "'UA_DeregisteredListenFD' has no member named 'listenFd'",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix_tcp.c",
+   "line": 83,
+   "col": 37,
+   "symbol": "UA_DeregisteredListenFD",
+   "member": "listenFd",
+   "function": "",
+   "included_from": [],
+   "source_line": "    UA_RegisteredFD *rfd = listenRfd->listenFd;",
+   "log_line": 213
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.4,
+    "reason": "NO_FIX: The code uses non-standard members and types that are not defined in the provided headers or are specific to Linux."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.8,
+    "reason": "NO_FIX: The code uses non-standard members and types that are not defined in the provided headers or are specific to Linux."
+   }
+  }
+ },
+ {
+  "library": "open62541",
+  "rel": "arch/posix/eventloop_posix_interrupt.c",
+  "tu": "~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix_interrupt.c",
+  "cwd": "~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o/build",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/qcc -Vgcc_ntox86_64 -DUA_DYNAMIC_LINKING_EXPORT -I~/qnx-work/ai-eval-scratch/open62541/src/deps -I~/qnx-work/ai-eval-scratch/open62541/src/include -I~/qnx-work/ai-eval-scratch/open62541/src/plugins/include -I~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o/build/src_generated -I. -I~/qnx-work/ai-eval-scratch/open62541/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/open62541/port -I~/qnx-work/ai-eval-scratch/open62541/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/open62541/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -fPIC -Wp,-MD,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o.d -Wp,-MT,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o -Wp,-MF,CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o.d -o CMakeFiles/open62541-plugins.dir/arch/posix/eventloop_posix_interrupt.c.o -c ~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix_interrupt.c",
+  "error": {
+   "kind": "unknown-type",
+   "severity": "error",
+   "message": "expected specifier-qualifier-list before 'LIST_ENTRY'",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/open62541/src/arch/posix/eventloop_posix_interrupt.c",
+   "line": 23,
+   "col": 5,
+   "symbol": "LIST_ENTRY",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "    LIST_ENTRY(UA_RegisteredSignal) listPointers;",
+   "log_line": 308
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "qnx-header"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.6,
+    "reason": "NO_FIX: The code uses `LIST_ENTRY` and `LIST_HEAD` which are not defined in the provided headers. These are typically part of the QNX kernel headers, not the standard POSIX headers. To fix this, you would need to include the appropriate QNX kernel headers or define these macros yourself."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`LIST_ENTRY` is declared in <sys/queue.h>: `#define\tLIST_ENTRY(type)\t\t\t\t\t\t\\`"
+    ],
+    "seconds": 12.3,
+    "reason": "NO_FIX: <LIST_ENTRY and LIST_HEAD are not defined on QNX 8.0>"
+   }
+  }
+ },
+ {
+  "library": "bloaty",
+  "rel": "third_party/protobuf/src/google/protobuf/io/zero_copy_stream_impl.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/io/zero_copy_stream_impl.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++ -DGOOGLE_PROTOBUF_CMAKE_BUILD -DHAVE_PTHREAD -DHAVE_ZLIB -D_LIBCXXABI_FUNC_VIS=\"\" -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/re2 -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/capstone/include -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/bloaty/port -I~/qnx-work/ai-eval-scratch/bloaty/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/bloaty/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=c++11 -Wp,-MD,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/io/zero_copy_stream_impl.cc.o.d -Wp,-MT,third_party/protobuf/cmake/CMakeFiles/libprotobuf.dir/__/src/google/protobuf/io/zero_copy_stream_impl.cc.o -Wp,-MF,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/io/zero_copy_stream_impl.cc.o.d -o CMakeFiles/libprotobuf.dir/__/src/google/protobuf/io/zero_copy_stream_impl.cc.o -c ~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/io/zero_copy_stream_impl.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'close' was not declared in this scope; did you mean 'fclose'?",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/io/zero_copy_stream_impl.cc",
+   "line": 76,
+   "col": 14,
+   "symbol": "close",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "    result = close(fd);",
+   "log_line": 1633
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.5,
+    "reason": "NO_FIX: The code already includes the necessary headers and uses the correct functions. The error might be due to a missing include or a typo in the function name."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`close` is exported by libc.so.6 on QNX",
+     "`close` is declared in <c++/12.2.0/aarch64-unknown-nto-qnx8.0.0/bits/basic_file.h>: `close();`",
+     "`close` is declared in <c++/12.2.0/experimental/io_context> (only when: !defined(_GLIBCXX_EXPERIMENTAL_IO_SERVICE) && __cplusplus >= 201402L): `::close(__pipe[0]);`",
+     "`close` is declared in <c++/12.2.0/experimental/socket> (only when: !defined(_GLIBCXX_EXPERIMENTAL_SOCKET) && __cplusplus >= 201402L && _GLIBCXX_HAVE_UNISTD_H): `if (::close(_M_sockfd) == -1)`",
+     "`fclose` is declared in <c++/12.2.0/tr1/random.h> (only when: defined(_GLIBCXX_USE_RANDOM_TR1)): `{ std::fclose(_M_file); }`"
+    ],
+    "seconds": 7.3,
+    "reason": "NO_FIX: The error indicates that the `close` function is not being recognized, but the provided QNX facts show that `close` is declared in `<c++/12.2.0/aarch64-unknown-nto-qnx8.0.0/bits/basic_file.h>`. The issue might be related to the include order or the way the function is being used. However, since the QNX facts do not provide a direct replacement for `close`, and the function is declared in a specific header, it is likely that the issue is with the include order or the way the function is being used. A more detailed analysis of the code and the include order might be required to resolve the issue.",
+    "edits": [
+     {
+      "path": "third_party/protobuf/src/google/protobuf/io/zero_copy_stream_impl.cc",
+      "search": "using google::protobuf::io::win32::access;\nusing google::protobuf::io::win32::close;\nusing google::protobuf::io::win32::open;\nusing google::protobuf::io::win32::read;\nusing google::protobuf::io::win32::write;\n#endif",
+      "replace": "using google::protobuf::io::win32::access;\nusing google::protobuf::io::win32::open;\nusing google::protobuf::io::win32::read;\nusing google::protobuf::io::win32::write;\n#endif\n\nusing ::close;\nusing ::read;\nusing ::write;\nusing ::lseek;\nusing ::fseek;\nusing ::fclose;"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "library": "bloaty",
+  "rel": "third_party/protobuf/src/google/protobuf/stubs/strutil.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/stubs/strutil.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++ -DGOOGLE_PROTOBUF_CMAKE_BUILD -DHAVE_PTHREAD -DHAVE_ZLIB -D_LIBCXXABI_FUNC_VIS=\"\" -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/re2 -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/capstone/include -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/bloaty/port -I~/qnx-work/ai-eval-scratch/bloaty/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/bloaty/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=c++11 -Wp,-MD,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/stubs/strutil.cc.o.d -Wp,-MT,third_party/protobuf/cmake/CMakeFiles/libprotobuf.dir/__/src/google/protobuf/stubs/strutil.cc.o -Wp,-MF,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/stubs/strutil.cc.o.d -o CMakeFiles/libprotobuf.dir/__/src/google/protobuf/stubs/strutil.cc.o -c ~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/stubs/strutil.cc",
+  "error": {
+   "kind": "compile-error",
+   "severity": "error",
+   "message": "expected unqualified-id before '(' token",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/stubs/strutil.cc",
+   "line": 1277,
+   "col": 19,
+   "symbol": "",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "  } else if (std::isnan(value)) {",
+   "log_line": 4854
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "error still there",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.4,
+    "reason": "NO_FIX: The code uses `std::isnan` which is not available in QNX's C++ standard library."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 0.8,
+    "reason": "NO_FIX: The code uses `std::isnan` which is not available in QNX's C++ standard library."
+   }
+  }
+ },
+ {
+  "library": "bloaty",
+  "rel": "third_party/protobuf/src/google/protobuf/compiler/importer.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/compiler/importer.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++ -DGOOGLE_PROTOBUF_CMAKE_BUILD -DHAVE_PTHREAD -DHAVE_ZLIB -D_LIBCXXABI_FUNC_VIS=\"\" -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/re2 -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/capstone/include -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/bloaty/port -I~/qnx-work/ai-eval-scratch/bloaty/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/bloaty/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=c++11 -Wp,-MD,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/compiler/importer.cc.o.d -Wp,-MT,third_party/protobuf/cmake/CMakeFiles/libprotobuf.dir/__/src/google/protobuf/compiler/importer.cc.o -Wp,-MF,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/compiler/importer.cc.o.d -o CMakeFiles/libprotobuf.dir/__/src/google/protobuf/compiler/importer.cc.o -c ~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/compiler/importer.cc",
+  "error": {
+   "kind": "undeclared",
+   "severity": "error",
+   "message": "'access' was not declared in this scope",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/compiler/importer.cc",
+   "line": 419,
+   "col": 11,
+   "symbol": "access",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "      if (access(shadowing_disk_file->c_str(), F_OK) >= 0) {",
+   "log_line": 5734
+  },
+  "results": {
+   "rules": {
+    "ok": true,
+    "reason": "error gone, no new error in the edited file",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 2,
+    "facts": [],
+    "seconds": 5.1,
+    "reason": "NO_FIX: The 'access' function is not available on QNX. Use QNX's equivalent function instead.",
+    "edits": [
+     {
+      "path": "third_party/protobuf/src/google/protobuf/compiler/importer.cc",
+      "search": "      if (access(shadowing_disk_file->c_str(), F_OK) >= 0) {",
+      "replace": "      if (access(shadowing_disk_file->c_str(), F_OK) != 0) {"
+     },
+     {
+      "path": "third_party/protobuf/src/google/protobuf/compiler/importer.cc",
+      "search": "  std::unique_ptr<io::ZeroCopyInputStream> stream(OpenDiskFile(disk_file));\n  if (stream == NULL) {\n    return CANNOT_OPEN;\n  }",
+      "replace": "  std::unique_ptr<io::ZeroCopyInputStream> stream(OpenDiskFile(disk_file.c_str()));\n  if (stream == NULL) {\n    return CANNOT_OPEN;\n  }"
+     }
+    ]
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 2,
+    "facts": [
+     "`access` is exported by libc.so.6 on QNX",
+     "`access` is declared in <c++/v1/__mdspan/mdspan.h> (only when: _LIBCPP_STD_VER >= 23): `return __acc_.access(__ptr_, __map_(static_cast<index_type>(std::move(__indices))...));`",
+     "`access` is declared in <unistd.h> (only when: defined(__EXT_POSIX1_198808)): `extern int access(const char *__path, int __mode);`",
+     "QNX declares `access` only when __EXT_POSIX1_198808 is set. QNX's headers set the __EXT_* macros from _QNX_SOURCE (or _POSIX_C_SOURCE) in <sys/platform.h>, and leave them off in strict ISO C++ (-std=c++11, -std=c++17, ...): that is why the name is missing although the header is included. Fix: add `#define _QNX_SOURCE` before the first #include of this file (guarded by #ifndef _QNX_SOURCE); do not add other includes or redeclare the function."
+    ],
+    "seconds": 8.1,
+    "reason": "NO_FIX: The QNX headers do not declare `access` when `__EXT_POSIX1_198808` is not set, and adding `_QNX_SOURCE` before the first include does not resolve the issue. The `access` function is not available on QNX without including a different header or using a different method to check file existence.",
+    "edits": [
+     {
+      "path": "third_party/protobuf/src/google/protobuf/compiler/importer.cc",
+      "search": "#include <direct.h>\n#else\n#include <unistd.h>\n#endif\n#include <errno.h>\n#include <fcntl.h>\n#include <sys/stat.h>\n#include <sys/types.h>\n\n#include <algorithm>\n#include <memory>\n\n#include <google/protobuf/compiler/importer.h>\n#include <google/protobuf/compiler/parser.h>\n#include <google/protobuf/io/tokenizer.h>\n#include <google/protobuf/io/zero_copy_stream_impl.h>\n#include <google/protobuf/stubs/strutil.h>\n#include <google/protobuf/io/io_win32.h>\n\n#ifdef _WIN32\n#include <ctype.h>",
+      "replace": "#ifndef _QNX_SOURCE\n#define _QNX_SOURCE\n#endif\n#include <direct.h>\n#else\n#include <unistd.h>\n#endif\n#include <errno.h>\n#include <fcntl.h>\n#include <sys/stat.h>\n#include <sys/types.h>\n\n#include <algorithm>\n#include <memory>\n\n#include <google/protobuf/compiler/importer.h>\n#include <google/protobuf/compiler/parser.h>\n#include <google/protobuf/io/tokenizer.h>\n#include <google/protobuf/io/zero_copy_stream_impl.h>\n#include <google/protobuf/stubs/strutil.h>\n#include <google/protobuf/io/io_win32.h>\n\n#ifdef _WIN32\n#include <ctype.h>"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "library": "bloaty",
+  "rel": "third_party/protobuf/src/google/protobuf/text_format.cc",
+  "tu": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/text_format.cc",
+  "cwd": "~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake",
+  "command": "~/qnx800/host/linux/x86_64/usr/bin/q++ -Vgcc_ntox86_64 -lang-c++ -DGOOGLE_PROTOBUF_CMAKE_BUILD -DHAVE_PTHREAD -DHAVE_ZLIB -D_LIBCXXABI_FUNC_VIS=\"\" -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/re2 -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/capstone/include -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o/build/third_party/protobuf/cmake -I~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src -Wp,-isystem,~/qnx800/target/qnx/usr/include -I. -I~/qnx-work/ai-eval-scratch/bloaty/port/nto-x86_64-o -I~/qnx-work/ai-eval-scratch/bloaty/port -I~/qnx-work/ai-eval-scratch/bloaty/stage/usr/include -I~/qnx800/target/qnx/usr/include   -I~/qnx800/target/qnx/x86_64//usr/local/include -I~/qnx-work/ai-eval-scratch/bloaty/stage/x86_64//usr/local/include -O3 -DNDEBUG -O3 -DNDEBUG -std=c++11 -Wp,-MD,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o.d -Wp,-MT,third_party/protobuf/cmake/CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o -Wp,-MF,CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o.d -o CMakeFiles/libprotobuf.dir/__/src/google/protobuf/text_format.cc.o -c ~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/text_format.cc",
+  "error": {
+   "kind": "compile-error",
+   "severity": "error",
+   "message": "expected unqualified-id before '(' token",
+   "tool": "cc",
+   "file": "~/qnx-work/ai-eval-scratch/bloaty/src/third_party/protobuf/src/google/protobuf/text_format.cc",
+   "line": 1623,
+   "col": 32,
+   "symbol": "",
+   "member": "",
+   "function": "",
+   "included_from": [],
+   "source_line": "  generator->PrintString(!std::isnan(val) ? SimpleFtoa(val) : \"nan\");",
+   "log_line": 10558
+  },
+  "results": {
+   "rules": {
+    "ok": false,
+    "reason": "error still there",
+    "rules": [
+     "strict-mode-hides-posix"
+    ]
+   },
+   "bare": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 2.0,
+    "reason": "NO_FIX: The error is likely due to a missing include for `SimpleDtoa` or `SimpleFtoa`. These functions are not part of the standard C++ library and need to be defined or included from a specific header file."
+   },
+   "grounded": {
+    "ok": false,
+    "tries": 1,
+    "facts": [],
+    "seconds": 1.3,
+    "reason": "NO_FIX: The error is likely due to a missing include for `SimpleDtoa` or `SimpleFtoa`. These functions are not part of the standard C++ library and need to be defined or included from a specific header file."
+   }
+  }
+ }
+]

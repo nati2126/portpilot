@@ -349,6 +349,7 @@ def summary(cases: list[Case], model: str = "") -> str:
             ("Rules, then AI with QNX facts",
              sum(ok(c, "rules") or ok(c, "grounded") for c in cases))]
     left = [c for c in cases if not ok(c, "rules")]
+    ruled = [c for c in cases if ok(c, "rules")]
     sus = [c for c in cases for k in ("bare", "grounded")
            if ok(c, k) and c.results[k].get("suspect")]
     libs = sorted({c.library for c in cases})
@@ -359,5 +360,8 @@ def summary(cases: list[Case], model: str = "") -> str:
     lines += ["", f"Of the {len(left)} errors no rule fixes: AI without facts fixes "
               f"{pct(sum(ok(c, 'bare') for c in left), len(left))}, with facts "
               f"{pct(sum(ok(c, 'grounded') for c in left), len(left))}.",
+              f"Of the {len(ruled)} errors a rule fixes (the AI never sees the rules): AI "
+              f"without facts fixes {pct(sum(ok(c, 'bare') for c in ruled), len(ruled))}, "
+              f"with facts {pct(sum(ok(c, 'grounded') for c in ruled), len(ruled))}.",
               f"Accepted AI edits flagged for review (only delete or disable code): {len(sus)}."]
     return "\n".join(lines) + "\n"
