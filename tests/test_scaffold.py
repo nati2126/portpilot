@@ -121,6 +121,13 @@ def test_pick_test_option() -> None:
     assert pick_test_option({}, "x", False) == ""
 
 
+def test_negated_test_option() -> None:
+    # hiredis: DISABLE_TESTS=ON turns the tests off, so it must get the inverse of BUILD_TESTING
+    mk = render_common_mk(PortSpec(name="hiredis", test_option="DISABLE_TESTS"))
+    assert "-DDISABLE_TESTS=$(if $(filter ON,$(BUILD_TESTING)),OFF,ON)" in mk
+    assert "-DNNG_TESTS=$(BUILD_TESTING)" in render_common_mk(nng_spec())
+
+
 def test_initial_spec_from_fixture(minilib: Path, tmp_path: Path) -> None:
     src = tmp_path / "minilib"
     shutil.copytree(minilib, src)

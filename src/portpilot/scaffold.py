@@ -72,6 +72,7 @@ class PortSpec:
 # ---- reading the project's options -----------------------------------------------------
 _TEST_OPT = re.compile(r"^(?:[A-Z][A-Z0-9]*_)*(?:BUILD_|ENABLE_)?(?:TESTS?|TESTING|UNIT_TESTS?)$")
 _DOC_OPT = re.compile(r"^(?:[A-Z][A-Z0-9]*_)*(?:BUILD_|ENABLE_|GENERATE_)?(?:DOCS?|DOCUMENTATION)$")
+_NEGATED = re.compile(r"(?:^|_)(?:DISABLE|NO|SKIP|WITHOUT)_")  # ON turns the tests off
 _NOT_TEST = re.compile(r"(?:CUDA|FUZZ|BENCH|INSTALL|COVERAGE|MODULE)", re.I)
 
 
@@ -306,7 +307,9 @@ def render_common_mk(spec: PortSpec) -> str:
     if spec.muslflt:
         args.insert(1, "-DCMAKE_PROJECT_INCLUDE=$(PROJECT_ROOT)/project_hooks.cmake")
     args += [s.value for s in spec.cmake_args] + [s.value for s in spec.options]
-    if spec.test_option:
+    if spec.test_option and _NEGATED.search(spec.test_option):  # hiredis: DISABLE_TESTS
+        args.append(f"-D{spec.test_option}=$(if $(filter ON,$(BUILD_TESTING)),OFF,ON)")
+    elif spec.test_option:
         args.append(f"-D{spec.test_option}=$(BUILD_TESTING)")
     pad = " " * len("CMAKE_ARGS = ")
     lines = [f"CMAKE_ARGS = {args[0]} \\"]
