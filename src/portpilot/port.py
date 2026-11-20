@@ -452,6 +452,7 @@ def verify_archs(out: Path, *, tested: str = "x86_64", jobs: int = 8, max_attemp
             res["reason"] = f"a dependency does not build for {arch}: {why}"
         dnm = port_dir / ARCH_DIRS[arch] / "Makefile.dnm"
         dnm.unlink(missing_ok=True)
+        net_tries = 0
         for n in range(1, max_attempts + 1):
             if why:
                 break
@@ -467,6 +468,12 @@ def verify_archs(out: Path, *, tested: str = "x86_64", jobs: int = 8, max_attemp
                                                   include_dir)
             if net := network_failure(b.log.read_text(encoding="utf-8", errors="replace")):
                 res.update(ok=None, reason=f"not verified: a download failed ({net})")
+                net_tries += 1
+                if net_tries < 3:  # a flaky connection: try the download again
+                    say(f"      {arch}: a download failed ({net}); retrying")
+                    res.update(ok=False)
+                    del res["reason"]
+                    continue
                 break
             new = [f for f in found if fx.apply(f, spec, srcw)]
             if not new:
