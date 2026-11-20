@@ -255,6 +255,28 @@ def _cmd_results(a: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_ai_eval(a: argparse.Namespace) -> int:
+    from . import ai as ai_mod
+    from . import kb as kb_mod
+    from .aieval import evaluate, summary
+    from .build import sdp_env
+
+    conds = tuple(c.strip() for c in a.conditions.split(",") if c.strip())
+    ai = None
+    if any(c != "rules" for c in conds):
+        ai = ai_mod.Provider(a.ai_url or ai_mod.DEFAULT_URL, a.ai_model or ai_mod.DEFAULT_MODEL)
+        if why := ai.available():
+            print(f"error: {why}", file=sys.stderr)
+            return 2
+    out = Path(a.output).expanduser()
+    cases = evaluate([Path(d).expanduser() for d in a.dirs], out, sdp_env(), kb_mod.load(),
+                     _load_sdp(a), ai, conditions=conds, max_cases=a.max_cases, jobs=a.jobs)
+    text = summary(cases, ai.model if ai else "")
+    (out / "summary.md").write_text(text, encoding="utf-8")
+    print(text)
+    return 0
+
+
 def _cmd_pr(a: argparse.Namespace) -> int:
     from .deps import find_build_files
     from .pr import PrError, commit_author, contribute
@@ -359,6 +381,19 @@ def main(argv: list[str] | None = None) -> int:
     rs.add_argument("dirs", nargs="+", help="output directories, or folders that hold them")
     rs.add_argument("--json", action="store_true", help="print JSON instead of Markdown")
     rs.set_defaults(func=_cmd_results)
+
+    ev = sub.add_parser("ai-eval", help="measure rules vs. local AI (with and without QNX "
+                        "facts) on the compile errors of ported libraries")
+    ev.add_argument("dirs", nargs="+", help="`portpilot port` output directories")
+    ev.add_argument("-o", "--output", required=True, help="eval folder (resumable)")
+    ev.add_argument("--max-cases", type=int, default=12, help="per library (default 12)")
+    ev.add_argument("--conditions", default="rules,bare,grounded")
+    ev.add_argument("--ai-url", default=None)
+    ev.add_argument("--ai-model", default=None)
+    ev.add_argument("-j", "--jobs", type=int, default=16)
+    ev.add_argument("--sdp-index", default=None)
+    ev.add_argument("--arch", default="x86_64")
+    ev.set_defaults(func=_cmd_ai_eval)
 
     pr = sub.add_parser("pr", help="prepare a qnx-ports/build-files contribution for a port "
                         "(local clone + branch + PR.md; never pushes)")
