@@ -23,7 +23,7 @@ in QEMU.
 ## 1. Install PortPilot (5 min)
 
 ```bash
-git clone <portpilot-repo-url> portpilot
+git clone https://github.com/nati2126/portpilot portpilot
 python3 -m venv ~/venvs/portpilot
 ~/venvs/portpilot/bin/pip install -e portpilot
 export PATH=~/venvs/portpilot/bin:$PATH
@@ -178,6 +178,11 @@ This writes what a port PR to build-files contains (compare the repo's own PRs, 
 table. They are committed on branch `add-sockpp` of a local clone, next to `PR.md`, which
 holds the title, the QNX test results and a table of every change with its reason. It never
 pushes. To open the PR, fork build-files, push the branch to your fork, and use `PR.md`.
+Before it writes anything, it builds the port for every architecture build-files CI builds
+(x86_64 and aarch64), so the PR's CI doesn't fail on an arch you didn't test.
+
+This is how [qnx-ports/build-files#347](https://github.com/qnx-ports/build-files/pull/347)
+(sockpp) was made, along with #348 (yaml-cpp) and #349 (spdlog).
 
 ## 8. When no rule covers an error
 
@@ -188,9 +193,23 @@ pushes. To open the PR, fork build-files, push the branch to your fork, and use 
 - **Redesigns:** some Linux APIs have no drop-in QNX equivalent, such as `epoll`
   (QNX: `ionotify`) and `inotify`. PortPilot does not fake those; the matrix marks them
   *manual*, with the porting guide's strategy.
-- **Services:** some test suites need a server. paho.mqtt.c's tests need an MQTT broker, so
-  `--service DIR='CMD'` runs one on the target during the tests, for example mosquitto built
-  from its official QNX port.
+- **Services:** some test suites need a server. `--service DIR='CMD'` runs one on the target
+  during the tests, for example mosquitto built from its official QNX port. If the server
+  runs on your host instead, `--localhost 192.168.122.1` points the tests' `localhost` at
+  the host's address on the VM bridge. paho.mqtt.c's tests run that way against paho's own
+  test broker and proxy, as in paho's CI.
+
+## Troubleshooting
+
+- **The VM has no network after a WSL restart:** a stale `virbr0` bridge outlived libvirt's
+  dnsmasq. `sudo ip link delete virbr0 && sudo systemctl restart libvirtd`.
+- **Tests that look up a bad host name time out:** on WSL, the VM's DNS forwards plain names
+  (no dot) to Windows, which takes about 30 s to say "not found". Make libvirt answer them:
+  `virsh net-edit default`, add `<dns forwardPlainNames='no'/>`, then restart the network.
+- **A dependency port fails on its second build:** PortPilot runs `make clean` in each
+  official port before building it into a new stage. If you build one by hand, do the same.
+- **`autoreconf: not found`:** official ports that use autotools (cunit) need
+  `sudo apt install autoconf automake libtool`. `portpilot doctor` checks for it.
 
 ## Recap
 
