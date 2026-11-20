@@ -136,6 +136,9 @@ def classify_compiler(msg: str) -> tuple[str, str, str]:
     if r := re.match(r"expected (?:specifier-qualifier-list|declaration specifiers or "
                      r"'\.\.\.') before '(?P<t>[A-Za-z_]\w*)'$", m):
         return "unknown-type", r.group("t"), ""  # a type or type macro that is not defined
+    if r := re.search(r"narrowing conversion of '(?P<v>-[^']+)' from '[^']+' to "
+                      r"'(?:const )?(?:char|char16_t)'", m):
+        return "char-narrowing", r.group("v"), ""  # plain char is unsigned (aarch64, F-016)
     if r := re.search(r"'(?P<s>[^']+)' has no member named '(?P<mem>[^']+)'", m):
         return "no-member", r.group("s"), r.group("mem")
     return "compile-error", "", ""

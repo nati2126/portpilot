@@ -163,6 +163,18 @@ Captured with qcc 12.2 (real output in `tests/data/diag/`).
 - **PortPilot:** rule `float-format`. A test that fails comparing a double's bytes
   (`memcmp(..., sizeof(double))`) links muslflt and retests.
 
+<a id="f-016"></a>
+## F-016: `char` is unsigned on aarch64
+
+- **Symptom:** yaml-cpp builds for x86_64; for aarch64 its tests fail to compile:
+  `narrowing conversion of '-58' from 'int' to 'char' [-Wnarrowing]` (`test/binary_test.cpp`).
+- **Fact:** `qcc -Vgcc_ntoaarch64le` defines `__CHAR_UNSIGNED__`; `qcc -Vgcc_ntox86_64` does
+  not. In C++11 a negative constant in a braced `char` initializer is then an error, not a
+  warning. This follows the Arm 64-bit ABI, where plain `char` is unsigned.
+- **PortPilot:** rule `unsigned-char`: add `-Wno-narrowing`. The stored byte is the same; only
+  the diagnostic goes. build-files CI builds every `nto-*` folder, so this breaks a port PR
+  that was only built for x86_64.
+
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)
 

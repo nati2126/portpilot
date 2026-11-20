@@ -69,6 +69,12 @@ url = "docs/ground-truth.md#f-013"
 [sources.gt-F011]
 title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
 url = "docs/ground-truth.md#f-011"
+[sources.gt-F016]
+title = "Ground truth F-016: qcc for aarch64 defines __CHAR_UNSIGNED__; x86_64 does not"
+url = "docs/ground-truth.md#f-016"
+[sources.aapcs64]
+title = "Arm Procedure Call Standard for the 64-bit Architecture: plain char is unsigned"
+url = "https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst"
 [sources.gt-F015]
 title = "Ground truth F-015: QNX strtod is one ULP off for the largest subnormal and returns inf for DBL_MAX"
 url = "docs/ground-truth.md#f-015"
@@ -613,6 +619,18 @@ fix = "rule"
 severity = "fix"
 trigger = "build"   # ld: 'recompile with -fPIC'
 sources = ["qnx-ports"]
+
+[[rule]]
+id = "unsigned-char"
+title = "char is unsigned on aarch64"
+category = "Compiler"
+linux = "x86_64: plain char is signed, so char c[] = { -58 } is fine"
+qnx = "aarch64 QNX: plain char is unsigned (__CHAR_UNSIGNED__), and C++11 rejects the narrowing"
+strategy = "Add -Wno-narrowing: the stored byte is identical, only the diagnostic goes."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # cc: narrowing conversion of '-N' from 'int' to 'char'
+sources = ["gt-F016", "aapcs64"]
 
 [[rule]]
 id = "qnx-header"

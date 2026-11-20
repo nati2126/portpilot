@@ -502,6 +502,14 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
         elif (d.kind in ("undeclared", "unknown-type")
               and (qfx := _qnx_source_fix(d.symbol.removeprefix("::"), include_dir, kb))):
             add(qfx)  # the header is included, but a strict -std= mode hides it
+        elif d.kind == "char-narrowing":
+            rid = "unsigned-char"
+            add(Fix(rid, "port", "allow negative constants in char (aarch64)",
+                    f"cc: narrowing conversion of '{d.symbol}' to 'char'; plain char is "
+                    "unsigned on aarch64",
+                    Setting("-Wno-narrowing", "char is unsigned on aarch64; the code puts "
+                            "negative constants in char arrays (same bytes)", rid,
+                            _src(kb, rid)), field="cflags"))
         elif d.kind == "link-error" and "recompile with -fPIC" in d.message:
             rid = "qcc-not-gnucc"
             add(Fix(rid, "port", "build position-independent code",

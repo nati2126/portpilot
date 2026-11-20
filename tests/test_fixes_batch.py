@@ -435,3 +435,14 @@ def test_install_into_the_sdp_is_moved_to_the_stage(tmp_path: Path) -> None:
     assert (stage / "x86_64/usr/local/lib/libmosquitto.so.1").read_text() == "new"
     assert not (qt / "x86_64" / "usr" / "local").exists()  # emptied folders removed
     assert (qt / "x86_64" / "usr" / "lib" / "libc.so").exists()  # SDP untouched
+
+
+def test_negative_char_constant_on_aarch64(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """yaml-cpp test/binary_test.cpp built for aarch64 (F-016)."""
+    log = ("/w/yaml-cpp/test/binary_test.cpp:11:38: error: narrowing conversion of '-58' from "
+           "'int' to 'char' [-Wnarrowing]\n")
+    fixes, unfixed = fx.from_diagnostics(parse(log).errors, kb, None, tmp_path)
+    assert unfixed == [] and [f.rule_id for f in fixes] == ["unsigned-char"]
+    spec = PortSpec("yaml-cpp")
+    assert fx.apply(fixes[0], spec, tmp_path)
+    assert [s.value for s in spec.cflags] == ["-Wno-narrowing"]
