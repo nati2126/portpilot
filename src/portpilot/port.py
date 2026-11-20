@@ -191,22 +191,41 @@ def record_tests(out: Path, tr: Any, arch: str = "x86_64") -> dict[str, Any]:
         "results": [asdict(r) for r in tr.results]}
     (out / "run.json").write_text(json.dumps(run, indent=2), encoding="utf-8")
     spec = load_spec(out / "spec.json")
-    result = f"{tr.passed}/{tr.total} test programs pass on QNX"
-    if c:
-        result = f"{c[0]}/{c[1]} test cases pass on QNX ({result})"
-    if tr.failed:
-        bad = ", ".join(r.name for r in tr.results if r.status != "PASS")[:200]
-        result += f" (failing: {bad})"
-    if lh := getattr(tr, "localhost", ""):
-        result += f"; the tests' localhost services ran on the host ({lh})"
-    if svcs := getattr(tr, "services", []):
-        result += "; services run on the QNX target meanwhile: " + ", ".join(
-            f"`{s}`" for s in svcs)
-    readme = render_readme(spec, results={"Result": result},
+    readme = render_readme(spec, results={"Result": result_line(run["target_tests"])},
                            changes=changes_from_run(run))
     (Path(run["port_dir"]) / "README.md").write_text(readme, encoding="utf-8")
     _report(out)
     return run
+
+
+def result_line(tt: dict[str, Any]) -> str:
+    """The port README's Result row, from a recorded target test run."""
+    result = f"{tt['passed']}/{tt['total']} test programs pass on QNX"
+    if c := tt.get("cases"):
+        result = f"{c[0]}/{c[1]} test cases pass on QNX ({result})"
+    if tt.get("failed"):
+        bad = ", ".join(r["name"] for r in tt.get("results", [])
+                        if r["status"] != "PASS")[:200]
+        result += f" (failing: {bad})"
+    if lh := tt.get("localhost"):
+        result += f"; the tests' localhost services ran on the host ({lh})"
+    if svcs := tt.get("services"):
+        result += "; services run on the QNX target meanwhile: " + ", ".join(
+            f"`{s}`" for s in svcs)
+    return result
+
+
+def refresh_port(out: Path) -> Path:
+    """Re-render the port folder with the current templates (keeping its patch, runner and
+    recorded result), so a contribution never ships files from an older PortPilot."""
+    run = json.loads((out / "run.json").read_text(encoding="utf-8"))
+    port_dir = rerender(out, load_spec(out / "spec.json"))
+    if tt := run.get("target_tests"):
+        readme = render_readme(load_spec(out / "spec.json"),
+                               results={"Result": result_line(tt)},
+                               changes=changes_from_run(run))
+        (port_dir / "README.md").write_text(readme, encoding="utf-8", newline="\n")
+    return port_dir
 
 
 def _src_url(kb: KnowledgeBase, rule_id: str) -> str:
@@ -605,7 +624,7 @@ def _report(out: Path) -> None:
 def rerender(out: Path, spec: PortSpec) -> Path:
     """Re-write the port folder from spec, keeping the generated qnxtests.sh and patch."""
     run = json.loads((out / "run.json").read_text(encoding="utf-8"))
-    port_dir = Path(run["port_dir"])
+    port_dir = Path(run.get("port_dir") or out / spec.name)
     tests_sh = port_dir / "qnxtests.sh"
     patch = port_dir / "patches" / "qnx.patch"
     files = render(spec, qnxtests=tests_sh.read_text() if tests_sh.exists() else None,

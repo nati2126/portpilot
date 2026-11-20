@@ -123,8 +123,13 @@ def test_contribute_commits_port_workflow_and_row(tmp_path: Path) -> None:
         contribute(out, bf, author="no email")
     files = subprocess.run(["git", "-C", str(dest), "show", "--name-only", "--format="],
                            capture_output=True, text=True).stdout.split()
+    # the port is re-rendered with the current templates; the build tree is left out
     assert sorted(files) == [".github/workflows/sockpp.yml", "README.md",
-                             "ports/sockpp/common.mk", "ports/sockpp/nto-x86_64-o/Makefile"]
+                             "ports/sockpp/Makefile", "ports/sockpp/README.md",
+                             "ports/sockpp/common.mk", "ports/sockpp/nto-aarch64-le/Makefile",
+                             "ports/sockpp/nto-x86_64-o/Makefile",
+                             "ports/sockpp/qnx.nto.toolchain.cmake"]
+    assert "CMAKE_TOOLCHAIN_FILE" in (dest / "ports/sockpp/common.mk").read_text()
     wf = (dest / ".github/workflows/sockpp.yml").read_text()
     assert "repository: qnx-ports/Catch2" in wf and "          ref: v3.5.0" in wf
     assert (out / "pr" / "PR.md").read_text().startswith("# Adding sockpp build-files")

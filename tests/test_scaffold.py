@@ -10,6 +10,8 @@ import re
 import shutil
 from pathlib import Path
 
+import pytest
+
 from portpilot.scaffold import (
     ARCH_MAKEFILE,
     TOP_MAKEFILE,
@@ -136,3 +138,22 @@ def test_readme_is_short_and_has_the_commands() -> None:
     assert "make -C build-files/ports/nng install" in text
     assert "| `src/x.c` | include <errno.h> | QNX has no <sys/errno.h> |" in text
     assert len(text.splitlines()) < 60
+
+
+def test_readme_builds_dependencies_first_in_the_official_workspace(
+        monkeypatch: pytest.MonkeyPatch) -> None:
+    from portpilot.scaffold import PortSpec, render_readme
+
+    monkeypatch.setenv("PORTPILOT_BUILD_FILES", "/nonexistent")
+    monkeypatch.setenv("HOME", "/nonexistent")
+    spec = PortSpec("sockpp", "https://github.com/fpagliughi/sockpp.git", "v1.0.0",
+                    has_patch=True, deps=["Catch2"])
+    md = render_readme(spec)
+    i = md.index
+    assert i("git clone https://github.com/qnx-ports/build-files.git") \
+        < i("git -C sockpp apply $(pwd)/build-files/ports/sockpp/patches/qnx.patch") \
+        < i("git clone https://github.com/qnx-ports/Catch2.git Catch2") \
+        < i("make -C build-files/ports/Catch2 install JLEVEL=$(nproc)") \
+        < i("BUILD_TESTING=ON make -C build-files/ports/sockpp install JLEVEL=$(nproc)")
+    assert "USE_INSTALL_ROOT=true` to every `make` line" in md
+    assert "QNX_PROJECT_ROOT" not in md  # the default ../../sockpp fits the workspace

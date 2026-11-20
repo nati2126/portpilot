@@ -225,6 +225,9 @@ def contribute(out: Path, build_files: Path, dest: Path | None = None,
         raise PrError(f"{port} is not a generated port (no common.mk)")
     if not run.get("ok"):
         raise PrError(f"{name} did not build; nothing to contribute")
+    from .port import refresh_port
+
+    refresh_port(out)  # the current templates, not those of the run that made the port
     if author and not _AUTHOR.match(author.strip()):
         raise PrError(f"--author wants 'Name <email>', got {author!r}")
     deps = dependency_checkouts(spec, build_files)

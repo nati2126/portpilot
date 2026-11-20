@@ -271,14 +271,18 @@ endif
 
 
 def _comment(s: Setting) -> list[str]:
-    src = f" ({s.source})" if s.source else ""
-    return [f"#{s.value}: {s.reason}{src}"]
+    """The setting and its reason. A source is cited only when it is a URL that means
+    something inside the port's own repo (a QNX doc page, not a PortPilot doc path, which
+    would be a dead link in build-files; report.html keeps every source)."""
+    keep = s.source.startswith(("https://", "http://")) and \
+        "github.com/qnx-ports/build-files" not in s.source
+    return [f"#{s.value}: {s.reason}" + (f" ({s.source})" if keep else "")]
 
 
 def render_common_mk(spec: PortSpec) -> str:
     out = [_COMMON_HEAD.format(name=spec.name)]
     if spec.cflags:
-        out.append("#QNX-specific compiler flags (PortPilot):")
+        out.append("#QNX-specific compiler flags:")
         for s in spec.cflags:
             out += _comment(s)
         out.append("CFLAGS += " + " ".join(s.value for s in spec.cflags))
@@ -288,7 +292,7 @@ def render_common_mk(spec: PortSpec) -> str:
     out.append(" ".join(["LDFLAGS += -Wl,--build-id=md5", *(s.value for s in spec.ldflags)]))
     out.append("")
     if spec.cmake_args:
-        out.append("#QNX-specific CMake settings (PortPilot):")
+        out.append("#QNX-specific CMake settings:")
         for s in spec.cmake_args:
             out += _comment(s)
     args = list(_BASE_ARGS)
@@ -305,6 +309,17 @@ def render_common_mk(spec: PortSpec) -> str:
     out.append("")
     out.append(_COMMON_TAIL.format(name=spec.name))
     return "\n".join(out)
+
+
+def _dep_clone(port: str) -> tuple[str, str]:
+    """(clone URL, branch) the official port's README uses; else the qnx-ports fork."""
+    from .deps import MUSLFLT_URL, find_build_files, port_source
+
+    if port == "muslflt":
+        return MUSLFLT_URL, ""
+    bf = find_build_files(None)
+    src = port_source(bf / "ports" / port) if bf else None
+    return src if src else (f"https://github.com/qnx-ports/{port}.git", "")
 
 
 def render_readme(spec: PortSpec, results: dict[str, str] | None = None,
@@ -325,28 +340,37 @@ def render_readme(spec: PortSpec, results: dict[str, str] | None = None,
     if r.get("Not built"):
         lines.append(f"| Not built | {r['Not built']} |")
     clone = url or "<upstream git url>"
-    lines += ["", "QNX ports are built from a Linux host.", "", "## Build", "", "```bash",
-              "source ~/qnx800/qnxsdp-env.sh",
+    deps = (["muslflt"] if spec.muslflt else []) + [d for d in spec.deps if d != "muslflt"]
+    lines += ["", "**NOTE**: QNX ports are only supported from a Linux host operating system",
+              "", "## Create a workspace", "", "```bash",
+              "mkdir -p ~/qnx_workspace && cd ~/qnx_workspace",
+              "git clone https://github.com/qnx-ports/build-files.git",
               f"git clone {clone} {spec.name}"]
     if spec.commit:
         lines.append(f"git -C {spec.name} checkout {spec.commit}")
     if spec.has_patch:
         lines.append(f"git -C {spec.name} apply $(pwd)/build-files/ports/{spec.name}"
                      "/patches/qnx.patch")
-    lines += ["STAGE=$HOME/qnx-staging     # install here instead of into the SDP", ""]
-    if spec.muslflt:
-        lines.append("# Build the muslflt port into the same STAGE first (float formatting).")
-    lines += [f"BUILD_TESTING=ON QNX_PROJECT_ROOT=$(pwd)/{spec.name} \\",
-              f"  make -C build-files/ports/{spec.name} install -j8 "
-              "INSTALL_ROOT_nto=$STAGE USE_INSTALL_ROOT=1",
+    for d in deps:
+        durl, branch = _dep_clone(d)
+        lines.append(f"git clone {'-b ' + branch + ' ' if branch else ''}{durl} {d}"
+                     f"   # dependency: the official {d} port")
+    lines += ["```", "", "## Build", "", "```bash", "source ~/qnx800/qnxsdp-env.sh",
+              "cd ~/qnx_workspace"]
+    for d in deps:
+        lines.append(f"make -C build-files/ports/{d} install JLEVEL=$(nproc)")
+    lines += [f"BUILD_TESTING=ON make -C build-files/ports/{spec.name} install JLEVEL=$(nproc)",
               "```", "",
-              "Output goes to `$STAGE/<arch>/usr/local/`: the library is in `lib/`, and the "
-              f"tests are in `bin/{spec.name}_tests/`.", "",
+              "This installs into the SDP, as the other ports do. To use a staging area "
+              "instead, add `INSTALL_ROOT_nto=$HOME/qnx-staging USE_INSTALL_ROOT=true` to "
+              + ("every `make` line." if deps else "the `make` line."), "",
+              f"The tests go to `<install root>/x86_64/usr/local/bin/{spec.name}_tests/`.", "",
               "## Run the tests on the target", "", "```bash",
               "IP=<target-ip>        # QEMU: mkqnximage --getip",
+              f"TESTS=$QNX_TARGET/x86_64/usr/local/bin/{spec.name}_tests"
+              "   # or $HOME/qnx-staging/x86_64/...",
               f'ssh root@$IP "mkdir -p /data/{spec.name}"',
-              f"scp -r $STAGE/x86_64/usr/local/bin/{spec.name}_tests/* "
-              f"root@$IP:/data/{spec.name}/",
+              f"scp -r $TESTS/* root@$IP:/data/{spec.name}/",
               f'ssh root@$IP "TIMEOUT_SCALE=3 sh /data/{spec.name}/qnxtests.sh"',
               "```", "",
               "Each test prints a `PASS`/`FAIL`/`TIMEOUT` line, then a summary line. Logs are "
