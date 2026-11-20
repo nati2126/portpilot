@@ -1,0 +1,230 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>PortPilot · open62541</title><style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1b1f24;--mute:#5b6570;--line:#e3e6ea;--accent:#2557d6;
+--ok:#16794a;--okbg:#e5f5ec;--bad:#b42318;--badbg:#fdeceb;--warn:#8a5a00;--warnbg:#fff4dc;
+--ai:#6b3fb8;--aibg:#f1eafc;--code:#f2f4f7;--add:#e6f6ea;--del:#fdecec}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1216;--card:#171b21;--ink:#e6e9ee;--mute:#9aa4b0;
+--line:#2a3038;--accent:#7aa2ff;--ok:#5fd394;--okbg:#14301f;--bad:#ff8a80;--badbg:#3a1714;
+--warn:#f2c46b;--warnbg:#36290c;--ai:#c4a5ff;--aibg:#2a1f3d;--code:#1e232b;--add:#15301d;
+--del:#3a1a1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}
+a{color:var(--accent)}.mute{color:var(--mute)}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:600;font-size:14px}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}
+.warn{background:var(--warnbg);color:var(--warn)}.ai{background:var(--aibg);color:var(--ai)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card b{display:block;font-size:24px}.card span{color:var(--mute);font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;font-size:13px}
+.flow span{padding:3px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);
+border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+tr:last-child td{border-bottom:0}
+code,pre{font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace}
+code{background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);padding:12px;border-radius:8px;overflow:auto;margin:0}
+.diff span{display:block}.diff .a{background:var(--add)}.diff .d{background:var(--del)}
+.diff .h{color:var(--accent)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+margin:8px 0}summary{cursor:pointer;font-weight:600}
+.scroll{overflow-x:auto}
+footer{margin-top:40px;font-size:13px;color:var(--mute)}
+</style></head><body><main>
+<div class=top><div>
+<div class=mute>PortPilot report · QNX 8.0 · x86_64</div><h1>open62541</h1>
+<div class=mute><a href="https://github.com/open62541/open62541">https://github.com/open62541/open62541</a> @ <code>v1.5.10</code></div></div>
+<span class='pill warn'>Built · 5028/5187 test cases pass on QNX</span></div>
+<div class=cards>
+<div class=card><b>7</b><span>build attempt(s), 614.7 s</span></div>
+<div class=card><b>14</b><span>changes by rule (each cites a source)</span></div>
+<div class=card><b>0</b><span>AI edits kept · 0 rejected by the build</span></div>
+<div class=card><b>5028/5187</b><span>test cases pass on QNX, in 127/146 passing programs</span></div>
+</div>
+<div class=flow><span>scan</span><span>scaffold</span><span>build 1: configure</span><span>build 2: compile</span><span>build 3: link</span><span>build 4: link</span><span>build 5: compile</span><span>build 6: link</span><span>build 7: ok</span><span>QNX tests: 5028/5187 cases</span></div>
+<h2>What PortPilot changed, and why</h2>
+<div class=scroll><table><tr><th>By</th><th>Change</th><th>Why</th><th>Evidence</th></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>build dependency check from qnx-ports into the stage<br></td><td>CMake needs CHECK; QNX has an official port of it</td><td><code>dep-official-port</code> · <a href="https://github.com/qnx-ports/build-files">qnx-ports/build-files: official QNX ports</a>, <a href="https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/porting_Dependency_mapping.html">QNX porting guide: dependency mapping</a></td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>include &lt;sys/queue.h&gt; for LIST_ENTRY on QNX<br><code>arch/posix/eventloop_posix.h:29</code></td><td>QNX declares LIST_ENTRY in &lt;sys/queue.h&gt;</td><td><code>qnx-header</code> · QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>include &lt;sys/queue.h&gt; for LIST_ENTRY on QNX<br><code>arch/posix/eventloop_posix_interrupt.c:9</code></td><td>QNX declares LIST_ENTRY in &lt;sys/queue.h&gt;</td><td><code>qnx-header</code> · QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link pthread on QNX<br><code>CMakeLists.txt:519</code></td><td>QNX has no libpthread: its functions are in libc (&#x27;cannot find -lpthread&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link -lpthread on QNX<br><code>CMakeLists.txt:520</code></td><td>QNX has no libpthread: its functions are in libc (&#x27;cannot find -lpthread&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link pthread on QNX<br><code>deps/nodesetLoader/CMakeLists.txt:88</code></td><td>QNX has no libpthread: its functions are in libc (&#x27;cannot find -lpthread&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link rt on QNX<br><code>CMakeLists.txt:523</code></td><td>QNX has no librt: its functions are in libc (&#x27;cannot find -lrt&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link -lrt on QNX<br><code>CMakeLists.txt:524</code></td><td>QNX has no librt: its functions are in libc (&#x27;cannot find -lrt&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link rt on QNX<br><code>examples/CMakeLists.txt:187</code></td><td>QNX has no librt: its functions are in libc (&#x27;cannot find -lrt&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link rt on QNX<br><code>examples/CMakeLists.txt:190</code></td><td>QNX has no librt: its functions are in libc (&#x27;cannot find -lrt&#x27;)</td><td><code>link-libc-only</code> · Ground truth F-011: no libpthread, librt or libdl (-lpthread fails), QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>build position-independent code<br><code>-DCMAKE_POSITION_INDEPENDENT_CODE=ON</code> in common.mk</td><td>ld: &#x27;recompile with -fPIC&#x27;; the project adds -fPIC only for GCC, and CMake identifies qcc as QCC</td><td><code>qcc-not-gnucc</code> · <a href="https://github.com/qnx-ports/build-files">qnx-ports/build-files: official QNX ports</a></td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>do not link subunit on QNX<br><code>tests/CMakeLists.txt:19</code></td><td>the official QNX check port is built without subunit; Check runs tests without it</td><td><code>link-optional-absent</code> · <a href="https://github.com/qnx-ports/build-files">qnx-ports/build-files: official QNX ports</a></td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>include &lt;netinet/in.h&gt; for IPPROTO_UDP on QNX<br><code>tests/pubsub/check_pubsub_custom_state_machine.c:25</code></td><td>QNX declares IPPROTO_UDP in &lt;netinet/in.h&gt;</td><td><code>qnx-header</code> · QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+<tr><td><span class='pill ok'>rule</span></td><td>link -lsocket<br><code>-lsocket</code> in common.mk</td><td>getsockopt is in libsocket.so.4 on QNX</td><td><code>link-socket</code> · Ground truth F-004: CMake feature checks give false negatives on QNX, QNX SDP 8.0 inventory (portpilot sdp-index: exported symbols and headers)</td></tr>
+</table></div>
+<h2>Needs a person's review</h2><div class=scroll><table><tr><th>Issue</th><th>Where</th><th>Source</th></tr>
+<tr><td>Linux-only CMake branch</td><td><code>CMakeLists.txt:1756</code></td><td><code>cmake-linux-branch</code> · <a href="https://www.qnx.com/developers/docs/qnxeverywhere/com.qnx.doc.qpg/topic/porting_Deep_analysis.html">QNX porting guide: deep component analysis</a></td></tr>
+</table></div>
+<h2>Tests on QNX 8.0 (192.168.122.202)</h2><div class=scroll><table><tr><th>Test</th><th>Result</th><th>Seconds</th></tr>
+<tr><td><code>check_types_builtin</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_ziptree</code></td><td><span class='pill ok'>PASS</span></td><td>21</td></tr>
+<tr><td><code>check_mp_printf</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_base64</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_dtoa</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_itoa</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_libc_time</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_parse_num</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_pcg_basic</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_utf8</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_musl_inet_pton</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>check_config_default</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_log_syslog</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_cj5</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_builtin_json</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>check_types_json_encode</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_json_decode</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_json_config</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>check_pubsub_encoding_json</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_pubsub_publish_json</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>check_yxml</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_builtin_xml</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_xml_encoding_roundtrip</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_memory</code></td><td><span class='pill ok'>PASS</span></td><td>3</td></tr>
+<tr><td><code>check_types_range</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_parse</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_eventfilter_parser</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_custom</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_chunking</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_utils</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_kvm_utils</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_util_functions</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_nodeid_copy</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_builtin_variant</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_types_range_lookup</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_order</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_order_struct</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_utils_trustlist_path</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_copy_complex</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_print</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_definition</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_namespace_mapping</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_allocation_failures</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_encoding_roundtrip</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_types_builtin_binary</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_utils_url_kvm</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_securechannel</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_securechannel_unit</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_timer</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_eventloop</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_eventloop_tcp</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_eventloop_udp</code></td><td><span class='pill ok'>PASS</span></td><td>30</td></tr>
+<tr><td><code>check_server_config_json</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_accesscontrol</code></td><td><span class='pill ok'>PASS</span></td><td>9</td></tr>
+<tr><td><code>check_services_view</code></td><td><span class='pill ok'>PASS</span></td><td>4</td></tr>
+<tr><td><code>check_services_attributes</code></td><td><span class='pill ok'>PASS</span></td><td>13</td></tr>
+<tr><td><code>check_services_nodemanagement</code></td><td><span class='pill ok'>PASS</span></td><td>6</td></tr>
+<tr><td><code>check_discovery_coverage</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_server_callbacks</code></td><td><span class='pill ok'>PASS</span></td><td>4</td></tr>
+<tr><td><code>check_server_password</code></td><td><span class='pill ok'>PASS</span></td><td>4</td></tr>
+<tr><td><code>check_mt_shutdown</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_mt_addVariableNode</code></td><td><span class='pill ok'>PASS</span></td><td>4</td></tr>
+<tr><td><code>check_mt_addVariableTypeNode</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_mt_addObjectNode</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_mt_readValueAttribute</code></td><td><span class='pill ok'>PASS</span></td><td>3</td></tr>
+<tr><td><code>check_mt_writeValueAttribute</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_mt_readWriteDelete</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_mt_readWriteDeleteCallback</code></td><td><span class='pill ok'>PASS</span></td><td>8</td></tr>
+<tr><td><code>check_mt_addDeleteObject</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_server_asyncop</code></td><td><span class='pill ok'>PASS</span></td><td>42</td></tr>
+<tr><td><code>check_services_call</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_services_method_coverage</code></td><td><span class='pill ok'>PASS</span></td><td>3</td></tr>
+<tr><td><code>check_services_subscriptions</code></td><td><span class='pill ok'>PASS</span></td><td>12</td></tr>
+<tr><td><code>check_subscription_publishqueue</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_monitoreditem_filter</code></td><td><span class='pill ok'>PASS</span></td><td>10</td></tr>
+<tr><td><code>check_subscription_events</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_subscription_events_local</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_subscription_event_filter</code></td><td><span class='pill ok'>PASS</span></td><td>29</td></tr>
+<tr><td><code>check_nodestore</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_server_historical_data</code></td><td><span class='pill ok'>PASS</span></td><td>6</td></tr>
+<tr><td><code>check_server_historical_data_circular</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_session</code></td><td><span class='pill ok'>PASS</span></td><td>21</td></tr>
+<tr><td><code>check_session_errorpaths</code></td><td><span class='pill ok'>PASS</span></td><td>14</td></tr>
+<tr><td><code>check_session_authtoken_rng</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_server</code></td><td><span class='pill ok'>PASS</span></td><td>6</td></tr>
+<tr><td><code>check_server_utils_coverage</code></td><td><span class='pill ok'>PASS</span></td><td>8</td></tr>
+<tr><td><code>check_services_securechannel</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_server_auditing</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_server_jobs</code></td><td><span class='pill ok'>PASS</span></td><td>3</td></tr>
+<tr><td><code>check_server_userspace</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_node_inheritance</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_server_utils</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_nodes</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_server_diagnostics</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_server_readwrite</code></td><td><span class='pill ok'>PASS</span></td><td>30</td></tr>
+<tr><td><code>check_server_attr_wrappers</code></td><td><span class='pill ok'>PASS</span></td><td>13</td></tr>
+<tr><td><code>check_services_nodemanagement_callbacks</code></td><td><span class='pill ok'>PASS</span></td><td>44</td></tr>
+<tr><td><code>check_server_ns0_diagnostics</code></td><td><span class='pill ok'>PASS</span></td><td>16</td></tr>
+<tr><td><code>check_server_node_services</code></td><td><span class='pill ok'>PASS</span></td><td>9</td></tr>
+<tr><td><code>check_server_client_readwrite</code></td><td><span class='pill ok'>PASS</span></td><td>23</td></tr>
+<tr><td><code>check_services_attributes_all</code></td><td><span class='pill ok'>PASS</span></td><td>4</td></tr>
+<tr><td><code>check_services_subscriptions_modify</code></td><td><span class='pill ok'>PASS</span></td><td>22</td></tr>
+<tr><td><code>check_local_monitored_item</code></td><td><span class='pill ok'>PASS</span></td><td>6</td></tr>
+<tr><td><code>check_datachange_deadband_typekinds</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_pubsub_encoding</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_pubsub_encoding_custom</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_pubsub_pds</code></td><td><span class='pill bad'>FAIL</span></td><td>6</td></tr>
+<tr><td><code>check_pubsub_state_machine</code></td><td><span class='pill bad'>FAIL</span></td><td>5</td></tr>
+<tr><td><code>check_pubsub_state_machine_extra</code></td><td><span class='pill bad'>FAIL</span></td><td>10</td></tr>
+<tr><td><code>check_pubsub_connection_udp</code></td><td><span class='pill bad'>FAIL</span></td><td>127</td></tr>
+<tr><td><code>check_pubsub_publish</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>check_pubsub_get_state</code></td><td><span class='pill bad'>FAIL</span></td><td>2</td></tr>
+<tr><td><code>check_pubsub_udp_unicast</code></td><td><span class='pill bad'>FAIL</span></td><td>3</td></tr>
+<tr><td><code>check_pubsub_publisherid</code></td><td><span class='pill bad'>FAIL</span></td><td>3</td></tr>
+<tr><td><code>check_pubsub_subscribe</code></td><td><span class='pill bad'>FAIL</span></td><td>1</td></tr>
+<tr><td><code>check_pubsub_publishspeed</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>check_pubsub_offset</code></td><td><span class='pill bad'>FAIL</span></td><td>0</td></tr>
+<tr><td><code>check_pubsub_custom_state_machine</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_pubsub_subscribe_msgrcvtimeout</code></td><td><span class='pill bad'>FAIL</span></td><td>3</td></tr>
+<tr><td><code>check_pubsub_informationmodel</code></td><td><span class='pill bad'>FAIL</span></td><td>9</td></tr>
+<tr><td><code>check_pubsub_informationmodel_methods</code></td><td><span class='pill bad'>FAIL</span></td><td>16</td></tr>
+<tr><td><code>check_server_readspeed</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_server_speed_addnodes</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_server_monitoringspeed</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_server_reverseconnect</code></td><td><span class='pill ok'>PASS</span></td><td>11</td></tr>
+<tr><td><code>check_client</code></td><td><span class='pill ok'>PASS</span></td><td>48</td></tr>
+<tr><td><code>check_client_config_coverage</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_client_lifecycle_coverage</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_client_discovery</code></td><td><span class='pill ok'>PASS</span></td><td>10</td></tr>
+<tr><td><code>check_activateSession</code></td><td><span class='pill ok'>PASS</span></td><td>20</td></tr>
+<tr><td><code>check_activateSessionAsync</code></td><td><span class='pill ok'>PASS</span></td><td>1</td></tr>
+<tr><td><code>check_client_securechannel</code></td><td><span class='pill ok'>PASS</span></td><td>13</td></tr>
+<tr><td><code>check_client_async</code></td><td><span class='pill ok'>PASS</span></td><td>7</td></tr>
+<tr><td><code>check_client_async_read</code></td><td><span class='pill ok'>PASS</span></td><td>42</td></tr>
+<tr><td><code>check_client_async_connect</code></td><td><span class='pill ok'>PASS</span></td><td>5</td></tr>
+<tr><td><code>check_client_highlevel</code></td><td><span class='pill ok'>PASS</span></td><td>29</td></tr>
+<tr><td><code>check_client_highlevel_read</code></td><td><span class='pill ok'>PASS</span></td><td>27</td></tr>
+<tr><td><code>check_client_highlevel_write</code></td><td><span class='pill ok'>PASS</span></td><td>35</td></tr>
+<tr><td><code>check_client_highlevel_readwrite</code></td><td><span class='pill ok'>PASS</span></td><td>26</td></tr>
+<tr><td><code>check_client_subscriptions</code></td><td><span class='pill bad'>TIMEOUT</span></td><td>181</td></tr>
+<tr><td><code>check_client_subscriptions_datachange</code></td><td><span class='pill ok'>PASS</span></td><td>17</td></tr>
+<tr><td><code>check_subscriptionWithactivateSession</code></td><td><span class='pill ok'>PASS</span></td><td>2</td></tr>
+<tr><td><code>check_client_reconnect</code></td><td><span class='pill ok'>PASS</span></td><td>6</td></tr>
+<tr><td><code>check_client_historical_data</code></td><td><span class='pill ok'>PASS</span></td><td>14</td></tr>
+<tr><td><code>check_certificategroup_none</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+<tr><td><code>check_nodeset_value_mapping</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+</table></div>
+<h2>Build attempts</h2><div class=scroll><table><tr><th>#</th><th>Result</th><th>First error</th><th>Fixed by rule</th></tr>
+<tr><td>1</td><td><span class='pill bad'>configure: 1 errors</span></td><td><code>FindCheck.cmake:89</code> Could NOT find CHECK</td><td>build dependency check from qnx-ports into the stage</td></tr>
+<tr><td>2</td><td><span class='pill bad'>compile: 50 errors</span></td><td><code>eventloop_posix.h:366</code> expected specifier-qualifier-list before &#x27;LIST_ENTRY&#x27;</td><td>include &lt;sys/queue.h&gt; for LIST_ENTRY on QNX<br>include &lt;sys/queue.h&gt; for LIST_ENTRY on QNX</td></tr>
+<tr><td>3</td><td><span class='pill bad'>link: 2 errors</span></td><td><code></code> cannot find -lpthread</td><td>do not link pthread on QNX<br>do not link -lpthread on QNX<br>do not link pthread on QNX<br>do not link rt on QNX<br>do not link -lrt on QNX<br>do not link rt on QNX<br>do not link rt on QNX</td></tr>
+<tr><td>4</td><td><span class='pill bad'>link: 2 errors</span></td><td><code></code> CMakeFiles/open62541-object.dir/src/server/ua_server_async.c.o: relocation R_X86_64_TPOFF32 against `notifyPayload.0&#x27; can not be used when making a shared object; recompile with -fPIC</td><td>build position-independent code</td></tr>
+<tr><td>5</td><td><span class='pill bad'>compile: 11 errors</span></td><td><code></code> cannot find -lsubunit</td><td>do not link subunit on QNX<br>include &lt;netinet/in.h&gt; for IPPROTO_UDP on QNX</td></tr>
+<tr><td>6</td><td><span class='pill bad'>link: 5 errors</span></td><td><code>eventloop_posix_tcp.c.o</code> undefined reference to &#x27;getsockopt&#x27;</td><td>link -lsocket</td></tr>
+<tr><td>7</td><td><span class='pill ok'>built</span></td><td></td><td></td></tr>
+</table></div>
+<h2>Dependency matrix</h2>
+<div class=scroll><table><tr><th>Dependency</th><th>Linux</th><th>QNX 8.0</th><th>Strategy</th><th>Auto-fix</th><th>Status</th></tr><tr><td><b>dependency not in the QNX SDP</b><br><span class=mute>Third-party libraries</span></td><td>library installed from the Linux distribution</td><td>not in the SDP: needs its own QNX port (check qnx-ports and repo.oss.qnx.com)</td><td>Port the dependency first (or disable the optional feature that needs it).</td><td>no</td><td><span class='pill warn'>needs work</span><br><code>arch/lwip/eventloop_lwip.c:15</code>, <code>arch/lwip/eventloop_lwip.h:11</code></td></tr><tr><td><b>system header not in the QNX SDP</b><br><span class=mute>C library</span></td><td>header provided by glibc / the Linux kernel</td><td>not present in the QNX SDP</td><td>Find the QNX header that provides the same declarations, guard the include, or remove it. (Only reported when an SDP index is available.)</td><td>assisted</td><td><span class='pill warn'>needs work</span><br><code>arch/common/eventloop_mqtt.c:19</code>, <code>arch/freertos/clock_freertos.c:14</code></td></tr><tr><td><b>no libpthread / librt / libdl</b><br><span class=mute>Linking</span></td><td>-lpthread, -lrt, -ldl</td><td>all in libc (-lpthread etc. fail: &#x27;cannot find -lpthread&#x27;)</td><td>Drop pthread/rt/dl from the link line on QNX; use Threads::Threads and ${CMAKE_DL_LIBS}.</td><td>yes</td><td><span class='pill warn'>needs work</span><br><code>CMakeLists.txt:519</code>, <code>CMakeLists.txt:520</code></td></tr><tr><td><b>socket API lives in libsocket</b><br><span class=mute>Linking</span></td><td>socket API in libc</td><td>libsocket (-lsocket)</td><td>Link -lsocket (CMake: target_link_libraries(... socket) when QNX).</td><td>yes</td><td><span class='pill warn'>needs work</span><br><code>arch/lwip/eventloop_lwip_udp.c:896</code>, <code>arch/lwip/eventloop_lwip_udp.c:1127</code></td></tr><tr><td><b>Linux-only CMake branch</b><br><span class=mute>Build configuration</span></td><td>if(LINUX) / CMAKE_SYSTEM_NAME STREQUAL &quot;Linux&quot;</td><td>QNX takes the else-branch</td><td>Check that the else-branch is right for QNX (POSIX features may be skipped).</td><td>assisted</td><td><span class='pill warn'>needs work</span><br><code>CMakeLists.txt:1756</code>, <code>tests/CMakeLists.txt:90</code></td></tr><tr><td><b>per-call /dev/urandom reads</b><br><span class=mute>Performance</span></td><td>cheap /dev/urandom reads</td><td>each read() is a message pass to the random resource manager (~25 us)</td><td>Read in blocks and buffer if random numbers are drawn in a hot loop.</td><td>-</td><td><span class='pill '>note</span><br><code>src/util/ua_util.c:757</code></td></tr><tr><td><b>_GNU_SOURCE feature macro</b><br><span class=mute>C library</span></td><td>_GNU_SOURCE exposes GNU extensions</td><td>_QNX_SOURCE / _POSIX_C_SOURCE / _XOPEN_SOURCE expose QNX APIs</td><td>If a needed declaration is missing on QNX, define _QNX_SOURCE as well.</td><td>-</td><td><span class='pill ok'>guarded</span><br><code>tests/check_client_highlevel_read.c:6</code>, <code>tests/check_client_highlevel_read.c:7</code></td></tr><tr><td><b>epoll</b><br><span class=mute>Event handling</span></td><td>epoll (sys/epoll.h)</td><td>poll() / select(), or ionotify() + pulses</td><td>Use the project&#x27;s poll()/select() backend if it has one; otherwise redesign the event loop (state tracking needed).</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>arch/posix/eventloop_posix.c:212</code>, <code>arch/posix/eventloop_posix.c:229</code></td></tr><tr><td><b>eventfd</b><br><span class=mute>Event handling</span></td><td>eventfd (sys/eventfd.h)</td><td>self-pipe, or an eventfd shim</td><td>Replace with a pipe pair (write to signal, read to clear) or a shim library.</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>arch/zephyr/eventloop_zephyr.c:138</code>, <code>arch/zephyr/eventloop_zephyr.c:703</code></td></tr><tr><td><b>inotify</b><br><span class=mute>Event handling</span></td><td>inotify (sys/inotify.h, in libc)</td><td>inotify in libfsnotify (-lfsnotify), or devctl() + resource manager</td><td>Link -lfsnotify. The porting guide suggests devctl() + a resource manager; SDP 8.0 also ships an inotify API in libfsnotify (runtime behaviour not yet verified by PortPilot).</td><td>yes</td><td><span class='pill ok'>guarded</span><br><code>plugins/crypto/ua_certificategroup_filestore.c:537</code>, <code>plugins/crypto/ua_certificategroup_filestore.c:544</code></td></tr><tr><td><b>POLLHUP as an end-of-stream signal</b><br><span class=mute>Event handling</span></td><td>pipe reader sees POLLHUP when the writer closes</td><td>pipe reader sees only POLLIN (read() returns 0)</td><td>If a loop waits for POLLHUP on a pipe to stop, also stop on an explicit flag or on read() == 0.</td><td>assisted</td><td><span class='pill ok'>guarded</span><br><code>examples/pubsub_realtime/server_pubsub_subscribe_rt_state_machine.c:148</code>, <code>tests/pubsub/check_pubsub_custom_state_machine.c:372</code></td></tr><tr><td><b>signalfd</b><br><span class=mute>Event handling</span></td><td>signalfd (sys/signalfd.h)</td><td>self-pipe written from a signal handler, or a sigwaitinfo() thread</td><td>Replace the signalfd with a self-pipe or a dedicated signal thread.</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>arch/posix/eventloop_posix_interrupt.c:48</code>, <code>arch/posix/eventloop_posix_interrupt.c:102</code></td></tr><tr><td><b>Linux /proc files</b><br><span class=mute>Filesystem</span></td><td>/proc/self/maps, /proc/cpuinfo, /proc/meminfo, ...</td><td>/proc exists but has a different layout (/proc/&lt;pid&gt;/as, devctl)</td><td>Replace /proc parsing with sysconf()/QNX APIs, or disable the feature.</td><td>no</td><td><span class='pill '>vendored only</span><br><code>deps/mdnsd/src/mquery.c:142</code>, <code>tests/network_replay/check_network_replay.c:56</code></td></tr><tr><td><b>Linux kernel headers</b><br><span class=mute>Kernel</span></td><td>&lt;linux/...&gt;, &lt;asm/...&gt; kernel UAPI headers</td><td>no equivalent</td><td>Kernel-interface code: guard it out for QNX or reimplement with QNX APIs (devctl, resource managers).</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>arch/posix/eventloop_posix_eth.c:18</code>, <code>arch/posix/eventloop_posix_eth.c:19</code></td></tr><tr><td><b>getrandom / arc4random</b><br><span class=mute>Security</span></td><td>getrandom() (sys/random.h), getentropy(), arc4random()</td><td>read /dev/urandom (buffered)</td><td>Not in QNX libc: read /dev/urandom, ideally in large blocks (each read is a resource-manager round trip).</td><td>assisted</td><td><span class='pill '>vendored only</span><br><code>deps/open62541_queue.h:359</code>, <code>deps/mdnsd/src/queue.h:364</code></td></tr></table></div>
+<h2>Source patch</h2><p class=mute>7 files changed, 17 insertions(+), 8 deletions(-) · shipped as <code>patches/qnx.patch</code></p>
+<pre class="diff"><span class="h">diff --git a/CMakeLists.txt b/CMakeLists.txt</span><span class="c">index d635a02..01af99d 100644</span><span class="c">--- a/CMakeLists.txt</span><span class="c">+++ b/CMakeLists.txt</span><span class="h">@@ -516,12 +516,12 @@ if(&quot;${UA_ARCHITECTURE}&quot; STREQUAL &quot;posix&quot;)</span><span class="c">     list(APPEND open62541_LIBRARIES &quot;m&quot;)</span><span class="c">     list(APPEND pkgcfg_libsprivate &quot;-lm&quot;)</span><span class="c">     if(UA_MULTITHREADING GREATER_EQUAL 100 OR UA_BUILD_UNIT_TESTS AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)</span><span class="d">-        list(APPEND open62541_PUBLIC_LIBRARIES &quot;pthread&quot;)</span><span class="d">-        list(APPEND pkgcfg_libsprivate &quot;-lpthread&quot;)</span><span class="a">+        list(APPEND open62541_PUBLIC_LIBRARIES &quot;$&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:pthread&gt;&quot;)</span><span class="a">+        list(APPEND pkgcfg_libsprivate &quot;$&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:-lpthread&gt;&quot;)</span><span class="c">     endif()</span><span class="c">     if(NOT APPLE AND (NOT ${CMAKE_SYSTEM_NAME} MATCHES &quot;OpenBSD&quot;) AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)</span><span class="d">-        list(APPEND open62541_LIBRARIES &quot;rt&quot;)</span><span class="d">-        list(APPEND pkgcfg_libsprivate &quot;-lrt&quot;)</span><span class="a">+        list(APPEND open62541_LIBRARIES &quot;$&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:rt&gt;&quot;)</span><span class="a">+        list(APPEND pkgcfg_libsprivate &quot;$&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:-lrt&gt;&quot;)</span><span class="c">     endif()</span><span class="c"> elseif(&quot;${UA_ARCHITECTURE}&quot; STREQUAL &quot;win32&quot;)</span><span class="c">     list(APPEND open62541_LIBRARIES &quot;ws2_32&quot;)</span><span class="h">diff --git a/arch/posix/eventloop_posix.h b/arch/posix/eventloop_posix.h</span><span class="c">index 2a2c6ea..234512f 100644</span><span class="c">--- a/arch/posix/eventloop_posix.h</span><span class="c">+++ b/arch/posix/eventloop_posix.h</span><span class="h">@@ -27,6 +27,9 @@</span><span class="c"> _UA_BEGIN_DECLS</span><span class="c"> </span><span class="c"> #include &lt;errno.h&gt;</span><span class="a">+#if defined(__QNX__)</span><span class="a">+#include &lt;sys/queue.h&gt;</span><span class="a">+#endif</span><span class="c"> </span><span class="c"> #if defined(UA_ARCHITECTURE_WIN32)</span><span class="c"> </span><span class="h">diff --git a/arch/posix/eventloop_posix_interrupt.c b/arch/posix/eventloop_posix_interrupt.c</span><span class="c">index 5a29ab6..426e80e 100644</span><span class="c">--- a/arch/posix/eventloop_posix_interrupt.c</span><span class="c">+++ b/arch/posix/eventloop_posix_interrupt.c</span><span class="h">@@ -7,6 +7,9 @@</span><span class="c"> </span><span class="c"> #include &quot;eventloop_posix.h&quot;</span><span class="c"> #include &lt;signal.h&gt;</span><span class="a">+#if defined(__QNX__)</span><span class="a">+#include &lt;sys/queue.h&gt;</span><span class="a">+#endif</span><span class="c"> </span><span class="c"> #if defined(UA_ARCHITECTURE_POSIX) &amp;&amp; !defined(UA_ARCHITECTURE_LWIP) || defined(UA_ARCHITECTURE_WIN32)</span><span class="c"> /* Different implementation approaches:</span><span class="h">diff --git a/deps/nodesetLoader/CMakeLists.txt b/deps/nodesetLoader/CMakeLists.txt</span><span class="c">index 21136fc..aa70701 100644</span><span class="c">--- a/deps/nodesetLoader/CMakeLists.txt</span><span class="c">+++ b/deps/nodesetLoader/CMakeLists.txt</span><span class="h">@@ -85,7 +85,7 @@ if(NOT ${ENABLE_BUILD_INTO_OPEN62541})</span><span class="c">                             -Wshadow</span><span class="c">                             -fexceptions)</span><span class="c"> </span><span class="d">-        set(PTHREAD_LIB pthread)</span><span class="a">+        set(PTHREAD_LIB $&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:pthread&gt;)</span><span class="c">     endif()</span><span class="c"> endif()</span><span class="c"> </span><span class="h">diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt</span><span class="c">index b821261..7779a37 100644</span><span class="c">--- a/examples/CMakeLists.txt</span><span class="c">+++ b/examples/CMakeLists.txt</span><span class="h">@@ -184,10 +184,10 @@ if(UA_ENABLE_PUBSUB)</span><span class="c">     if(UA_ARCHITECTURE_POSIX AND NOT APPLE)</span><span class="c">         add_example(server_pubsub_publish_rt_state_machine</span><span class="c">                     pubsub_realtime/server_pubsub_publish_rt_state_machine.c)</span><span class="d">-        target_link_libraries(server_pubsub_publish_rt_state_machine &quot;rt&quot;)</span><span class="a">+        target_link_libraries(server_pubsub_publish_rt_state_machine &quot;$&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:rt&gt;&quot;)</span><span class="c">         add_example(server_pubsub_subscribe_rt_state_machine</span><span class="c">                     pubsub_realtime/server_pubsub_subscribe_rt_state_machine.c)</span><span class="d">-        target_link_libraries(server_pubsub_subscribe_rt_state_machine &quot;rt&quot;)</span><span class="a">+        target_link_libraries(server_pubsub_subscribe_rt_state_machine &quot;$&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:rt&gt;&quot;)</span><span class="c">     endif()</span><span class="c"> </span><span class="c">     if(UA_ENABLE_ENCRYPTION_MBEDTLS)</span><span class="h">diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt</span><span class="c">index 39c4d41..e44bf91 100644</span><span class="c">--- a/tests/CMakeLists.txt</span><span class="c">+++ b/tests/CMakeLists.txt</span><span class="h">@@ -16,7 +16,7 @@ endif()</span><span class="c"> find_package(Check REQUIRED)</span><span class="c"> set(LIBS ${CHECK_LIBRARIES} ${open62541_LIBRARIES})</span><span class="c"> if(NOT WIN32 AND NOT APPLE AND NOT (CMAKE_HOST_SYSTEM_NAME MATCHES &quot;OpenBSD&quot;) AND NOT (CMAKE_HOST_SYSTEM_NAME MATCHES &quot;FreeBSD&quot;))</span><span class="d">-    list(APPEND LIBS subunit)</span><span class="a">+    list(APPEND LIBS $&lt;$&lt;NOT:$&lt;PLATFORM_ID:QNX&gt;&gt;:subunit&gt;)</span><span class="c"> endif()</span><span class="c"> include_directories(${CHECK_INCLUDE_DIRS})</span><span class="c"> link_directories(${CHECK_LIBRARY_DIRS})</span><span class="h">diff --git a/tests/pubsub/check_pubsub_custom_state_machine.c b/tests/pubsub/check_pubsub_custom_state_machine.c</span><span class="c">index 73e1a0b..c5c37d3 100644</span><span class="c">--- a/tests/pubsub/check_pubsub_custom_state_machine.c</span><span class="c">+++ b/tests/pubsub/check_pubsub_custom_state_machine.c</span><span class="h">@@ -23,6 +23,9 @@</span><span class="c"> #include &lt;poll.h&gt;</span><span class="c"> #include &lt;unistd.h&gt;</span><span class="c"> #include &lt;fcntl.h&gt;</span><span class="a">+#if defined(__QNX__)</span><span class="a">+#include &lt;netinet/in.h&gt;</span><span class="a">+#endif</span><span class="c"> </span><span class="c"> #define PUBSUB_CONFIG_PUBLISH_CYCLE_MS 100</span><span class="c"> #define PUBSUB_CONFIG_FIELD_COUNT 10</span></pre>
+<footer>Generated 2026-11-05 23:16 by PortPilot 0.1.0. Port folder in the qnx-ports/build-files layout: <code>~/qnx-work/pp-batch-url/open62541/open62541</code>. AI ran locally; nothing left this machine.</footer></main></body></html>

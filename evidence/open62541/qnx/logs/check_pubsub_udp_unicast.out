@@ -1,0 +1,163 @@
+Running suite(s): PubSub readerGroups/reader/Fields handling and publishing
+[2026-11-05 20:12:26.554 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:12:26.555 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:12:26.555 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:12:26.556 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:26.561 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:26.571 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:12:26.572 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:26.572 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4801
+[2026-11-05 20:12:26.572 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:26.573 (UTC+0000)] [32minfo/pubsub[0m	Localhost address - don't open UDP send connection
+[2026-11-05 20:12:26.573 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Connection created (State: Disabled)
+[2026-11-05 20:12:26.574 (UTC+0000)] [32minfo/pubsub[0m	PublishedDataset ns=1;i=50012	| DataSet created
+[2026-11-05 20:12:26.574 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| WriterGroup created (State: Disabled)
+[2026-11-05 20:12:26.575 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| DataSetWriter created (State: Disabled)
+[2026-11-05 20:12:26.575 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:12:26.575 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:12:26.575 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:12:26.575 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:12:26.576 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:26.581 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:26.591 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:12:26.591 (UTC+0000)] [32minfo/network[0m	TCP 10	| Creating listen socket for "::" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:26.591 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4801
+[2026-11-05 20:12:26.592 (UTC+0000)] [32minfo/network[0m	TCP 11	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:26.593 (UTC+0000)] [32minfo/pubsub[0m	Localhost address - don't open UDP send connection
+[2026-11-05 20:12:26.593 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Connection created (State: Disabled)
+[2026-11-05 20:12:26.593 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup created (State: Disabled)
+[2026-11-05 20:12:26.593 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| DataSetReader created (State: Disabled)
+[2026-11-05 20:12:26.593 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Disabled -> Paused
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| Disabled -> Paused
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Localhost address - don't open UDP send connection
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Disabled -> Operational
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/network[0m	UDP 12	| New connection to "127.0.0.1" on port 4801
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| Paused -> Operational
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Paused -> Operational
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| Disabled -> Paused
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| Disabled -> Paused
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/network[0m	UDP 13	| New listen socket for "::" on port 4801
+[2026-11-05 20:12:26.594 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Attach receive-connection udp 13
+[2026-11-05 20:12:26.595 (UTC+0000)] [32minfo/network[0m	UDP 14	| New listen socket for "0.0.0.0" on port 4801
+[2026-11-05 20:12:26.595 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Attach receive-connection udp 14
+[2026-11-05 20:12:26.595 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Localhost address - don't open UDP send connection
+[2026-11-05 20:12:26.595 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Disabled -> Operational
+[2026-11-05 20:12:26.595 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| Paused -> PreOperational
+[2026-11-05 20:12:26.595 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| Paused -> PreOperational
+[2026-11-05 20:12:27.611 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Operational -> Disabled
+[2026-11-05 20:12:27.611 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| Operational -> Disabled
+[2026-11-05 20:12:27.611 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Operational -> Disabled
+[2026-11-05 20:12:27.611 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:12:27.611 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:12:27.611 (UTC+0000)] [32minfo/network[0m	UDP 12	| Socket closed
+[2026-11-05 20:12:28.112 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| PreOperational -> Disabled
+[2026-11-05 20:12:28.112 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| PreOperational -> Disabled
+[2026-11-05 20:12:28.113 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Operational -> Disabled
+[2026-11-05 20:12:28.113 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:12:28.113 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:12:28.113 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Detach receive-connection udp 13
+[2026-11-05 20:12:28.113 (UTC+0000)] [32minfo/network[0m	UDP 13	| Socket closed
+[2026-11-05 20:12:28.113 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Detach receive-connection udp 14
+[2026-11-05 20:12:28.113 (UTC+0000)] [32minfo/network[0m	UDP 14	| Socket closed
+[2026-11-05 20:12:28.614 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:12:28.615 (UTC+0000)] [32minfo/pubsub[0m	DataSetReader destructor called!
+[2026-11-05 20:12:28.615 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| DataSetReader deleted
+[2026-11-05 20:12:28.615 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup deleted
+[2026-11-05 20:12:28.615 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-05 20:12:28.615 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Connection deleted
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	DataSetWriter destructor called!
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Writer deleted
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	WriterGroup destructor called!
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| WriterGroup deleted
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Connection deleted
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	PublishedDataItems destructor called!
+[2026-11-05 20:12:28.617 (UTC+0000)] [32minfo/pubsub[0m	PublishedDataset ns=1;i=50012	| PublishedDataSet deleted
+[2026-11-05 20:12:28.621 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:12:28.621 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:12:28.621 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:12:28.622 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:28.625 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:28.633 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:12:28.634 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:28.634 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4801
+[2026-11-05 20:12:28.634 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:28.636 (UTC+0000)] [32minfo/pubsub[0m	Localhost address - don't open UDP send connection
+[2026-11-05 20:12:28.636 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Connection created (State: Disabled)
+[2026-11-05 20:12:28.636 (UTC+0000)] [32minfo/pubsub[0m	PublishedDataset ns=1;i=50012	| DataSet created
+[2026-11-05 20:12:28.637 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| WriterGroup created (State: Disabled)
+[2026-11-05 20:12:28.637 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| DataSetWriter created (State: Disabled)
+[2026-11-05 20:12:28.637 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:12:28.637 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:12:28.638 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:12:28.638 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:12:28.639 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:28.642 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:12:28.650 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:12:28.651 (UTC+0000)] [32minfo/network[0m	TCP 10	| Creating listen socket for "::" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:28.651 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4801
+[2026-11-05 20:12:28.651 (UTC+0000)] [32minfo/network[0m	TCP 11	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4801
+[2026-11-05 20:12:28.652 (UTC+0000)] [32minfo/pubsub[0m	Localhost address - don't open UDP send connection
+[2026-11-05 20:12:28.652 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Connection created (State: Disabled)
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup created (State: Disabled)
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| DataSetReader created (State: Disabled)
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Disabled -> Paused
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| Disabled -> Paused
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Localhost address - don't open UDP send connection
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Disabled -> Operational
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/network[0m	UDP 12	| New connection to "127.0.0.1" on port 4801
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| Paused -> Operational
+[2026-11-05 20:12:28.653 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Paused -> Operational
+[2026-11-05 20:12:28.654 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| Disabled -> Paused
+[2026-11-05 20:12:28.654 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| Disabled -> Paused
+[2026-11-05 20:12:28.654 (UTC+0000)] [32minfo/network[0m	UDP 13	| New listen socket for "::" on port 4801
+[2026-11-05 20:12:28.654 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Attach receive-connection udp 13
+[2026-11-05 20:12:28.655 (UTC+0000)] [32minfo/network[0m	UDP 14	| New listen socket for "0.0.0.0" on port 4801
+[2026-11-05 20:12:28.655 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Attach receive-connection udp 14
+[2026-11-05 20:12:28.655 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Localhost address - don't open UDP send connection
+[2026-11-05 20:12:28.655 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Disabled -> Operational
+[2026-11-05 20:12:28.655 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| Paused -> PreOperational
+[2026-11-05 20:12:28.655 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| Paused -> PreOperational
+[2026-11-05 20:12:28.656 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup created (State: Disabled)
+[2026-11-05 20:12:28.656 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50136	| DataSetReader created (State: Disabled)
+[2026-11-05 20:12:28.656 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup created (State: Disabled)
+[2026-11-05 20:12:28.657 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50085	| DataSetReader created (State: Disabled)
+[2026-11-05 20:12:28.657 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Operational -> Disabled
+[2026-11-05 20:12:28.657 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| Operational -> Disabled
+[2026-11-05 20:12:28.657 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Operational -> Disabled
+[2026-11-05 20:12:28.658 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:12:28.658 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:12:28.658 (UTC+0000)] [32minfo/network[0m	UDP 12	| Socket closed
+[2026-11-05 20:12:29.159 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| PreOperational -> Disabled
+[2026-11-05 20:12:29.159 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| PreOperational -> Disabled
+[2026-11-05 20:12:29.160 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Operational -> Disabled
+[2026-11-05 20:12:29.160 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:12:29.160 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:12:29.160 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Detach receive-connection udp 13
+[2026-11-05 20:12:29.160 (UTC+0000)] [32minfo/network[0m	UDP 13	| Socket closed
+[2026-11-05 20:12:29.160 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Detach receive-connection udp 14
+[2026-11-05 20:12:29.160 (UTC+0000)] [32minfo/network[0m	UDP 14	| Socket closed
+[2026-11-05 20:12:29.661 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:12:29.662 (UTC+0000)] [32minfo/pubsub[0m	DataSetReader destructor called!
+[2026-11-05 20:12:29.662 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50085	| DataSetReader deleted
+[2026-11-05 20:12:29.662 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup deleted
+[2026-11-05 20:12:29.662 (UTC+0000)] [32minfo/pubsub[0m	DataSetReader destructor called!
+[2026-11-05 20:12:29.662 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50136	| DataSetReader deleted
+[2026-11-05 20:12:29.662 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup deleted
+[2026-11-05 20:12:29.662 (UTC+0000)] [32minfo/pubsub[0m	DataSetReader destructor called!
+[2026-11-05 20:12:29.663 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| DataSetReader ns=1;i=50037	| DataSetReader deleted
+[2026-11-05 20:12:29.663 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| ReaderGroup i=0	| ReaderGroup deleted
+[2026-11-05 20:12:29.663 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-05 20:12:29.663 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50039	| Connection deleted
+[2026-11-05 20:12:29.664 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	DataSetWriter destructor called!
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| DataSetWriter ns=1;i=50044	| Writer deleted
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	WriterGroup destructor called!
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| WriterGroup ns=1;i=50043	| WriterGroup deleted
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	Connection destructor called!
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	PubSubConnection ns=1;i=50007	| Connection deleted
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	PublishedDataItems destructor called!
+[2026-11-05 20:12:29.665 (UTC+0000)] [32minfo/pubsub[0m	PublishedDataset ns=1;i=50012	| PublishedDataSet deleted
+50%: Checks: 2, Failures: 1, Errors: 0
+~/qnx-work/pp-batch-url/open62541/work/src/tests/pubsub/check_pubsub_udp_unicast.c:342:F:Publisher publishing and Subscriber subscribing:SinglePublishSubscribeInt32:0: Assertion 'UA_order(publishedNodeData.data, subscribedNodeData.data, subscribedNodeData.type) == UA_ORDER_EQ' failed

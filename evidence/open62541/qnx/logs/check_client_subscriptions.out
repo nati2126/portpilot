@@ -1,0 +1,1077 @@
+Running suite(s): Client Subscription
+[2026-11-05 20:17:38.192 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:38.192 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:38.192 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:38.194 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:38.201 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:38.211 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:38.211 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:38.211 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:38.212 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:38.213 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:38.214 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:38.214 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:38.214 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:38.215 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:38.215 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:38.215 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:38.215 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:38.216 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:38.216 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:38.216 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:38.216 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:38.217 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=6fb56f14-be87-aad0-b48b-18214754c5dc"	| Session created
+[2026-11-05 20:17:38.218 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:38.218 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:38.218 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=6fb56f14-be87-aad0-b48b-18214754c5dc"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:38.218 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:38.219 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=6fb56f14-be87-aad0-b48b-18214754c5dc"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:38.220 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:38.220 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:38.220 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:38.220 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:38.220 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:38.221 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=6fb56f14-be87-aad0-b48b-18214754c5dc"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:38.475 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=6fb56f14-be87-aad0-b48b-18214754c5dc"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:38.476 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=6fb56f14-be87-aad0-b48b-18214754c5dc"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:38.477 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=6fb56f14-be87-aad0-b48b-18214754c5dc"	| Closing the Session
+[2026-11-05 20:17:38.477 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:38.477 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:38.478 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:38.478 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:38.478 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:38.979 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:38.979 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:39.481 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:39.483 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:39.483 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:39.483 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:39.485 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:39.488 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:39.496 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:39.497 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:39.497 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:39.497 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:39.498 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:39.499 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:39.499 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:39.499 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:39.500 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:39.500 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:39.500 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:39.500 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:39.500 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:39.501 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:39.501 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:39.501 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:39.502 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=96acd37a-614d-8c37-f70f-10813e734734"	| Session created
+[2026-11-05 20:17:39.502 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:39.503 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:39.503 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=96acd37a-614d-8c37-f70f-10813e734734"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:39.503 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:40.006 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=96acd37a-614d-8c37-f70f-10813e734734"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:40.008 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:40.008 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:40.008 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:40.008 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:40.008 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:40.009 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=96acd37a-614d-8c37-f70f-10813e734734"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:40.010 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=96acd37a-614d-8c37-f70f-10813e734734"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:40.011 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=96acd37a-614d-8c37-f70f-10813e734734"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:40.013 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=96acd37a-614d-8c37-f70f-10813e734734"	| Closing the Session
+[2026-11-05 20:17:40.013 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:40.013 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:40.013 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:40.013 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:40.014 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:40.513 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:40.514 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:41.014 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:41.017 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:41.017 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:41.017 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:41.018 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:41.021 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:41.029 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:41.030 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:41.030 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:41.030 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:41.031 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:41.032 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:41.032 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:41.032 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:41.033 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:41.033 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:41.033 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:41.033 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:41.034 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:41.034 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:41.034 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:41.034 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:41.035 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=df3b6b6a-a590-fdf5-55f5-ffcf56d58d78"	| Session created
+[2026-11-05 20:17:41.036 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:41.036 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:41.036 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=df3b6b6a-a590-fdf5-55f5-ffcf56d58d78"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:41.036 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:41.037 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=df3b6b6a-a590-fdf5-55f5-ffcf56d58d78"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:41.039 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=df3b6b6a-a590-fdf5-55f5-ffcf56d58d78"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:41.039 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:41.039 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:41.039 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:41.039 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:41.039 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:41.040 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=df3b6b6a-a590-fdf5-55f5-ffcf56d58d78"	| Closing the Session
+[2026-11-05 20:17:41.041 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:41.041 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:41.041 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:41.041 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:41.041 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:41.543 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:41.544 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:42.045 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:42.048 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:42.048 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:42.048 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:42.049 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:42.052 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:42.061 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:42.061 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:42.062 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:42.062 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:42.063 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:42.064 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:42.064 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:42.064 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:42.065 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:42.065 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:42.065 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:42.065 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:42.066 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:42.066 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.066 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.066 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.068 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=719b12ef-bf86-0c8d-9979-771783385345"	| Session created
+[2026-11-05 20:17:42.068 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:42.068 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.068 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=719b12ef-bf86-0c8d-9979-771783385345"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:42.069 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:42.070 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=719b12ef-bf86-0c8d-9979-771783385345"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:42.070 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:42.070 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:42.071 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=719b12ef-bf86-0c8d-9979-771783385345"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:42.071 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:42.071 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:42.071 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:42.323 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=719b12ef-bf86-0c8d-9979-771783385345"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:42.324 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=719b12ef-bf86-0c8d-9979-771783385345"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:42.325 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:42.325 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:42.325 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:42.325 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:42.826 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:42.826 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:42.826 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:42.826 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:42.827 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:42.827 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:42.827 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:42.828 (UTC+0000)] [32minfo/network[0m	TCP 4	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:42.828 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:42.828 (UTC+0000)] [32minfo/network[0m	TCP 4	| The connection closes with error 261
+[2026-11-05 20:17:42.828 (UTC+0000)] [32minfo/channel[0m	TCP 4	| SC 0	| SecureChannel closed
+[2026-11-05 20:17:42.828 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:42.828 (UTC+0000)] [32minfo/network[0m	TCP 4	| Socket closed
+[2026-11-05 20:17:42.930 (UTC+0000)] [31merror/server[0m	The server is not started, cannot be shut down
+[2026-11-05 20:17:42.930 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:42.932 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:42.932 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:42.933 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:42.934 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:42.937 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:42.945 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:42.946 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:42.946 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:42.946 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:42.947 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:42.947 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:42.947 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:42.948 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:42.948 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:42.948 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:42.948 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:42.949 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:42.949 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:42.949 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.949 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.949 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.951 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=3cc1db2a-d741-acf8-98f9-4f7451c51cb1"	| Session created
+[2026-11-05 20:17:42.951 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:42.951 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:42.951 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=3cc1db2a-d741-acf8-98f9-4f7451c51cb1"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:42.952 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:42.953 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=3cc1db2a-d741-acf8-98f9-4f7451c51cb1"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:42.953 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:42.953 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=3cc1db2a-d741-acf8-98f9-4f7451c51cb1"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:42.953 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:42.953 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:42.953 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:42.954 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:43.204 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:43.205 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:43.205 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:43.205 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:43.457 (UTC+0000)] [33mwarn/client[0m	Inactivity for Subscription 1.
+[2026-11-05 20:17:43.457 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.457 (UTC+0000)] [31merror/network[0m	TCP 10	| Send failed with error Broken pipe
+[2026-11-05 20:17:43.458 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closing, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:43.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.458 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:43.458 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:43.459 (UTC+0000)] [32minfo/network[0m	TCP 4	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:43.459 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:43.459 (UTC+0000)] [32minfo/network[0m	TCP 4	| The connection closes with error 261
+[2026-11-05 20:17:43.460 (UTC+0000)] [32minfo/channel[0m	TCP 4	| SC 0	| SecureChannel closed
+[2026-11-05 20:17:43.460 (UTC+0000)] [31merror/client[0m	Could not open a TCP connection to the Endpoint at opc.tcp://localhost:4840
+[2026-11-05 20:17:43.460 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Created, ConnectStatus: BadConnectionRejected
+[2026-11-05 20:17:43.460 (UTC+0000)] [32minfo/network[0m	TCP 4	| Socket closed
+[2026-11-05 20:17:43.462 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionRejected
+[2026-11-05 20:17:43.463 (UTC+0000)] [33mwarn/eventloop[0m	Cannot run a stopped EventLoop
+[2026-11-05 20:17:43.463 (UTC+0000)] [31merror/server[0m	The server is not started, cannot be shut down
+[2026-11-05 20:17:43.463 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=3cc1db2a-d741-acf8-98f9-4f7451c51cb1"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:43.464 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=3cc1db2a-d741-acf8-98f9-4f7451c51cb1"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:43.464 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:43.466 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:43.466 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:43.466 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:43.467 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:43.470 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:43.478 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:43.479 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:43.479 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:43.479 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:43.480 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:43.481 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:43.481 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:43.481 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:43.481 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:43.481 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:43.482 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:43.482 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:43.482 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:43.482 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:43.482 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:43.482 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:43.484 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f8bae011-c512-bf85-6f66-2622dcad0a70"	| Session created
+[2026-11-05 20:17:43.484 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:43.485 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:43.485 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f8bae011-c512-bf85-6f66-2622dcad0a70"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:43.485 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:43.486 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f8bae011-c512-bf85-6f66-2622dcad0a70"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:43.487 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:43.487 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:43.487 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:43.487 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f8bae011-c512-bf85-6f66-2622dcad0a70"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:43.487 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:43.487 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:43.487 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f8bae011-c512-bf85-6f66-2622dcad0a70"	| Closing the Session
+[2026-11-05 20:17:43.487 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f8bae011-c512-bf85-6f66-2622dcad0a70"	| Subscription 1 | Detaching the Subscription from the Session
+[2026-11-05 20:17:43.489 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.489 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.489 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.489 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.489 (UTC+0000)] [33mwarn/client[0m	Session no longer valid. A new Session is created for the next Service request but we do not re-send the current request.
+[2026-11-05 20:17:43.490 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:43.490 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 21
+[2026-11-05 20:17:43.490 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 22
+[2026-11-05 20:17:43.490 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 23
+[2026-11-05 20:17:43.490 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 24
+[2026-11-05 20:17:43.490 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:43.490 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:43.490 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closing, SessionState: Closing, ConnectStatus: BadSessionClosed
+[2026-11-05 20:17:43.491 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:43.491 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadSessionClosed
+[2026-11-05 20:17:43.491 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:43.492 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=7ac65607-f6a1-f7af-9e69-c67c93993953"	| Session created
+[2026-11-05 20:17:43.492 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:43.492 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:43.743 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:43.744 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:43.995 (UTC+0000)] [32minfo/server[0m	Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:43.996 (UTC+0000)] [32minfo/server[0m	Subscription 1 | Subscription deleted
+[2026-11-05 20:17:43.996 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:43.998 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:43.998 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:43.998 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:43.999 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:44.002 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:44.011 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:44.011 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:44.011 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:44.011 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:44.012 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:44.013 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:44.013 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:44.013 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:44.014 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:44.014 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:44.014 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:44.014 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:44.015 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:44.015 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:44.015 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:44.015 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:44.017 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| Session created
+[2026-11-05 20:17:44.017 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:44.017 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:44.017 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:44.017 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:44.018 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:44.018 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:44.019 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:44.019 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:44.019 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:44.019 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:44.019 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:44.021 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:44.021 (UTC+0000)] [31merror/network[0m	TCP 11	| Send failed with error Broken pipe
+[2026-11-05 20:17:44.022 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.022 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:44.022 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.022 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.022 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:44.022 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.022 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.022 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:44.022 (UTC+0000)] [32minfo/network[0m	TCP 11	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:44.023 (UTC+0000)] [32minfo/network[0m	TCP 12	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:44.023 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:44.023 (UTC+0000)] [32minfo/channel[0m	TCP 12	| SC 2	| SecureChannel created
+[2026-11-05 20:17:44.023 (UTC+0000)] [32minfo/channel[0m	TCP 12	| SC 2	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:44.024 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 2	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:44.024 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:44.024 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:44.024 (UTC+0000)] [32minfo/session[0m	TCP 12	| SC 2	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| ActivateSession: Session attached to new channel
+[2026-11-05 20:17:44.024 (UTC+0000)] [32minfo/session[0m	TCP 12	| SC 2	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:44.024 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:44.030 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Invalid subscription sequence number: Expected 1 but got 2
+[2026-11-05 20:17:44.030 (UTC+0000)] [32minfo/session[0m	TCP 12	| SC 2	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| Closing the Session
+[2026-11-05 20:17:44.030 (UTC+0000)] [32minfo/session[0m	TCP 12	| SC 2	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:44.031 (UTC+0000)] [32minfo/session[0m	TCP 12	| SC 2	| Session "ns=1;g=91e69aa9-e2da-f1ce-5005-10c11c2122b2"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:44.031 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.031 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.031 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.031 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.031 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:44.031 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 2	| SecureChannel closed
+[2026-11-05 20:17:44.032 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:44.032 (UTC+0000)] [32minfo/channel[0m	TCP 12	| SC 2	| SecureChannel closed
+[2026-11-05 20:17:44.032 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:44.032 (UTC+0000)] [32minfo/network[0m	TCP 12	| Socket closed
+[2026-11-05 20:17:44.533 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:44.533 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:45.034 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:45.036 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:45.036 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:45.036 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:45.038 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:45.041 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:45.048 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:45.049 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:45.049 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:45.049 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:45.050 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:45.051 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:45.051 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:45.051 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:45.052 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:45.052 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:45.052 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:45.053 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:45.053 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:45.053 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:45.053 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:45.053 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:45.055 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=a20987c1-df42-ac0a-5dc5-9cc9b9eb3e13"	| Session created
+[2026-11-05 20:17:45.055 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:45.055 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:45.055 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=a20987c1-df42-ac0a-5dc5-9cc9b9eb3e13"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:45.055 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:45.056 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=a20987c1-df42-ac0a-5dc5-9cc9b9eb3e13"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:45.057 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:45.057 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:45.057 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:45.558 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=a20987c1-df42-ac0a-5dc5-9cc9b9eb3e13"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:45.559 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:45.559 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	Session no longer valid. A new Session is created for the next Service request but we do not re-send the current request.
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 19
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 20
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 21
+[2026-11-05 20:17:45.560 (UTC+0000)] [33mwarn/client[0m	Request with unknown RequestId 22
+[2026-11-05 20:17:45.560 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:45.560 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:45.561 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closing, SessionState: CreateRequested, ConnectStatus: BadSessionClosed
+[2026-11-05 20:17:45.561 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:45.561 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadSessionClosed
+[2026-11-05 20:17:45.561 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:45.562 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=af513341-4c97-23d2-95b9-6b6615a11a91"	| Session created
+[2026-11-05 20:17:45.562 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:45.563 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:46.065 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:46.066 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:46.567 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:46.570 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:46.570 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:46.570 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:46.571 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:46.574 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:46.583 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:46.583 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:46.583 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:46.583 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:46.584 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:46.585 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:46.585 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:46.585 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:46.586 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:46.586 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:46.586 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:46.587 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:46.587 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:46.587 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:46.587 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:46.587 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:46.589 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Session created
+[2026-11-05 20:17:46.589 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:46.589 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:46.589 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:46.590 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:46.591 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:46.591 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:46.591 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:46.591 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:46.592 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:46.592 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Subscription 1 | MonitoredItem 2 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:46.592 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:46.592 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:46.847 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:46.847 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Subscription 1 | MonitoredItem 2 | Deleting the MonitoredItem
+[2026-11-05 20:17:46.848 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:46.849 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=86e4f17f-2da3-41e4-24f2-8fc8f44f8448"	| Closing the Session
+[2026-11-05 20:17:46.849 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:46.849 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:46.849 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:46.850 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:46.850 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:47.349 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:47.349 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:47.850 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:47.853 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:47.853 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:47.853 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:47.855 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:47.857 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:47.865 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:47.866 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:47.866 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:47.866 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:47.867 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:47.869 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:47.869 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:47.869 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:47.870 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:47.870 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:47.870 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:47.870 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:47.871 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:47.871 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:47.871 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:47.871 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:47.872 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=c857ab51-9eec-0189-41d4-ad6a13c11c61"	| Session created
+[2026-11-05 20:17:47.873 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:47.873 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:47.873 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=c857ab51-9eec-0189-41d4-ad6a13c11c61"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:47.873 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:47.874 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=c857ab51-9eec-0189-41d4-ad6a13c11c61"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:47.875 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:47.875 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:47.875 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=c857ab51-9eec-0189-41d4-ad6a13c11c61"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 500.0ms, Queue Size: 1)
+[2026-11-05 20:17:47.875 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:47.875 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:47.876 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:47.876 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=c857ab51-9eec-0189-41d4-ad6a13c11c61"	| Closing the Session
+[2026-11-05 20:17:47.876 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=c857ab51-9eec-0189-41d4-ad6a13c11c61"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:47.876 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=c857ab51-9eec-0189-41d4-ad6a13c11c61"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:47.877 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:47.877 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:47.877 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:47.877 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:47.877 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:47.877 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:47.877 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:47.877 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:47.877 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:47.877 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:48.380 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:48.380 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:48.882 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:48.884 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:48.884 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:48.884 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:48.886 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:48.888 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:48.897 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:48.898 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:48.898 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:48.898 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:48.899 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:48.900 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:48.900 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:48.900 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:48.901 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:48.901 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:48.901 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:48.902 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:48.902 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:48.902 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:48.902 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:48.902 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:48.904 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Session created
+[2026-11-05 20:17:48.904 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:48.904 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:48.904 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:48.905 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:48.906 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:48.906 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:48.906 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:48.907 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:48.907 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 100.0ms, Queue Size: 1)
+[2026-11-05 20:17:48.907 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:48.907 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:49.009 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Subscription 1 | MonitoredItem 1 | Modified the MonitoredItem (Sampling Interval: 750.0ms, Queue Size: 0)
+[2026-11-05 20:17:49.511 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Subscription 1 | MonitoredItem 1 | Modified the MonitoredItem (Sampling Interval: 750.0ms, Queue Size: 0)
+[2026-11-05 20:17:49.763 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:49.764 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:49.765 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=2b238048-b18b-7a14-a10a-406450a58a28"	| Closing the Session
+[2026-11-05 20:17:49.766 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:49.766 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:49.766 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:49.766 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:49.766 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:50.268 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:50.268 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:50.769 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:50.772 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:50.772 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:50.772 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:50.773 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:50.776 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:50.785 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:50.786 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:50.786 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:50.786 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:50.787 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:50.789 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:50.789 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:50.789 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:50.789 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:50.789 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:50.790 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:50.790 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:50.790 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:50.790 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:50.790 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:50.791 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:50.792 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Session created
+[2026-11-05 20:17:50.792 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:50.792 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:50.793 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:50.793 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:50.794 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:50.795 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:50.795 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Subscription 1 | MonitoredItem 2 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:50.795 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:50.795 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:50.796 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:50.796 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:50.796 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:50.797 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:50.797 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Subscription 1 | MonitoredItem 2 | Deleting the MonitoredItem
+[2026-11-05 20:17:50.798 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:50.799 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=f31b3a94-e3f5-6ee7-0e00-a06a15a10a80"	| Closing the Session
+[2026-11-05 20:17:50.799 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:50.799 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:50.799 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:50.800 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:50.800 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:51.302 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:51.303 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:51.804 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:51.807 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:51.807 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:51.807 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:51.808 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:51.811 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:51.819 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:51.820 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:51.821 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:51.821 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:51.822 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:51.823 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:51.823 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:51.823 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:51.824 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:51.824 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:51.824 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:51.824 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:51.824 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:51.825 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:51.825 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:51.825 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:51.826 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4003d9c5-34f4-09d2-4304-00e08e18a15a"	| Session created
+[2026-11-05 20:17:51.826 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:51.826 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:51.827 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4003d9c5-34f4-09d2-4304-00e08e18a15a"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:51.827 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:51.828 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4003d9c5-34f4-09d2-4304-00e08e18a15a"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:51.829 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4003d9c5-34f4-09d2-4304-00e08e18a15a"	| Closing the Session
+[2026-11-05 20:17:51.829 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4003d9c5-34f4-09d2-4304-00e08e18a15a"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:51.830 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:51.830 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:51.830 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:51.830 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:51.830 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:52.332 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:52.332 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:52.834 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:52.836 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:52.836 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:52.836 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:52.838 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:52.840 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:52.848 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:52.849 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:52.850 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:52.850 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:52.851 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:52.852 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:52.852 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:52.852 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:52.853 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:52.853 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:52.853 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:52.853 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:52.854 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:52.854 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:52.854 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:52.854 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:52.856 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=dee74fcb-5d5d-64f8-b59b-09f00b603613"	| Session created
+[2026-11-05 20:17:52.856 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:52.856 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:52.856 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=dee74fcb-5d5d-64f8-b59b-09f00b603613"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:52.856 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:52.857 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=dee74fcb-5d5d-64f8-b59b-09f00b603613"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:52.858 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=dee74fcb-5d5d-64f8-b59b-09f00b603613"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:53.362 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=dee74fcb-5d5d-64f8-b59b-09f00b603613"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:53.362 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=dee74fcb-5d5d-64f8-b59b-09f00b603613"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:53.363 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=dee74fcb-5d5d-64f8-b59b-09f00b603613"	| Closing the Session
+[2026-11-05 20:17:53.363 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:53.363 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:53.363 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:53.364 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:53.364 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:53.866 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:53.866 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:54.367 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:54.369 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:54.369 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:54.369 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:54.370 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:54.373 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:54.381 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:54.382 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:54.382 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:54.383 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:54.383 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:54.385 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:54.385 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:54.385 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:54.385 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:54.385 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:54.385 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:54.385 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:54.385 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:54.386 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:54.386 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:54.386 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:54.387 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Session created
+[2026-11-05 20:17:54.387 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:54.387 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:54.388 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:54.389 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:54.390 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:54.391 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Subscription 2 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:54.392 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Subscription 3 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:54.895 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:54.895 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Subscription 2 | Subscription deleted
+[2026-11-05 20:17:54.896 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Subscription 3 | Subscription deleted
+[2026-11-05 20:17:54.896 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=fa38361b-e407-58d0-68f6-3f735db51b71"	| Closing the Session
+[2026-11-05 20:17:54.897 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:54.897 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:54.897 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:54.897 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:54.897 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:55.398 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:55.399 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:55.899 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:55.901 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:55.902 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:55.902 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:55.903 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:55.906 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:55.914 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:55.915 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:55.915 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:55.915 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:55.916 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:55.917 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:55.917 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:55.917 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:55.918 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:55.918 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:55.918 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:55.918 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:55.919 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:55.919 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:55.919 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:55.919 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:55.920 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=bffb8f80-cd8a-3059-9f29-02104434b3eb"	| Session created
+[2026-11-05 20:17:55.920 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:55.920 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:55.921 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=bffb8f80-cd8a-3059-9f29-02104434b3eb"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:55.921 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:55.922 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=bffb8f80-cd8a-3059-9f29-02104434b3eb"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:55.922 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:55.923 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=bffb8f80-cd8a-3059-9f29-02104434b3eb"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 86400000.0ms, Queue Size: 1)
+[2026-11-05 20:17:55.923 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:55.923 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:55.923 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:55.923 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:56.427 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=bffb8f80-cd8a-3059-9f29-02104434b3eb"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:56.427 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=bffb8f80-cd8a-3059-9f29-02104434b3eb"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:56.428 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=bffb8f80-cd8a-3059-9f29-02104434b3eb"	| Closing the Session
+[2026-11-05 20:17:56.428 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:56.428 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:56.428 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:56.429 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:56.429 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:56.931 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:56.932 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:57.433 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:57.436 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:57.436 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:57.436 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:57.437 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:57.440 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:57.449 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:57.450 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:57.450 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:57.450 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:57.451 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:57.452 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:57.452 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:57.453 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:57.453 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:57.453 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:57.453 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:57.453 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:57.454 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:57.454 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:57.454 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:57.454 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:57.456 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ec112aa1-1bf5-2f79-0610-1161a70a50c5"	| Session created
+[2026-11-05 20:17:57.456 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:57.456 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:57.456 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ec112aa1-1bf5-2f79-0610-1161a70a50c5"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:57.456 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:57.457 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ec112aa1-1bf5-2f79-0610-1161a70a50c5"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:57.458 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ec112aa1-1bf5-2f79-0610-1161a70a50c5"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:57.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:57.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:57.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:57.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:57.458 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:57.714 (UTC+0000)] [31merror/network[0m	TCP 10	| Send failed with error Broken pipe
+[2026-11-05 20:17:57.714 (UTC+0000)] [31merror/channel[0m	Sending OPN message failed with error BadConnectionClosed
+[2026-11-05 20:17:57.714 (UTC+0000)] [31merror/network[0m	TCP 10	| Send failed with error Broken pipe
+[2026-11-05 20:17:57.714 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closing, SessionState: Created, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:57.714 (UTC+0000)] [33mwarn/client[0m	Inactivity for Subscription 1.
+[2026-11-05 20:17:57.714 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:57.714 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:57.714 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:57.714 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:57.714 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:57.714 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:57.714 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Created, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:57.714 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:57.715 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:57.715 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel has timed out
+[2026-11-05 20:17:57.715 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed due to timeout
+[2026-11-05 20:17:57.715 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:57.968 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:57.969 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:58.220 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=ec112aa1-1bf5-2f79-0610-1161a70a50c5"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:58.221 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=ec112aa1-1bf5-2f79-0610-1161a70a50c5"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:58.221 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:58.224 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:58.224 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:58.224 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:58.225 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:58.228 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:58.236 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:58.237 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:58.237 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:58.237 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:58.238 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:58.240 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:58.240 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:58.240 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:58.240 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:58.241 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:58.241 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:58.241 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:58.241 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:58.241 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:58.241 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:58.242 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:58.243 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| Session created
+[2026-11-05 20:17:58.243 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:58.243 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:58.244 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:58.244 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:58.244 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:58.245 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:58.245 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:58.245 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:58.245 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:58.245 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:58.246 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:58.497 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:58.497 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.497 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:58.497 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.497 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:58.497 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.497 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.497 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.498 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Created, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:58.498 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:58.599 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:58.599 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:58.599 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 2	| SecureChannel created
+[2026-11-05 20:17:58.599 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 2	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:58.599 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 2	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:58.599 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:58.599 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:58.600 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:58.600 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:58.600 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:58.600 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:58.600 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 2	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| ActivateSession: Session attached to new channel
+[2026-11-05 20:17:58.600 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 2	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:58.600 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:58.604 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 2	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| Closing the Session
+[2026-11-05 20:17:58.604 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 2	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:17:58.604 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 2	| Session "ns=1;g=898b106f-d67b-aa15-9269-86a8cf5c75a7"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:17:58.605 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.605 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.605 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.605 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.605 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:17:58.605 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 2	| SecureChannel closed
+[2026-11-05 20:17:58.605 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:17:58.605 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 2	| SecureChannel closed
+[2026-11-05 20:17:58.605 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:17:58.605 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:59.103 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:59.104 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:17:59.605 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:17:59.608 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:17:59.608 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:17:59.608 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:17:59.609 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:59.612 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:17:59.620 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:17:59.621 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:59.621 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:17:59.622 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:17:59.623 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:17:59.623 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:17:59.623 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:17:59.623 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:17:59.624 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:59.624 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:17:59.624 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:17:59.625 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:17:59.625 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:17:59.625 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:59.625 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:59.625 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:59.626 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Session created
+[2026-11-05 20:17:59.627 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:17:59.627 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:17:59.627 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:17:59.627 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:17:59.628 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:59.628 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:17:59.628 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:59.628 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:17:59.628 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:17:59.629 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:17:59.629 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:17:59.630 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 2 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:17:59.630 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 2 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:17:59.881 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:17:59.882 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:17:59.882 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:17:59.882 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:18:00.133 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:18:00.134 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:18:00.134 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 2 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:18:00.134 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "ns=1;g=9c4f44bf-9678-7468-1f91-09301c91a98a"	| Subscription 2 | Subscription deleted
+[2026-11-05 20:18:00.134 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:18:00.136 (UTC+0000)] [31merror/network[0m	TCP 10	| Send failed with error Broken pipe
+[2026-11-05 20:18:00.136 (UTC+0000)] [33mwarn/client[0m	Sending the request failed with status BadConnectionClosed
+[2026-11-05 20:18:00.136 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closing, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:18:00.137 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.137 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.137 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.137 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.137 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.137 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:18:00.137 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:18:00.137 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:18:00.239 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:18:00.239 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:18:00.239 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:18:00.240 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:18:00.244 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:18:00.251 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:18:00.252 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:18:00.252 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:18:00.252 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:18:00.253 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:18:00.254 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:18:00.254 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:18:00.254 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:18:00.255 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:18:00.255 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:18:00.255 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:18:00.255 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:18:00.256 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:18:00.256 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.256 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.256 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.257 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Session created
+[2026-11-05 20:18:00.258 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:18:00.258 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.258 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:18:00.258 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:18:00.259 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:18:00.260 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:18:00.260 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:18:00.260 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:18:00.260 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:18:00.260 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:18:00.260 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:18:00.260 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 2 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:18:00.261 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 3 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:18:00.261 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 4 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:18:00.261 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 5 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:18:00.262 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:18:00.263 (UTC+0000)] [32minfo/network[0m	TCP 14	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:18:00.263 (UTC+0000)] [32minfo/network[0m	TCP 15	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:18:00.264 (UTC+0000)] [32minfo/channel[0m	TCP 15	| SC 2	| SecureChannel created
+[2026-11-05 20:18:00.264 (UTC+0000)] [32minfo/channel[0m	TCP 15	| SC 2	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:18:00.264 (UTC+0000)] [32minfo/channel[0m	TCP 14	| SC 2	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:18:00.264 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:18:00.264 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:18:00.265 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:18:00.265 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.265 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.265 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.267 (UTC+0000)] [32minfo/session[0m	TCP 15	| SC 2	| Session "ns=1;g=955c310a-dad5-84fd-7857-65f62ab26b06"	| Session created
+[2026-11-05 20:18:00.267 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:18:00.267 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:00.267 (UTC+0000)] [32minfo/session[0m	TCP 15	| SC 2	| Session "ns=1;g=955c310a-dad5-84fd-7857-65f62ab26b06"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:18:00.267 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:18:00.308 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Closing the Session
+[2026-11-05 20:18:00.308 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 1 | Deleting the MonitoredItem
+[2026-11-05 20:18:00.308 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 2 | Deleting the MonitoredItem
+[2026-11-05 20:18:00.308 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 3 | Deleting the MonitoredItem
+[2026-11-05 20:18:00.308 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 4 | Deleting the MonitoredItem
+[2026-11-05 20:18:00.308 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | MonitoredItem 5 | Deleting the MonitoredItem
+[2026-11-05 20:18:00.309 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=ca94be20-9a41-0f3b-7047-24f22d42a42a"	| Subscription 1 | Subscription deleted
+[2026-11-05 20:18:00.309 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.309 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.309 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.309 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.309 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Received response for an unknown Subscription
+[2026-11-05 20:18:00.310 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel closed
+[2026-11-05 20:18:00.310 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:18:00.310 (UTC+0000)] [32minfo/network[0m	TCP 10	| Socket closed
+[2026-11-05 20:18:00.310 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel closed
+[2026-11-05 20:18:00.310 (UTC+0000)] [32minfo/network[0m	TCP 11	| Socket closed
+[2026-11-05 20:18:00.411 (UTC+0000)] [32minfo/session[0m	TCP 15	| SC 2	| Session "ns=1;g=955c310a-dad5-84fd-7857-65f62ab26b06"	| Closing the Session
+[2026-11-05 20:18:00.412 (UTC+0000)] [32minfo/channel[0m	TCP 15	| SC 2	| SecureChannel closed
+[2026-11-05 20:18:00.412 (UTC+0000)] [32minfo/channel[0m	TCP 14	| SC 2	| SecureChannel closed
+[2026-11-05 20:18:00.413 (UTC+0000)] [32minfo/network[0m	TCP 15	| Socket closed
+[2026-11-05 20:18:00.413 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Closed, SessionState: Closed, ConnectStatus: BadConnectionClosed
+[2026-11-05 20:18:00.413 (UTC+0000)] [32minfo/network[0m	TCP 14	| Socket closed
+[2026-11-05 20:18:00.913 (UTC+0000)] [32minfo/network[0m	TCP 6	| Socket closed
+[2026-11-05 20:18:00.914 (UTC+0000)] [32minfo/network[0m	TCP 7	| Socket closed
+[2026-11-05 20:18:01.415 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| Subscription 0 | Subscription deleted
+[2026-11-05 20:18:01.417 (UTC+0000)] [33mwarn/server[0m	AccessControl: Unconfigured AccessControl. Users have all permissions.
+[2026-11-05 20:18:01.417 (UTC+0000)] [32minfo/server[0m	AccessControl: Anonymous login is enabled
+[2026-11-05 20:18:01.417 (UTC+0000)] [33mwarn/server[0m	x509 Certificate Authentication configured, but no encrypting SecurityPolicy. This can leak credentials on the network.
+[2026-11-05 20:18:01.419 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=15303): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:18:01.422 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (i=25451): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:18:01.430 (UTC+0000)] [32minfo/network[0m	TCP	| Listening on all interfaces
+[2026-11-05 20:18:01.430 (UTC+0000)] [32minfo/network[0m	TCP 6	| Creating listen socket for "::" (with local hostname "noname") on port 4840
+[2026-11-05 20:18:01.431 (UTC+0000)] [32minfo/server[0m	New DiscoveryUrl added: opc.tcp://noname:4840
+[2026-11-05 20:18:01.431 (UTC+0000)] [32minfo/network[0m	TCP 7	| Creating listen socket for "0.0.0.0" (with local hostname "noname") on port 4840
+[2026-11-05 20:18:01.432 (UTC+0000)] [32minfo/session[0m	TCP 0	| SC 0	| Session "Administrator"	| AddNode (ns=1;s=the.answer): No TypeDefinition. Use the default TypeDefinition for the Variable/Object
+[2026-11-05 20:18:01.432 (UTC+0000)] [31merror/application[0m	Cannot create the Interrupt Manager (only relevant if used)
+[2026-11-05 20:18:01.433 (UTC+0000)] [32minfo/network[0m	TCP 10	| Opening a connection to "localhost" on port 4840
+[2026-11-05 20:18:01.433 (UTC+0000)] [32minfo/network[0m	TCP 11	| Connection opened from "::1" via the server socket 6
+[2026-11-05 20:18:01.433 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| SecureChannel created
+[2026-11-05 20:18:01.434 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:18:01.434 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel opened with SecurityMode None for SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and a revised lifetime of 600.0s
+[2026-11-05 20:18:01.434 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Closed, ConnectStatus: Good
+[2026-11-05 20:18:01.434 (UTC+0000)] [32minfo/client[0m	The initially defined EndpointURL opc.tcp://localhost:4840 is valid for the server
+[2026-11-05 20:18:01.434 (UTC+0000)] [33mwarn/client[0m	The server returned Endpoints with a different EndpointUrl opc.tcp://noname:4840 than was used to initialize the connection: opc.tcp://localhost:4840. Some servers require a complete match of the EndpointUrl/DiscoveryUrl (including the path) to return all endpoints.
+[2026-11-05 20:18:01.434 (UTC+0000)] [32minfo/client[0m	Endpoint 0: Best endpoint so far with UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:01.434 (UTC+0000)] [32minfo/client[0m	Endpoint 0 selected with SecurityMode None, SecurityPolicy http://opcfoundation.org/UA/SecurityPolicy#None and UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:01.435 (UTC+0000)] [32minfo/client[0m	CreateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:01.436 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4481f039-74e1-0d10-9319-61a69c891801"	| Session created
+[2026-11-05 20:18:01.436 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Created, ConnectStatus: Good
+[2026-11-05 20:18:01.436 (UTC+0000)] [32minfo/client[0m	ActivateSession: Using UserTokenPolicy open62541-anonymous-policy-none#None
+[2026-11-05 20:18:01.437 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4481f039-74e1-0d10-9319-61a69c891801"	| ActivateSession: Session activated with ClientUserId ""
+[2026-11-05 20:18:01.437 (UTC+0000)] [32minfo/client[0m	Client Status: ChannelState: Open, SessionState: Activated, ConnectStatus: Good
+[2026-11-05 20:18:01.438 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4481f039-74e1-0d10-9319-61a69c891801"	| Subscription 1 | Subscription created (Publishing interval 500.0ms, max 1000 notifications per publish)
+[2026-11-05 20:18:01.439 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 9
+[2026-11-05 20:18:01.439 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 8
+[2026-11-05 20:18:01.439 (UTC+0000)] [32minfo/session[0m	TCP 11	| SC 1	| Session "ns=1;g=4481f039-74e1-0d10-9319-61a69c891801"	| Subscription 1 | MonitoredItem 1 | Created the MonitoredItem (Sampling Interval: 250.0ms, Queue Size: 1)
+[2026-11-05 20:18:01.439 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 7
+[2026-11-05 20:18:01.439 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 6
+[2026-11-05 20:18:01.439 (UTC+0000)] [33mwarn/client[0m	PublishResponse: Too many PublishRequest, reduce outStandingPublishRequests to 5
+[2026-11-05 20:19:41.500 (UTC+0000)] [32minfo/channel[0m	TCP 11	| SC 1	| OpenSecureChannel: Channel renewed with a revised lifetime of 600.0s
+[2026-11-05 20:19:41.501 (UTC+0000)] [32minfo/channel[0m	TCP 10	| SC 1	| SecureChannel renewed with a revised lifetime of 600.0s

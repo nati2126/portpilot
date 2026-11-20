@@ -1,0 +1,61 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>PortPilot · yaml-cpp</title><style>
+:root{--bg:#f7f8fa;--card:#fff;--ink:#1b1f24;--mute:#5b6570;--line:#e3e6ea;--accent:#2557d6;
+--ok:#16794a;--okbg:#e5f5ec;--bad:#b42318;--badbg:#fdeceb;--warn:#8a5a00;--warnbg:#fff4dc;
+--ai:#6b3fb8;--aibg:#f1eafc;--code:#f2f4f7;--add:#e6f6ea;--del:#fdecec}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1216;--card:#171b21;--ink:#e6e9ee;--mute:#9aa4b0;
+--line:#2a3038;--accent:#7aa2ff;--ok:#5fd394;--okbg:#14301f;--bad:#ff8a80;--badbg:#3a1714;
+--warn:#f2c46b;--warnbg:#36290c;--ai:#c4a5ff;--aibg:#2a1f3d;--code:#1e232b;--add:#15301d;
+--del:#3a1a1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}
+a{color:var(--accent)}.mute{color:var(--mute)}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:600;font-size:14px}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}
+.warn{background:var(--warnbg);color:var(--warn)}.ai{background:var(--aibg);color:var(--ai)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card b{display:block;font-size:24px}.card span{color:var(--mute);font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;font-size:13px}
+.flow span{padding:3px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);
+border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+tr:last-child td{border-bottom:0}
+code,pre{font:13px/1.45 ui-monospace,SFMono-Regular,Consolas,monospace}
+code{background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);padding:12px;border-radius:8px;overflow:auto;margin:0}
+.diff span{display:block}.diff .a{background:var(--add)}.diff .d{background:var(--del)}
+.diff .h{color:var(--accent)}
+details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;
+margin:8px 0}summary{cursor:pointer;font-weight:600}
+.scroll{overflow-x:auto}
+footer{margin-top:40px;font-size:13px;color:var(--mute)}
+</style></head><body><main>
+<div class=top><div>
+<div class=mute>PortPilot report · QNX 8.0 · x86_64</div><h1>yaml-cpp</h1>
+<div class=mute><a href="https://github.com/jbeder/yaml-cpp">https://github.com/jbeder/yaml-cpp</a> @ <code>yaml-cpp-0</code></div></div>
+<span class='pill ok'>Ported · 1008/1008 test cases pass on QNX</span></div>
+<div class=cards>
+<div class=card><b>1</b><span>build attempt(s), 247.6 s</span></div>
+<div class=card><b>0</b><span>changes by rule (each cites a source)</span></div>
+<div class=card><b>0</b><span>AI edits kept · 0 rejected by the build</span></div>
+<div class=card><b>1008/1008</b><span>test cases pass on QNX, in 1/1 passing programs</span></div>
+</div>
+<div class=flow><span>scan</span><span>scaffold</span><span>build 1: ok</span><span>QNX tests: 1008/1008 cases</span></div>
+<h2>What PortPilot changed, and why</h2>
+<div class=scroll><table><tr><th>By</th><th>Change</th><th>Why</th><th>Evidence</th></tr>
+<tr><td><span class='pill ok'>test</span></td><td>link muslflt (project_hooks.cmake)</td><td>test <code>yaml-cpp::test</code> failed on QNX: 0.123456789 vs 0.12345678900000001 after a round trip</td><td><code>float-format</code> · Ground truth F-002: float formatting differs from glibc (use muslflt)</td></tr>
+</table></div>
+<h2>Tests on QNX 8.0 (192.168.122.202)</h2><div class=scroll><table><tr><th>Test</th><th>Result</th><th>Seconds</th></tr>
+<tr><td><code>yaml-cpp::test</code></td><td><span class='pill ok'>PASS</span></td><td>0</td></tr>
+</table></div>
+<h2>Build attempts</h2><div class=scroll><table><tr><th>#</th><th>Result</th><th>First error</th><th>Fixed by rule</th></tr>
+<tr><td>1</td><td><span class='pill ok'>built</span></td><td></td><td></td></tr>
+</table></div>
+<h2>Dependency matrix</h2>
+<div class=scroll><table><tr><th>Dependency</th><th>Linux</th><th>QNX 8.0</th><th>Strategy</th><th>Auto-fix</th><th>Status</th></tr><tr><td><b>system header not in the QNX SDP</b><br><span class=mute>C library</span></td><td>header provided by glibc / the Linux kernel</td><td>not present in the QNX SDP</td><td>Find the QNX header that provides the same declarations, guard the include, or remove it. (Only reported when an SDP index is available.)</td><td>assisted</td><td><span class='pill ok'>guarded</span><br><code>src/contrib/dragonbox.h:195</code>, <code>test/googletest-1.13.0/googlemock/src/gmock-spec-builders.cc:55</code></td></tr><tr><td><b>Linux /proc files</b><br><span class=mute>Filesystem</span></td><td>/proc/self/maps, /proc/cpuinfo, /proc/meminfo, ...</td><td>/proc exists but has a different layout (/proc/&lt;pid&gt;/as, devctl)</td><td>Replace /proc parsing with sysconf()/QNX APIs, or disable the feature.</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>test/googletest-1.13.0/googletest/src/gtest-port.cc:214</code></td></tr><tr><td><b>POSIX regex lives in libregex</b><br><span class=mute>Linking</span></td><td>regcomp()/regexec() in libc</td><td>libregex (-lregex)</td><td>Link -lregex.</td><td>yes</td><td><span class='pill ok'>guarded</span><br><code>test/googletest-1.13.0/googletest/src/gtest-port.cc:668</code>, <code>test/googletest-1.13.0/googletest/src/gtest-port.cc:669</code></td></tr><tr><td><b>socket API lives in libsocket</b><br><span class=mute>Linking</span></td><td>socket API in libc</td><td>libsocket (-lsocket)</td><td>Link -lsocket (CMake: target_link_libraries(... socket) when QNX).</td><td>yes</td><td><span class='pill ok'>guarded</span><br><code>test/googletest-1.13.0/googletest/src/gtest.cc:4915</code>, <code>test/googletest-1.13.0/googletest/src/gtest.cc:4918</code></td></tr><tr><td><b>fork()</b><br><span class=mute>Processes</span></td><td>fork()</td><td>posix_spawn() / spawn() (fork() exists)</td><td>fork() works, but the porting guide prefers spawn(): the QNX fork does not copy the address space the same way. Review fork+exec pairs.</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>test/googletest-1.13.0/googletest/src/gtest-death-test.cc:1125</code>, <code>test/googletest-1.13.0/googletest/src/gtest-death-test.cc:1369</code></td></tr><tr><td><b>clone / namespaces / capabilities</b><br><span class=mute>Processes</span></td><td>clone(), unshare(), setns(), capget(), personality()</td><td>no equivalent</td><td>Linux-kernel-specific; disable the feature or redesign.</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>test/googletest-1.13.0/googletest/src/gtest-death-test.cc:1361</code></td></tr><tr><td><b>dependency not in the QNX SDP</b><br><span class=mute>Third-party libraries</span></td><td>library installed from the Linux distribution</td><td>not in the SDP: needs its own QNX port (check qnx-ports and repo.oss.qnx.com)</td><td>Port the dependency first (or disable the optional feature that needs it).</td><td>no</td><td><span class='pill ok'>guarded</span><br><code>test/googletest-1.13.0/googletest/include/gtest/internal/gtest-port.h:394</code>, <code>test/googletest-1.13.0/googletest/src/gtest-death-test.cc:69</code></td></tr></table></div>
+<footer>Generated 2026-11-05 22:27 by PortPilot 0.1.0. Port folder in the qnx-ports/build-files layout: <code>~/qnx-work/pp-batch-url/yaml-cpp/yaml-cpp</code>. AI ran locally; nothing left this machine.</footer></main></body></html>

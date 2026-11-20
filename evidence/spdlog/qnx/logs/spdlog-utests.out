@@ -1,0 +1,21 @@
+[*** LOG ERROR #0001 ***] [2026-11-20 04:14:22] [as] async log: thread pool doesn't exist anymore
+Randomness seeded to: 636858537
+[2026-11-20 04:14:23.294] [test] [trace] Test stdout_st
+[2026-11-20 04:14:23.294] [test] [debug] Test stdout_mt
+[2026-11-20 04:14:23.295] [test] [info] Test stderr_st
+[2026-11-20 04:14:23.295] [test] [info] Test stderr_mt
+[2026-11-20 04:14:23.295] [test] [warning] Test stderr_mt
+[2026-11-20 04:14:23.295] [test] [error] Test stderr_mt
+[2026-11-20 04:14:23.295] [test] [critical] Test stderr_mt
+[2026-11-20 04:14:23.295] [test] [info] Test stdout_color_st
+[2026-11-20 04:14:23.295] [test] [trace] Test stdout_color_mt
+[2026-11-20 04:14:23.295] [test] [debug] Test stderr_color_st
+[2026-11-20 04:14:23.295] [test] [info] Test stderr_color_mt
+[2026-11-20 04:14:23.295] [test] [warning] Test stderr_color_mt
+[2026-11-20 04:14:23.295] [test] [error] Test stderr_color_mt
+[2026-11-20 04:14:23.295] [test] [critical] Test stderr_color_mt
+[Fri Nov 20 04:14:23 2026 +00:00] [test] [info] Full date
+[*** LOG ERROR #0002 ***] [2026-11-20 04:14:24] [test-error] argument not found
+[1;31m[1;33m[0m[0m[1;32m===============================================================================[0m[0;37m[0m
+[1;32mAll tests passed[0m (588 assertions in 180 test cases)
+

@@ -1,0 +1,3 @@
+QNXTEST example PASS rc=0 secs=0
+QNXTEST infcover PASS rc=0 secs=0
+QNXTEST-SUMMARY pass=2 fail=0 timeout=0 total=2

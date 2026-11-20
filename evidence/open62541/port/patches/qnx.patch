@@ -1,0 +1,106 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d635a02..01af99d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -516,12 +516,12 @@ if("${UA_ARCHITECTURE}" STREQUAL "posix")
+     list(APPEND open62541_LIBRARIES "m")
+     list(APPEND pkgcfg_libsprivate "-lm")
+     if(UA_MULTITHREADING GREATER_EQUAL 100 OR UA_BUILD_UNIT_TESTS AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+-        list(APPEND open62541_PUBLIC_LIBRARIES "pthread")
+-        list(APPEND pkgcfg_libsprivate "-lpthread")
++        list(APPEND open62541_PUBLIC_LIBRARIES "$<$<NOT:$<PLATFORM_ID:QNX>>:pthread>")
++        list(APPEND pkgcfg_libsprivate "$<$<NOT:$<PLATFORM_ID:QNX>>:-lpthread>")
+     endif()
+     if(NOT APPLE AND (NOT ${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD") AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+-        list(APPEND open62541_LIBRARIES "rt")
+-        list(APPEND pkgcfg_libsprivate "-lrt")
++        list(APPEND open62541_LIBRARIES "$<$<NOT:$<PLATFORM_ID:QNX>>:rt>")
++        list(APPEND pkgcfg_libsprivate "$<$<NOT:$<PLATFORM_ID:QNX>>:-lrt>")
+     endif()
+ elseif("${UA_ARCHITECTURE}" STREQUAL "win32")
+     list(APPEND open62541_LIBRARIES "ws2_32")
+diff --git a/arch/posix/eventloop_posix.h b/arch/posix/eventloop_posix.h
+index 2a2c6ea..234512f 100644
+--- a/arch/posix/eventloop_posix.h
++++ b/arch/posix/eventloop_posix.h
+@@ -27,6 +27,9 @@
+ _UA_BEGIN_DECLS
+ 
+ #include <errno.h>
++#if defined(__QNX__)
++#include <sys/queue.h>
++#endif
+ 
+ #if defined(UA_ARCHITECTURE_WIN32)
+ 
+diff --git a/arch/posix/eventloop_posix_interrupt.c b/arch/posix/eventloop_posix_interrupt.c
+index 5a29ab6..426e80e 100644
+--- a/arch/posix/eventloop_posix_interrupt.c
++++ b/arch/posix/eventloop_posix_interrupt.c
+@@ -7,6 +7,9 @@
+ 
+ #include "eventloop_posix.h"
+ #include <signal.h>
++#if defined(__QNX__)
++#include <sys/queue.h>
++#endif
+ 
+ #if defined(UA_ARCHITECTURE_POSIX) && !defined(UA_ARCHITECTURE_LWIP) || defined(UA_ARCHITECTURE_WIN32)
+ /* Different implementation approaches:
+diff --git a/deps/nodesetLoader/CMakeLists.txt b/deps/nodesetLoader/CMakeLists.txt
+index 21136fc..aa70701 100644
+--- a/deps/nodesetLoader/CMakeLists.txt
++++ b/deps/nodesetLoader/CMakeLists.txt
+@@ -85,7 +85,7 @@ if(NOT ${ENABLE_BUILD_INTO_OPEN62541})
+                             -Wshadow
+                             -fexceptions)
+ 
+-        set(PTHREAD_LIB pthread)
++        set(PTHREAD_LIB $<$<NOT:$<PLATFORM_ID:QNX>>:pthread>)
+     endif()
+ endif()
+ 
+diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
+index b821261..7779a37 100644
+--- a/examples/CMakeLists.txt
++++ b/examples/CMakeLists.txt
+@@ -184,10 +184,10 @@ if(UA_ENABLE_PUBSUB)
+     if(UA_ARCHITECTURE_POSIX AND NOT APPLE)
+         add_example(server_pubsub_publish_rt_state_machine
+                     pubsub_realtime/server_pubsub_publish_rt_state_machine.c)
+-        target_link_libraries(server_pubsub_publish_rt_state_machine "rt")
++        target_link_libraries(server_pubsub_publish_rt_state_machine "$<$<NOT:$<PLATFORM_ID:QNX>>:rt>")
+         add_example(server_pubsub_subscribe_rt_state_machine
+                     pubsub_realtime/server_pubsub_subscribe_rt_state_machine.c)
+-        target_link_libraries(server_pubsub_subscribe_rt_state_machine "rt")
++        target_link_libraries(server_pubsub_subscribe_rt_state_machine "$<$<NOT:$<PLATFORM_ID:QNX>>:rt>")
+     endif()
+ 
+     if(UA_ENABLE_ENCRYPTION_MBEDTLS)
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+index 39c4d41..e44bf91 100644
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -16,7 +16,7 @@ endif()
+ find_package(Check REQUIRED)
+ set(LIBS ${CHECK_LIBRARIES} ${open62541_LIBRARIES})
+ if(NOT WIN32 AND NOT APPLE AND NOT (CMAKE_HOST_SYSTEM_NAME MATCHES "OpenBSD") AND NOT (CMAKE_HOST_SYSTEM_NAME MATCHES "FreeBSD"))
+-    list(APPEND LIBS subunit)
++    list(APPEND LIBS $<$<NOT:$<PLATFORM_ID:QNX>>:subunit>)
+ endif()
+ include_directories(${CHECK_INCLUDE_DIRS})
+ link_directories(${CHECK_LIBRARY_DIRS})
+diff --git a/tests/pubsub/check_pubsub_custom_state_machine.c b/tests/pubsub/check_pubsub_custom_state_machine.c
+index 73e1a0b..c5c37d3 100644
+--- a/tests/pubsub/check_pubsub_custom_state_machine.c
++++ b/tests/pubsub/check_pubsub_custom_state_machine.c
+@@ -23,6 +23,9 @@
+ #include <poll.h>
+ #include <unistd.h>
+ #include <fcntl.h>
++#if defined(__QNX__)
++#include <netinet/in.h>
++#endif
+ 
+ #define PUBSUB_CONFIG_PUBLISH_CYCLE_MS 100
+ #define PUBSUB_CONFIG_FIELD_COUNT 10

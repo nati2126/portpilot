@@ -1,0 +1,17 @@
+zlib-ng version 2.3.3 = 0x020303f0, compile flags = 0xa9
+uncompress(): hello, hello!
+gzread(): hello, hello!
+gzgets() after gzseek:  hello!
+gzgets(): hello, hello!
+inflate(): hello, hello!
+large_inflate(): OK
+large_inflate(): OK
+after inflateSync(): hello, hello!
+inflate with dictionary: hello, hello!
+deflateBound(): OK
+deflate_copy(): OK
+deflateGetDictionary(): hello, hello!
+deflateSetHeader(): OK
+deflateTune(): OK
+deflatePending(): OK
+deflatePrime(): OK

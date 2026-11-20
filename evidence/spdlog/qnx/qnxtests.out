@@ -1,0 +1,2 @@
+QNXTEST spdlog-utests PASS rc=0 secs=7
+QNXTEST-SUMMARY pass=1 fail=0 timeout=0 total=1

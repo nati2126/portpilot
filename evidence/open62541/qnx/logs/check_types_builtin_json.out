@@ -1,0 +1,3 @@
+Running suite(s): Built-in Data Types 62541-6 Json
+99%: Checks: 229, Failures: 1, Errors: 0
+~/qnx-work/pp-batch-url/open62541/work/src/tests/check_types_builtin_json.c:1896:F:json_encode:UA_Variant_Double2_json_encode:0: Assertion 'memcmp(&srcData, &outData, sizeof(UA_Double)) == 0' failed

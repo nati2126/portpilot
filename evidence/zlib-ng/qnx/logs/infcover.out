@@ -1,0 +1,77 @@
+2.3.3
+inflate init: 42112 allocated
+prime: 42112 high water mark
+force window allocation: 84224 high water mark
+force window replacement: 84224 high water mark
+force split window update: 84224 high water mark
+use fixed blocks: 42112 high water mark
+bad window size: 42112 high water mark
+inflate built-in memory routines
+inflate bad parameters
+bad gzip method: 42112 high water mark
+bad gzip flags: 42112 high water mark
+bad zlib method: 42112 high water mark
+set window size from header: 84224 high water mark
+bad zlib window size: 42112 high water mark
+check adler32: 42112 high water mark
+bad header crc: 42112 high water mark
+check gzip length: 42112 high water mark
+bad zlib header check: 42112 high water mark
+need dictionary: 84224 high water mark
+compute adler32: 84224 high water mark
+miscellaneous, force memory errors: 42112 high water mark
+inflateBack bad parameters
+inflateBack bad state: 42112 high water mark
+inflateBack built-in memory routines
+invalid stored block lengths-late: 42112 high water mark
+invalid stored block lengths-back: 42112 high water mark
+fixed-late: 42112 high water mark
+fixed-back: 42112 high water mark
+invalid block type-late: 42112 high water mark
+invalid block type-back: 42112 high water mark
+stored-late: 42112 high water mark
+stored-back: 42112 high water mark
+too many length or distance symbols-late: 42112 high water mark
+too many length or distance symbols-back: 42112 high water mark
+invalid code lengths set-late: 42112 high water mark
+invalid code lengths set-back: 42112 high water mark
+invalid bit length repeat-late: 42112 high water mark
+invalid bit length repeat-back: 42112 high water mark
+invalid bit length repeat-late: 42112 high water mark
+invalid bit length repeat-back: 42112 high water mark
+invalid code -- missing end-of-block-late: 42112 high water mark
+invalid code -- missing end-of-block-back: 42112 high water mark
+invalid literal/lengths set-late: 42112 high water mark
+invalid literal/lengths set-back: 42112 high water mark
+invalid distances set-late: 42112 high water mark
+invalid distances set-back: 42112 high water mark
+invalid literal/length code-late: 42112 high water mark
+invalid literal/length code-back: 42112 high water mark
+invalid distance code-late: 42112 high water mark
+invalid distance code-back: 42112 high water mark
+invalid distance too far back-late: 42112 high water mark
+invalid distance too far back-back: 42112 high water mark
+incorrect data check-late: 42112 high water mark
+incorrect length check-late: 42112 high water mark
+pull 17-late: 42112 high water mark
+pull 17-back: 42112 high water mark
+long code-late: 42112 high water mark
+long code-back: 42112 high water mark
+length extra-late: 42112 high water mark
+length extra-back: 42112 high water mark
+long distance and extra-late: 42112 high water mark
+long distance and extra-back: 42112 high water mark
+window end-late: 42112 high water mark
+window end-back: 42112 high water mark
+inflate_fast TYPE return: 42112 high water mark
+window wrap: 84224 high water mark
+inflate_table not enough errors
+fast length extra bits: 42112 high water mark
+fast distance extra bits: 42112 high water mark
+fast invalid distance code: 42112 high water mark
+fast invalid literal/length code: 42112 high water mark
+fast 2nd level codes and too far back: 42112 high water mark
+very common case: 84224 high water mark
+contiguous and wrap around window: 84224 high water mark
+copy direct from output: 42112 high water mark
+wtf: 84224 high water mark

@@ -1,0 +1,3 @@
+Running suite(s): Test musl_inet_pton address parsing
+95%: Checks: 21, Failures: 1, Errors: 0
+~/qnx-work/pp-batch-url/open62541/work/src/tests/check_musl_inet_pton.c:177:F:inet_pton_misc:badAddressFamily:0: Assertion '(*__get_errno_ptr()) == 247' failed: (*__get_errno_ptr()) == 3, 247 == 247

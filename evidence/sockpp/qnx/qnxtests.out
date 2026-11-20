@@ -1,0 +1,2 @@
+QNXTEST unit_tests.all-cases PASS rc=0 secs=1
+QNXTEST-SUMMARY pass=1 fail=0 timeout=0 total=1
