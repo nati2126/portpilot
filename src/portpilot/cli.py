@@ -267,7 +267,7 @@ def _cmd_pr(a: argparse.Namespace) -> int:
     out = Path(a.output_dir).resolve()
     try:
         dest = contribute(out, bf, Path(a.dest).resolve() if a.dest else None,
-                          author=a.author or "")
+                          author=a.author or "", check_archs=not a.no_arch_check)
     except PrError as e:
         print(f"error: {e}", file=sys.stderr)
         return 2
@@ -368,6 +368,8 @@ def main(argv: list[str] | None = None) -> int:
     pr.add_argument("--dest", help="where to put the clone (default <output_dir>/pr/build-files)")
     pr.add_argument("--author", help="commit author 'Name <email>' (default: your git config "
                     "in that clone; check it, it is public once pushed)")
+    pr.add_argument("--no-arch-check", action="store_true",
+                    help="skip building the other architectures (build-files CI builds all)")
     pr.set_defaults(func=_cmd_pr)
 
     dg = sub.add_parser("diagnose", help="parse a QNX build log and suggest rule fixes")

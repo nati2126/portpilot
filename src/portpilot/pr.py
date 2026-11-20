@@ -138,7 +138,8 @@ def _fixes(run: dict[str, Any]) -> list[dict[str, Any]]:
     seen: dict[tuple[str, str], dict[str, Any]] = {}
     for f in [*run.get("pre_fixes", []),
               *(f for a in run.get("attempts", []) for f in a.get("applied", [])),
-              *(f for t in run.get("test_rounds") or [] for f in t.get("fixes", []))]:
+              *(f for t in run.get("test_rounds") or [] for f in t.get("fixes", [])),
+              *(f for a in run.get("arch_builds") or [] for f in a.get("fixes", []))]:
         e = seen.setdefault((f.get("rule", ""), f.get("title", "")),
                             {**f, "paths": [], "reason": f.get("reason")
                              or (f"{f['test']} failed on QNX: {f['evidence']}"
@@ -165,6 +166,11 @@ def pr_body(name: str, spec: dict[str, Any], run: dict[str, Any]) -> str:
             lines.append(f"- Failing: {', '.join(bad[:20])}" + (" ..." if len(bad) > 20 else ""))
         for s in tt.get("services") or []:
             lines.append(f"- The tests ran against `{s}` on the same QNX target.")
+        for a in run.get("arch_builds") or []:
+            if a.get("recheck"):
+                continue
+            lines.append(f"- {a['arch']}: builds with its tests (built, not run)" if a["ok"]
+                         else f"- {a['arch']}: not built (`Makefile.dnm`): {a.get('reason', '')}")
         lines += ["- Run them with `ports/" + name + "/qnxtests.sh` (see the port README).", ""]
     deps = (["muslflt"] if spec.get("muslflt") else []) + list(spec.get("deps") or [])
     if deps:
@@ -211,7 +217,7 @@ def commit_author(repo: Path) -> str:
 
 
 def contribute(out: Path, build_files: Path, dest: Path | None = None,
-               author: str = "") -> Path:
+               author: str = "", check_archs: bool = True) -> Path:
     """Write the contribution for the port in `out` (a `portpilot port` output directory)
     into a fresh local clone of `build-files` at dest (default out/pr/build-files), commit it
     on branch add-<name>, and write out/pr/PR.md. Returns the clone."""
@@ -228,6 +234,12 @@ def contribute(out: Path, build_files: Path, dest: Path | None = None,
     from .port import refresh_port
 
     refresh_port(out)  # the current templates, not those of the run that made the port
+    if check_archs:  # build-files CI builds every nto-* folder, not only the tested one
+        from .port import verify_archs
+
+        verify_archs(out, build_files=build_files)
+        spec = json.loads((out / "spec.json").read_text(encoding="utf-8"))
+        run = json.loads((out / "run.json").read_text(encoding="utf-8"))
     if author and not _AUTHOR.match(author.strip()):
         raise PrError(f"--author wants 'Name <email>', got {author!r}")
     deps = dependency_checkouts(spec, build_files)

@@ -106,7 +106,7 @@ def test_contribute_commits_port_workflow_and_row(tmp_path: Path) -> None:
     old = {k: os.environ.get(k) for k in env}
     os.environ.update(env)
     try:
-        dest = contribute(out, bf, author="Port Author <port@example.org>")
+        dest = contribute(out, bf, author="Port Author <port@example.org>", check_archs=False)
     finally:
         for k, v in old.items():
             if v is None:
@@ -120,7 +120,7 @@ def test_contribute_commits_port_workflow_and_row(tmp_path: Path) -> None:
 
     assert commit_author(dest) == "Port Author <port@example.org>"
     with pytest.raises(PrError, match="Name <email>"):
-        contribute(out, bf, author="no email")
+        contribute(out, bf, author="no email", check_archs=False)
     files = subprocess.run(["git", "-C", str(dest), "show", "--name-only", "--format="],
                            capture_output=True, text=True).stdout.split()
     # the port is re-rendered with the current templates; the build tree is left out
@@ -150,3 +150,18 @@ def test_pr_body_lists_every_file_and_test_round_fixes() -> None:
     assert "| set sin_len (`src/a.cpp`, `src/b.cpp`) | QNX has sin_len |" in body
     assert ("| link muslflt (project_hooks.cmake) | yaml-cpp::test failed on QNX: "
             "0.1 vs 0.10000000000000001 |") in body
+
+
+def test_pr_body_reports_other_architectures() -> None:
+    spec = {"upstream": "https://github.com/jbeder/yaml-cpp.git", "commit": "v1"}
+    run = _run(passed=1, total=1, cases=[1, 1], results=[])
+    run["arch_builds"] = [
+        {"arch": "aarch64", "ok": True, "fixes": [
+            {"rule": "unsigned-char", "title": "allow negative constants in char (aarch64)",
+             "reason": "plain char is unsigned on aarch64"}]},
+        {"arch": "x86_64", "ok": True, "recheck": True}]
+    body = pr_body("yaml-cpp", spec, run)
+    assert "- aarch64: builds with its tests (built, not run)" in body
+    assert "| allow negative constants in char (aarch64) | plain char is unsigned" in body
+    run["arch_builds"] = [{"arch": "aarch64", "ok": False, "reason": "x.c:1 boom"}]
+    assert "- aarch64: not built (`Makefile.dnm`): x.c:1 boom" in pr_body("yaml-cpp", spec, run)

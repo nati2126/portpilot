@@ -405,6 +405,81 @@ def run_port(src: str, out: Path, *, name: str | None = None, arch: str = "x86_6
                    env=env, jobs=jobs, arch=arch)
 
 
+def verify_archs(out: Path, *, tested: str = "x86_64", jobs: int = 8, max_attempts: int = 4,
+                 env: dict[str, str] | None = None, build_files: Path | None = None,
+                 say: Callable[[str], None] = print) -> list[dict[str, Any]]:
+    """Build the final port for every architecture besides the tested one, with tests, as
+    build-files CI does (it builds every nto-* folder). Rule fixes are applied (F-016: char
+    is unsigned on aarch64); if they change the port, the tested arch is rebuilt to show it
+    still builds. An arch that still fails is marked Makefile.dnm, as official ports do.
+    Results go to run.json "arch_builds"."""
+    from .deps import ensure_muslflt, ensure_port
+    from .scaffold import ARCH_DIRS
+
+    env = env if env is not None else sdp_env()
+    bf = build_files if build_files is not None else find_build_files()
+    kb = kb_mod.load()
+    run = json.loads((out / "run.json").read_text(encoding="utf-8"))
+    spec = load_spec(out / "spec.json")
+    port_dir, srcw, stage = Path(run["port_dir"]), out / "work" / "src", out / "work" / "stage"
+    include_dir = Path(env["QNX_TARGET"]) / "usr" / "include" if env.get("QNX_TARGET") else None
+    results: list[dict[str, Any]] = []
+    changed = False
+    for arch in [a for a in ARCH_DIRS if a != tested]:
+        res: dict[str, Any] = {"arch": arch, "ok": False, "attempts": 0, "fixes": []}
+        results.append(res)
+        say(f"      {arch}: building the port as build-files CI will")
+        why = ""
+        if spec.muslflt:
+            why = ensure_muslflt(stage, env, out / "work",
+                                 out / "logs" / f"muslflt-{arch}.log", bf, arch, jobs)
+        for dep in spec.deps:
+            if not why:
+                why = ensure_port(dep, stage, env, out / "logs" / f"dep-{dep}-{arch}.log",
+                                  bf, arch=arch, jobs=jobs)[1]
+        if why:
+            res["reason"] = f"a dependency does not build for {arch}: {why}"
+        dnm = port_dir / ARCH_DIRS[arch] / "Makefile.dnm"
+        dnm.unlink(missing_ok=True)
+        for n in range(1, max_attempts + 1):
+            if why:
+                break
+            res["attempts"] = n
+            clean(port_dir, arch)
+            b = run_make(port_dir, srcw, stage, out / "logs" / f"build-{arch}-{n}.log",
+                         arch=arch, jobs=jobs, testing=True, env=env)
+            if b.ok:
+                res["ok"] = True
+                say(f"      {arch}: built in {b.seconds:.0f}s")
+                break
+            found, _unfixed = fx.from_diagnostics(b.parsed.errors, kb, None, srcw, {},
+                                                  include_dir)
+            new = [f for f in found if fx.apply(f, spec, srcw)]
+            if not new:
+                e = b.parsed.errors
+                res["reason"] = (f"{e[0].location()} {e[0].message}" if e else
+                                 f"build failed (rc={b.rc}); see {b.log}")
+                break
+            for f in new:
+                say(f"      {arch}: fix ({f.rule_id}): {f.title}")
+            res["fixes"] += [_fix_dict(f) for f in new]
+            changed = True
+            rerender(out, spec)
+        if not res["ok"]:
+            say(f"      {arch}: does not build ({res.get('reason', '')[:100]}); "
+                "marked Makefile.dnm")
+            dnm.write_text("", encoding="utf-8")
+    if changed:  # the tested arch must still build with the new settings
+        clean(port_dir, tested)
+        b = run_make(port_dir, srcw, stage, out / "logs" / f"build-{tested}-recheck.log",
+                     arch=tested, jobs=jobs, testing=True, env=env)
+        results.append({"arch": tested, "ok": b.ok, "recheck": True})
+        say(f"      {tested}: rebuilt with the new settings: {'ok' if b.ok else 'FAILED'}")
+    run["arch_builds"] = results
+    (out / "run.json").write_text(json.dumps(run, indent=2), encoding="utf-8")
+    return results
+
+
 TEST_FRAMEWORKS = {"catch2", "gtest", "googletest", "gmock", "cmocka", "check", "doctest",
                    "unity", "cppunit", "cunit", "criterion", "cpputest",
                    "boost_unit_test_framework"}
