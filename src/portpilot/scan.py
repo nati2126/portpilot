@@ -82,6 +82,15 @@ def mark_optional_headers(root: Path, findings: list[Finding]) -> list[Finding]:
     return out
 
 
+def runtime_guard_findings(root: Path) -> list[Finding]:
+    """Code that compiles on QNX but behaves wrongly there: sockaddr length fields set only
+    `#if` BSD/Apple (rule bsd-sockaddr-len). The same check `portpilot port` fixes."""
+    from .fixes import bsd_sockaddr_len_fixes
+
+    return [Finding("bsd-sockaddr-len", "sin_len", "guard", f.path, f.line, area_of(f.path),
+                    "none", f"`{f.old}` leaves QNX out") for f in bsd_sockaddr_len_fixes(root)]
+
+
 def scan_project(root: Path, kb: KnowledgeBase | None = None,
                  sdp: SdpIndex | None = None, arch: str = "x86_64",
                  defines: dict[str, str] | None = None) -> ScanResult:
@@ -99,6 +108,7 @@ def scan_project(root: Path, kb: KnowledgeBase | None = None,
         root, cm.build_guards, macros)
     findings = _mark_handled_links(cm.findings + src_findings, kb, cm.linked)
     findings = mark_optional_headers(root, findings)
+    findings += runtime_guard_findings(root)
     return ScanResult(
         root=str(root),
         build_system=bs.primary,

@@ -143,3 +143,16 @@ def test_optional_headers_do_not_block(tmp_path: Path) -> None:
     # header-only library: every header may be an entry point
     (tmp_path / "src" / "lib.cpp").unlink()
     assert [f.guard for f in mark_optional_headers(tmp_path, fs)] == ["none", "none"]
+
+
+def test_scan_reports_bsd_only_sockaddr_length(tmp_path: Path) -> None:
+    from portpilot.scan import scan_project
+
+    (tmp_path / "CMakeLists.txt").write_text("project(x C)\nadd_library(x src/a.c)\n")
+    (tmp_path / "src").mkdir()
+    (tmp_path / "src" / "a.c").write_text(
+        "#include <netinet/in.h>\nvoid f(struct sockaddr_in *s) {\n"
+        "#if defined(__APPLE__) || defined(BSD)\n  s->sin_len = sizeof *s;\n#endif\n}\n")
+    res = scan_project(tmp_path, sdp=None)
+    hits = [f for f in res.findings if f.rule_id == "bsd-sockaddr-len"]
+    assert [(f.path, f.line, f.guard, f.area) for f in hits] == [("src/a.c", 3, "none", "lib")]
