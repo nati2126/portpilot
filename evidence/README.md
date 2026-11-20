@@ -24,7 +24,9 @@ Known failures, and why:
     published one.
   - `check_types_builtin_json`: a double is not bit-identical after a JSON round trip (QNX
     float formatting, as in yaml-cpp before the `float-format` fix).
-  - `check_musl_inet_pton`: errno is 3, not `EAFNOSUPPORT`, for a bad address family.
+  - `check_musl_inet_pton`: errno is 3 (`ESRCH`), not `EAFNOSUPPORT`. The function sets
+    `EAFNOSUPPORT`, but the test reads errno after another passing `ck_assert`, which calls
+    into libcheck; probably that call changes errno on QNX (not verified).
   - `check_json_config` reads a file from the source tree, which is not on the target;
     `check_client_subscriptions` sees a connection closed with error 261.
 - paho.mqtt.c: run against mosquitto on QNX. `test45` expects MQTT 5 properties in UNSUBACK,
