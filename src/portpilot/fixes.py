@@ -502,6 +502,9 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
         elif (d.kind in ("undeclared", "unknown-type")
               and (qfx := _qnx_source_fix(d.symbol.removeprefix("::"), include_dir, kb))):
             add(qfx)  # the header is included, but a strict -std= mode hides it
+        elif d.kind == "driver-option" and (dofx := driver_option_fixes(root, d.symbol)):
+            for f in dofx:
+                add(f)
         elif d.kind == "char-narrowing":
             rid = "unsigned-char"
             add(Fix(rid, "port", "allow negative constants in char (aarch64)",
@@ -548,6 +551,37 @@ def from_diagnostics(diags: Iterable[Diagnostic], kb: KnowledgeBase, sdp: SdpInd
 
 
 # ---- applying ------------------------------------------------------------------------------
+def _driver_option_edit(opt: str) -> tuple[str, str] | None:
+    """(old, new) in a build file for a gcc option qcc rejects (F-017), or None."""
+    if opt == "-pipe":  # a speed hint for the driver; qcc hands it to cc1, which rejects it
+        return " -pipe", ""
+    if opt.startswith("--param="):  # qcc knows only the two-word form
+        return opt, "--param " + opt.removeprefix("--param=")
+    return None
+
+
+def driver_option_fixes(root: Path, opt: str) -> list[Fix]:
+    """Rewrite a gcc driver option qcc rejects where the project's CMake files add it."""
+    edit = _driver_option_edit(opt)
+    if edit is None:
+        return []
+    old, new = edit
+    out: list[Fix] = []
+    files = [*root.rglob("CMakeLists.txt"), *root.rglob("*.cmake")]
+    for p in sorted(files):
+        rel = p.relative_to(root).as_posix()
+        if any(part in ("build", ".git") or part.startswith("nto-") for part in p.parts):
+            continue
+        for n, ln in enumerate(_read_lines(p), 1):
+            if old in ln and not ln.lstrip().startswith("#"):
+                out.append(Fix("qcc-driver-option", "source",
+                               f"qcc rejects {opt}: " + (f"use '{new}'" if new else "drop it"),
+                               "qcc passes -pipe on to cc1, which rejects it, and knows only "
+                               "'--param NAME=V', not '--param=NAME=V'", path=rel, line=n,
+                               old=old, new=new))
+    return out
+
+
 def apply_source(root: Path, fix: Fix) -> bool:
     """Apply a one-line source edit. False if the line no longer matches."""
     p = root / fix.path

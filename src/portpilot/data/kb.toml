@@ -69,6 +69,9 @@ url = "docs/ground-truth.md#f-013"
 [sources.gt-F011]
 title = "Ground truth F-011: no libpthread, librt or libdl (-lpthread fails)"
 url = "docs/ground-truth.md#f-011"
+[sources.gt-F017]
+title = "Ground truth F-017: qcc rejects -pipe and --param=X (accepts --param X)"
+url = "docs/ground-truth.md#f-017"
 [sources.gt-F016]
 title = "Ground truth F-016: qcc for aarch64 defines __CHAR_UNSIGNED__; x86_64 does not"
 url = "docs/ground-truth.md#f-016"
@@ -619,6 +622,18 @@ fix = "rule"
 severity = "fix"
 trigger = "build"   # ld: 'recompile with -fPIC'
 sources = ["qnx-ports"]
+
+[[rule]]
+id = "qcc-driver-option"
+title = "gcc driver option qcc rejects"
+category = "Compiler"
+linux = "gcc accepts -pipe and --param=NAME=V"
+qnx = "qcc passes -pipe on to cc1 (error) and knows only '--param NAME=V'"
+strategy = "In the project's CMake flags, drop -pipe and write --param NAME=V as two words."
+fix = "rule"
+severity = "fix"
+trigger = "build"   # cc1: ... valid for the driver but not for C / cc: unknown option
+sources = ["gt-F017"]
 
 [[rule]]
 id = "unsigned-char"

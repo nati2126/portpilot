@@ -74,10 +74,15 @@ def official_port(package: str, build_files: Path | None) -> str | None:
     if build_files is None or not package:
         return None
     want = package.lower().replace("_", "-")
-    for d in sorted((build_files / "ports").iterdir()):
-        if d.is_dir() and d.name.lower().replace("_", "-") == want:
-            return d.name
-    return None
+    names = [PACKAGE_PORTS.get(want, want), want, f"lib{want}"]  # find_package(PNG) -> libpng
+    ports = {d.name.lower().replace("_", "-"): d.name
+             for d in (build_files / "ports").iterdir() if d.is_dir()}
+    return next((ports[n] for n in names if n in ports), None)
+
+
+# CMake find_package() names whose official QNX port has another name
+PACKAGE_PORTS = {"jpeg": "libjpeg-turbo", "expat": "libexpat", "gtest": "googletest",
+                 "gmock": "googletest"}
 
 
 def port_source(port_dir: Path) -> tuple[str, str] | None:

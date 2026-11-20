@@ -468,3 +468,35 @@ def test_muslflt_found_in_qnx_arch_folder(tmp_path: Path) -> None:
     (lib / "libmuslflt.a").write_text("")
     assert muslflt_available(tmp_path, {}, "aarch64")
     assert not muslflt_available(tmp_path, {}, "x86_64")
+
+
+def test_qcc_driver_options(kb: KnowledgeBase, tmp_path: Path) -> None:
+    """sogou/workflow (-pipe) and krallin/tini (--param=) on QNX 8.0 (F-017)."""
+    (tmp_path / "CMakeLists.txt").write_text(
+        'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC -pipe -std=c++11")\n'
+        "# -pipe in a comment stays\n"
+        'set(CMAKE_C_FLAGS "-fstack-protector --param=ssp-buffer-size=4")\n')
+    log = ("cc1plus: error: command-line option '-pipe' is valid for the driver but not for "
+           "C++\ncc: unknown option: '--param=ssp-buffer-size=4'\n")
+    errs = parse(log).errors
+    assert [(d.kind, d.symbol) for d in errs] == [("driver-option", "-pipe"),
+                                                 ("driver-option", "--param=ssp-buffer-size=4")]
+    fixes, unfixed = fx.from_diagnostics(errs, kb, None, tmp_path)
+    assert unfixed == [] and [(f.rule_id, f.line) for f in fixes] == [
+        ("qcc-driver-option", 1), ("qcc-driver-option", 3)]
+    for f in fixes:
+        assert fx.apply(f, PortSpec("x"), tmp_path)
+    assert (tmp_path / "CMakeLists.txt").read_text() == (
+        'set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fPIC -std=c++11")\n'
+        "# -pipe in a comment stays\n"
+        'set(CMAKE_C_FLAGS "-fstack-protector --param ssp-buffer-size=4")\n')
+
+
+def test_cmake_package_names_map_to_official_ports(tmp_path: Path) -> None:
+    for d in ("libpng", "libjpeg-turbo", "zlib", "googletest"):
+        (tmp_path / "ports" / d).mkdir(parents=True)
+    assert official_port("PNG", tmp_path) == "libpng"
+    assert official_port("JPEG", tmp_path) == "libjpeg-turbo"
+    assert official_port("ZLIB", tmp_path) == "zlib"
+    assert official_port("GTest", tmp_path) == "googletest"
+    assert official_port("OpenSSL", tmp_path) is None

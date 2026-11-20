@@ -175,6 +175,18 @@ Captured with qcc 12.2 (real output in `tests/data/diag/`).
   the diagnostic goes. build-files CI builds every `nto-*` folder, so this breaks a port PR
   that was only built for x86_64.
 
+<a id="f-017"></a>
+## F-017: `qcc` rejects some gcc driver options
+
+- **Symptom:** sogou/workflow and krallin/tini fail on their first file:
+  `cc1plus: error: command-line option '-pipe' is valid for the driver but not for C++`, and
+  `cc: unknown option: '--param=ssp-buffer-size=4'`.
+- **Fact:** measured with `qcc -Vgcc_ntox86_64` and `q++ -Vgcc_ntox86_64_cxx` (SDP 8.0): `-pipe`
+  fails for C and C++ (qcc hands it to `cc1`/`cc1plus`); `--param=ssp-buffer-size=4` fails,
+  `--param ssp-buffer-size=4` and `-Wc,--param=ssp-buffer-size=4` work.
+- **PortPilot:** rule `qcc-driver-option`. Where the project's CMake files add the option, drop
+  `-pipe` (a speed hint) and rewrite `--param=X` as `--param X`, which gcc accepts too.
+
 <a id="sdp-inventory"></a>
 ## SDP inventory (from `portpilot sdp-index`)
 

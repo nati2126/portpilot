@@ -92,6 +92,8 @@ _Q = "['‘`]"  # opening quote: ' ‘ `
 _E = "['’]"  # closing quote: ' ’
 _GCC = re.compile(r"^(?P<file>(?:[A-Za-z]:)?[^:\s][^:]*?):(?P<line>\d+):(?:(?P<col>\d+):)? "
                   r"(?P<sev>fatal error|error|warning|note): (?P<msg>.*)$")
+_DRIVER = re.compile(r"^(?:cc1\w*: error: command-line option '(?P<o1>[^']+)' is valid for the "
+                     r"driver but not for|cc: unknown option: '(?P<o2>[^']+)')")
 _INCLUDED = re.compile(r"^(?:In file included|\s+) from (?P<loc>[^:]+:\d+)(?::\d+)?[:,]$")
 _CONTEXT = re.compile(r"^\s*\d+ \| (?P<src>.*)$")
 _LD_PREFIX = re.compile(r"^(?:\S*/)?(?:\S+-)?ld(?:\.\w+)?: (?P<rest>.*)$")
@@ -166,6 +168,10 @@ def parse(text: str | Iterable[str]) -> ParsedLog:
             continue
         if m := _INCLUDED.match(ln):
             included.append(m.group("loc"))
+            continue
+        if m := _DRIVER.match(ln):  # qcc: a gcc driver option it does not pass on (F-017)
+            add(Diagnostic(kind="driver-option", severity="error", message=ln, tool="cc",
+                           symbol=m.group("o1") or m.group("o2"), log_line=i))
             continue
         if m := _GCC.match(ln):
             sev = m.group("sev")
