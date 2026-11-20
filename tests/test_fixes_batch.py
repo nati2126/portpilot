@@ -458,3 +458,13 @@ def test_dependency_port_build_folder_names(tmp_path: Path) -> None:
     assert cpu_dir(tmp_path / "Catch2", "aarch64") == "nto-aarch64-le"
     assert cpu_dir(tmp_path / "muslflt", "aarch64") == "nto-aarch64"
     assert cpu_dir(tmp_path / "muslflt", "x86_64") is None
+
+
+def test_muslflt_found_in_qnx_arch_folder(tmp_path: Path) -> None:
+    from portpilot.deps import muslflt_available
+
+    lib = tmp_path / "aarch64le" / "usr" / "local" / "lib"
+    lib.mkdir(parents=True)
+    (lib / "libmuslflt.a").write_text("")
+    assert muslflt_available(tmp_path, {}, "aarch64")
+    assert not muslflt_available(tmp_path, {}, "x86_64")

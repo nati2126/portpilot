@@ -32,8 +32,12 @@ def find_build_files(explicit: str | None = None) -> Path | None:
     return None
 
 
+CPUVARDIR = {"x86_64": "x86_64", "aarch64": "aarch64le"}  # QNX's install folder per arch
+
+
 def muslflt_available(stage: Path, env: dict[str, str], arch: str = "x86_64") -> bool:
-    roots = [stage / arch, Path(env.get("QNX_TARGET", "/nonexistent")) / arch]
+    d = CPUVARDIR.get(arch, arch)
+    roots = [stage / d, Path(env.get("QNX_TARGET", "/nonexistent")) / d]
     return any((r / sub / "libmuslflt.a").is_file() for r in roots
                for sub in ("usr/local/lib", "usr/lib", "lib"))
 
