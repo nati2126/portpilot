@@ -196,7 +196,8 @@ def pr_body(name: str, spec: dict[str, Any], run: dict[str, Any]) -> str:
               "`qnx.nto.toolchain.cmake`, `README.md`",
               f"- [x] `.github/workflows/{name}.yml` (runs when the PR title names `{name}`)",
               "- [x] Row in the README port table", "",
-              "Generated with PortPilot and checked by hand.", ""]
+              "Generated with [PortPilot](https://github.com/nati2126/portpilot) and checked by "
+              "hand.", ""]
     return "\n".join(lines)
 
 
